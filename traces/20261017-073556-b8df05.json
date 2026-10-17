@@ -1,0 +1,329 @@
+{
+ "run_id": "20261017-073556-b8df05",
+ "engine": "rules",
+ "playbook": "case",
+ "query": "还原 case LS-0101617",
+ "latency_s": 0.036,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 1,
+ "events": [
+  {
+   "t": 0.035,
+   "kind": "tool_call",
+   "tool": "reconstruct_case",
+   "args": {
+    "session_id": "LS-0101617"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "session_id": "LS-0101617",
+    "session": {
+     "date": "2026-10-15",
+     "market": "US",
+     "host_id": "H153823",
+     "host_tier": "head",
+     "duration_min": 120,
+     "features": {
+      "account_age_days": 531,
+      "viewers_peak": 4947,
+      "gift_amount": 0,
+      "report_count": 0,
+      "external_link_flag": 0,
+      "new_device_flag": 0,
+      "keyword_hits": 0,
+      "legacy_brand_list_match": 0
+     }
+    },
+    "scores": {
+     "adult_content": {
+      "score": 0.2565,
+      "model": "model_adult_content",
+      "model_version": "v5"
+     },
+     "minor_safety": {
+      "score": 0.0367,
+      "model": "model_minor_safety",
+      "model_version": "v3"
+     },
+     "scam_fraud": {
+      "score": 0.8524,
+      "model": "model_scam_fraud",
+      "model_version": "v4"
+     },
+     "violence": {
+      "score": 0.2213,
+      "model": "model_violence",
+      "model_version": "v2"
+     },
+     "spam_bot": {
+      "score": 0.5288,
+      "model": "model_spam_bot",
+      "model_version": "v2.1"
+     },
+     "gambling": {
+      "score": 0.0743,
+      "model": "model_gambling",
+      "model_version": "v3"
+     },
+     "hate_harassment": {
+      "score": 0.106,
+      "model": "model_hate_harassment",
+      "model_version": "v4"
+     },
+     "counterfeit": {
+      "score": 0.0346,
+      "model": "model_counterfeit",
+      "model_version": "v2"
+     }
+    },
+    "chain": [
+     {
+      "step": "strategy_hit",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8524,
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "model_version": "v4",
+      "hit_id": "HT-0026195"
+     },
+     {
+      "step": "enforcement",
+      "market": "US",
+      "date": "2026-10-15",
+      "primary_strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "final_action": "suspend_live",
+      "triggered_by": "S-102",
+      "enforcement_id": "EN-0014946"
+     },
+     {
+      "step": "appeal",
+      "appeal_id": "AP-005179",
+      "enforcement_id": "EN-0014946",
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "decision_date": "2026-10-15",
+      "result": "overturned",
+      "reason": "误判：直播内容不构成违规"
+     }
+    ],
+    "related_changes": [
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "qa_label": null,
+    "escalation_flags": [
+     "head_host: 头部主播，需人工确认",
+     "appeal_overturned: 申诉已推翻，疑似误杀",
+     "S-102 分数 0.852 仅略高于阈值 0.85（边界 case）"
+    ],
+    "platform_link": "platform://case/LS-0101617"
+   }
+  },
+  {
+   "t": 0.036,
+   "kind": "guardrails",
+   "needs_escalation": true,
+   "reasons": [
+    "head_host: 头部主播，需人工确认"
+   ],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "case",
+  "query": "还原 case LS-0101617",
+  "scope": {
+   "session_id": "LS-0101617"
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0001",
+    "type": "case",
+    "what": "命中 ['S-102']；处罚 suspend_live；申诉 overturned"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "change_log",
+    "what": "C-006 2026-10-13 model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移"
+   }
+  ],
+  "next_steps": [
+   "如申诉已推翻且有同期变更，纳入该策略的误杀复盘样本"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "head_host: 头部主播，需人工确认"
+  ],
+  "platform_links": [
+   "platform://case/LS-0101617"
+  ],
+  "case": {
+   "ref_id": "Q-0001",
+   "session_id": "LS-0101617",
+   "session": {
+    "date": "2026-10-15",
+    "market": "US",
+    "host_id": "H153823",
+    "host_tier": "head",
+    "duration_min": 120,
+    "features": {
+     "account_age_days": 531,
+     "viewers_peak": 4947,
+     "gift_amount": 0,
+     "report_count": 0,
+     "external_link_flag": 0,
+     "new_device_flag": 0,
+     "keyword_hits": 0,
+     "legacy_brand_list_match": 0
+    }
+   },
+   "scores": {
+    "adult_content": {
+     "score": 0.2565,
+     "model": "model_adult_content",
+     "model_version": "v5"
+    },
+    "minor_safety": {
+     "score": 0.0367,
+     "model": "model_minor_safety",
+     "model_version": "v3"
+    },
+    "scam_fraud": {
+     "score": 0.8524,
+     "model": "model_scam_fraud",
+     "model_version": "v4"
+    },
+    "violence": {
+     "score": 0.2213,
+     "model": "model_violence",
+     "model_version": "v2"
+    },
+    "spam_bot": {
+     "score": 0.5288,
+     "model": "model_spam_bot",
+     "model_version": "v2.1"
+    },
+    "gambling": {
+     "score": 0.0743,
+     "model": "model_gambling",
+     "model_version": "v3"
+    },
+    "hate_harassment": {
+     "score": 0.106,
+     "model": "model_hate_harassment",
+     "model_version": "v4"
+    },
+    "counterfeit": {
+     "score": 0.0346,
+     "model": "model_counterfeit",
+     "model_version": "v2"
+    }
+   },
+   "chain": [
+    {
+     "step": "strategy_hit",
+     "strategy_id": "S-102",
+     "strategy_version": "v3",
+     "scenario": "scam_fraud",
+     "market": "US",
+     "date": "2026-10-15",
+     "score": 0.8524,
+     "threshold": 0.85,
+     "action": "suspend_live",
+     "model_version": "v4",
+     "hit_id": "HT-0026195"
+    },
+    {
+     "step": "enforcement",
+     "market": "US",
+     "date": "2026-10-15",
+     "primary_strategy_id": "S-102",
+     "scenario": "scam_fraud",
+     "final_action": "suspend_live",
+     "triggered_by": "S-102",
+     "enforcement_id": "EN-0014946"
+    },
+    {
+     "step": "appeal",
+     "appeal_id": "AP-005179",
+     "enforcement_id": "EN-0014946",
+     "strategy_id": "S-102",
+     "scenario": "scam_fraud",
+     "market": "US",
+     "date": "2026-10-15",
+     "decision_date": "2026-10-15",
+     "result": "overturned",
+     "reason": "误判：直播内容不构成违规"
+    }
+   ],
+   "related_changes": [
+    {
+     "change_id": "C-006",
+     "date": "2026-10-13",
+     "type": "model_update",
+     "target": "model_scam_fraud",
+     "scenario": "scam_fraud",
+     "markets": [
+      "ALL"
+     ],
+     "strategy_id": null,
+     "model": "model_scam_fraud",
+     "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+     "owner": "算法-交易安全"
+    }
+   ],
+   "qa_label": null,
+   "escalation_flags": [
+    "head_host: 头部主播，需人工确认",
+    "appeal_overturned: 申诉已推翻，疑似误杀",
+    "S-102 分数 0.852 仅略高于阈值 0.85（边界 case）"
+   ],
+   "platform_link": "platform://case/LS-0101617"
+  },
+  "conclusion": "LS-0101617（US，head 主播）2026-10-15 命中 S-102(v4 分 0.852 ≥ 0.85)，最终 suspend_live，申诉overturned",
+  "primary_cause": {
+   "type": "case_reconstruction",
+   "strategy_ids": [
+    "S-102"
+   ],
+   "change_ids": [
+    "C-006"
+   ],
+   "explanation": "head_host: 头部主播，需人工确认; appeal_overturned: 申诉已推翻，疑似误杀; S-102 分数 0.852 仅略高于阈值 0.85（边界 case）"
+  },
+  "confidence": "medium",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

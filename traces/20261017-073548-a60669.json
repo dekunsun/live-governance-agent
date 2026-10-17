@@ -1,0 +1,271 @@
+{
+ "run_id": "20261017-073548-a60669",
+ "engine": "rules",
+ "playbook": "attribution",
+ "query": "ID 10月4日处罚量涨了",
+ "latency_s": 0.022,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 2,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "ID",
+    "scenario": null,
+    "metric": "enforcements",
+    "metric_candidates": [
+     "enforcements"
+    ],
+    "date": "2026-10-04",
+    "direction": "up",
+    "session_id": null,
+    "strategy_id": null,
+    "window_days": 1,
+    "raw": "ID 10月4日处罚量涨了"
+   }
+  },
+  {
+   "t": 0.016,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-09-27",
+    "end_date": "2026-10-04",
+    "market": "ID"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "ID"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-27",
+     "end_date": "2026-10-04",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-27",
+      "value": 1304,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 966,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 856,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 974,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 882,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 987,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 1728,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 1543,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.02,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "enforcements",
+    "start_date": "2026-09-27",
+    "end_date": "2026-10-04",
+    "market": "ID",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "enforcements",
+    "metric_zh": "处罚 session 数",
+    "metric_version": "v2",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "filters": {
+     "market": [
+      "ID"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-27",
+     "end_date": "2026-10-04",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-27",
+      "value": 174,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 137,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 112,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 124,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 126,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 134,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 256,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 217,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.022,
+   "kind": "guardrails",
+   "needs_escalation": false,
+   "reasons": [],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "ID 10月4日处罚量涨了",
+  "scope": {
+   "market": "ID",
+   "scenario": null,
+   "metric": "enforcements",
+   "date": "2026-10-04",
+   "window_days": 1,
+   "baseline_window": [
+    "2026-09-27",
+    "2026-10-03"
+   ],
+   "direction": "up",
+   "note": "单日 vs 前 7 天中位数",
+   "low_sample": false,
+   "observed": {
+    "current": 217,
+    "baseline_median": 134.0,
+    "sessions_current": 1543,
+    "sessions_baseline_median": 974.0
+   },
+   "decomposition": {
+    "count_ratio": 1.62,
+    "traffic_ratio": 1.58,
+    "rate_ratio": 1.02,
+    "traffic_share_of_change": 0.95
+   }
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0002",
+    "type": "metric",
+    "metric": "enforcements",
+    "what": "2026-10-04 enforcements=217，前 7 天中位数 134.0"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "metric",
+    "metric": "sessions",
+    "what": "2026-10-04 sessions=1543，前 7 天中位数 974"
+   }
+  ],
+  "next_steps": [
+   "看板增加按 sessions 归一化的率指标，避免再次误判",
+   "确认流量变化来源（活动/假期），无需策略动作"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": false,
+  "escalation_reasons": [],
+  "platform_links": [
+   "platform://metrics?metric=enforcements&market=ID&scenario=&date=2026-10-04"
+  ],
+  "metric": {
+   "key": "enforcements",
+   "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+   "version": "v2",
+   "note": null
+  },
+  "primary_cause": {
+   "type": "traffic_driven",
+   "strategy_ids": [],
+   "change_ids": [],
+   "explanation": "sessions 974→1543（×1.58），enforcements/sessions 比率 ×1.02 基本不变；流量解释了约 95% 的变化"
+  },
+  "conclusion": "ID 处罚 session 数 上涨主要由流量变化驱动（974→1543 sessions），处罚 session 数率基本不变，不是策略或模型问题",
+  "confidence": "high",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

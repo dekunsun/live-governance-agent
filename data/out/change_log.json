@@ -1,0 +1,128 @@
+[
+ {
+  "change_id": "C-007",
+  "date": "2026-08-01",
+  "type": "feature_pipeline",
+  "target": "legacy_brand_list_match",
+  "scenario": "counterfeit",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": null,
+  "model": null,
+  "summary": "特征 legacy_brand_list_match 管线下线，字段恒为 0；依赖该特征的策略需迁移",
+  "owner": "特征平台"
+ },
+ {
+  "change_id": "C-008",
+  "date": "2026-08-20",
+  "type": "strategy_launch",
+  "target": "S-121",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": "S-121",
+  "model": null,
+  "summary": "S-121 上线：新设备刷量限流（平台生态组重写版）",
+  "owner": "策略-平台生态组"
+ },
+ {
+  "change_id": "C-001",
+  "date": "2026-09-20",
+  "type": "strategy_update",
+  "target": "S-117",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": "S-117",
+  "model": null,
+  "summary": "S-117 v2：阈值 0.88 -> 0.90",
+  "owner": "策略-生态组"
+ },
+ {
+  "change_id": "C-002",
+  "date": "2026-10-01",
+  "type": "policy_update",
+  "target": "P-3",
+  "scenario": "minor_safety",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": null,
+  "model": null,
+  "summary": "Policy P-3 未成年人安全条款措辞澄清，不改变执行标准",
+  "owner": "T&S Policy"
+ },
+ {
+  "change_id": "C-009",
+  "date": "2026-10-05",
+  "type": "model_update",
+  "target": "model_spam_bot",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": null,
+  "model": "model_spam_bot",
+  "summary": "model_spam_bot v2 -> v2.1：线上推理热修复，分数分布无变化",
+  "owner": "算法-生态"
+ },
+ {
+  "change_id": "C-003",
+  "date": "2026-10-10",
+  "type": "policy_update",
+  "target": "P-7",
+  "scenario": "hate_harassment",
+  "markets": [
+   "GB"
+  ],
+  "strategy_id": null,
+  "model": null,
+  "summary": "Policy P-7：GB 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值",
+  "owner": "T&S Policy"
+ },
+ {
+  "change_id": "C-004",
+  "date": "2026-10-11",
+  "type": "strategy_update",
+  "target": "S-112",
+  "scenario": "hate_harassment",
+  "markets": [
+   "GB"
+  ],
+  "strategy_id": "S-112",
+  "model": null,
+  "summary": "S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升",
+  "owner": "策略-社区组"
+ },
+ {
+  "change_id": "C-005",
+  "date": "2026-10-12",
+  "type": "strategy_launch",
+  "target": "S-126",
+  "scenario": "minor_safety",
+  "markets": [
+   "ID"
+  ],
+  "strategy_id": "S-126",
+  "model": null,
+  "summary": "S-126 上线：ID 未成年人中分直接下播（专项）",
+  "owner": "策略-未成年组"
+ },
+ {
+  "change_id": "C-006",
+  "date": "2026-10-13",
+  "type": "model_update",
+  "target": "model_scam_fraud",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": null,
+  "model": "model_scam_fraud",
+  "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+  "owner": "算法-交易安全"
+ }
+]

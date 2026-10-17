@@ -1,0 +1,1049 @@
+{
+ "summary": {
+  "engine": "rules",
+  "n_cases": 30,
+  "accuracy": 1.0,
+  "hallucination_rate": 0.0,
+  "trap_pass_rate": 1.0,
+  "small_market_escalation_rate": 1.0,
+  "metric_definition_handling": 1.0,
+  "escalation_rule_accuracy": 1.0,
+  "consistency_rate": 1.0,
+  "by_category": {
+   "model_drift": 1.0,
+   "traffic_trap": 1.0,
+   "recall_drop": 1.0,
+   "policy_update": 1.0,
+   "new_strategy": 1.0,
+   "no_anomaly": 1.0,
+   "clarification": 1.0,
+   "metric_ambiguity": 1.0,
+   "small_market": 1.0,
+   "case": 1.0,
+   "overlap": 1.0
+  },
+  "by_market": {
+   "US": 1.0,
+   "BR": 1.0,
+   "GB": 1.0,
+   "ID": 1.0,
+   "KE": 1.0,
+   "VN": 1.0
+  },
+  "latency_s": {
+   "mean": 0.061,
+   "max": 0.416
+  },
+  "cost_usd": {
+   "mean": 0.0,
+   "total": 0.0
+  },
+  "tool_calls_mean": 5.3,
+  "health": {
+   "expected": 5,
+   "found": 5,
+   "missed": [],
+   "false_positives": [],
+   "recall": 1.0,
+   "precision": 1.0,
+   "n_alerts": 6,
+   "latency_s": 2.49,
+   "cost_usd": 0.0,
+   "tool_calls": 64
+  },
+  "consistency": {
+   "G01": {
+    "types": [
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold"
+    ],
+    "consistent": true
+   },
+   "G06": {
+    "types": [
+     "traffic_driven",
+     "traffic_driven",
+     "traffic_driven",
+     "traffic_driven",
+     "traffic_driven"
+    ],
+    "consistent": true
+   },
+   "G09": {
+    "types": [
+     "recall_drop_evasion",
+     "recall_drop_evasion",
+     "recall_drop_evasion",
+     "recall_drop_evasion",
+     "recall_drop_evasion"
+    ],
+    "consistent": true
+   },
+   "G12": {
+    "types": [
+     "policy_update",
+     "policy_update",
+     "policy_update",
+     "policy_update",
+     "policy_update"
+    ],
+    "consistent": true
+   },
+   "G14": {
+    "types": [
+     "new_strategy_launch",
+     "new_strategy_launch",
+     "new_strategy_launch",
+     "new_strategy_launch",
+     "new_strategy_launch"
+    ],
+    "consistent": true
+   },
+   "G16": {
+    "types": [
+     "no_anomaly",
+     "no_anomaly",
+     "no_anomaly",
+     "no_anomaly",
+     "no_anomaly"
+    ],
+    "consistent": true
+   },
+   "G23": {
+    "types": [
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold",
+     "model_drift_threshold"
+    ],
+    "consistent": true
+   },
+   "G25": {
+    "types": [
+     "insufficient_data",
+     "insufficient_data",
+     "insufficient_data",
+     "insufficient_data",
+     "insufficient_data"
+    ],
+    "consistent": true
+   }
+  }
+ },
+ "results": [
+  {
+   "id": "G01",
+   "category": "model_drift",
+   "market": "US",
+   "query": "美国昨天误杀申诉涨了，帮我看看",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.262,
+   "tool_calls": 12,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G02",
+   "category": "model_drift",
+   "market": "BR",
+   "query": "巴西 10-15 诈骗申诉涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.12,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 申诉数上升（6→22）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G03",
+   "category": "model_drift",
+   "market": "GB",
+   "query": "GB 诈骗引流 2026-10-14 处罚量上升",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.108,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G04",
+   "category": "model_drift",
+   "market": "ID",
+   "query": "印尼诈骗昨天申诉推翻涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.126,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G05",
+   "category": "model_drift",
+   "market": "US",
+   "query": "US scam_fraud enforcements up on 2026-10-13",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.096,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校",
+   "escalation_reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ]
+  },
+  {
+   "id": "G06",
+   "category": "traffic_trap",
+   "market": "ID",
+   "query": "ID 10月4日处罚量涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "traffic_driven",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.007,
+   "tool_calls": 2,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID 处罚 session 数 上涨主要由流量变化驱动（974→1543 sessions），处罚 session 数率基本不变，不是策略或模型问题",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G07",
+   "category": "traffic_trap",
+   "market": "ID",
+   "query": "印尼 2026-10-03 命中数涨了很多，策略是不是出问题了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "traffic_driven",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.007,
+   "tool_calls": 2,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID 策略命中数 上涨主要由流量变化驱动（974→1728 sessions），策略命中数率基本不变，不是策略或模型问题",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G08",
+   "category": "traffic_trap",
+   "market": "ID",
+   "query": "印尼刷量 10-04 处罚上升",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.011,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID spam_bot 处罚 session 数 2026-10-04=33，前 7 天中位数 23.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G09",
+   "category": "recall_drop",
+   "market": "BR",
+   "query": "巴西赌博命中最近下降了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "recall_drop_evasion",
+   "got_strategy_ids": [
+    "S-115"
+   ],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "medium",
+   "latency_s": 0.077,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G10",
+   "category": "recall_drop",
+   "market": "BR",
+   "query": "巴西赌博召回最近下降了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "recall_drop_evasion",
+   "got_strategy_ids": [
+    "S-115"
+   ],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "medium",
+   "latency_s": 0.098,
+   "tool_calls": 11,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G11",
+   "category": "recall_drop",
+   "market": "BR",
+   "query": "BR gambling 处罚最近少了，是不是违规变少了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "recall_drop_evasion",
+   "got_strategy_ids": [
+    "S-115"
+   ],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "medium",
+   "latency_s": 0.076,
+   "tool_calls": 8,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 赌博 处罚 session 数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G12",
+   "category": "policy_update",
+   "market": "GB",
+   "query": "GB 骚扰 10-13 人审量涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "policy_update",
+   "got_strategy_ids": [
+    "S-112"
+   ],
+   "got_change_ids": [
+    "C-003",
+    "C-004"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.02,
+   "tool_calls": 6,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "GB 转人审数上升是 policy P-7 更新后 S-112 阈值调整的预期结果（C-003 → C-004），不是异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G13",
+   "category": "policy_update",
+   "market": "GB",
+   "query": "英国仇恨骚扰 2026-10-12 命中涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "policy_update",
+   "got_strategy_ids": [
+    "S-112"
+   ],
+   "got_change_ids": [
+    "C-003",
+    "C-004"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.019,
+   "tool_calls": 6,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "GB 策略命中数上升是 policy P-7 更新后 S-112 阈值调整的预期结果（C-003 → C-004），不是异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G14",
+   "category": "new_strategy",
+   "market": "ID",
+   "query": "印尼未成年 10-13 处罚上升",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "new_strategy_launch",
+   "got_strategy_ids": [
+    "S-126"
+   ],
+   "got_change_ids": [
+    "C-005"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.019,
+   "tool_calls": 6,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID 处罚 session 数上升主要来自新上线策略 S-126（2026-10-12，C-005），属预期内新增量；建议按上线计划观察精确率",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G15",
+   "category": "new_strategy",
+   "market": "ID",
+   "query": "ID minor_safety hits up on 2026-10-12",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "new_strategy_launch",
+   "got_strategy_ids": [
+    "S-126"
+   ],
+   "got_change_ids": [
+    "C-005"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.018,
+   "tool_calls": 6,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "ID 策略命中数上升主要来自新上线策略 S-126（2026-10-12，C-005），属预期内新增量；建议按上线计划观察精确率",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G16",
+   "category": "no_anomaly",
+   "market": "US",
+   "query": "美国色情昨天申诉推翻涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.012,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "US adult_content 申诉推翻数 2026-10-15=5，前 7 天中位数 3.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G17",
+   "category": "no_anomaly",
+   "market": "GB",
+   "query": "英国暴力昨天处罚涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.011,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "GB violence 处罚 session 数 2026-10-15=5，前 7 天中位数 4.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G18",
+   "category": "no_anomaly",
+   "market": "US",
+   "query": "US 诈骗 2026-10-11 申诉涨了吗",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.011,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "US scam_fraud 申诉数 2026-10-11=2，前 7 天中位数 3.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G19",
+   "category": "no_anomaly",
+   "market": "BR",
+   "query": "巴西刷量昨天命中涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.011,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR spam_bot 策略命中数 2026-10-15=55，前 7 天中位数 46.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G20",
+   "category": "clarification",
+   "market": null,
+   "query": "昨天误杀申诉涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "needs_clarification",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "n/a",
+   "latency_s": 0.0,
+   "tool_calls": 0,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "请补充：市场",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G21",
+   "category": "clarification",
+   "market": "US",
+   "query": "美国的指标有点不对，帮我看看",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "needs_clarification",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "n/a",
+   "latency_s": 0.0,
+   "tool_calls": 0,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "请补充：日期/时间窗、指标",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G22",
+   "category": "clarification",
+   "market": "BR",
+   "query": "巴西诈骗申诉涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "needs_clarification",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": false,
+   "confidence": "n/a",
+   "latency_s": 0.0,
+   "tool_calls": 0,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "请补充：日期/时间窗",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G23",
+   "category": "metric_ambiguity",
+   "market": "US",
+   "query": "US 昨天误杀率涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.151,
+   "tool_calls": 14,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.812 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G24",
+   "category": "metric_ambiguity",
+   "market": "BR",
+   "query": "巴西诈骗 10-14 误杀率变高了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "model_drift_threshold",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.128,
+   "tool_calls": 9,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "按 overturn_rate 口径（0.765 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：BR 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校",
+   "escalation_reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ]
+  },
+  {
+   "id": "G25",
+   "category": "small_market",
+   "market": "KE",
+   "query": "肯尼亚昨天误杀申诉涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "insufficient_data",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": true,
+   "confidence": "low",
+   "latency_s": 0.007,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
+   "escalation_reasons": [
+    "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+   ]
+  },
+  {
+   "id": "G26",
+   "category": "small_market",
+   "market": "VN",
+   "query": "越南昨天诈骗处罚涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "insufficient_data",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": true,
+   "confidence": "low",
+   "latency_s": 0.007,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "VN 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
+   "escalation_reasons": [
+    "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+   ]
+  },
+  {
+   "id": "G27",
+   "category": "small_market",
+   "market": "KE",
+   "query": "KE 赌博最近命中下降了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "insufficient_data",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": true,
+   "confidence": "low",
+   "latency_s": 0.007,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
+   "escalation_reasons": [
+    "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+   ]
+  },
+  {
+   "id": "G28",
+   "category": "case",
+   "market": "US",
+   "query": "帮我还原 case LS-0101617",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "case_reconstruction",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.008,
+   "tool_calls": 1,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "LS-0101617（US，head 主播）2026-10-15 命中 S-102(v4 分 0.852 ≥ 0.85)，最终 suspend_live，申诉overturned",
+   "escalation_reasons": [
+    "head_host: 头部主播，需人工确认"
+   ]
+  },
+  {
+   "id": "G29",
+   "category": "case",
+   "market": null,
+   "query": "还原 case LS-9999999",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "insufficient_data",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_escalation": true,
+   "confidence": "low",
+   "latency_s": 0.0,
+   "tool_calls": 1,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "数据缺失，无法归因：session LS-9999999 不存在。",
+   "escalation_reasons": [
+    "工具返回 unknown_session"
+   ]
+  },
+  {
+   "id": "G30",
+   "category": "overlap",
+   "market": null,
+   "query": "S-104 有没有问题",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": null,
+   "got_strategy_ids": null,
+   "got_change_ids": null,
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.416,
+   "tool_calls": 11,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "巡检 1 条线上策略，1 条待处理，0 条预期内变更",
+   "escalation_reasons": []
+  }
+ ]
+}

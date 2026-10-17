@@ -1,0 +1,7804 @@
+{
+ "run_id": "20261017-073552-2da413",
+ "engine": "rules",
+ "playbook": "health_check",
+ "query": "策略健康巡检",
+ "latency_s": 2.791,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 64,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "tool_call",
+   "tool": "get_strategy_config",
+   "args": {
+    "status": "active"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "count": 27,
+    "strategies": [
+     {
+      "strategy_id": "S-101",
+      "name": "色情-高分直接下播",
+      "scenario": "adult_content",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_adult_content",
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v2",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-10",
+        "threshold": 0.85,
+        "action": "suspend_live"
+       },
+       {
+        "version": "v2",
+        "effective_from": "2026-06-05",
+        "threshold": 0.8,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-02-10",
+      "updated_at": "2026-06-05",
+      "notes": "",
+      "model": "model_adult_content",
+      "condition_text": "score_adult_content >= 0.8"
+     },
+     {
+      "strategy_id": "S-102",
+      "name": "诈骗-高分下播",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_scam_fraud",
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v3",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-03-01",
+        "threshold": 0.9,
+        "action": "suspend_live"
+       },
+       {
+        "version": "v2",
+        "effective_from": "2026-05-22",
+        "threshold": 0.88,
+        "action": "suspend_live"
+       },
+       {
+        "version": "v3",
+        "effective_from": "2026-07-18",
+        "threshold": 0.85,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-03-01",
+      "updated_at": "2026-07-18",
+      "notes": "固定阈值，依赖 model_scam_fraud 原始分",
+      "model": "model_scam_fraud",
+      "condition_text": "score_scam_fraud >= 0.85"
+     },
+     {
+      "strategy_id": "S-103",
+      "name": "色情-中分+举报转人审",
+      "scenario": "adult_content",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_adult_content",
+      "threshold": 0.6,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "report_count",
+        "op": ">=",
+        "value": 3
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-10",
+        "threshold": 0.6,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-02-10",
+      "updated_at": "2026-02-10",
+      "notes": "",
+      "model": "model_adult_content",
+      "condition_text": "score_adult_content >= 0.6 AND report_count >= 3"
+     },
+     {
+      "strategy_id": "S-104",
+      "name": "刷量-新设备限流",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_spam_bot",
+      "threshold": 0.75,
+      "action": "limit_traffic",
+      "extra_conditions": [
+       {
+        "field": "new_device_flag",
+        "op": "==",
+        "value": 1
+       }
+      ],
+      "version": "v4",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-03-15",
+        "threshold": 0.8,
+        "action": "limit_traffic"
+       },
+       {
+        "version": "v2",
+        "effective_from": "2026-04-20",
+        "threshold": 0.78,
+        "action": "limit_traffic"
+       },
+       {
+        "version": "v3",
+        "effective_from": "2026-06-01",
+        "threshold": 0.75,
+        "action": "limit_traffic"
+       },
+       {
+        "version": "v4",
+        "effective_from": "2026-07-01",
+        "threshold": 0.75,
+        "action": "limit_traffic"
+       }
+      ],
+      "owner": "策略-生态组",
+      "status": "active",
+      "created_at": "2026-03-15",
+      "updated_at": "2026-07-01",
+      "notes": "",
+      "model": "model_spam_bot",
+      "condition_text": "score_spam_bot >= 0.75 AND new_device_flag == 1"
+     },
+     {
+      "strategy_id": "S-105",
+      "name": "未成年-高分下播",
+      "scenario": "minor_safety",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_minor_safety",
+      "threshold": 0.7,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-01-20",
+        "threshold": 0.7,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-未成年组",
+      "status": "active",
+      "created_at": "2026-01-20",
+      "updated_at": "2026-01-20",
+      "notes": "",
+      "model": "model_minor_safety",
+      "condition_text": "score_minor_safety >= 0.7"
+     },
+     {
+      "strategy_id": "S-106",
+      "name": "未成年-中分+举报人审",
+      "scenario": "minor_safety",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_minor_safety",
+      "threshold": 0.5,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "report_count",
+        "op": ">=",
+        "value": 2
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-01-20",
+        "threshold": 0.5,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-未成年组",
+      "status": "active",
+      "created_at": "2026-01-20",
+      "updated_at": "2026-01-20",
+      "notes": "",
+      "model": "model_minor_safety",
+      "condition_text": "score_minor_safety >= 0.5 AND report_count >= 2"
+     },
+     {
+      "strategy_id": "S-107",
+      "name": "暴力-高分下播",
+      "scenario": "violence",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_violence",
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-03-01",
+        "threshold": 0.8,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-03-01",
+      "updated_at": "2026-03-01",
+      "notes": "",
+      "model": "model_violence",
+      "condition_text": "score_violence >= 0.8"
+     },
+     {
+      "strategy_id": "S-108",
+      "name": "假冒-品牌词表命中警告",
+      "scenario": "counterfeit",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_counterfeit",
+      "threshold": 0.7,
+      "action": "warn",
+      "extra_conditions": [
+       {
+        "field": "keyword_hits",
+        "op": ">=",
+        "value": 1
+       },
+       {
+        "field": "legacy_brand_list_match",
+        "op": "==",
+        "value": 1
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2025-11-01",
+        "threshold": 0.7,
+        "action": "warn"
+       }
+      ],
+      "owner": "策略-电商治理组",
+      "status": "active",
+      "created_at": "2025-11-01",
+      "updated_at": "2025-11-01",
+      "notes": "依赖特征 legacy_brand_list_match（该特征管线已于 2026-08-01 下线，见 C-007）",
+      "model": "model_counterfeit",
+      "condition_text": "score_counterfeit >= 0.7 AND keyword_hits >= 1 AND legacy_brand_list_match == 1"
+     },
+     {
+      "strategy_id": "S-109",
+      "name": "假冒-高分警告",
+      "scenario": "counterfeit",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_counterfeit",
+      "threshold": 0.85,
+      "action": "warn",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-01-15",
+        "threshold": 0.85,
+        "action": "warn"
+       }
+      ],
+      "owner": "策略-电商治理组",
+      "status": "active",
+      "created_at": "2026-01-15",
+      "updated_at": "2026-01-15",
+      "notes": "",
+      "model": "model_counterfeit",
+      "condition_text": "score_counterfeit >= 0.85"
+     },
+     {
+      "strategy_id": "S-110",
+      "name": "诈骗-外链+新号人审",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_scam_fraud",
+      "threshold": 0.7,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "external_link_flag",
+        "op": "==",
+        "value": 1
+       },
+       {
+        "field": "account_age_days",
+        "op": "<",
+        "value": 30
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-04-01",
+        "threshold": 0.7,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-04-01",
+      "updated_at": "2026-04-01",
+      "notes": "",
+      "model": "model_scam_fraud",
+      "condition_text": "score_scam_fraud >= 0.7 AND external_link_flag == 1 AND account_age_days < 30"
+     },
+     {
+      "strategy_id": "S-111",
+      "name": "仇恨-高分警告",
+      "scenario": "hate_harassment",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_hate_harassment",
+      "threshold": 0.8,
+      "action": "warn",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-01",
+        "threshold": 0.8,
+        "action": "warn"
+       }
+      ],
+      "owner": "策略-社区组",
+      "status": "active",
+      "created_at": "2026-02-01",
+      "updated_at": "2026-02-01",
+      "notes": "",
+      "model": "model_hate_harassment",
+      "condition_text": "score_hate_harassment >= 0.8"
+     },
+     {
+      "strategy_id": "S-112",
+      "name": "仇恨-GB 举报人审",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "score_field": "score_hate_harassment",
+      "threshold": 0.5,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "report_count",
+        "op": ">=",
+        "value": 1
+       }
+      ],
+      "version": "v3",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-05-10",
+        "threshold": 0.85,
+        "action": "manual_review"
+       },
+       {
+        "version": "v2",
+        "effective_from": "2026-08-01",
+        "threshold": 0.8,
+        "action": "manual_review"
+       },
+       {
+        "version": "v3",
+        "effective_from": "2026-10-11",
+        "threshold": 0.5,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-社区组",
+      "status": "active",
+      "created_at": "2026-05-10",
+      "updated_at": "2026-10-11",
+      "notes": "v3 对应 policy P-7（GB 骚扰定义扩大）",
+      "model": "model_hate_harassment",
+      "condition_text": "score_hate_harassment >= 0.5 AND report_count >= 1"
+     },
+     {
+      "strategy_id": "S-113",
+      "name": "暴力-中分+举报人审",
+      "scenario": "violence",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_violence",
+      "threshold": 0.6,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "report_count",
+        "op": ">=",
+        "value": 3
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-03-01",
+        "threshold": 0.6,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-03-01",
+      "updated_at": "2026-03-01",
+      "notes": "",
+      "model": "model_violence",
+      "condition_text": "score_violence >= 0.6 AND report_count >= 3"
+     },
+     {
+      "strategy_id": "S-114",
+      "name": "诈骗-高打赏新号限流",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_scam_fraud",
+      "threshold": 0.6,
+      "action": "limit_traffic",
+      "extra_conditions": [
+       {
+        "field": "gift_amount",
+        "op": ">=",
+        "value": 500
+       },
+       {
+        "field": "account_age_days",
+        "op": "<",
+        "value": 14
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-06-10",
+        "threshold": 0.6,
+        "action": "limit_traffic"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-06-10",
+      "updated_at": "2026-06-10",
+      "notes": "",
+      "model": "model_scam_fraud",
+      "condition_text": "score_scam_fraud >= 0.6 AND gift_amount >= 500 AND account_age_days < 14"
+     },
+     {
+      "strategy_id": "S-115",
+      "name": "赌博-高分下播",
+      "scenario": "gambling",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_gambling",
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-20",
+        "threshold": 0.8,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-02-20",
+      "updated_at": "2026-02-20",
+      "notes": "",
+      "model": "model_gambling",
+      "condition_text": "score_gambling >= 0.8"
+     },
+     {
+      "strategy_id": "S-116",
+      "name": "赌博-关键词人审",
+      "scenario": "gambling",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_gambling",
+      "threshold": 0.55,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "keyword_hits",
+        "op": ">=",
+        "value": 2
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-20",
+        "threshold": 0.55,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-02-20",
+      "updated_at": "2026-02-20",
+      "notes": "",
+      "model": "model_gambling",
+      "condition_text": "score_gambling >= 0.55 AND keyword_hits >= 2"
+     },
+     {
+      "strategy_id": "S-117",
+      "name": "刷量-极高分下播",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_spam_bot",
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v2",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-03-15",
+        "threshold": 0.88,
+        "action": "suspend_live"
+       },
+       {
+        "version": "v2",
+        "effective_from": "2026-09-20",
+        "threshold": 0.9,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-生态组",
+      "status": "active",
+      "created_at": "2026-03-15",
+      "updated_at": "2026-09-20",
+      "notes": "",
+      "model": "model_spam_bot",
+      "condition_text": "score_spam_bot >= 0.9"
+     },
+     {
+      "strategy_id": "S-118",
+      "name": "色情-极高分封禁",
+      "scenario": "adult_content",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_adult_content",
+      "threshold": 0.95,
+      "action": "ban_7d",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-10",
+        "threshold": 0.95,
+        "action": "ban_7d"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-02-10",
+      "updated_at": "2026-02-10",
+      "notes": "",
+      "model": "model_adult_content",
+      "condition_text": "score_adult_content >= 0.95"
+     },
+     {
+      "strategy_id": "S-119",
+      "name": "暴力-超大场高分下播",
+      "scenario": "violence",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_violence",
+      "threshold": 0.95,
+      "action": "suspend_live",
+      "extra_conditions": [
+       {
+        "field": "viewers_peak",
+        "op": ">=",
+        "value": 50000
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-04-01",
+        "threshold": 0.95,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-内容组",
+      "status": "active",
+      "created_at": "2026-04-01",
+      "updated_at": "2026-04-01",
+      "notes": "条件极窄，几乎不命中",
+      "model": "model_violence",
+      "condition_text": "score_violence >= 0.95 AND viewers_peak >= 50000"
+     },
+     {
+      "strategy_id": "S-120",
+      "name": "未成年-小市场新号观察",
+      "scenario": "minor_safety",
+      "markets": [
+       "VN",
+       "KE"
+      ],
+      "score_field": "score_minor_safety",
+      "threshold": 0.4,
+      "action": "observe",
+      "extra_conditions": [
+       {
+        "field": "account_age_days",
+        "op": "<",
+        "value": 3
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-07-01",
+        "threshold": 0.4,
+        "action": "observe"
+       }
+      ],
+      "owner": "策略-未成年组",
+      "status": "active",
+      "created_at": "2026-07-01",
+      "updated_at": "2026-07-01",
+      "notes": "",
+      "model": "model_minor_safety",
+      "condition_text": "score_minor_safety >= 0.4 AND account_age_days < 3"
+     },
+     {
+      "strategy_id": "S-121",
+      "name": "刷量-新设备限流(v2 重写)",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_spam_bot",
+      "threshold": 0.72,
+      "action": "limit_traffic",
+      "extra_conditions": [
+       {
+        "field": "new_device_flag",
+        "op": "==",
+        "value": 1
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-08-20",
+        "threshold": 0.72,
+        "action": "limit_traffic"
+       }
+      ],
+      "owner": "策略-平台生态组",
+      "status": "active",
+      "created_at": "2026-08-20",
+      "updated_at": "2026-08-20",
+      "notes": "由另一团队重写，与 S-104 条件几乎相同",
+      "model": "model_spam_bot",
+      "condition_text": "score_spam_bot >= 0.72 AND new_device_flag == 1"
+     },
+     {
+      "strategy_id": "S-122",
+      "name": "诈骗-ID 中分人审",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ID"
+      ],
+      "score_field": "score_scam_fraud",
+      "threshold": 0.75,
+      "action": "manual_review",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-05-05",
+        "threshold": 0.75,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-05-05",
+      "updated_at": "2026-05-05",
+      "notes": "",
+      "model": "model_scam_fraud",
+      "condition_text": "score_scam_fraud >= 0.75"
+     },
+     {
+      "strategy_id": "S-123",
+      "name": "仇恨-极高分下播",
+      "scenario": "hate_harassment",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_hate_harassment",
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-02-01",
+        "threshold": 0.9,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-社区组",
+      "status": "active",
+      "created_at": "2026-02-01",
+      "updated_at": "2026-02-01",
+      "notes": "",
+      "model": "model_hate_harassment",
+      "condition_text": "score_hate_harassment >= 0.9"
+     },
+     {
+      "strategy_id": "S-124",
+      "name": "假冒-关键词人审",
+      "scenario": "counterfeit",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_counterfeit",
+      "threshold": 0.6,
+      "action": "manual_review",
+      "extra_conditions": [
+       {
+        "field": "keyword_hits",
+        "op": ">=",
+        "value": 2
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-01-15",
+        "threshold": 0.6,
+        "action": "manual_review"
+       }
+      ],
+      "owner": "策略-电商治理组",
+      "status": "active",
+      "created_at": "2026-01-15",
+      "updated_at": "2026-01-15",
+      "notes": "",
+      "model": "model_counterfeit",
+      "condition_text": "score_counterfeit >= 0.6 AND keyword_hits >= 2"
+     },
+     {
+      "strategy_id": "S-125",
+      "name": "刷量-小场高打赏观察",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_spam_bot",
+      "threshold": 0.6,
+      "action": "observe",
+      "extra_conditions": [
+       {
+        "field": "viewers_peak",
+        "op": "<",
+        "value": 20
+       },
+       {
+        "field": "gift_amount",
+        "op": ">=",
+        "value": 200
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-05-01",
+        "threshold": 0.6,
+        "action": "observe"
+       }
+      ],
+      "owner": "策略-生态组",
+      "status": "active",
+      "created_at": "2026-05-01",
+      "updated_at": "2026-05-01",
+      "notes": "",
+      "model": "model_spam_bot",
+      "condition_text": "score_spam_bot >= 0.6 AND viewers_peak < 20 AND gift_amount >= 200"
+     },
+     {
+      "strategy_id": "S-126",
+      "name": "未成年-ID 中分下播",
+      "scenario": "minor_safety",
+      "markets": [
+       "ID"
+      ],
+      "score_field": "score_minor_safety",
+      "threshold": 0.6,
+      "action": "suspend_live",
+      "extra_conditions": [],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-10-12",
+        "threshold": 0.6,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-未成年组",
+      "status": "active",
+      "created_at": "2026-10-12",
+      "updated_at": "2026-10-12",
+      "notes": "ID 市场专项，2026-10-12 上线",
+      "model": "model_minor_safety",
+      "condition_text": "score_minor_safety >= 0.6"
+     },
+     {
+      "strategy_id": "S-128",
+      "name": "赌博-外链下播",
+      "scenario": "gambling",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_gambling",
+      "threshold": 0.7,
+      "action": "suspend_live",
+      "extra_conditions": [
+       {
+        "field": "external_link_flag",
+        "op": "==",
+        "value": 1
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-06-15",
+        "threshold": 0.7,
+        "action": "suspend_live"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-15",
+      "notes": "",
+      "model": "model_gambling",
+      "condition_text": "score_gambling >= 0.7 AND external_link_flag == 1"
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.017,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "group_by": [
+     "strategy_id"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "strategy_id": "S-101",
+      "value": 634,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-102",
+      "value": 676,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-103",
+      "value": 322,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-104",
+      "value": 540,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-105",
+      "value": 902,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-106",
+      "value": 404,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-107",
+      "value": 323,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-108",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-109",
+      "value": 156,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-110",
+      "value": 273,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-111",
+      "value": 430,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-112",
+      "value": 123,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-113",
+      "value": 132,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-114",
+      "value": 27,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-115",
+      "value": 336,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-116",
+      "value": 143,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-117",
+      "value": 255,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-118",
+      "value": 68,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-119",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-120",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-121",
+      "value": 602,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-122",
+      "value": 334,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-123",
+      "value": 133,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-124",
+      "value": 107,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-125",
+      "value": 20,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-126",
+      "value": 221,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-127",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-128",
+      "value": 124,
+      "low_sample": false
+     }
+    ],
+    "row_count": 28,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.021,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "group_by": [
+     "strategy_id"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "strategy_id": "S-101",
+      "value": 1289,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-102",
+      "value": 662,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-103",
+      "value": 571,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-104",
+      "value": 1057,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-105",
+      "value": 1868,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-106",
+      "value": 803,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-107",
+      "value": 658,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-108",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-109",
+      "value": 332,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-110",
+      "value": 502,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-111",
+      "value": 794,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-112",
+      "value": 107,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-113",
+      "value": 265,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-114",
+      "value": 63,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-115",
+      "value": 810,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-116",
+      "value": 372,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-117",
+      "value": 493,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-118",
+      "value": 116,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-119",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-120",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-121",
+      "value": 1180,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-122",
+      "value": 468,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-123",
+      "value": 212,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-124",
+      "value": 223,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-125",
+      "value": 42,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-126",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-127",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-128",
+      "value": 344,
+      "low_sample": false
+     }
+    ],
+    "row_count": 28,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-18",
+    "end_date": "2026-10-15",
+    "group_by": [
+     "strategy_id"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-18",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "strategy_id": "S-101",
+      "value": 2558,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-102",
+      "value": 1688,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-103",
+      "value": 1223,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-104",
+      "value": 2149,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-105",
+      "value": 3649,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-106",
+      "value": 1577,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-107",
+      "value": 1304,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-108",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-109",
+      "value": 631,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-110",
+      "value": 1016,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-111",
+      "value": 1616,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-112",
+      "value": 273,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-113",
+      "value": 544,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-114",
+      "value": 130,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-115",
+      "value": 1559,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-116",
+      "value": 711,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-117",
+      "value": 1054,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-118",
+      "value": 257,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-119",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-120",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-121",
+      "value": 2379,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-122",
+      "value": 1035,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-123",
+      "value": 445,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-124",
+      "value": 445,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-125",
+      "value": 90,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-126",
+      "value": 221,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-127",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-128",
+      "value": 617,
+      "low_sample": false
+     }
+    ],
+    "row_count": 28,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0005"
+   },
+   "result": {
+    "ref_id": "Q-0005",
+    "count": 6,
+    "changes": [
+     {
+      "change_id": "C-002",
+      "date": "2026-10-01",
+      "type": "policy_update",
+      "target": "P-3",
+      "scenario": "minor_safety",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "Policy P-3 未成年人安全条款措辞澄清，不改变执行标准",
+      "owner": "T&S Policy"
+     },
+     {
+      "change_id": "C-009",
+      "date": "2026-10-05",
+      "type": "model_update",
+      "target": "model_spam_bot",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_spam_bot",
+      "summary": "model_spam_bot v2 -> v2.1：线上推理热修复，分数分布无变化",
+      "owner": "算法-生态"
+     },
+     {
+      "change_id": "C-003",
+      "date": "2026-10-10",
+      "type": "policy_update",
+      "target": "P-7",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "Policy P-7：GB 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值",
+      "owner": "T&S Policy"
+     },
+     {
+      "change_id": "C-004",
+      "date": "2026-10-11",
+      "type": "strategy_update",
+      "target": "S-112",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": "S-112",
+      "model": null,
+      "summary": "S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升",
+      "owner": "策略-社区组"
+     },
+     {
+      "change_id": "C-005",
+      "date": "2026-10-12",
+      "type": "strategy_launch",
+      "target": "S-126",
+      "scenario": "minor_safety",
+      "markets": [
+       "ID"
+      ],
+      "strategy_id": "S-126",
+      "model": null,
+      "summary": "S-126 上线：ID 未成年人中分直接下播（专项）",
+      "owner": "策略-未成年组"
+     },
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-01-01",
+    "end_date": "2026-10-15",
+    "change_type": "feature_pipeline"
+   },
+   "result_summary": {
+    "ref_id": "Q-0006"
+   },
+   "result": {
+    "ref_id": "Q-0006",
+    "count": 1,
+    "changes": [
+     {
+      "change_id": "C-007",
+      "date": "2026-08-01",
+      "type": "feature_pipeline",
+      "target": "legacy_brand_list_match",
+      "scenario": "counterfeit",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "特征 legacy_brand_list_match 管线下线，字段恒为 0；依赖该特征的策略需迁移",
+      "owner": "特征平台"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.115,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-101",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0007"
+   },
+   "result": {
+    "ref_id": "Q-0007",
+    "filters": {
+     "strategy_id": "S-101",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1923,
+     "distinct_sessions": 1923,
+     "by_action": {
+      "suspend_live": 1923
+     },
+     "by_strategy": {
+      "S-101": 1923
+     },
+     "by_market": {
+      "ID": 573,
+      "US": 548,
+      "BR": 509,
+      "GB": 240,
+      "VN": 34,
+      "KE": 19
+     },
+     "by_model_version": {
+      "v5": 1923
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100889",
+      "strategy_id": "S-101",
+      "strategy_version": "v2",
+      "scenario": "adult_content",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9276,
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "model_version": "v5",
+      "hit_id": "HT-0026015"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 471,
+      "share_of_this": 0.245,
+      "share_of_other": 0.527,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-118",
+      "scenario": "adult_content",
+      "co_hit_sessions": 184,
+      "share_of_this": 0.096,
+      "share_of_other": 1.0,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 84,
+      "share_of_this": 0.044,
+      "share_of_other": 0.07,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 47,
+      "share_of_this": 0.024,
+      "share_of_other": 0.017,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 25,
+      "share_of_this": 0.013,
+      "share_of_other": 0.063,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.011,
+      "share_of_other": 0.018,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.009,
+      "share_of_other": 0.017,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.007,
+      "share_of_other": 0.01,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.007,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.007,
+      "share_of_other": 0.008,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.312,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-102",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0008"
+   },
+   "result": {
+    "ref_id": "Q-0008",
+    "filters": {
+     "strategy_id": "S-102",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1338,
+     "distinct_sessions": 1338,
+     "by_action": {
+      "suspend_live": 1338
+     },
+     "by_strategy": {
+      "S-102": 1338
+     },
+     "by_market": {
+      "ID": 380,
+      "US": 374,
+      "BR": 349,
+      "GB": 212,
+      "VN": 16,
+      "KE": 7
+     },
+     "by_model_version": {
+      "v3": 873,
+      "v4": 465
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100891",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8897,
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "model_version": "v4",
+      "hit_id": "HT-0026018"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 433,
+      "share_of_this": 0.324,
+      "share_of_other": 0.559,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 380,
+      "share_of_this": 0.284,
+      "share_of_other": 0.474,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 40,
+      "share_of_this": 0.03,
+      "share_of_other": 0.033,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-114",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 40,
+      "share_of_this": 0.03,
+      "share_of_other": 0.444,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.025,
+      "share_of_other": 0.012,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.016,
+      "share_of_other": 0.025,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.016,
+      "share_of_other": 0.053,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.01,
+      "share_of_other": 0.007,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.01,
+      "share_of_other": 0.014,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.007,
+      "share_of_other": 0.008,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.383,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-103",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0009"
+   },
+   "result": {
+    "ref_id": "Q-0009",
+    "filters": {
+     "strategy_id": "S-103",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 893,
+     "distinct_sessions": 893,
+     "by_action": {
+      "manual_review": 893
+     },
+     "by_strategy": {
+      "S-103": 893
+     },
+     "by_market": {
+      "US": 257,
+      "BR": 256,
+      "ID": 251,
+      "GB": 104,
+      "VN": 17,
+      "KE": 8
+     },
+     "by_model_version": {
+      "v5": 893
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100889",
+      "strategy_id": "S-103",
+      "strategy_version": "v1",
+      "scenario": "adult_content",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9276,
+      "threshold": 0.6,
+      "action": "manual_review",
+      "model_version": "v5",
+      "hit_id": "HT-0026016"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 471,
+      "share_of_this": 0.527,
+      "share_of_other": 0.245,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 86,
+      "share_of_this": 0.096,
+      "share_of_other": 0.071,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-118",
+      "scenario": "adult_content",
+      "co_hit_sessions": 55,
+      "share_of_this": 0.062,
+      "share_of_other": 0.299,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 52,
+      "share_of_this": 0.058,
+      "share_of_other": 0.131,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.038,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 29,
+      "share_of_this": 0.032,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.025,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.025,
+      "share_of_other": 0.014,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.024,
+      "share_of_other": 0.017,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.019,
+      "share_of_other": 0.017,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.534,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-104",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0010"
+   },
+   "result": {
+    "ref_id": "Q-0010",
+    "filters": {
+     "strategy_id": "S-104",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1597,
+     "distinct_sessions": 1597,
+     "by_action": {
+      "limit_traffic": 1597
+     },
+     "by_strategy": {
+      "S-104": 1597
+     },
+     "by_market": {
+      "US": 490,
+      "ID": 436,
+      "BR": 394,
+      "GB": 226,
+      "VN": 40,
+      "KE": 11
+     },
+     "by_model_version": {
+      "v2.1": 821,
+      "v2": 776
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100978",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "scenario": "spam_bot",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8944,
+      "threshold": 0.75,
+      "action": "limit_traffic",
+      "model_version": "v2.1",
+      "hit_id": "HT-0026032"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 1597,
+      "share_of_this": 1.0,
+      "share_of_other": 0.896,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 481,
+      "share_of_this": 0.301,
+      "share_of_other": 0.643,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 70,
+      "share_of_this": 0.044,
+      "share_of_other": 0.058,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 31,
+      "share_of_this": 0.019,
+      "share_of_other": 0.011,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.014,
+      "share_of_other": 0.025,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.012,
+      "share_of_other": 0.048,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.008,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-125",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.008,
+      "share_of_other": 0.21,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.008,
+      "share_of_other": 0.015,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.006,
+      "share_of_other": 0.008,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.625,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-105",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0011"
+   },
+   "result": {
+    "ref_id": "Q-0011",
+    "filters": {
+     "strategy_id": "S-105",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 2770,
+     "distinct_sessions": 2770,
+     "by_action": {
+      "suspend_live": 2770
+     },
+     "by_strategy": {
+      "S-105": 2770
+     },
+     "by_market": {
+      "US": 890,
+      "ID": 760,
+      "BR": 689,
+      "GB": 384,
+      "VN": 36,
+      "KE": 11
+     },
+     "by_model_version": {
+      "v3": 2770
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100900",
+      "strategy_id": "S-105",
+      "strategy_version": "v1",
+      "scenario": "minor_safety",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.73,
+      "threshold": 0.7,
+      "action": "suspend_live",
+      "model_version": "v3",
+      "hit_id": "HT-0026020"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 691,
+      "share_of_this": 0.249,
+      "share_of_other": 0.572,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-126",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 130,
+      "share_of_this": 0.047,
+      "share_of_other": 0.588,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 47,
+      "share_of_this": 0.017,
+      "share_of_other": 0.024,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 42,
+      "share_of_this": 0.015,
+      "share_of_other": 0.043,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 37,
+      "share_of_this": 0.013,
+      "share_of_other": 0.032,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 36,
+      "share_of_this": 0.013,
+      "share_of_other": 0.02,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.012,
+      "share_of_other": 0.025,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.012,
+      "share_of_other": 0.038,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.012,
+      "share_of_other": 0.028,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 31,
+      "share_of_this": 0.011,
+      "share_of_other": 0.019,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.709,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-106",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0012"
+   },
+   "result": {
+    "ref_id": "Q-0012",
+    "filters": {
+     "strategy_id": "S-106",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1207,
+     "distinct_sessions": 1207,
+     "by_action": {
+      "manual_review": 1207
+     },
+     "by_strategy": {
+      "S-106": 1207
+     },
+     "by_market": {
+      "BR": 343,
+      "ID": 342,
+      "US": 338,
+      "GB": 163,
+      "VN": 14,
+      "KE": 7
+     },
+     "by_model_version": {
+      "v3": 1207
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100957",
+      "strategy_id": "S-106",
+      "strategy_version": "v1",
+      "scenario": "minor_safety",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.5634,
+      "threshold": 0.5,
+      "action": "manual_review",
+      "model_version": "v3",
+      "hit_id": "HT-0026028"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 691,
+      "share_of_this": 0.572,
+      "share_of_other": 0.249,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 86,
+      "share_of_this": 0.071,
+      "share_of_other": 0.096,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 84,
+      "share_of_this": 0.07,
+      "share_of_other": 0.044,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 80,
+      "share_of_this": 0.066,
+      "share_of_other": 0.045,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 70,
+      "share_of_this": 0.058,
+      "share_of_other": 0.044,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-126",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 48,
+      "share_of_this": 0.04,
+      "share_of_other": 0.217,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 42,
+      "share_of_this": 0.035,
+      "share_of_other": 0.034,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 40,
+      "share_of_this": 0.033,
+      "share_of_other": 0.03,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.028,
+      "share_of_other": 0.03,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 33,
+      "share_of_this": 0.027,
+      "share_of_other": 0.043,
+      "same_action": true
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.784,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-107",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0013"
+   },
+   "result": {
+    "ref_id": "Q-0013",
+    "filters": {
+     "strategy_id": "S-107",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 981,
+     "distinct_sessions": 981,
+     "by_action": {
+      "suspend_live": 981
+     },
+     "by_strategy": {
+      "S-107": 981
+     },
+     "by_market": {
+      "US": 300,
+      "ID": 274,
+      "BR": 256,
+      "GB": 127,
+      "VN": 15,
+      "KE": 9
+     },
+     "by_model_version": {
+      "v2": 981
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101080",
+      "strategy_id": "S-107",
+      "strategy_version": "v1",
+      "scenario": "violence",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8214,
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "model_version": "v2",
+      "hit_id": "HT-0026059"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 171,
+      "share_of_this": 0.174,
+      "share_of_other": 0.431,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 42,
+      "share_of_this": 0.043,
+      "share_of_other": 0.015,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 29,
+      "share_of_this": 0.03,
+      "share_of_other": 0.024,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.017,
+      "share_of_other": 0.009,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.017,
+      "share_of_other": 0.019,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.015,
+      "share_of_other": 0.013,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.014,
+      "share_of_other": 0.01,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.014,
+      "share_of_other": 0.011,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-109",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.007,
+      "share_of_other": 0.014,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-116",
+      "scenario": "gambling",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.007,
+      "share_of_other": 0.014,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.851,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-109",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0014"
+   },
+   "result": {
+    "ref_id": "Q-0014",
+    "filters": {
+     "strategy_id": "S-109",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 488,
+     "distinct_sessions": 488,
+     "by_action": {
+      "warn": 488
+     },
+     "by_strategy": {
+      "S-109": 488
+     },
+     "by_market": {
+      "BR": 151,
+      "US": 133,
+      "ID": 131,
+      "GB": 59,
+      "VN": 11,
+      "KE": 3
+     },
+     "by_model_version": {
+      "v2": 488
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100996",
+      "strategy_id": "S-109",
+      "strategy_version": "v1",
+      "scenario": "counterfeit",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9001,
+      "threshold": 0.85,
+      "action": "warn",
+      "model_version": "v2",
+      "hit_id": "HT-0026035"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-124",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 127,
+      "share_of_this": 0.26,
+      "share_of_other": 0.385,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.031,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.027,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 9,
+      "share_of_this": 0.018,
+      "share_of_other": 0.01,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 9,
+      "share_of_this": 0.018,
+      "share_of_other": 0.023,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 8,
+      "share_of_this": 0.016,
+      "share_of_other": 0.006,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-116",
+      "scenario": "gambling",
+      "co_hit_sessions": 8,
+      "share_of_this": 0.016,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.014,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.012,
+      "share_of_other": 0.003,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.01,
+      "share_of_other": 0.003,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 0.922,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-110",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0015"
+   },
+   "result": {
+    "ref_id": "Q-0015",
+    "filters": {
+     "strategy_id": "S-110",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 775,
+     "distinct_sessions": 775,
+     "by_action": {
+      "manual_review": 775
+     },
+     "by_strategy": {
+      "S-110": 775
+     },
+     "by_market": {
+      "ID": 230,
+      "US": 226,
+      "BR": 188,
+      "GB": 114,
+      "VN": 13,
+      "KE": 4
+     },
+     "by_model_version": {
+      "v3": 654,
+      "v4": 121
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101030",
+      "strategy_id": "S-110",
+      "strategy_version": "v1",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.995,
+      "threshold": 0.7,
+      "action": "manual_review",
+      "model_version": "v4",
+      "hit_id": "HT-0026049"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 433,
+      "share_of_this": 0.559,
+      "share_of_other": 0.324,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 199,
+      "share_of_this": 0.257,
+      "share_of_other": 0.248,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-114",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 52,
+      "share_of_this": 0.067,
+      "share_of_other": 0.578,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 33,
+      "share_of_this": 0.043,
+      "share_of_other": 0.027,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.027,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.025,
+      "share_of_other": 0.048,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.019,
+      "share_of_other": 0.017,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.013,
+      "share_of_other": 0.021,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.008,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.008,
+      "share_of_other": 0.003,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.001,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-111",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0016"
+   },
+   "result": {
+    "ref_id": "Q-0016",
+    "filters": {
+     "strategy_id": "S-111",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1224,
+     "distinct_sessions": 1224,
+     "by_action": {
+      "warn": 1224
+     },
+     "by_strategy": {
+      "S-111": 1224
+     },
+     "by_market": {
+      "US": 333,
+      "BR": 304,
+      "ID": 294,
+      "GB": 261,
+      "VN": 20,
+      "KE": 12
+     },
+     "by_model_version": {
+      "v4": 1224
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101015",
+      "strategy_id": "S-111",
+      "strategy_version": "v1",
+      "scenario": "hate_harassment",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8401,
+      "threshold": 0.8,
+      "action": "warn",
+      "model_version": "v4",
+      "hit_id": "HT-0026041"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-123",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 345,
+      "share_of_this": 0.282,
+      "share_of_other": 1.0,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-112",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 166,
+      "share_of_this": 0.136,
+      "share_of_other": 0.722,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 42,
+      "share_of_this": 0.034,
+      "share_of_other": 0.035,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.028,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.018,
+      "share_of_other": 0.011,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.017,
+      "share_of_other": 0.024,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.014,
+      "share_of_other": 0.015,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.011,
+      "share_of_other": 0.014,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.011,
+      "share_of_other": 0.033,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.01,
+      "share_of_other": 0.007,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.07,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-112",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0017"
+   },
+   "result": {
+    "ref_id": "Q-0017",
+    "filters": {
+     "strategy_id": "S-112",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 230,
+     "distinct_sessions": 230,
+     "by_action": {
+      "manual_review": 230
+     },
+     "by_strategy": {
+      "S-112": 230
+     },
+     "by_market": {
+      "GB": 230
+     },
+     "by_model_version": {
+      "v4": 230
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0103914",
+      "strategy_id": "S-112",
+      "strategy_version": "v3",
+      "scenario": "hate_harassment",
+      "market": "GB",
+      "date": "2026-10-15",
+      "score": 0.8148,
+      "threshold": 0.5,
+      "action": "manual_review",
+      "model_version": "v4",
+      "hit_id": "HT-0027000"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 166,
+      "share_of_this": 0.722,
+      "share_of_other": 0.136,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-123",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 69,
+      "share_of_this": 0.3,
+      "share_of_other": 0.2,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.052,
+      "share_of_other": 0.01,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.03,
+      "share_of_other": 0.008,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.022,
+      "share_of_other": 0.003,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.022,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.022,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.022,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.017,
+      "share_of_other": 0.003,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.017,
+      "share_of_other": 0.01,
+      "same_action": true
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.153,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-113",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0018"
+   },
+   "result": {
+    "ref_id": "Q-0018",
+    "filters": {
+     "strategy_id": "S-113",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 397,
+     "distinct_sessions": 397,
+     "by_action": {
+      "manual_review": 397
+     },
+     "by_strategy": {
+      "S-113": 397
+     },
+     "by_market": {
+      "US": 120,
+      "BR": 106,
+      "ID": 104,
+      "GB": 57,
+      "VN": 7,
+      "KE": 3
+     },
+     "by_model_version": {
+      "v2": 397
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101036",
+      "strategy_id": "S-113",
+      "strategy_version": "v1",
+      "scenario": "violence",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.602,
+      "threshold": 0.6,
+      "action": "manual_review",
+      "model_version": "v2",
+      "hit_id": "HT-0026052"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 171,
+      "share_of_this": 0.431,
+      "share_of_other": 0.174,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 52,
+      "share_of_this": 0.131,
+      "share_of_other": 0.058,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 27,
+      "share_of_this": 0.068,
+      "share_of_other": 0.022,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 25,
+      "share_of_this": 0.063,
+      "share_of_other": 0.013,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 24,
+      "share_of_this": 0.06,
+      "share_of_other": 0.013,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.053,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.048,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.048,
+      "share_of_other": 0.025,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 18,
+      "share_of_this": 0.045,
+      "share_of_other": 0.006,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.033,
+      "share_of_other": 0.011,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.219,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-114",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0019"
+   },
+   "result": {
+    "ref_id": "Q-0019",
+    "filters": {
+     "strategy_id": "S-114",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 90,
+     "distinct_sessions": 90,
+     "by_action": {
+      "limit_traffic": 90
+     },
+     "by_strategy": {
+      "S-114": 90
+     },
+     "by_market": {
+      "BR": 27,
+      "ID": 26,
+      "US": 24,
+      "GB": 10,
+      "VN": 2,
+      "KE": 1
+     },
+     "by_model_version": {
+      "v3": 80,
+      "v4": 10
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101460",
+      "strategy_id": "S-114",
+      "strategy_version": "v1",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8595,
+      "threshold": 0.6,
+      "action": "limit_traffic",
+      "model_version": "v4",
+      "hit_id": "HT-0026162"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 52,
+      "share_of_this": 0.578,
+      "share_of_other": 0.067,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 40,
+      "share_of_this": 0.444,
+      "share_of_other": 0.03,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.211,
+      "share_of_other": 0.024,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.033,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.033,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.022,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.022,
+      "share_of_other": 0.001,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.011,
+      "share_of_other": 0.001,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.011,
+      "share_of_other": 0.001,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.011,
+      "share_of_other": 0.001,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.309,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-115",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0020"
+   },
+   "result": {
+    "ref_id": "Q-0020",
+    "filters": {
+     "strategy_id": "S-115",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1146,
+     "distinct_sessions": 1146,
+     "by_action": {
+      "suspend_live": 1146
+     },
+     "by_strategy": {
+      "S-115": 1146
+     },
+     "by_market": {
+      "US": 376,
+      "ID": 326,
+      "BR": 261,
+      "GB": 161,
+      "VN": 16,
+      "KE": 6
+     },
+     "by_model_version": {
+      "v3": 1146
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101280",
+      "strategy_id": "S-115",
+      "strategy_version": "v1",
+      "scenario": "gambling",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8074,
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "model_version": "v3",
+      "hit_id": "HT-0026113"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-116",
+      "scenario": "gambling",
+      "co_hit_sessions": 283,
+      "share_of_this": 0.247,
+      "share_of_other": 0.55,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "co_hit_sessions": 270,
+      "share_of_this": 0.236,
+      "share_of_other": 0.577,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 37,
+      "share_of_this": 0.032,
+      "share_of_other": 0.013,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 34,
+      "share_of_this": 0.03,
+      "share_of_other": 0.028,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 17,
+      "share_of_this": 0.015,
+      "share_of_other": 0.014,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-124",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 16,
+      "share_of_this": 0.014,
+      "share_of_other": 0.048,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.013,
+      "share_of_other": 0.015,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 11,
+      "share_of_this": 0.01,
+      "share_of_other": 0.006,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 11,
+      "share_of_this": 0.01,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 11,
+      "share_of_this": 0.01,
+      "share_of_other": 0.006,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.371,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-116",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0021"
+   },
+   "result": {
+    "ref_id": "Q-0021",
+    "filters": {
+     "strategy_id": "S-116",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 515,
+     "distinct_sessions": 515,
+     "by_action": {
+      "manual_review": 515
+     },
+     "by_strategy": {
+      "S-116": 515
+     },
+     "by_market": {
+      "US": 164,
+      "ID": 145,
+      "BR": 113,
+      "GB": 83,
+      "VN": 9,
+      "KE": 1
+     },
+     "by_model_version": {
+      "v3": 515
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101208",
+      "strategy_id": "S-116",
+      "strategy_version": "v1",
+      "scenario": "gambling",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.7755,
+      "threshold": 0.55,
+      "action": "manual_review",
+      "model_version": "v3",
+      "hit_id": "HT-0026095"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 283,
+      "share_of_this": 0.55,
+      "share_of_other": 0.247,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "co_hit_sessions": 163,
+      "share_of_this": 0.317,
+      "share_of_other": 0.348,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-124",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 39,
+      "share_of_this": 0.076,
+      "share_of_other": 0.118,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 28,
+      "share_of_this": 0.054,
+      "share_of_other": 0.023,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 11,
+      "share_of_this": 0.021,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-109",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 8,
+      "share_of_this": 0.016,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.014,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.012,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.01,
+      "share_of_other": 0.006,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.01,
+      "share_of_other": 0.013,
+      "same_action": true
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.449,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-117",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0022"
+   },
+   "result": {
+    "ref_id": "Q-0022",
+    "filters": {
+     "strategy_id": "S-117",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 748,
+     "distinct_sessions": 748,
+     "by_action": {
+      "suspend_live": 748
+     },
+     "by_strategy": {
+      "S-117": 748
+     },
+     "by_market": {
+      "US": 224,
+      "ID": 213,
+      "BR": 179,
+      "GB": 111,
+      "VN": 16,
+      "KE": 5
+     },
+     "by_model_version": {
+      "v2.1": 375,
+      "v2": 373
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101165",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "scenario": "spam_bot",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9302,
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "model_version": "v2.1",
+      "hit_id": "HT-0026079"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 481,
+      "share_of_this": 0.643,
+      "share_of_other": 0.301,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 481,
+      "share_of_this": 0.643,
+      "share_of_other": 0.27,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 27,
+      "share_of_this": 0.036,
+      "share_of_other": 0.022,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 21,
+      "share_of_this": 0.028,
+      "share_of_other": 0.008,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.017,
+      "share_of_other": 0.015,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.016,
+      "share_of_other": 0.03,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.013,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.009,
+      "share_of_other": 0.004,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.008,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-125",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.007,
+      "share_of_other": 0.081,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.501,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-118",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0023"
+   },
+   "result": {
+    "ref_id": "Q-0023",
+    "filters": {
+     "strategy_id": "S-118",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 184,
+     "distinct_sessions": 184,
+     "by_action": {
+      "ban_7d": 184
+     },
+     "by_strategy": {
+      "S-118": 184
+     },
+     "by_market": {
+      "BR": 62,
+      "US": 53,
+      "ID": 44,
+      "GB": 19,
+      "VN": 3,
+      "KE": 3
+     },
+     "by_model_version": {
+      "v5": 184
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101028",
+      "strategy_id": "S-118",
+      "strategy_version": "v1",
+      "scenario": "adult_content",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9762,
+      "threshold": 0.95,
+      "action": "ban_7d",
+      "model_version": "v5",
+      "hit_id": "HT-0026047"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 184,
+      "share_of_this": 1.0,
+      "share_of_other": 0.096,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 55,
+      "share_of_this": 0.299,
+      "share_of_other": 0.062,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.082,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.027,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.011,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.011,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.011,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.005,
+      "share_of_other": 0.001,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-112",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.005,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.005,
+      "share_of_other": 0.001,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.594,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-121",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0024"
+   },
+   "result": {
+    "ref_id": "Q-0024",
+    "filters": {
+     "strategy_id": "S-121",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 1782,
+     "distinct_sessions": 1782,
+     "by_action": {
+      "limit_traffic": 1782
+     },
+     "by_strategy": {
+      "S-121": 1782
+     },
+     "by_market": {
+      "US": 554,
+      "ID": 479,
+      "BR": 448,
+      "GB": 245,
+      "VN": 45,
+      "KE": 11
+     },
+     "by_model_version": {
+      "v2.1": 910,
+      "v2": 872
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100978",
+      "strategy_id": "S-121",
+      "strategy_version": "v1",
+      "scenario": "spam_bot",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8944,
+      "threshold": 0.72,
+      "action": "limit_traffic",
+      "model_version": "v2.1",
+      "hit_id": "HT-0026033"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 1597,
+      "share_of_this": 0.896,
+      "share_of_other": 1.0,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 481,
+      "share_of_this": 0.27,
+      "share_of_other": 0.643,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 80,
+      "share_of_this": 0.045,
+      "share_of_other": 0.066,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 36,
+      "share_of_this": 0.02,
+      "share_of_other": 0.013,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 29,
+      "share_of_this": 0.016,
+      "share_of_other": 0.032,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 24,
+      "share_of_this": 0.013,
+      "share_of_other": 0.06,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.008,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.007,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-125",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.007,
+      "share_of_other": 0.21,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.007,
+      "share_of_other": 0.01,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.67,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-122",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0025"
+   },
+   "result": {
+    "ref_id": "Q-0025",
+    "filters": {
+     "strategy_id": "S-122",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 802,
+     "distinct_sessions": 802,
+     "by_action": {
+      "manual_review": 802
+     },
+     "by_strategy": {
+      "S-122": 802
+     },
+     "by_market": {
+      "ID": 802
+     },
+     "by_model_version": {
+      "v3": 589,
+      "v4": 213
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0102969",
+      "strategy_id": "S-122",
+      "strategy_version": "v1",
+      "scenario": "scam_fraud",
+      "market": "ID",
+      "date": "2026-10-15",
+      "score": 0.9317,
+      "threshold": 0.75,
+      "action": "manual_review",
+      "model_version": "v4",
+      "hit_id": "HT-0026608"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 380,
+      "share_of_this": 0.474,
+      "share_of_other": 0.284,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 199,
+      "share_of_this": 0.248,
+      "share_of_other": 0.257,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 22,
+      "share_of_this": 0.027,
+      "share_of_other": 0.018,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.024,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-114",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.024,
+      "share_of_other": 0.211,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.016,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.015,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-126",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.015,
+      "share_of_other": 0.054,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 9,
+      "share_of_this": 0.011,
+      "share_of_other": 0.023,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 9,
+      "share_of_this": 0.011,
+      "share_of_other": 0.008,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.741,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-123",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0026"
+   },
+   "result": {
+    "ref_id": "Q-0026",
+    "filters": {
+     "strategy_id": "S-123",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 345,
+     "distinct_sessions": 345,
+     "by_action": {
+      "suspend_live": 345
+     },
+     "by_strategy": {
+      "S-123": 345
+     },
+     "by_market": {
+      "BR": 91,
+      "US": 84,
+      "GB": 81,
+      "ID": 78,
+      "VN": 7,
+      "KE": 4
+     },
+     "by_model_version": {
+      "v4": 345
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101175",
+      "strategy_id": "S-123",
+      "strategy_version": "v1",
+      "scenario": "hate_harassment",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.9403,
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "model_version": "v4",
+      "hit_id": "HT-0026086"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 345,
+      "share_of_this": 1.0,
+      "share_of_other": 0.282,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-112",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 69,
+      "share_of_this": 0.2,
+      "share_of_other": 0.3,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 15,
+      "share_of_this": 0.043,
+      "share_of_other": 0.012,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.035,
+      "share_of_other": 0.004,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.02,
+      "share_of_other": 0.018,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.017,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.014,
+      "share_of_other": 0.005,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.012,
+      "share_of_other": 0.002,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.006,
+      "share_of_other": 0.001,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.006,
+      "share_of_other": 0.002,
+      "same_action": true
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.799,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-124",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0027"
+   },
+   "result": {
+    "ref_id": "Q-0027",
+    "filters": {
+     "strategy_id": "S-124",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 330,
+     "distinct_sessions": 330,
+     "by_action": {
+      "manual_review": 330
+     },
+     "by_strategy": {
+      "S-124": 330
+     },
+     "by_market": {
+      "US": 95,
+      "ID": 92,
+      "BR": 85,
+      "GB": 50,
+      "VN": 8
+     },
+     "by_model_version": {
+      "v2": 330
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0100899",
+      "strategy_id": "S-124",
+      "strategy_version": "v1",
+      "scenario": "counterfeit",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.6942,
+      "threshold": 0.6,
+      "action": "manual_review",
+      "model_version": "v2",
+      "hit_id": "HT-0026019"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-109",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 127,
+      "share_of_this": 0.385,
+      "share_of_other": 0.26,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-116",
+      "scenario": "gambling",
+      "co_hit_sessions": 39,
+      "share_of_this": 0.118,
+      "share_of_other": 0.076,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 16,
+      "share_of_this": 0.048,
+      "share_of_other": 0.014,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 14,
+      "share_of_this": 0.042,
+      "share_of_other": 0.012,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.03,
+      "share_of_other": 0.021,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.018,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.015,
+      "share_of_other": 0.005,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.015,
+      "share_of_other": 0.013,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.012,
+      "share_of_other": 0.004,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.009,
+      "share_of_other": 0.002,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.826,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-125",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0028"
+   },
+   "result": {
+    "ref_id": "Q-0028",
+    "filters": {
+     "strategy_id": "S-125",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 62,
+     "distinct_sessions": 62,
+     "by_action": {
+      "observe": 62
+     },
+     "by_strategy": {
+      "S-125": 62
+     },
+     "by_market": {
+      "US": 16,
+      "BR": 16,
+      "ID": 15,
+      "GB": 12,
+      "VN": 3
+     },
+     "by_model_version": {
+      "v2.1": 33,
+      "v2": 29
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0103278",
+      "strategy_id": "S-125",
+      "strategy_version": "v1",
+      "scenario": "spam_bot",
+      "market": "ID",
+      "date": "2026-10-15",
+      "score": 0.8941,
+      "threshold": 0.6,
+      "action": "observe",
+      "model_version": "v2.1",
+      "hit_id": "HT-0026717"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.21,
+      "share_of_other": 0.008,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 13,
+      "share_of_this": 0.21,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.081,
+      "share_of_other": 0.007,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.032,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.032,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.016,
+      "share_of_other": 0.0,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-109",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.016,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-126",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 1,
+      "share_of_this": 0.016,
+      "share_of_other": 0.005,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.89,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-126",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0029"
+   },
+   "result": {
+    "ref_id": "Q-0029",
+    "filters": {
+     "strategy_id": "S-126",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 221,
+     "distinct_sessions": 221,
+     "by_action": {
+      "suspend_live": 221
+     },
+     "by_strategy": {
+      "S-126": 221
+     },
+     "by_market": {
+      "ID": 221
+     },
+     "by_model_version": {
+      "v3": 221
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0102964",
+      "strategy_id": "S-126",
+      "strategy_version": "v1",
+      "scenario": "minor_safety",
+      "market": "ID",
+      "date": "2026-10-15",
+      "score": 0.7495,
+      "threshold": 0.6,
+      "action": "suspend_live",
+      "model_version": "v3",
+      "hit_id": "HT-0026606"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 130,
+      "share_of_this": 0.588,
+      "share_of_other": 0.047,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 48,
+      "share_of_this": 0.217,
+      "share_of_other": 0.04,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 12,
+      "share_of_this": 0.054,
+      "share_of_other": 0.015,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.023,
+      "share_of_other": 0.004,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.018,
+      "share_of_other": 0.002,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.018,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-121",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.018,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-104",
+      "scenario": "spam_bot",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.014,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.014,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 3,
+      "share_of_this": 0.014,
+      "share_of_other": 0.003,
+      "same_action": true
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 1.958,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-128",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0030"
+   },
+   "result": {
+    "ref_id": "Q-0030",
+    "filters": {
+     "strategy_id": "S-128",
+     "market": "ALL",
+     "scenario": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 468,
+     "distinct_sessions": 468,
+     "by_action": {
+      "suspend_live": 468
+     },
+     "by_strategy": {
+      "S-128": 468
+     },
+     "by_market": {
+      "US": 161,
+      "ID": 135,
+      "BR": 93,
+      "GB": 71,
+      "VN": 6,
+      "KE": 2
+     },
+     "by_model_version": {
+      "v3": 468
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101180",
+      "strategy_id": "S-128",
+      "strategy_version": "v1",
+      "scenario": "gambling",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.7232,
+      "threshold": 0.7,
+      "action": "suspend_live",
+      "model_version": "v3",
+      "hit_id": "HT-0026087"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "co_hit_sessions": 270,
+      "share_of_this": 0.577,
+      "share_of_other": 0.236,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-116",
+      "scenario": "gambling",
+      "co_hit_sessions": 163,
+      "share_of_this": 0.348,
+      "share_of_other": 0.317,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 19,
+      "share_of_this": 0.041,
+      "share_of_other": 0.016,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 11,
+      "share_of_this": 0.024,
+      "share_of_other": 0.004,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.021,
+      "share_of_other": 0.013,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-124",
+      "scenario": "counterfeit",
+      "co_hit_sessions": 10,
+      "share_of_this": 0.021,
+      "share_of_other": 0.03,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 9,
+      "share_of_this": 0.019,
+      "share_of_other": 0.007,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.013,
+      "share_of_other": 0.006,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 6,
+      "share_of_this": 0.013,
+      "share_of_other": 0.015,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.011,
+      "share_of_other": 0.006,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 2.046,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "spam_bot",
+    "baseline_start": "2026-09-28",
+    "baseline_end": "2026-10-04",
+    "current_start": "2026-10-05",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0031"
+   },
+   "result": {
+    "ref_id": "Q-0031",
+    "model": "model_spam_bot",
+    "market": "ALL",
+    "baseline": {
+     "window": [
+      "2026-09-28",
+      "2026-10-04"
+     ],
+     "model_versions": [
+      "v2"
+     ],
+     "n": 26784,
+     "mean": 0.1873,
+     "p50": 0.1102,
+     "p90": 0.5341,
+     "p99": 0.8974
+    },
+    "current": {
+     "window": [
+      "2026-10-05",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v2.1"
+     ],
+     "n": 40216,
+     "mean": 0.1906,
+     "p50": 0.1121,
+     "p90": 0.5515,
+     "p99": 0.8954
+    },
+    "psi": 0.0008,
+    "drift_flag": false,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-104",
+      "threshold": 0.75,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0393,
+      "share_above_current": 0.0415,
+      "ratio": 1.06
+     },
+     {
+      "strategy_id": "S-117",
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0096,
+      "share_above_current": 0.0093,
+      "ratio": 0.97
+     },
+     {
+      "strategy_id": "S-121",
+      "threshold": 0.72,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0474,
+      "share_above_current": 0.0495,
+      "ratio": 1.04
+     },
+     {
+      "strategy_id": "S-125",
+      "threshold": 0.6,
+      "action": "observe",
+      "share_above_baseline": 0.0812,
+      "share_above_current": 0.085,
+      "ratio": 1.05
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 1162,
+      "mean": 0.6414,
+      "p50": 0.7575,
+      "p90": 0.9247,
+      "p99": 0.9801
+     },
+     "current": {
+      "n": 1800,
+      "mean": 0.6494,
+      "p50": 0.7693,
+      "p90": 0.9248,
+      "p99": 0.981
+     }
+    }
+   }
+  },
+  {
+   "t": 2.102,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "scam_fraud",
+    "baseline_start": "2026-10-06",
+    "baseline_end": "2026-10-12",
+    "current_start": "2026-10-13",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0032"
+   },
+   "result": {
+    "ref_id": "Q-0032",
+    "model": "model_scam_fraud",
+    "market": "ALL",
+    "baseline": {
+     "window": [
+      "2026-10-06",
+      "2026-10-12"
+     ],
+     "model_versions": [
+      "v3"
+     ],
+     "n": 25796,
+     "mean": 0.1802,
+     "p50": 0.1096,
+     "p90": 0.4952,
+     "p99": 0.8743
+    },
+    "current": {
+     "window": [
+      "2026-10-13",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v4"
+     ],
+     "n": 10715,
+     "mean": 0.3277,
+     "p50": 0.2575,
+     "p90": 0.64,
+     "p99": 0.995
+    },
+    "psi": 7.6485,
+    "drift_flag": true,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-102",
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0133,
+      "share_above_current": 0.0434,
+      "ratio": 3.26
+     },
+     {
+      "strategy_id": "S-110",
+      "threshold": 0.7,
+      "action": "manual_review",
+      "share_above_baseline": 0.0436,
+      "share_above_current": 0.082,
+      "ratio": 1.88
+     },
+     {
+      "strategy_id": "S-114",
+      "threshold": 0.6,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0716,
+      "share_above_current": 0.1123,
+      "ratio": 1.57
+     },
+     {
+      "strategy_id": "S-122",
+      "threshold": 0.75,
+      "action": "manual_review",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 854,
+      "mean": 0.568,
+      "p50": 0.7272,
+      "p90": 0.9226,
+      "p99": 0.9781
+     },
+     "current": {
+      "n": 371,
+      "mean": 0.7129,
+      "p50": 0.8737,
+      "p90": 0.995,
+      "p99": 0.995
+     }
+    }
+   }
+  },
+  {
+   "t": 2.11,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-102",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0033"
+   },
+   "result": {
+    "ref_id": "Q-0033",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-102",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.559,
+      "n": 127,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.122,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-102",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0034"
+   },
+   "result": {
+    "ref_id": "Q-0034",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-102",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.823,
+      "n": 662,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.128,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-110",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0035"
+   },
+   "result": {
+    "ref_id": "Q-0035",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-110",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.935,
+      "n": 107,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.141,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-110",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0036"
+   },
+   "result": {
+    "ref_id": "Q-0036",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-110",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.984,
+      "n": 561,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.149,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-114",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0037"
+   },
+   "result": {
+    "ref_id": "Q-0037",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-114",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 1.0,
+      "n": 10,
+      "low_sample": true
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.161,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-114",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0038"
+   },
+   "result": {
+    "ref_id": "Q-0038",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-114",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.962,
+      "n": 80,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.169,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-122",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0039"
+   },
+   "result": {
+    "ref_id": "Q-0039",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-122",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.367,
+      "n": 30,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.179,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-122",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0040"
+   },
+   "result": {
+    "ref_id": "Q-0040",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-122",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.583,
+      "n": 180,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.222,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "adult_content",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0041"
+   },
+   "result": {
+    "ref_id": "Q-0041",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "adult_content",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.76,
+      "hit_sessions": 210,
+      "precision_est": 0.823,
+      "hit_qa_n": 164,
+      "nonhit_qa_n": 556,
+      "missed_est": 54.7,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.7,
+      "hit_sessions": 117,
+      "precision_est": 0.692,
+      "hit_qa_n": 117,
+      "nonhit_qa_n": 439,
+      "missed_est": 34.6,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.621,
+      "hit_sessions": 210,
+      "precision_est": 0.797,
+      "hit_qa_n": 148,
+      "nonhit_qa_n": 525,
+      "missed_est": 102.1,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.69,
+      "hit_sessions": 5,
+      "precision_est": 0.889,
+      "hit_qa_n": 9,
+      "nonhit_qa_n": 86,
+      "missed_est": 2.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.603,
+      "hit_sessions": 240,
+      "precision_est": 0.816,
+      "hit_qa_n": 158,
+      "nonhit_qa_n": 560,
+      "missed_est": 128.8,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.926,
+      "hit_sessions": 14,
+      "precision_est": 0.9,
+      "hit_qa_n": 20,
+      "nonhit_qa_n": 325,
+      "missed_est": 1.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.269,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "adult_content",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0042"
+   },
+   "result": {
+    "ref_id": "Q-0042",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "adult_content",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.75,
+      "hit_sessions": 427,
+      "precision_est": 0.826,
+      "hit_qa_n": 305,
+      "nonhit_qa_n": 1125,
+      "missed_est": 117.6,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.777,
+      "hit_sessions": 178,
+      "precision_est": 0.675,
+      "hit_qa_n": 197,
+      "nonhit_qa_n": 909,
+      "missed_est": 34.6,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.684,
+      "hit_sessions": 464,
+      "precision_est": 0.787,
+      "hit_qa_n": 301,
+      "nonhit_qa_n": 1064,
+      "missed_est": 169.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.851,
+      "hit_sessions": 15,
+      "precision_est": 0.762,
+      "hit_qa_n": 21,
+      "nonhit_qa_n": 251,
+      "missed_est": 2.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.713,
+      "hit_sessions": 437,
+      "precision_est": 0.788,
+      "hit_qa_n": 302,
+      "nonhit_qa_n": 1126,
+      "missed_est": 138.9,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.728,
+      "hit_sessions": 28,
+      "precision_est": 0.794,
+      "hit_qa_n": 34,
+      "nonhit_qa_n": 661,
+      "missed_est": 8.3,
+      "low_sample": false
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.309,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "minor_safety",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0043"
+   },
+   "result": {
+    "ref_id": "Q-0043",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "minor_safety",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 1.0,
+      "hit_sessions": 283,
+      "precision_est": 0.486,
+      "hit_qa_n": 140,
+      "nonhit_qa_n": 556,
+      "missed_est": 0.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 1.0,
+      "hit_sessions": 165,
+      "precision_est": 0.368,
+      "hit_qa_n": 133,
+      "nonhit_qa_n": 439,
+      "missed_est": 0.0,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.993,
+      "hit_sessions": 345,
+      "precision_est": 0.389,
+      "hit_qa_n": 180,
+      "nonhit_qa_n": 525,
+      "missed_est": 1.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.333,
+      "hit_sessions": 4,
+      "precision_est": 0.25,
+      "hit_qa_n": 4,
+      "nonhit_qa_n": 86,
+      "missed_est": 2.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.986,
+      "hit_sessions": 328,
+      "precision_est": 0.429,
+      "hit_qa_n": 140,
+      "nonhit_qa_n": 560,
+      "missed_est": 2.0,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.811,
+      "hit_sessions": 18,
+      "precision_est": 0.476,
+      "hit_qa_n": 21,
+      "nonhit_qa_n": 325,
+      "missed_est": 2.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.345,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "minor_safety",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0044"
+   },
+   "result": {
+    "ref_id": "Q-0044",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "minor_safety",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.986,
+      "hit_sessions": 547,
+      "precision_est": 0.389,
+      "hit_qa_n": 280,
+      "nonhit_qa_n": 1125,
+      "missed_est": 3.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.918,
+      "hit_sessions": 292,
+      "precision_est": 0.362,
+      "hit_qa_n": 232,
+      "nonhit_qa_n": 909,
+      "missed_est": 9.5,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.986,
+      "hit_sessions": 632,
+      "precision_est": 0.446,
+      "hit_qa_n": 278,
+      "nonhit_qa_n": 1064,
+      "missed_est": 4.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.851,
+      "hit_sessions": 10,
+      "precision_est": 0.571,
+      "hit_qa_n": 14,
+      "nonhit_qa_n": 251,
+      "missed_est": 1.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.992,
+      "hit_sessions": 709,
+      "precision_est": 0.371,
+      "hit_qa_n": 280,
+      "nonhit_qa_n": 1126,
+      "missed_est": 2.0,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.892,
+      "hit_sessions": 26,
+      "precision_est": 0.345,
+      "hit_qa_n": 29,
+      "nonhit_qa_n": 661,
+      "missed_est": 1.1,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.377,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "scam_fraud",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0045"
+   },
+   "result": {
+    "ref_id": "Q-0045",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.813,
+      "hit_sessions": 196,
+      "precision_est": 0.811,
+      "hit_qa_n": 132,
+      "nonhit_qa_n": 556,
+      "missed_est": 36.6,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.765,
+      "hit_sessions": 124,
+      "precision_est": 0.806,
+      "hit_qa_n": 108,
+      "nonhit_qa_n": 439,
+      "missed_est": 30.6,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.939,
+      "hit_sessions": 348,
+      "precision_est": 0.708,
+      "hit_qa_n": 216,
+      "nonhit_qa_n": 525,
+      "missed_est": 16.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.643,
+      "hit_sessions": 3,
+      "precision_est": 0.6,
+      "hit_qa_n": 5,
+      "nonhit_qa_n": 86,
+      "missed_est": 1.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.777,
+      "hit_sessions": 230,
+      "precision_est": 0.83,
+      "hit_qa_n": 141,
+      "nonhit_qa_n": 560,
+      "missed_est": 54.9,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.907,
+      "hit_sessions": 13,
+      "precision_est": 0.75,
+      "hit_qa_n": 16,
+      "nonhit_qa_n": 325,
+      "missed_est": 1.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.406,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "scam_fraud",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0046"
+   },
+   "result": {
+    "ref_id": "Q-0046",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.575,
+      "hit_sessions": 240,
+      "precision_est": 0.897,
+      "hit_qa_n": 253,
+      "nonhit_qa_n": 1125,
+      "missed_est": 159.5,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.741,
+      "hit_sessions": 143,
+      "precision_est": 0.891,
+      "hit_qa_n": 175,
+      "nonhit_qa_n": 909,
+      "missed_est": 44.6,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.815,
+      "hit_sessions": 492,
+      "precision_est": 0.817,
+      "hit_qa_n": 416,
+      "nonhit_qa_n": 1064,
+      "missed_est": 91.2,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.533,
+      "hit_sessions": 4,
+      "precision_est": 0.857,
+      "hit_qa_n": 7,
+      "nonhit_qa_n": 251,
+      "missed_est": 3.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.593,
+      "hit_sessions": 252,
+      "precision_est": 0.916,
+      "hit_qa_n": 273,
+      "nonhit_qa_n": 1126,
+      "missed_est": 158.7,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.613,
+      "hit_sessions": 13,
+      "precision_est": 0.867,
+      "hit_qa_n": 15,
+      "nonhit_qa_n": 661,
+      "missed_est": 7.1,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.441,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "violence",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0047"
+   },
+   "result": {
+    "ref_id": "Q-0047",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.576,
+      "hit_sessions": 109,
+      "precision_est": 0.47,
+      "hit_qa_n": 100,
+      "nonhit_qa_n": 556,
+      "missed_est": 37.7,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.514,
+      "hit_sessions": 41,
+      "precision_est": 0.64,
+      "hit_qa_n": 50,
+      "nonhit_qa_n": 439,
+      "missed_est": 24.8,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.872,
+      "hit_sessions": 126,
+      "precision_est": 0.486,
+      "hit_qa_n": 107,
+      "nonhit_qa_n": 525,
+      "missed_est": 9.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": null,
+      "hit_sessions": 1,
+      "precision_est": 0.0,
+      "hit_qa_n": 1,
+      "nonhit_qa_n": 86,
+      "missed_est": 0.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.545,
+      "hit_sessions": 114,
+      "precision_est": 0.447,
+      "hit_qa_n": 103,
+      "nonhit_qa_n": 560,
+      "missed_est": 42.5,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.5,
+      "hit_sessions": 6,
+      "precision_est": 0.167,
+      "hit_qa_n": 6,
+      "nonhit_qa_n": 325,
+      "missed_est": 1.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.482,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "violence",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0048"
+   },
+   "result": {
+    "ref_id": "Q-0048",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.815,
+      "hit_sessions": 200,
+      "precision_est": 0.549,
+      "hit_qa_n": 193,
+      "nonhit_qa_n": 1125,
+      "missed_est": 25.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.742,
+      "hit_sessions": 117,
+      "precision_est": 0.406,
+      "hit_qa_n": 133,
+      "nonhit_qa_n": 909,
+      "missed_est": 16.6,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.657,
+      "hit_sessions": 210,
+      "precision_est": 0.484,
+      "hit_qa_n": 192,
+      "nonhit_qa_n": 1064,
+      "missed_est": 53.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.804,
+      "hit_sessions": 9,
+      "precision_est": 0.455,
+      "hit_qa_n": 11,
+      "nonhit_qa_n": 251,
+      "missed_est": 1.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.482,
+      "hit_sessions": 260,
+      "precision_est": 0.473,
+      "hit_qa_n": 220,
+      "nonhit_qa_n": 1126,
+      "missed_est": 132.3,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.525,
+      "hit_sessions": 14,
+      "precision_est": 0.5,
+      "hit_qa_n": 16,
+      "nonhit_qa_n": 661,
+      "missed_est": 6.3,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.489,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0049"
+   },
+   "result": {
+    "ref_id": "Q-0049",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 127,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.497,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "market": "BR",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0050"
+   },
+   "result": {
+    "ref_id": "Q-0050",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 235,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.504,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "GB",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0051"
+   },
+   "result": {
+    "ref_id": "Q-0051",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "GB"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 50,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.51,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "market": "GB",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0052"
+   },
+   "result": {
+    "ref_id": "Q-0052",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "GB"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 134,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.558,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "spam_bot",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0053"
+   },
+   "result": {
+    "ref_id": "Q-0053",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "spam_bot",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.735,
+      "hit_sessions": 182,
+      "precision_est": 0.959,
+      "hit_qa_n": 195,
+      "nonhit_qa_n": 556,
+      "missed_est": 63.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.684,
+      "hit_sessions": 124,
+      "precision_est": 0.938,
+      "hit_qa_n": 193,
+      "nonhit_qa_n": 439,
+      "missed_est": 53.8,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.696,
+      "hit_sessions": 180,
+      "precision_est": 0.967,
+      "hit_qa_n": 209,
+      "nonhit_qa_n": 525,
+      "missed_est": 76.1,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.706,
+      "hit_sessions": 3,
+      "precision_est": 0.8,
+      "hit_qa_n": 5,
+      "nonhit_qa_n": 86,
+      "missed_est": 1.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.605,
+      "hit_sessions": 204,
+      "precision_est": 0.956,
+      "hit_qa_n": 204,
+      "nonhit_qa_n": 560,
+      "missed_est": 127.3,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.678,
+      "hit_sessions": 15,
+      "precision_est": 0.844,
+      "hit_qa_n": 32,
+      "nonhit_qa_n": 325,
+      "missed_est": 6.0,
+      "low_sample": false
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.589,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "spam_bot",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0054"
+   },
+   "result": {
+    "ref_id": "Q-0054",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "spam_bot",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.606,
+      "hit_sessions": 353,
+      "precision_est": 0.927,
+      "hit_qa_n": 398,
+      "nonhit_qa_n": 1125,
+      "missed_est": 212.5,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.678,
+      "hit_sessions": 176,
+      "precision_est": 0.896,
+      "hit_qa_n": 309,
+      "nonhit_qa_n": 909,
+      "missed_est": 74.9,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.737,
+      "hit_sessions": 369,
+      "precision_est": 0.928,
+      "hit_qa_n": 403,
+      "nonhit_qa_n": 1064,
+      "missed_est": 122.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.588,
+      "hit_sessions": 10,
+      "precision_est": 1.0,
+      "hit_qa_n": 22,
+      "nonhit_qa_n": 251,
+      "missed_est": 7.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.577,
+      "hit_sessions": 442,
+      "precision_est": 0.911,
+      "hit_qa_n": 428,
+      "nonhit_qa_n": 1126,
+      "missed_est": 295.2,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.704,
+      "hit_sessions": 38,
+      "precision_est": 0.944,
+      "hit_qa_n": 72,
+      "nonhit_qa_n": 661,
+      "missed_est": 15.1,
+      "low_sample": false
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.616,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "gambling",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0055"
+   },
+   "result": {
+    "ref_id": "Q-0055",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.204,
+      "hit_sessions": 84,
+      "precision_est": 0.404,
+      "hit_qa_n": 89,
+      "nonhit_qa_n": 556,
+      "missed_est": 132.4,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.687,
+      "hit_sessions": 72,
+      "precision_est": 0.777,
+      "hit_qa_n": 103,
+      "nonhit_qa_n": 439,
+      "missed_est": 25.5,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.876,
+      "hit_sessions": 136,
+      "precision_est": 0.673,
+      "hit_qa_n": 156,
+      "nonhit_qa_n": 525,
+      "missed_est": 13.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 1.0,
+      "hit_sessions": 3,
+      "precision_est": 0.75,
+      "hit_qa_n": 4,
+      "nonhit_qa_n": 86,
+      "missed_est": 0.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.739,
+      "hit_sessions": 148,
+      "precision_est": 0.671,
+      "hit_qa_n": 149,
+      "nonhit_qa_n": 560,
+      "missed_est": 35.1,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.615,
+      "hit_sessions": 8,
+      "precision_est": 0.615,
+      "hit_qa_n": 13,
+      "nonhit_qa_n": 325,
+      "missed_est": 3.1,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.648,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "gambling",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0056"
+   },
+   "result": {
+    "ref_id": "Q-0056",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.857,
+      "hit_sessions": 263,
+      "precision_est": 0.754,
+      "hit_qa_n": 297,
+      "nonhit_qa_n": 1125,
+      "missed_est": 33.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.887,
+      "hit_sessions": 141,
+      "precision_est": 0.727,
+      "hit_qa_n": 205,
+      "nonhit_qa_n": 909,
+      "missed_est": 13.0,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.828,
+      "hit_sessions": 299,
+      "precision_est": 0.713,
+      "hit_qa_n": 321,
+      "nonhit_qa_n": 1064,
+      "missed_est": 44.2,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 1.0,
+      "hit_sessions": 4,
+      "precision_est": 0.6,
+      "hit_qa_n": 5,
+      "nonhit_qa_n": 251,
+      "missed_est": 0.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.834,
+      "hit_sessions": 352,
+      "precision_est": 0.77,
+      "hit_qa_n": 365,
+      "nonhit_qa_n": 1126,
+      "missed_est": 53.9,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.717,
+      "hit_sessions": 14,
+      "precision_est": 0.778,
+      "hit_qa_n": 18,
+      "nonhit_qa_n": 661,
+      "missed_est": 4.3,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.653,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0057"
+   },
+   "result": {
+    "ref_id": "Q-0057",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 98,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.658,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0058"
+   },
+   "result": {
+    "ref_id": "Q-0058",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 369,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.662,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "reports",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0059"
+   },
+   "result": {
+    "ref_id": "Q-0059",
+    "metric": "reports",
+    "metric_zh": "用户举报数",
+    "metric_version": "v1",
+    "definition": "用户举报数，按举报原因归到场景。与策略是否命中无关，可作为召回侧的独立信号。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 303,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.667,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "reports",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0060"
+   },
+   "result": {
+    "ref_id": "Q-0060",
+    "metric": "reports",
+    "metric_zh": "用户举报数",
+    "metric_version": "v1",
+    "definition": "用户举报数，按举报原因归到场景。与策略是否命中无关，可作为召回侧的独立信号。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 564,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.696,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "hate_harassment",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0061"
+   },
+   "result": {
+    "ref_id": "Q-0061",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "hate_harassment",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.809,
+      "hit_sessions": 112,
+      "precision_est": 0.606,
+      "hit_qa_n": 109,
+      "nonhit_qa_n": 556,
+      "missed_est": 16.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.973,
+      "hit_sessions": 154,
+      "precision_est": 0.699,
+      "hit_qa_n": 156,
+      "nonhit_qa_n": 439,
+      "missed_est": 3.0,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.771,
+      "hit_sessions": 96,
+      "precision_est": 0.63,
+      "hit_qa_n": 92,
+      "nonhit_qa_n": 525,
+      "missed_est": 18.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 1.0,
+      "hit_sessions": 5,
+      "precision_est": 0.833,
+      "hit_qa_n": 6,
+      "nonhit_qa_n": 86,
+      "missed_est": 0.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.589,
+      "hit_sessions": 119,
+      "precision_est": 0.545,
+      "hit_qa_n": 101,
+      "nonhit_qa_n": 560,
+      "missed_est": 45.1,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.66,
+      "hit_sessions": 8,
+      "precision_est": 0.727,
+      "hit_qa_n": 11,
+      "nonhit_qa_n": 325,
+      "missed_est": 3.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.731,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "hate_harassment",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0062"
+   },
+   "result": {
+    "ref_id": "Q-0062",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "hate_harassment",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.726,
+      "hit_sessions": 192,
+      "precision_est": 0.636,
+      "hit_qa_n": 184,
+      "nonhit_qa_n": 1125,
+      "missed_est": 46.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.685,
+      "hit_sessions": 171,
+      "precision_est": 0.799,
+      "hit_qa_n": 293,
+      "nonhit_qa_n": 909,
+      "missed_est": 62.7,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.673,
+      "hit_sessions": 198,
+      "precision_est": 0.623,
+      "hit_qa_n": 191,
+      "nonhit_qa_n": 1064,
+      "missed_est": 59.8,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.737,
+      "hit_sessions": 7,
+      "precision_est": 0.8,
+      "hit_qa_n": 10,
+      "nonhit_qa_n": 251,
+      "missed_est": 2.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.543,
+      "hit_sessions": 214,
+      "precision_est": 0.592,
+      "hit_qa_n": 191,
+      "nonhit_qa_n": 1126,
+      "missed_est": 106.4,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.771,
+      "hit_sessions": 12,
+      "precision_est": 0.562,
+      "hit_qa_n": 16,
+      "nonhit_qa_n": 661,
+      "missed_est": 2.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.759,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "scenario": "counterfeit",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0063"
+   },
+   "result": {
+    "ref_id": "Q-0063",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "counterfeit",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.808,
+      "hit_sessions": 68,
+      "precision_est": 0.679,
+      "hit_qa_n": 78,
+      "nonhit_qa_n": 556,
+      "missed_est": 11.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.858,
+      "hit_sessions": 25,
+      "precision_est": 0.724,
+      "hit_qa_n": 29,
+      "nonhit_qa_n": 439,
+      "missed_est": 3.0,
+      "low_sample": true
+     },
+     {
+      "market": "ID",
+      "value": 0.786,
+      "hit_sessions": 61,
+      "precision_est": 0.722,
+      "hit_qa_n": 72,
+      "nonhit_qa_n": 525,
+      "missed_est": 12.0,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.5,
+      "hit_sessions": 1,
+      "precision_est": 1.0,
+      "hit_qa_n": 1,
+      "nonhit_qa_n": 86,
+      "missed_est": 1.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.712,
+      "hit_sessions": 57,
+      "precision_est": 0.652,
+      "hit_qa_n": 69,
+      "nonhit_qa_n": 560,
+      "missed_est": 15.0,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 1.0,
+      "hit_sessions": 8,
+      "precision_est": 0.778,
+      "hit_qa_n": 9,
+      "nonhit_qa_n": 325,
+      "missed_est": 0.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.789,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "scenario": "counterfeit",
+    "group_by": [
+     "market"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0064"
+   },
+   "result": {
+    "ref_id": "Q-0064",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": "ALL",
+     "scenario": "counterfeit",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [
+     "market"
+    ],
+    "rows": [
+     {
+      "market": "BR",
+      "value": 0.728,
+      "hit_sessions": 129,
+      "precision_est": 0.664,
+      "hit_qa_n": 149,
+      "nonhit_qa_n": 1125,
+      "missed_est": 32.0,
+      "low_sample": false
+     },
+     {
+      "market": "GB",
+      "value": 0.817,
+      "hit_sessions": 69,
+      "precision_est": 0.712,
+      "hit_qa_n": 80,
+      "nonhit_qa_n": 909,
+      "missed_est": 11.0,
+      "low_sample": false
+     },
+     {
+      "market": "ID",
+      "value": 0.663,
+      "hit_sessions": 128,
+      "precision_est": 0.691,
+      "hit_qa_n": 149,
+      "nonhit_qa_n": 1064,
+      "missed_est": 45.1,
+      "low_sample": false
+     },
+     {
+      "market": "KE",
+      "value": 0.333,
+      "hit_sessions": 2,
+      "precision_est": 0.5,
+      "hit_qa_n": 2,
+      "nonhit_qa_n": 251,
+      "missed_est": 2.0,
+      "low_sample": true
+     },
+     {
+      "market": "US",
+      "value": 0.685,
+      "hit_sessions": 135,
+      "precision_est": 0.732,
+      "hit_qa_n": 157,
+      "nonhit_qa_n": 1126,
+      "missed_est": 45.4,
+      "low_sample": false
+     },
+     {
+      "market": "VN",
+      "value": 0.49,
+      "hit_sessions": 8,
+      "precision_est": 0.6,
+      "hit_qa_n": 10,
+      "nonhit_qa_n": 661,
+      "missed_est": 5.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 6,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.791,
+   "kind": "guardrails",
+   "needs_escalation": false,
+   "reasons": [],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "health_check",
+  "query": "策略健康巡检",
+  "as_of": "2026-10-15",
+  "scope": {
+   "strategies_checked": 27
+  },
+  "findings": [
+   {
+    "finding_type": "strategy_overlap",
+    "strategy_ids": [
+     "S-104",
+     "S-121"
+    ],
+    "severity": "high",
+    "market": "ALL",
+    "evidence": [
+     "Q-0010"
+    ],
+    "explanation": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置",
+    "suggested_action": "两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线",
+    "needs_human": true
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-102"
+    ],
+    "severity": "high",
+    "market": "ALL",
+    "evidence": [
+     "Q-0032",
+     "C-006",
+     "Q-0033"
+    ],
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.823→0.559",
+    "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
+    "needs_human": true
+   },
+   {
+    "finding_type": "recall_decline",
+    "strategy_ids": [
+     "S-115",
+     "S-128"
+    ],
+    "severity": "high",
+    "market": "BR",
+    "evidence": [
+     "Q-0055",
+     "Q-0056",
+     "Q-0057",
+     "Q-0059"
+    ],
+    "explanation": "BR gambling recall_est 0.857→0.204，命中日均 26→14，举报日均 40→43 未降，疑似绕过",
+    "suggested_action": "bad case 送模型团队；评估临时补充条件",
+    "needs_human": true
+   },
+   {
+    "finding_type": "zombie_strategy",
+    "strategy_ids": [
+     "S-108"
+    ],
+    "severity": "medium",
+    "market": "ALL",
+    "evidence": [
+     "Q-0004",
+     "C-007"
+    ],
+    "explanation": "S-108 近 28 天 0 命中；依赖已下线特征 legacy_brand_list_match（C-007）",
+    "suggested_action": "迁移特征或下线策略",
+    "needs_human": true
+   },
+   {
+    "finding_type": "zombie_strategy",
+    "strategy_ids": [
+     "S-119"
+    ],
+    "severity": "medium",
+    "market": "ALL",
+    "evidence": [
+     "Q-0004"
+    ],
+    "explanation": "S-119 近 28 天 0 命中；条件过窄",
+    "suggested_action": "评估是否下线或放宽条件",
+    "needs_human": true
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-122"
+    ],
+    "severity": "medium",
+    "market": "ALL",
+    "evidence": [
+     "Q-0032",
+     "C-006",
+     "Q-0039"
+    ],
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.583→0.367",
+    "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
+    "needs_human": true
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-110"
+    ],
+    "severity": "low",
+    "market": "ALL",
+    "evidence": [
+     "Q-0032",
+     "C-006",
+     "Q-0035"
+    ],
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.984→0.935",
+    "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+    "needs_human": false
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-114"
+    ],
+    "severity": "low",
+    "market": "ALL",
+    "evidence": [
+     "Q-0032",
+     "C-006",
+     "Q-0037"
+    ],
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.962→1.0",
+    "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+    "needs_human": false
+   },
+   {
+    "finding_type": "expected_change",
+    "strategy_ids": [
+     "S-112"
+    ],
+    "severity": "info",
+    "market": "GB",
+    "evidence": [
+     "C-004"
+    ],
+    "explanation": "C-004 2026-10-11 S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升（预期内，看板应标注）",
+    "suggested_action": "观察变更后精确率",
+    "needs_human": false
+   },
+   {
+    "finding_type": "expected_change",
+    "strategy_ids": [
+     "S-126"
+    ],
+    "severity": "info",
+    "market": "ID",
+    "evidence": [
+     "C-005"
+    ],
+    "explanation": "C-005 2026-10-12 S-126 上线：ID 未成年人中分直接下播（专项）（预期内，看板应标注）",
+    "suggested_action": "观察变更后精确率",
+    "needs_human": false
+   }
+  ],
+  "conclusion": "巡检 27 条线上策略，6 条待处理，2 条预期内变更",
+  "confidence": "high",
+  "evidence": [
+   {
+    "ref_id": "Q-0010",
+    "type": "strategy_overlap",
+    "what": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置"
+   },
+   {
+    "ref_id": "Q-0032",
+    "type": "drift_threshold",
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.823→0.559"
+   },
+   {
+    "ref_id": "Q-0055",
+    "type": "recall_decline",
+    "what": "BR gambling recall_est 0.857→0.204，命中日均 26→14，举报日均 40→43 未降，疑似绕过"
+   },
+   {
+    "ref_id": "Q-0004",
+    "type": "zombie_strategy",
+    "what": "S-108 近 28 天 0 命中；依赖已下线特征 legacy_brand_list_match（C-007）"
+   },
+   {
+    "ref_id": "Q-0004",
+    "type": "zombie_strategy",
+    "what": "S-119 近 28 天 0 命中；条件过窄"
+   },
+   {
+    "ref_id": "Q-0032",
+    "type": "drift_threshold",
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.583→0.367"
+   },
+   {
+    "ref_id": "Q-0032",
+    "type": "drift_threshold",
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.984→0.935"
+   },
+   {
+    "ref_id": "Q-0032",
+    "type": "drift_threshold",
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.962→1.0"
+   },
+   {
+    "ref_id": "C-004",
+    "type": "expected_change",
+    "what": "C-004 2026-10-11 S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升（预期内，看板应标注）"
+   },
+   {
+    "ref_id": "C-005",
+    "type": "expected_change",
+    "what": "C-005 2026-10-12 S-126 上线：ID 未成年人中分直接下播（专项）（预期内，看板应标注）"
+   }
+  ],
+  "next_steps": [
+   "两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线",
+   "策略 owner 评估阈值重校（run_backtest 回放）",
+   "bad case 送模型团队；评估临时补充条件"
+  ],
+  "needs_escalation": false,
+  "escalation_reasons": [],
+  "platform_links": [
+   "platform://strategy/S-104",
+   "platform://strategy/S-121",
+   "platform://strategy/S-102",
+   "platform://strategy/S-115",
+   "platform://strategy/S-128",
+   "platform://strategy/S-108",
+   "platform://strategy/S-119",
+   "platform://strategy/S-122",
+   "platform://strategy/S-110",
+   "platform://strategy/S-114"
+  ],
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+# generated data: run `python data/generate.py` (seeded, reproducible); small JSON config files are kept
+data/out/*.csv
+drafts/*.json
+.streamlit/

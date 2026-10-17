@@ -1,0 +1,2177 @@
+{
+ "run_id": "20261017-073551-b0d2df",
+ "engine": "rules",
+ "playbook": "attribution",
+ "query": "US 昨天误杀率涨了",
+ "latency_s": 0.335,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 14,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "US",
+    "scenario": null,
+    "metric": null,
+    "metric_candidates": [
+     "overturn_rate",
+     "overturn_per_enforcement",
+     "precision_est"
+    ],
+    "date": "2026-10-15",
+    "direction": "up",
+    "session_id": null,
+    "strategy_id": null,
+    "window_days": 1,
+    "raw": "US 昨天误杀率涨了"
+   }
+  },
+  {
+   "t": 0.016,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 1164,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 1106,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 1363,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1400,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 1050,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 1058,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 1131,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 1197,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.022,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturn_rate",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "overturn_rate",
+    "metric_zh": "申诉推翻率",
+    "metric_version": "v2",
+    "definition": "overturns / appeals（分母是申诉数）。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 0.7759,
+      "numerator": 45,
+      "denominator": 58,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 0.7,
+      "numerator": 28,
+      "denominator": 40,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 0.6393,
+      "numerator": 39,
+      "denominator": 61,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 0.7313,
+      "numerator": 49,
+      "denominator": 67,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 0.7119,
+      "numerator": 42,
+      "denominator": 59,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 0.8409,
+      "numerator": 74,
+      "denominator": 88,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 0.7407,
+      "numerator": 40,
+      "denominator": 54,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 0.7143,
+      "numerator": 45,
+      "denominator": 63,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.026,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 45,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 28,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 39,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 49,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 42,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 74,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 40,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 45,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.03,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-25",
+      "value": 39,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "value": 46,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "value": 51,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 44,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 42,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 45,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 33,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 50,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 44,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "value": 39,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "value": 35,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "value": 40,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "value": 45,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 28,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 39,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 49,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 42,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 74,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 40,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 45,
+      "low_sample": false
+     }
+    ],
+    "row_count": 21,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.035,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "group_by": [
+     "scenario"
+    ]
+   },
+   "result_summary": {
+    "ref_id": "Q-0005"
+   },
+   "result": {
+    "ref_id": "Q-0005",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date",
+     "scenario"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "scenario": "adult_content",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "counterfeit",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "gambling",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "hate_harassment",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "minor_safety",
+      "value": 22,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "scam_fraud",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "spam_bot",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "violence",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "adult_content",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "counterfeit",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "gambling",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "hate_harassment",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "minor_safety",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "scam_fraud",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "spam_bot",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "violence",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "adult_content",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "counterfeit",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "gambling",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "hate_harassment",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "minor_safety",
+      "value": 16,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "scam_fraud",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "spam_bot",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "violence",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "adult_content",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "counterfeit",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "gambling",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "hate_harassment",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "minor_safety",
+      "value": 25,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "scam_fraud",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "spam_bot",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "violence",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "adult_content",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "counterfeit",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "gambling",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "hate_harassment",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "minor_safety",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "scam_fraud",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "spam_bot",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "violence",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "adult_content",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "counterfeit",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "gambling",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "hate_harassment",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "minor_safety",
+      "value": 29,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "scam_fraud",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "spam_bot",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "scenario": "violence",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "adult_content",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "counterfeit",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "gambling",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "hate_harassment",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "minor_safety",
+      "value": 12,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "scam_fraud",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "spam_bot",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "scenario": "violence",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "adult_content",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "counterfeit",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "gambling",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "hate_harassment",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "minor_safety",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "scam_fraud",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "spam_bot",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "scenario": "violence",
+      "value": 5,
+      "low_sample": false
+     }
+    ],
+    "row_count": 64,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "US",
+    "scenario": "scam_fraud",
+    "metric": null,
+    "metric_candidates": [
+     "overturn_rate",
+     "overturn_per_enforcement",
+     "precision_est"
+    ],
+    "date": "2026-10-15",
+    "direction": "up",
+    "session_id": null,
+    "strategy_id": null,
+    "window_days": 1,
+    "raw": "US 昨天误杀率涨了"
+   }
+  },
+  {
+   "t": 0.003,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US"
+   },
+   "result_summary": {
+    "ref_id": "Q-0006"
+   },
+   "result": {
+    "ref_id": "Q-0006",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 1164,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 1106,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 1363,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1400,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 1050,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 1058,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 1131,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 1197,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.009,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturn_rate",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": "scam_fraud"
+   },
+   "result_summary": {
+    "ref_id": "Q-0007"
+   },
+   "result": {
+    "ref_id": "Q-0007",
+    "metric": "overturn_rate",
+    "metric_zh": "申诉推翻率",
+    "metric_version": "v2",
+    "definition": "overturns / appeals（分母是申诉数）。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 0.6667,
+      "numerator": 2,
+      "denominator": 3,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-09",
+      "value": 0.6667,
+      "numerator": 2,
+      "denominator": 3,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-10",
+      "value": 0.2,
+      "numerator": 1,
+      "denominator": 5,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1.0,
+      "numerator": 2,
+      "denominator": 2,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-12",
+      "value": 0.4,
+      "numerator": 2,
+      "denominator": 5,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-13",
+      "value": 0.8182,
+      "numerator": 18,
+      "denominator": 22,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 0.7647,
+      "numerator": 13,
+      "denominator": 17,
+      "low_sample": true
+     },
+     {
+      "date": "2026-10-15",
+      "value": 0.8125,
+      "numerator": 13,
+      "denominator": 16,
+      "low_sample": true
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.016,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": "scam_fraud"
+   },
+   "result_summary": {
+    "ref_id": "Q-0008"
+   },
+   "result": {
+    "ref_id": "Q-0008",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 13,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.024,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": "scam_fraud",
+    "group_by": [
+     "strategy_id"
+    ]
+   },
+   "result_summary": {
+    "ref_id": "Q-0009"
+   },
+   "result": {
+    "ref_id": "Q-0009",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date",
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-102",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-102",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-102",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-102",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-102",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-102",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-102",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-102",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-114",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     }
+    ],
+    "row_count": 32,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "scenario": "scam_fraud",
+    "market": "US"
+   },
+   "result_summary": {
+    "ref_id": "Q-0010"
+   },
+   "result": {
+    "ref_id": "Q-0010",
+    "count": 1,
+    "changes": [
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.19,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "scam_fraud",
+    "market": null,
+    "baseline_start": "2026-10-06",
+    "baseline_end": "2026-10-12",
+    "current_start": "2026-10-13",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0011"
+   },
+   "result": {
+    "ref_id": "Q-0011",
+    "model": "model_scam_fraud",
+    "market": "ALL",
+    "baseline": {
+     "window": [
+      "2026-10-06",
+      "2026-10-12"
+     ],
+     "model_versions": [
+      "v3"
+     ],
+     "n": 25796,
+     "mean": 0.1802,
+     "p50": 0.1096,
+     "p90": 0.4952,
+     "p99": 0.8743
+    },
+    "current": {
+     "window": [
+      "2026-10-13",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v4"
+     ],
+     "n": 10715,
+     "mean": 0.3277,
+     "p50": 0.2575,
+     "p90": 0.64,
+     "p99": 0.995
+    },
+    "psi": 7.6485,
+    "drift_flag": true,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-102",
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0133,
+      "share_above_current": 0.0434,
+      "ratio": 3.26
+     },
+     {
+      "strategy_id": "S-110",
+      "threshold": 0.7,
+      "action": "manual_review",
+      "share_above_baseline": 0.0436,
+      "share_above_current": 0.082,
+      "ratio": 1.88
+     },
+     {
+      "strategy_id": "S-114",
+      "threshold": 0.6,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0716,
+      "share_above_current": 0.1123,
+      "ratio": 1.57
+     },
+     {
+      "strategy_id": "S-122",
+      "threshold": 0.75,
+      "action": "manual_review",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 854,
+      "mean": 0.568,
+      "p50": 0.7272,
+      "p90": 0.9226,
+      "p99": 0.9781
+     },
+     "current": {
+      "n": 371,
+      "mean": 0.7129,
+      "p50": 0.8737,
+      "p90": 0.995,
+      "p99": 0.995
+     }
+    }
+   }
+  },
+  {
+   "t": 0.294,
+   "kind": "tool_call",
+   "tool": "sample_cases",
+   "args": {
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-102",
+    "market": "US",
+    "n": 15,
+    "overturned": true
+   },
+   "result_summary": {
+    "ref_id": "Q-0012"
+   },
+   "result": {
+    "ref_id": "Q-0012",
+    "population": 45,
+    "n": 15,
+    "contains_head_host": false,
+    "score_summary": {
+     "mean": 0.921,
+     "p50": 0.925,
+     "min": 0.851
+    },
+    "cases": [
+     {
+      "session_id": "LS-0097402",
+      "hit_id": "HT-0024952",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9015,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004906",
+       "result": "overturned"
+      },
+      "qa_label": "none",
+      "features": {
+       "account_age_days": 1043,
+       "viewers_peak": 57,
+       "gift_amount": 86,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097316",
+      "hit_id": "HT-0024933",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8507,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004903",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 120,
+       "viewers_peak": 27,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094676",
+      "hit_id": "HT-0024059",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.876,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004730",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 66,
+       "viewers_peak": 83,
+       "gift_amount": 119,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097537",
+      "hit_id": "HT-0024981",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8889,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004911",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 167,
+       "viewers_peak": 183,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0093832",
+      "hit_id": "HT-0023817",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9676,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004662",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 2015,
+       "viewers_peak": 302,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094447",
+      "hit_id": "HT-0023993",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9602,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004708",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 9,
+       "viewers_peak": 82,
+       "gift_amount": 26,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094711",
+      "hit_id": "HT-0024065",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9813,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004733",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 271,
+       "viewers_peak": 114,
+       "gift_amount": 29,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094813",
+      "hit_id": "HT-0024093",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9284,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004741",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 76,
+       "viewers_peak": 8,
+       "gift_amount": 18,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097781",
+      "hit_id": "HT-0025040",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9853,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004922",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 150,
+       "viewers_peak": 34,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0101695",
+      "hit_id": "HT-0026212",
+      "date": "2026-10-15",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.858,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005181",
+       "result": "overturned"
+      },
+      "qa_label": "none",
+      "features": {
+       "account_age_days": 198,
+       "viewers_peak": 22,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097992",
+      "hit_id": "HT-0025115",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.967,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004936",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 66,
+       "viewers_peak": 17,
+       "gift_amount": 19,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0101340",
+      "hit_id": "HT-0026130",
+      "date": "2026-10-15",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9082,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005168",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 47,
+       "viewers_peak": 13,
+       "gift_amount": 105,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0098095",
+      "hit_id": "HT-0025142",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8557,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004945",
+       "result": "overturned"
+      },
+      "qa_label": "none",
+      "features": {
+       "account_age_days": 453,
+       "viewers_peak": 62,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097570",
+      "hit_id": "HT-0024991",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8552,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004913",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 69,
+       "viewers_peak": 38,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094385",
+      "hit_id": "HT-0023979",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.945,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004704",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 809,
+       "viewers_peak": 56,
+       "gift_amount": 25,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.327,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-102",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0013"
+   },
+   "result": {
+    "ref_id": "Q-0013",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-102",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.559,
+      "n": 127,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.333,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-102",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0014"
+   },
+   "result": {
+    "ref_id": "Q-0014",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-102",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.775,
+      "n": 191,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.335,
+   "kind": "guardrails",
+   "needs_escalation": false,
+   "reasons": [],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "US 昨天误杀率涨了",
+  "scope": {
+   "market": "US",
+   "scenario": "scam_fraud",
+   "metric": "overturn_rate",
+   "date": "2026-10-15",
+   "window_days": 1,
+   "baseline_window": [
+    "2026-10-08",
+    "2026-10-14"
+   ],
+   "direction": "up",
+   "note": "市场整体在正常波动内；异常集中在单一场景",
+   "low_sample": false,
+   "observed": {
+    "current": 13,
+    "baseline_median": 2.0,
+    "sessions_current": 1197,
+    "sessions_baseline_median": 1131.0
+   },
+   "decomposition": {
+    "count_ratio": 6.5,
+    "traffic_ratio": 1.06,
+    "rate_ratio": 6.14,
+    "traffic_share_of_change": 0.03
+   }
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0002",
+    "type": "metric",
+    "metric": "overturn_rate",
+    "what": "2026-10-15 overturn_rate=0.7143（分母 63），前 7 天中位数 0.731"
+   },
+   {
+    "ref_id": "Q-0003",
+    "type": "metric",
+    "metric": "overturns",
+    "what": "2026-10-15 overturns=45，前 7 天中位数 42.0"
+   },
+   {
+    "ref_id": "Q-0005",
+    "type": "drilldown",
+    "metric": "overturns",
+    "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→13（增量份额 38%）"
+   },
+   {
+    "ref_id": "Q-0007",
+    "type": "metric",
+    "metric": "overturn_rate",
+    "what": "2026-10-15 overturn_rate=0.8125（分母 16），前 7 天中位数 0.667"
+   },
+   {
+    "ref_id": "Q-0008",
+    "type": "metric",
+    "metric": "overturns",
+    "what": "2026-10-15 overturns=13，前 7 天中位数 2.0"
+   },
+   {
+    "ref_id": "Q-0006",
+    "type": "metric",
+    "metric": "sessions",
+    "what": "2026-10-15 sessions=1197，前 7 天中位数 1131"
+   },
+   {
+    "ref_id": "Q-0009",
+    "type": "drilldown",
+    "metric": "overturns",
+    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-102', 11.0, 1.0, 13, 2.0), ('S-110', 0.0, 0.0, 0, 0.0), ('S-114', 0.0, 0.0, 0, 0.0)]"
+   },
+   {
+    "ref_id": "Q-0010",
+    "type": "change_log",
+    "what": "C-006 2026-10-13 model_update model_scam_fraud"
+   },
+   {
+    "ref_id": "Q-0011",
+    "type": "score_drift",
+    "what": "model_scam_fraud ['v3']→['v4']，PSI=7.6485，p50 0.1096→0.2575；超过 S-102 阈值 0.85 的比例 0.0133→0.0434（×3.26）"
+   },
+   {
+    "ref_id": "Q-0013",
+    "type": "metric",
+    "metric": "precision_est",
+    "what": "S-102 抽检精确率 0.775→0.559"
+   },
+   {
+    "ref_id": "Q-0012",
+    "type": "cases",
+    "what": "抽样 15 个 case，分数均值 0.921，含头部主播=False"
+   }
+  ],
+  "next_steps": [
+   "确认口径：如果你指的是另一分母，请说明，我会重算",
+   "请 策略-交易安全组 评估 S-102 阈值重校（可用 run_backtest 回放新阈值）",
+   "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": false,
+  "escalation_reasons": [],
+  "platform_links": [
+   "platform://metrics?metric=overturn_rate&market=US&scenario=scam_fraud&date=2026-10-15",
+   "platform://strategy/S-102"
+  ],
+  "metric": {
+   "key": "overturn_rate",
+   "definition": "overturns / appeals（分母是申诉数）。",
+   "version": "v2",
+   "note": "“['overturn_rate', 'overturn_per_enforcement', 'precision_est']” 存在口径冲突，本次按 overturn_rate（overturns / appeals（分母是申诉数）。）；其他口径：overturn_per_enforcement: overturns / enforcements（分母是处罚数）。与 overturn_rate 分母不同，口径冲突时需明确。；precision_est: QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。\n比率指标按分子 overturns 下钻，分母 appeals 作为对照"
+  },
+  "sample_case_ids": [
+   "LS-0097402",
+   "LS-0097316",
+   "LS-0094676",
+   "LS-0097537",
+   "LS-0093832",
+   "LS-0094447",
+   "LS-0094711",
+   "LS-0094813",
+   "LS-0097781",
+   "LS-0101695",
+   "LS-0097992",
+   "LS-0101340",
+   "LS-0098095",
+   "LS-0097570",
+   "LS-0094385"
+  ],
+  "primary_cause": {
+   "type": "model_drift_threshold",
+   "strategy_ids": [
+    "S-102"
+   ],
+   "change_ids": [
+    "C-006"
+   ],
+   "explanation": "C-006（model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移）后分数分布上移，S-102 固定阈值 0.85 命中增加，误杀上升"
+  },
+  "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.812 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+  "confidence": "high",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

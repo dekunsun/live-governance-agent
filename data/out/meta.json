@@ -1,0 +1,133 @@
+{
+ "today": "2026-10-16",
+ "start": "2026-09-18",
+ "end": "2026-10-15",
+ "markets": {
+  "US": 1100,
+  "BR": 850,
+  "ID": 950,
+  "GB": 520,
+  "VN": 55,
+  "KE": 18
+ },
+ "market_names": {
+  "US": "美国",
+  "BR": "巴西",
+  "ID": "印尼",
+  "GB": "英国",
+  "VN": "越南",
+  "KE": "肯尼亚"
+ },
+ "scenarios": [
+  "adult_content",
+  "minor_safety",
+  "scam_fraud",
+  "violence",
+  "spam_bot",
+  "gambling",
+  "hate_harassment",
+  "counterfeit"
+ ],
+ "scenario_names": {
+  "adult_content": "色情低俗",
+  "minor_safety": "未成年人安全",
+  "scam_fraud": "诈骗引流",
+  "violence": "暴力血腥",
+  "spam_bot": "垃圾刷量",
+  "gambling": "赌博",
+  "hate_harassment": "仇恨骚扰",
+  "counterfeit": "假冒侵权"
+ },
+ "model_versions": [
+  {
+   "model": "model_adult_content",
+   "scenario": "adult_content",
+   "version": "v5",
+   "effective_from": "2026-06-01"
+  },
+  {
+   "model": "model_minor_safety",
+   "scenario": "minor_safety",
+   "version": "v3",
+   "effective_from": "2026-07-15"
+  },
+  {
+   "model": "model_scam_fraud",
+   "scenario": "scam_fraud",
+   "version": "v3",
+   "effective_from": "2026-05-20"
+  },
+  {
+   "model": "model_scam_fraud",
+   "scenario": "scam_fraud",
+   "version": "v4",
+   "effective_from": "2026-10-13"
+  },
+  {
+   "model": "model_violence",
+   "scenario": "violence",
+   "version": "v2",
+   "effective_from": "2026-03-01"
+  },
+  {
+   "model": "model_spam_bot",
+   "scenario": "spam_bot",
+   "version": "v2",
+   "effective_from": "2026-04-10"
+  },
+  {
+   "model": "model_spam_bot",
+   "scenario": "spam_bot",
+   "version": "v2.1",
+   "effective_from": "2026-10-05"
+  },
+  {
+   "model": "model_gambling",
+   "scenario": "gambling",
+   "version": "v3",
+   "effective_from": "2026-08-01"
+  },
+  {
+   "model": "model_hate_harassment",
+   "scenario": "hate_harassment",
+   "version": "v4",
+   "effective_from": "2026-07-01"
+  },
+  {
+   "model": "model_counterfeit",
+   "scenario": "counterfeit",
+   "version": "v2",
+   "effective_from": "2026-02-01"
+  }
+ ],
+ "policies": [
+  {
+   "policy_id": "P-3",
+   "scenario": "minor_safety",
+   "title": "未成年人安全",
+   "version": "2026.10"
+  },
+  {
+   "policy_id": "P-7",
+   "scenario": "hate_harassment",
+   "title": "仇恨与骚扰",
+   "version": "2026.10-GB"
+  }
+ ],
+ "action_severity": {
+  "observe": 0,
+  "manual_review": 1,
+  "limit_traffic": 2,
+  "warn": 3,
+  "suspend_live": 4,
+  "ban_7d": 5
+ },
+ "enforcement_actions": [
+  "ban_7d",
+  "limit_traffic",
+  "suspend_live",
+  "warn"
+ ],
+ "small_market_threshold_sessions_per_day": 150,
+ "seed": 20261016
+}

@@ -1,0 +1,367 @@
+{
+ "run_id": "20261017-073550-b02745",
+ "engine": "rules",
+ "playbook": "attribution",
+ "query": "肯尼亚昨天误杀申诉涨了",
+ "latency_s": 0.035,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 3,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "KE",
+    "scenario": null,
+    "metric": "overturns",
+    "metric_candidates": [
+     "overturns"
+    ],
+    "date": "2026-10-15",
+    "direction": "up",
+    "session_id": null,
+    "strategy_id": null,
+    "window_days": 1,
+    "raw": "肯尼亚昨天误杀申诉涨了"
+   }
+  },
+  {
+   "t": 0.026,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "KE"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "KE"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 23,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 25,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 20,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 12,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 14,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.033,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "overturns",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "KE",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "overturns",
+    "metric_zh": "申诉推翻数",
+    "metric_version": "v1",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "filters": {
+     "market": [
+      "KE"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 1,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.033,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "scenario": null
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "count": 4,
+    "changes": [
+     {
+      "change_id": "C-003",
+      "date": "2026-10-10",
+      "type": "policy_update",
+      "target": "P-7",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "Policy P-7：GB 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值",
+      "owner": "T&S Policy"
+     },
+     {
+      "change_id": "C-004",
+      "date": "2026-10-11",
+      "type": "strategy_update",
+      "target": "S-112",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": "S-112",
+      "model": null,
+      "summary": "S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升",
+      "owner": "策略-社区组"
+     },
+     {
+      "change_id": "C-005",
+      "date": "2026-10-12",
+      "type": "strategy_launch",
+      "target": "S-126",
+      "scenario": "minor_safety",
+      "markets": [
+       "ID"
+      ],
+      "strategy_id": "S-126",
+      "model": null,
+      "summary": "S-126 上线：ID 未成年人中分直接下播（专项）",
+      "owner": "策略-未成年组"
+     },
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.035,
+   "kind": "guardrails",
+   "needs_escalation": true,
+   "reasons": [
+    "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+   ],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "肯尼亚昨天误杀申诉涨了",
+  "scope": {
+   "market": "KE",
+   "scenario": null,
+   "metric": "overturns",
+   "date": "2026-10-15",
+   "window_days": 1,
+   "baseline_window": [
+    "2026-10-08",
+    "2026-10-14"
+   ],
+   "direction": "up",
+   "note": "单日 vs 前 7 天中位数",
+   "low_sample": true,
+   "observed": {
+    "current": 1,
+    "baseline_median": 1.0,
+    "sessions_current": 14,
+    "sessions_baseline_median": 15.0
+   }
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0002",
+    "type": "metric",
+    "metric": "overturns",
+    "what": "2026-10-15 overturns=1，前 7 天中位数 1.0"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "metric",
+    "metric": "sessions",
+    "what": "2026-10-15 sessions=14，前 7 天中位数 15"
+   },
+   {
+    "ref_id": "Q-0003",
+    "type": "change_log",
+    "what": "同期变更记录"
+   }
+  ],
+  "next_steps": [
+   "用 7 天滚动窗口重新看 overturns",
+   "对照大市场同场景是否有同样变化（例如同期模型升级）"
+  ],
+  "contributing_causes": [
+   {
+    "type": "possible_global_change",
+    "change_ids": [
+     "C-003",
+     "C-004",
+     "C-005",
+     "C-006"
+    ],
+    "explanation": "同期存在全局变更，可能相关但本市场样本不足以证实"
+   }
+  ],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+  ],
+  "platform_links": [
+   "platform://metrics?metric=overturns&market=KE&scenario=&date=2026-10-15"
+  ],
+  "metric": {
+   "key": "overturns",
+   "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+   "version": "v1",
+   "note": null
+  },
+  "primary_cause": {
+   "type": "insufficient_data",
+   "strategy_ids": [],
+   "change_ids": [],
+   "explanation": "KE 日均 sessions≈15，overturns 当日 1、基线中位数 1.0，计数太小，单日波动没有统计意义"
+  },
+  "conclusion": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
+  "confidence": "low",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

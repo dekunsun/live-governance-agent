@@ -1,0 +1,59 @@
+{
+ "P1_model_drift": {
+  "scenario": "scam_fraud",
+  "model": "model_scam_fraud",
+  "from": "2026-10-13",
+  "shift": 0.15,
+  "victim_strategy": "S-102",
+  "change_id": "C-006"
+ },
+ "P2_recall_drop": {
+  "market": "BR",
+  "scenario": "gambling",
+  "from": "2026-10-08",
+  "evasion_share": 0.85,
+  "strategy": "S-115"
+ },
+ "P3_overlap": {
+  "strategies": [
+   "S-104",
+   "S-121"
+  ]
+ },
+ "P4_zombie": {
+  "strategies": [
+   "S-108",
+   "S-119"
+  ],
+  "retired_feature_change": "C-007"
+ },
+ "P5_traffic_trap": {
+  "market": "ID",
+  "dates": [
+   "2026-10-03",
+   "2026-10-04"
+  ],
+  "mult": 1.45
+ },
+ "P6_policy_strategy_change": {
+  "market": "GB",
+  "scenario": "hate_harassment",
+  "strategy": "S-112",
+  "changes": [
+   "C-003",
+   "C-004"
+  ]
+ },
+ "P7_new_strategy": {
+  "market": "ID",
+  "scenario": "minor_safety",
+  "strategy": "S-126",
+  "change_id": "C-005"
+ },
+ "P8_head_host_case": {
+  "market": "US",
+  "date": "2026-10-15",
+  "strategy": "S-102",
+  "session_id": "LS-0101617"
+ }
+}

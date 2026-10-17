@@ -1,0 +1,1209 @@
+{
+ "run_id": "20261017-073549-096a28",
+ "engine": "rules",
+ "playbook": "attribution",
+ "query": "巴西赌博命中最近下降了",
+ "latency_s": 0.209,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 8,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "BR",
+    "scenario": "gambling",
+    "metric": "hits",
+    "metric_candidates": [
+     "hits"
+    ],
+    "date": "2026-10-15",
+    "direction": "down",
+    "session_id": null,
+    "strategy_id": null,
+    "window_days": 7,
+    "raw": "巴西赌博命中最近下降了"
+   }
+  },
+  {
+   "t": 0.026,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "market": "BR"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-25",
+      "value": 805,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "value": 927,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "value": 998,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 766,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 936,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 911,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 909,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 911,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 1046,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 1060,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "value": 839,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "value": 848,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "value": 834,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "value": 865,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 847,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 948,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1123,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 861,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 847,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 832,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 885,
+      "low_sample": false
+     }
+    ],
+    "row_count": 21,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.032,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling"
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-25",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "value": 29,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "value": 28,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 17,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 34,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 29,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 31,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 21,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 32,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 39,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "value": 24,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "value": 28,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 11,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 21,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 9,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 11,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 15,
+      "low_sample": false
+     }
+    ],
+    "row_count": 21,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.041,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling",
+    "group_by": [
+     "strategy_id"
+    ]
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date",
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-25",
+      "strategy_id": "S-115",
+      "value": 11,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-25",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-25",
+      "strategy_id": "S-128",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "strategy_id": "S-115",
+      "value": 17,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "strategy_id": "S-128",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "strategy_id": "S-115",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "strategy_id": "S-116",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "strategy_id": "S-128",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "strategy_id": "S-115",
+      "value": 9,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "strategy_id": "S-128",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "strategy_id": "S-115",
+      "value": 20,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "strategy_id": "S-128",
+      "value": 9,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "strategy_id": "S-115",
+      "value": 17,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "strategy_id": "S-128",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "strategy_id": "S-115",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "strategy_id": "S-116",
+      "value": 12,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "strategy_id": "S-128",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "strategy_id": "S-115",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "strategy_id": "S-116",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "strategy_id": "S-128",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "strategy_id": "S-115",
+      "value": 17,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "strategy_id": "S-116",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "strategy_id": "S-128",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "strategy_id": "S-115",
+      "value": 20,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "strategy_id": "S-116",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "strategy_id": "S-128",
+      "value": 9,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "strategy_id": "S-115",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "strategy_id": "S-116",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "strategy_id": "S-128",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "strategy_id": "S-115",
+      "value": 15,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "strategy_id": "S-116",
+      "value": 9,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "strategy_id": "S-128",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "strategy_id": "S-115",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "strategy_id": "S-116",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "strategy_id": "S-128",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-115",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-116",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-128",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-115",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-116",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-128",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-115",
+      "value": 16,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-116",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-128",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-115",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-116",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-128",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-115",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-116",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-128",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-115",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-116",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-128",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-115",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-116",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-128",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-115",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-116",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-128",
+      "value": 4,
+      "low_sample": false
+     }
+    ],
+    "row_count": 63,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.041,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "scenario": "gambling",
+    "market": "BR"
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "count": 0,
+    "changes": [],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.051,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "reports",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling"
+   },
+   "result_summary": {
+    "ref_id": "Q-0005"
+   },
+   "result": {
+    "ref_id": "Q-0005",
+    "metric": "reports",
+    "metric_zh": "用户举报数",
+    "metric_version": "v1",
+    "definition": "用户举报数，按举报原因归到场景。与策略是否命中无关，可作为召回侧的独立信号。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-09-25",
+      "value": 31,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-26",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-27",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-28",
+      "value": 40,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-29",
+      "value": 55,
+      "low_sample": false
+     },
+     {
+      "date": "2026-09-30",
+      "value": 41,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-01",
+      "value": 41,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-02",
+      "value": 31,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-03",
+      "value": 47,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-04",
+      "value": 45,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-05",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-06",
+      "value": 34,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "value": 57,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "value": 34,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 41,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 65,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 43,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 43,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 34,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 41,
+      "low_sample": false
+     }
+    ],
+    "row_count": 21,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.157,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "gambling",
+    "market": "BR",
+    "baseline_start": "2026-09-25",
+    "baseline_end": "2026-09-25",
+    "current_start": "2026-10-09",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0006"
+   },
+   "result": {
+    "ref_id": "Q-0006",
+    "model": "model_gambling",
+    "market": [
+     "BR"
+    ],
+    "baseline": {
+     "window": [
+      "2026-09-25",
+      "2026-09-25"
+     ],
+     "model_versions": [
+      "v3"
+     ],
+     "n": 805,
+     "mean": 0.1825,
+     "p50": 0.1107,
+     "p90": 0.5067,
+     "p99": 0.8879
+    },
+    "current": {
+     "window": [
+      "2026-10-09",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v3"
+     ],
+     "n": 6343,
+     "mean": 0.1712,
+     "p50": 0.1097,
+     "p90": 0.4338,
+     "p99": 0.7968
+    },
+    "psi": 0.0179,
+    "drift_flag": false,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-115",
+      "threshold": 0.8,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0137,
+      "share_above_current": 0.0096,
+      "ratio": 0.7
+     },
+     {
+      "strategy_id": "S-116",
+      "threshold": 0.55,
+      "action": "manual_review",
+      "share_above_baseline": 0.0845,
+      "share_above_current": 0.0673,
+      "ratio": 0.8
+     },
+     {
+      "strategy_id": "S-128",
+      "threshold": 0.7,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0373,
+      "share_above_current": 0.0281,
+      "ratio": 0.75
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 21,
+      "mean": 0.4694,
+      "p50": 0.4918,
+      "p90": 0.9071,
+      "p99": 0.9505
+     },
+     "current": {
+      "n": 197,
+      "mean": 0.3185,
+      "p50": 0.2448,
+      "p90": 0.6942,
+      "p99": 0.9128
+     }
+    }
+   }
+  },
+  {
+   "t": 0.17,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0007"
+   },
+   "result": {
+    "ref_id": "Q-0007",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.204,
+      "hit_sessions": 84,
+      "precision_est": 0.404,
+      "hit_qa_n": 89,
+      "nonhit_qa_n": 556,
+      "missed_est": 132.4,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.207,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "recall_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-09-25",
+    "market": "BR",
+    "scenario": "gambling",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0008"
+   },
+   "result": {
+    "ref_id": "Q-0008",
+    "metric": "recall_est",
+    "metric_zh": "召回估计",
+    "metric_version": "v2",
+    "definition": "分层估计：TP_est = 场景命中 session 数 × precision_est；漏放估计 = 未命中 QA 样本中该场景违规数按分层权重放大；recall_est = TP_est / (TP_est + 漏放估计)。小市场样本少，仅看趋势。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "gambling",
+     "strategy_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-09-25",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.733,
+      "hit_sessions": 14,
+      "precision_est": 0.588,
+      "hit_qa_n": 17,
+      "nonhit_qa_n": 74,
+      "missed_est": 3.0,
+      "low_sample": true
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.209,
+   "kind": "guardrails",
+   "needs_escalation": false,
+   "reasons": [],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "巴西赌博命中最近下降了",
+  "scope": {
+   "market": "BR",
+   "scenario": "gambling",
+   "metric": "hits",
+   "date": "2026-10-15",
+   "window_days": 7,
+   "baseline_window": [
+    "2026-09-25",
+    "2026-10-08"
+   ],
+   "direction": "down",
+   "note": "近 7 天合计 vs 前 14 天日均×7",
+   "low_sample": false,
+   "observed": {
+    "current": 98,
+    "baseline_median": 184.5,
+    "sessions_current": 6343,
+    "sessions_baseline_median": 6327.5
+   },
+   "decomposition": {
+    "count_ratio": 0.53,
+    "traffic_ratio": 1.0,
+    "rate_ratio": 0.53,
+    "traffic_share_of_change": 0.0
+   }
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0002",
+    "type": "metric",
+    "metric": "hits",
+    "what": "截至 2026-10-15 近 7 天合计 hits=98，前 14 天日均×7 184.5"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "metric",
+    "metric": "sessions",
+    "what": "截至 2026-10-15 近 7 天合计 sessions=6343，前 14 天日均×7 6328"
+   },
+   {
+    "ref_id": "Q-0003",
+    "type": "drilldown",
+    "metric": "hits",
+    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-115', -39.0, 0.45, 61, 100.0), ('S-116', -26.5, 0.31, 20, 46.5), ('S-128', -21.0, 0.24, 17, 38.0)]"
+   },
+   {
+    "ref_id": "Q-0005",
+    "type": "metric",
+    "metric": "reports",
+    "what": "举报 2026-10-15=303，基线 282，未同步下降"
+   },
+   {
+    "ref_id": "Q-0006",
+    "type": "score_drift",
+    "what": "被举报人群 model_gambling 分数中位数 0.4918→0.2448"
+   },
+   {
+    "ref_id": "Q-0007",
+    "type": "metric",
+    "metric": "recall_est",
+    "what": "recall_est 近 7 天 0.204，此前 0.733"
+   }
+  ],
+  "next_steps": [
+   "把近 7 天被举报但未命中的 case 送模型团队做 bad case 分析",
+   "评估 S-115 临时补充特征条件或下调阈值（先回测）"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": false,
+  "escalation_reasons": [],
+  "platform_links": [
+   "platform://metrics?metric=hits&market=BR&scenario=gambling&date=2026-10-15",
+   "platform://strategy/S-115"
+  ],
+  "metric": {
+   "key": "hits",
+   "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+   "version": "v1",
+   "note": null
+  },
+  "primary_cause": {
+   "type": "recall_drop_evasion",
+   "strategy_ids": [
+    "S-115"
+   ],
+   "change_ids": [],
+   "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.4918→0.2448），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
+  },
+  "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+  "confidence": "medium",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

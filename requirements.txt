@@ -1,0 +1,4 @@
+pandas>=2.2
+numpy>=1.26
+anthropic>=1.15
+streamlit>=1.40

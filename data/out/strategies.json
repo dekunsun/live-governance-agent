@@ -1,0 +1,901 @@
+[
+ {
+  "strategy_id": "S-101",
+  "name": "色情-高分直接下播",
+  "scenario": "adult_content",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_adult_content",
+  "threshold": 0.8,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v2",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-10",
+    "threshold": 0.85,
+    "action": "suspend_live"
+   },
+   {
+    "version": "v2",
+    "effective_from": "2026-06-05",
+    "threshold": 0.8,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-02-10",
+  "updated_at": "2026-06-05",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-102",
+  "name": "诈骗-高分下播",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_scam_fraud",
+  "threshold": 0.85,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v3",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-03-01",
+    "threshold": 0.9,
+    "action": "suspend_live"
+   },
+   {
+    "version": "v2",
+    "effective_from": "2026-05-22",
+    "threshold": 0.88,
+    "action": "suspend_live"
+   },
+   {
+    "version": "v3",
+    "effective_from": "2026-07-18",
+    "threshold": 0.85,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-03-01",
+  "updated_at": "2026-07-18",
+  "notes": "固定阈值，依赖 model_scam_fraud 原始分"
+ },
+ {
+  "strategy_id": "S-103",
+  "name": "色情-中分+举报转人审",
+  "scenario": "adult_content",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_adult_content",
+  "threshold": 0.6,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "report_count",
+    "op": ">=",
+    "value": 3
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-10",
+    "threshold": 0.6,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-02-10",
+  "updated_at": "2026-02-10",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-104",
+  "name": "刷量-新设备限流",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_spam_bot",
+  "threshold": 0.75,
+  "action": "limit_traffic",
+  "extra_conditions": [
+   {
+    "field": "new_device_flag",
+    "op": "==",
+    "value": 1
+   }
+  ],
+  "version": "v4",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-03-15",
+    "threshold": 0.8,
+    "action": "limit_traffic"
+   },
+   {
+    "version": "v2",
+    "effective_from": "2026-04-20",
+    "threshold": 0.78,
+    "action": "limit_traffic"
+   },
+   {
+    "version": "v3",
+    "effective_from": "2026-06-01",
+    "threshold": 0.75,
+    "action": "limit_traffic"
+   },
+   {
+    "version": "v4",
+    "effective_from": "2026-07-01",
+    "threshold": 0.75,
+    "action": "limit_traffic"
+   }
+  ],
+  "owner": "策略-生态组",
+  "status": "active",
+  "created_at": "2026-03-15",
+  "updated_at": "2026-07-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-105",
+  "name": "未成年-高分下播",
+  "scenario": "minor_safety",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_minor_safety",
+  "threshold": 0.7,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-01-20",
+    "threshold": 0.7,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-未成年组",
+  "status": "active",
+  "created_at": "2026-01-20",
+  "updated_at": "2026-01-20",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-106",
+  "name": "未成年-中分+举报人审",
+  "scenario": "minor_safety",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_minor_safety",
+  "threshold": 0.5,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "report_count",
+    "op": ">=",
+    "value": 2
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-01-20",
+    "threshold": 0.5,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-未成年组",
+  "status": "active",
+  "created_at": "2026-01-20",
+  "updated_at": "2026-01-20",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-107",
+  "name": "暴力-高分下播",
+  "scenario": "violence",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_violence",
+  "threshold": 0.8,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-03-01",
+    "threshold": 0.8,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-03-01",
+  "updated_at": "2026-03-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-108",
+  "name": "假冒-品牌词表命中警告",
+  "scenario": "counterfeit",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_counterfeit",
+  "threshold": 0.7,
+  "action": "warn",
+  "extra_conditions": [
+   {
+    "field": "keyword_hits",
+    "op": ">=",
+    "value": 1
+   },
+   {
+    "field": "legacy_brand_list_match",
+    "op": "==",
+    "value": 1
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2025-11-01",
+    "threshold": 0.7,
+    "action": "warn"
+   }
+  ],
+  "owner": "策略-电商治理组",
+  "status": "active",
+  "created_at": "2025-11-01",
+  "updated_at": "2025-11-01",
+  "notes": "依赖特征 legacy_brand_list_match（该特征管线已于 2026-08-01 下线，见 C-007）"
+ },
+ {
+  "strategy_id": "S-109",
+  "name": "假冒-高分警告",
+  "scenario": "counterfeit",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_counterfeit",
+  "threshold": 0.85,
+  "action": "warn",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-01-15",
+    "threshold": 0.85,
+    "action": "warn"
+   }
+  ],
+  "owner": "策略-电商治理组",
+  "status": "active",
+  "created_at": "2026-01-15",
+  "updated_at": "2026-01-15",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-110",
+  "name": "诈骗-外链+新号人审",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_scam_fraud",
+  "threshold": 0.7,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "external_link_flag",
+    "op": "==",
+    "value": 1
+   },
+   {
+    "field": "account_age_days",
+    "op": "<",
+    "value": 30
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-04-01",
+    "threshold": 0.7,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-04-01",
+  "updated_at": "2026-04-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-111",
+  "name": "仇恨-高分警告",
+  "scenario": "hate_harassment",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_hate_harassment",
+  "threshold": 0.8,
+  "action": "warn",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-01",
+    "threshold": 0.8,
+    "action": "warn"
+   }
+  ],
+  "owner": "策略-社区组",
+  "status": "active",
+  "created_at": "2026-02-01",
+  "updated_at": "2026-02-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-112",
+  "name": "仇恨-GB 举报人审",
+  "scenario": "hate_harassment",
+  "markets": [
+   "GB"
+  ],
+  "score_field": "score_hate_harassment",
+  "threshold": 0.5,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "report_count",
+    "op": ">=",
+    "value": 1
+   }
+  ],
+  "version": "v3",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-05-10",
+    "threshold": 0.85,
+    "action": "manual_review"
+   },
+   {
+    "version": "v2",
+    "effective_from": "2026-08-01",
+    "threshold": 0.8,
+    "action": "manual_review"
+   },
+   {
+    "version": "v3",
+    "effective_from": "2026-10-11",
+    "threshold": 0.5,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-社区组",
+  "status": "active",
+  "created_at": "2026-05-10",
+  "updated_at": "2026-10-11",
+  "notes": "v3 对应 policy P-7（GB 骚扰定义扩大）"
+ },
+ {
+  "strategy_id": "S-113",
+  "name": "暴力-中分+举报人审",
+  "scenario": "violence",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_violence",
+  "threshold": 0.6,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "report_count",
+    "op": ">=",
+    "value": 3
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-03-01",
+    "threshold": 0.6,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-03-01",
+  "updated_at": "2026-03-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-114",
+  "name": "诈骗-高打赏新号限流",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_scam_fraud",
+  "threshold": 0.6,
+  "action": "limit_traffic",
+  "extra_conditions": [
+   {
+    "field": "gift_amount",
+    "op": ">=",
+    "value": 500
+   },
+   {
+    "field": "account_age_days",
+    "op": "<",
+    "value": 14
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-06-10",
+    "threshold": 0.6,
+    "action": "limit_traffic"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-06-10",
+  "updated_at": "2026-06-10",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-115",
+  "name": "赌博-高分下播",
+  "scenario": "gambling",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_gambling",
+  "threshold": 0.8,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-20",
+    "threshold": 0.8,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-02-20",
+  "updated_at": "2026-02-20",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-116",
+  "name": "赌博-关键词人审",
+  "scenario": "gambling",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_gambling",
+  "threshold": 0.55,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "keyword_hits",
+    "op": ">=",
+    "value": 2
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-20",
+    "threshold": 0.55,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-02-20",
+  "updated_at": "2026-02-20",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-117",
+  "name": "刷量-极高分下播",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_spam_bot",
+  "threshold": 0.9,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v2",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-03-15",
+    "threshold": 0.88,
+    "action": "suspend_live"
+   },
+   {
+    "version": "v2",
+    "effective_from": "2026-09-20",
+    "threshold": 0.9,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-生态组",
+  "status": "active",
+  "created_at": "2026-03-15",
+  "updated_at": "2026-09-20",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-118",
+  "name": "色情-极高分封禁",
+  "scenario": "adult_content",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_adult_content",
+  "threshold": 0.95,
+  "action": "ban_7d",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-10",
+    "threshold": 0.95,
+    "action": "ban_7d"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-02-10",
+  "updated_at": "2026-02-10",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-119",
+  "name": "暴力-超大场高分下播",
+  "scenario": "violence",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_violence",
+  "threshold": 0.95,
+  "action": "suspend_live",
+  "extra_conditions": [
+   {
+    "field": "viewers_peak",
+    "op": ">=",
+    "value": 50000
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-04-01",
+    "threshold": 0.95,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "active",
+  "created_at": "2026-04-01",
+  "updated_at": "2026-04-01",
+  "notes": "条件极窄，几乎不命中"
+ },
+ {
+  "strategy_id": "S-120",
+  "name": "未成年-小市场新号观察",
+  "scenario": "minor_safety",
+  "markets": [
+   "VN",
+   "KE"
+  ],
+  "score_field": "score_minor_safety",
+  "threshold": 0.4,
+  "action": "observe",
+  "extra_conditions": [
+   {
+    "field": "account_age_days",
+    "op": "<",
+    "value": 3
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-07-01",
+    "threshold": 0.4,
+    "action": "observe"
+   }
+  ],
+  "owner": "策略-未成年组",
+  "status": "active",
+  "created_at": "2026-07-01",
+  "updated_at": "2026-07-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-121",
+  "name": "刷量-新设备限流(v2 重写)",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_spam_bot",
+  "threshold": 0.72,
+  "action": "limit_traffic",
+  "extra_conditions": [
+   {
+    "field": "new_device_flag",
+    "op": "==",
+    "value": 1
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-08-20",
+    "threshold": 0.72,
+    "action": "limit_traffic"
+   }
+  ],
+  "owner": "策略-平台生态组",
+  "status": "active",
+  "created_at": "2026-08-20",
+  "updated_at": "2026-08-20",
+  "notes": "由另一团队重写，与 S-104 条件几乎相同"
+ },
+ {
+  "strategy_id": "S-122",
+  "name": "诈骗-ID 中分人审",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ID"
+  ],
+  "score_field": "score_scam_fraud",
+  "threshold": 0.75,
+  "action": "manual_review",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-05-05",
+    "threshold": 0.75,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-05-05",
+  "updated_at": "2026-05-05",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-123",
+  "name": "仇恨-极高分下播",
+  "scenario": "hate_harassment",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_hate_harassment",
+  "threshold": 0.9,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-02-01",
+    "threshold": 0.9,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-社区组",
+  "status": "active",
+  "created_at": "2026-02-01",
+  "updated_at": "2026-02-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-124",
+  "name": "假冒-关键词人审",
+  "scenario": "counterfeit",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_counterfeit",
+  "threshold": 0.6,
+  "action": "manual_review",
+  "extra_conditions": [
+   {
+    "field": "keyword_hits",
+    "op": ">=",
+    "value": 2
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-01-15",
+    "threshold": 0.6,
+    "action": "manual_review"
+   }
+  ],
+  "owner": "策略-电商治理组",
+  "status": "active",
+  "created_at": "2026-01-15",
+  "updated_at": "2026-01-15",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-125",
+  "name": "刷量-小场高打赏观察",
+  "scenario": "spam_bot",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_spam_bot",
+  "threshold": 0.6,
+  "action": "observe",
+  "extra_conditions": [
+   {
+    "field": "viewers_peak",
+    "op": "<",
+    "value": 20
+   },
+   {
+    "field": "gift_amount",
+    "op": ">=",
+    "value": 200
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-05-01",
+    "threshold": 0.6,
+    "action": "observe"
+   }
+  ],
+  "owner": "策略-生态组",
+  "status": "active",
+  "created_at": "2026-05-01",
+  "updated_at": "2026-05-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-126",
+  "name": "未成年-ID 中分下播",
+  "scenario": "minor_safety",
+  "markets": [
+   "ID"
+  ],
+  "score_field": "score_minor_safety",
+  "threshold": 0.6,
+  "action": "suspend_live",
+  "extra_conditions": [],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-10-12",
+    "threshold": 0.6,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-未成年组",
+  "status": "active",
+  "created_at": "2026-10-12",
+  "updated_at": "2026-10-12",
+  "notes": "ID 市场专项，2026-10-12 上线"
+ },
+ {
+  "strategy_id": "S-127",
+  "name": "色情-举报限流（已暂停）",
+  "scenario": "adult_content",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_adult_content",
+  "threshold": 0.7,
+  "action": "limit_traffic",
+  "extra_conditions": [
+   {
+    "field": "report_count",
+    "op": ">=",
+    "value": 1
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-04-01",
+    "threshold": 0.7,
+    "action": "limit_traffic"
+   }
+  ],
+  "owner": "策略-内容组",
+  "status": "paused",
+  "created_at": "2026-04-01",
+  "updated_at": "2026-04-01",
+  "notes": ""
+ },
+ {
+  "strategy_id": "S-128",
+  "name": "赌博-外链下播",
+  "scenario": "gambling",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_gambling",
+  "threshold": 0.7,
+  "action": "suspend_live",
+  "extra_conditions": [
+   {
+    "field": "external_link_flag",
+    "op": "==",
+    "value": 1
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-06-15",
+    "threshold": 0.7,
+    "action": "suspend_live"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-15",
+  "notes": ""
+ }
+]
