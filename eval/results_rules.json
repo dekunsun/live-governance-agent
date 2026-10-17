@@ -1,7 +1,7 @@
 {
  "summary": {
   "engine": "rules",
-  "n_cases": 30,
+  "n_cases": 33,
   "accuracy": 1.0,
   "hallucination_rate": 0.0,
   "trap_pass_rate": 1.0,
@@ -20,7 +20,8 @@
    "metric_ambiguity": 1.0,
    "small_market": 1.0,
    "case": 1.0,
-   "overlap": 1.0
+   "overlap": 1.0,
+   "guild": 1.0
   },
   "by_market": {
    "US": 1.0,
@@ -31,8 +32,8 @@
    "VN": 1.0
   },
   "latency_s": {
-   "mean": 0.061,
-   "max": 0.416
+   "mean": 0.062,
+   "max": 0.39
   },
   "cost_usd": {
    "mean": 0.0,
@@ -47,7 +48,7 @@
    "recall": 1.0,
    "precision": 1.0,
    "n_alerts": 6,
-   "latency_s": 2.49,
+   "latency_s": 2.263,
    "cost_usd": 0.0,
    "tool_calls": 64
   },
@@ -154,9 +155,10 @@
    "got_change_ids": [
     "C-006"
    ],
-   "got_escalation": false,
-   "confidence": "high",
-   "latency_s": 0.262,
+   "got_guild_ids": null,
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.266,
    "tool_calls": 12,
    "cost_usd": 0.0,
    "usage": {
@@ -164,8 +166,10 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
-   "escalation_reasons": []
+   "conclusion": "US 整体 申诉推翻数 50 vs 基线 42 在正常范围，但 诈骗引流 场景异常：US 申诉推翻数上升（2→14）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
+   "escalation_reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ]
   },
   {
    "id": "G02",
@@ -186,9 +190,10 @@
    "got_change_ids": [
     "C-006"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.12,
+   "latency_s": 0.141,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -196,7 +201,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 申诉数上升（6→22）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "conclusion": "BR 申诉数上升（4→19）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
    "escalation_reasons": []
   },
   {
@@ -218,9 +223,10 @@
    "got_change_ids": [
     "C-006"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.108,
+   "latency_s": 0.107,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -228,7 +234,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校",
+   "conclusion": "GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校",
    "escalation_reasons": []
   },
   {
@@ -250,9 +256,10 @@
    "got_change_ids": [
     "C-006"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.126,
+   "latency_s": 0.13,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -260,7 +267,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "ID 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
+   "conclusion": "ID 申诉推翻数上升（3→12）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
    "escalation_reasons": []
   },
   {
@@ -282,9 +289,10 @@
    "got_change_ids": [
     "C-006"
    ],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.096,
+   "latency_s": 0.1,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -292,7 +300,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校",
+   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校",
    "escalation_reasons": [
     "涉及头部主播，需策略 owner 人工确认"
    ]
@@ -312,9 +320,10 @@
    "got_type": "traffic_driven",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.007,
+   "latency_s": 0.008,
    "tool_calls": 2,
    "cost_usd": 0.0,
    "usage": {
@@ -340,6 +349,7 @@
    "got_type": "traffic_driven",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
    "latency_s": 0.007,
@@ -368,9 +378,10 @@
    "got_type": "no_anomaly",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.011,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -398,9 +409,10 @@
     "S-115"
    ],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.077,
+   "latency_s": 0.08,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -408,7 +420,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
    "escalation_reasons": []
   },
   {
@@ -428,9 +440,10 @@
     "S-115"
    ],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.098,
+   "latency_s": 0.15,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -438,7 +451,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
    "escalation_reasons": []
   },
   {
@@ -458,9 +471,10 @@
     "S-115"
    ],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.076,
+   "latency_s": 0.075,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -468,7 +482,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 赌博 处罚 session 数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+   "conclusion": "BR 赌博 处罚 session 数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
    "escalation_reasons": []
   },
   {
@@ -491,9 +505,10 @@
     "C-003",
     "C-004"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.02,
+   "latency_s": 0.017,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -524,6 +539,7 @@
     "C-003",
     "C-004"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
    "latency_s": 0.019,
@@ -556,9 +572,10 @@
    "got_change_ids": [
     "C-005"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.019,
+   "latency_s": 0.016,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -588,6 +605,7 @@
    "got_change_ids": [
     "C-005"
    ],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
    "latency_s": 0.018,
@@ -616,6 +634,7 @@
    "got_type": "no_anomaly",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
    "latency_s": 0.012,
@@ -626,7 +645,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US adult_content 申诉推翻数 2026-10-15=5，前 7 天中位数 3.0，属正常波动，未发现异常",
+   "conclusion": "US adult_content 申诉推翻数 2026-10-15=7，前 7 天中位数 3.0，属正常波动，未发现异常",
    "escalation_reasons": []
   },
   {
@@ -644,9 +663,10 @@
    "got_type": "no_anomaly",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.011,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -672,9 +692,10 @@
    "got_type": "no_anomaly",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.011,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -682,14 +703,14 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US scam_fraud 申诉数 2026-10-11=2，前 7 天中位数 3.0，属正常波动，未发现异常",
+   "conclusion": "US scam_fraud 申诉数 2026-10-11=3，前 7 天中位数 4.0，属正常波动，未发现异常",
    "escalation_reasons": []
   },
   {
    "id": "G19",
    "category": "no_anomaly",
-   "market": "BR",
-   "query": "巴西刷量昨天命中涨了",
+   "market": "US",
+   "query": "美国暴力昨天处罚涨了",
    "correct": true,
    "type_ok": true,
    "strategy_ok": true,
@@ -700,9 +721,10 @@
    "got_type": "no_anomaly",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.011,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -710,7 +732,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR spam_bot 策略命中数 2026-10-15=55，前 7 天中位数 46.0，属正常波动，未发现异常",
+   "conclusion": "US violence 处罚 session 数 2026-10-15=10，前 7 天中位数 12.0，属正常波动，未发现异常",
    "escalation_reasons": []
   },
   {
@@ -728,6 +750,7 @@
    "got_type": "needs_clarification",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "n/a",
    "latency_s": 0.0,
@@ -756,6 +779,7 @@
    "got_type": "needs_clarification",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "n/a",
    "latency_s": 0.0,
@@ -784,6 +808,7 @@
    "got_type": "needs_clarification",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "n/a",
    "latency_s": 0.0,
@@ -816,9 +841,10 @@
    "got_change_ids": [
     "C-006"
    ],
-   "got_escalation": false,
-   "confidence": "high",
-   "latency_s": 0.151,
+   "got_guild_ids": null,
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.141,
    "tool_calls": 14,
    "cost_usd": 0.0,
    "usage": {
@@ -826,8 +852,10 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.812 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
-   "escalation_reasons": []
+   "conclusion": "US 整体 申诉推翻数 50 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.778 vs 基线 0.750）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→14）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
+   "escalation_reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ]
   },
   {
    "id": "G24",
@@ -848,9 +876,10 @@
    "got_change_ids": [
     "C-006"
    ],
-   "got_escalation": true,
-   "confidence": "medium",
-   "latency_s": 0.128,
+   "got_guild_ids": null,
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.158,
    "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
@@ -858,10 +887,8 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "按 overturn_rate 口径（0.765 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：BR 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校",
-   "escalation_reasons": [
-    "涉及头部主播，需策略 owner 人工确认"
-   ]
+   "conclusion": "按 overturn_rate 口径（0.857 vs 基线 0.625）未见显著变化；按分子 overturns 绝对数看：BR 申诉推翻数上升（3→12）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校",
+   "escalation_reasons": []
   },
   {
    "id": "G25",
@@ -878,9 +905,10 @@
    "got_type": "insufficient_data",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.007,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -908,9 +936,10 @@
    "got_type": "insufficient_data",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.007,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -938,9 +967,10 @@
    "got_type": "insufficient_data",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.007,
+   "latency_s": 0.01,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -972,9 +1002,10 @@
    "got_change_ids": [
     "C-006"
    ],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.008,
+   "latency_s": 0.012,
    "tool_calls": 1,
    "cost_usd": 0.0,
    "usage": {
@@ -1002,6 +1033,7 @@
    "got_type": "insufficient_data",
    "got_strategy_ids": [],
    "got_change_ids": [],
+   "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
    "latency_s": 0.0,
@@ -1032,9 +1064,10 @@
    "got_type": null,
    "got_strategy_ids": null,
    "got_change_ids": null,
+   "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.416,
+   "latency_s": 0.39,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -1043,6 +1076,106 @@
     "cache_read_input_tokens": 0
    },
    "conclusion": "巡检 1 条线上策略，1 条待处理，0 条预期内变更",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G31",
+   "category": "guild",
+   "market": "BR",
+   "query": "巴西刷量昨天处罚涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "guild_concentration",
+   "got_strategy_ids": [
+    "S-117"
+   ],
+   "got_change_ids": [],
+   "got_guild_ids": [
+    "G-BR-002"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.067,
+   "tool_calls": 7,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+   "escalation_reasons": [
+    "涉及公会级处置，超出只读结论范围，需公会治理确认",
+    "涉及头部主播，需策略 owner 人工确认"
+   ]
+  },
+  {
+   "id": "G32",
+   "category": "guild",
+   "market": "BR",
+   "query": "BR spam_bot 10-14 命中涨了，是不是策略出问题了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "guild_concentration",
+   "got_strategy_ids": [
+    "S-104"
+   ],
+   "got_change_ids": [],
+   "got_guild_ids": [
+    "G-BR-002"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.064,
+   "tool_calls": 7,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR 垃圾刷量 策略命中数上升（48→115）集中在公会 G-BR-002（巴西公会-002，贡献 72%），命中策略 S-104 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+   "escalation_reasons": [
+    "涉及公会级处置，超出只读结论范围，需公会治理确认"
+   ]
+  },
+  {
+   "id": "G33",
+   "category": "guild",
+   "market": "BR",
+   "query": "巴西 10-15 刷量申诉涨了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_guild_ids": null,
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.01,
+   "tool_calls": 3,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "BR spam_bot 申诉数 2026-10-15=8，前 7 天中位数 3.0，属正常波动，未发现异常",
    "escalation_reasons": []
   }
  ]

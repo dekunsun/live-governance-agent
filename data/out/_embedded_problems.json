@@ -55,5 +55,16 @@
   "date": "2026-10-15",
   "strategy": "S-102",
   "session_id": "LS-0101617"
+ },
+ "P9_guild_spike": {
+  "market": "BR",
+  "guild_id": "G-BR-002",
+  "scenario": "spam_bot",
+  "dates": [
+   "2026-10-13",
+   "2026-10-14",
+   "2026-10-15"
+  ],
+  "extra_violation_prob": 0.7
  }
 }

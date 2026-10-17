@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-073549-096a28",
+ "run_id": "20261017-173536-7a2f18",
  "engine": "rules",
  "playbook": "attribution",
  "query": "巴西赌博命中最近下降了",
- "latency_s": 0.209,
+ "latency_s": 0.221,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -27,12 +27,13 @@
     "direction": "down",
     "session_id": null,
     "strategy_id": null,
+    "guild_id": null,
     "window_days": 7,
     "raw": "巴西赌博命中最近下降了"
    }
   },
   {
-   "t": 0.026,
+   "t": 0.023,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -56,6 +57,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -175,7 +177,7 @@
    }
   },
   {
-   "t": 0.032,
+   "t": 0.029,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -200,6 +202,7 @@
      ],
      "scenario": "gambling",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -319,7 +322,7 @@
    }
   },
   {
-   "t": 0.041,
+   "t": 0.037,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -347,6 +350,7 @@
      ],
      "scenario": "gambling",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -740,7 +744,7 @@
    }
   },
   {
-   "t": 0.041,
+   "t": 0.037,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -766,7 +770,7 @@
    }
   },
   {
-   "t": 0.051,
+   "t": 0.042,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -791,6 +795,7 @@
      ],
      "scenario": "gambling",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -801,27 +806,27 @@
     "rows": [
      {
       "date": "2026-09-25",
-      "value": 31,
+      "value": 26,
       "low_sample": false
      },
      {
       "date": "2026-09-26",
-      "value": 36,
+      "value": 29,
       "low_sample": false
      },
      {
       "date": "2026-09-27",
-      "value": 36,
+      "value": 34,
       "low_sample": false
      },
      {
       "date": "2026-09-28",
-      "value": 40,
+      "value": 43,
       "low_sample": false
      },
      {
       "date": "2026-09-29",
-      "value": 55,
+      "value": 52,
       "low_sample": false
      },
      {
@@ -831,77 +836,77 @@
      },
      {
       "date": "2026-10-01",
-      "value": 41,
+      "value": 37,
       "low_sample": false
      },
      {
       "date": "2026-10-02",
-      "value": 31,
+      "value": 29,
       "low_sample": false
      },
      {
       "date": "2026-10-03",
-      "value": 47,
+      "value": 52,
       "low_sample": false
      },
      {
       "date": "2026-10-04",
-      "value": 45,
+      "value": 54,
       "low_sample": false
      },
      {
       "date": "2026-10-05",
-      "value": 36,
+      "value": 29,
       "low_sample": false
      },
      {
       "date": "2026-10-06",
-      "value": 34,
+      "value": 41,
       "low_sample": false
      },
      {
       "date": "2026-10-07",
-      "value": 57,
+      "value": 54,
       "low_sample": false
      },
      {
       "date": "2026-10-08",
-      "value": 34,
+      "value": 35,
       "low_sample": false
      },
      {
       "date": "2026-10-09",
-      "value": 36,
+      "value": 38,
       "low_sample": false
      },
      {
       "date": "2026-10-10",
-      "value": 41,
+      "value": 39,
       "low_sample": false
      },
      {
       "date": "2026-10-11",
-      "value": 65,
+      "value": 71,
       "low_sample": false
      },
      {
       "date": "2026-10-12",
-      "value": 43,
+      "value": 45,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
-      "value": 43,
+      "value": 37,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
-      "value": 34,
+      "value": 26,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
-      "value": 41,
+      "value": 45,
       "low_sample": false
      }
     ],
@@ -910,7 +915,7 @@
    }
   },
   {
-   "t": 0.157,
+   "t": 0.194,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -990,24 +995,24 @@
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 21,
-      "mean": 0.4694,
-      "p50": 0.4918,
-      "p90": 0.9071,
-      "p99": 0.9505
+      "n": 16,
+      "mean": 0.5769,
+      "p50": 0.7589,
+      "p90": 0.9102,
+      "p99": 0.9528
      },
      "current": {
-      "n": 197,
-      "mean": 0.3185,
-      "p50": 0.2448,
-      "p90": 0.6942,
-      "p99": 0.9128
+      "n": 196,
+      "mean": 0.3265,
+      "p50": 0.2788,
+      "p90": 0.7173,
+      "p99": 0.9131
      }
     }
    }
   },
   {
-   "t": 0.17,
+   "t": 0.208,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1033,6 +1038,7 @@
      ],
      "scenario": "gambling",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-09",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -1040,12 +1046,12 @@
     "group_by": [],
     "rows": [
      {
-      "value": 0.204,
+      "value": 0.328,
       "hit_sessions": 84,
-      "precision_est": 0.404,
+      "precision_est": 0.427,
       "hit_qa_n": 89,
-      "nonhit_qa_n": 556,
-      "missed_est": 132.4,
+      "nonhit_qa_n": 561,
+      "missed_est": 73.5,
       "low_sample": false
      }
     ],
@@ -1054,7 +1060,7 @@
    }
   },
   {
-   "t": 0.207,
+   "t": 0.219,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1080,6 +1086,7 @@
      ],
      "scenario": "gambling",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-09-25",
      "window_clipped": false
@@ -1087,9 +1094,9 @@
     "group_by": [],
     "rows": [
      {
-      "value": 0.733,
+      "value": 0.751,
       "hit_sessions": 14,
-      "precision_est": 0.588,
+      "precision_est": 0.647,
       "hit_qa_n": 17,
       "nonhit_qa_n": 74,
       "missed_est": 3.0,
@@ -1101,7 +1108,7 @@
    }
   },
   {
-   "t": 0.209,
+   "t": 0.22,
    "kind": "guardrails",
    "needs_escalation": false,
    "reasons": [],
@@ -1160,18 +1167,18 @@
     "ref_id": "Q-0005",
     "type": "metric",
     "metric": "reports",
-    "what": "举报 2026-10-15=303，基线 282，未同步下降"
+    "what": "举报 2026-10-15=301，基线 278，未同步下降"
    },
    {
     "ref_id": "Q-0006",
     "type": "score_drift",
-    "what": "被举报人群 model_gambling 分数中位数 0.4918→0.2448"
+    "what": "被举报人群 model_gambling 分数中位数 0.7589→0.2788"
    },
    {
     "ref_id": "Q-0007",
     "type": "metric",
     "metric": "recall_est",
-    "what": "recall_est 近 7 天 0.204，此前 0.733"
+    "what": "recall_est 近 7 天 0.328，此前 0.751"
    }
   ],
   "next_steps": [
@@ -1197,9 +1204,9 @@
     "S-115"
    ],
    "change_ids": [],
-   "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.4918→0.2448），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
+   "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.7589→0.2788），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
   },
-  "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）",
+  "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
   "confidence": "medium",
   "validation": {
    "unknown_references": [],

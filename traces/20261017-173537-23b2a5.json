@@ -1,0 +1,1499 @@
+{
+ "run_id": "20261017-173537-23b2a5",
+ "engine": "rules",
+ "playbook": "attribution",
+ "query": "巴西刷量昨天处罚涨了",
+ "latency_s": 0.148,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 7,
+ "events": [
+  {
+   "t": 0.0,
+   "kind": "parse",
+   "scope": {
+    "market": "BR",
+    "scenario": "spam_bot",
+    "metric": "enforcements",
+    "metric_candidates": [
+     "enforcements"
+    ],
+    "date": "2026-10-15",
+    "direction": "up",
+    "session_id": null,
+    "strategy_id": null,
+    "guild_id": null,
+    "window_days": 1,
+    "raw": "巴西刷量昨天处罚涨了"
+   }
+  },
+  {
+   "t": 0.015,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "sessions",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "BR"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "metric": "sessions",
+    "metric_zh": "开播场次",
+    "metric_version": "v1",
+    "definition": "窗口内该市场的直播 session 数（流量分母）。与场景无关。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 865,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 847,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 948,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 1123,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 861,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 847,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 832,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 885,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.019,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "enforcements",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "spam_bot"
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "metric": "enforcements",
+    "metric_zh": "处罚 session 数",
+    "metric_version": "v2",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "spam_bot",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "value": 23,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 12,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 24,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 33,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "value": 48,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "value": 45,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "value": 59,
+      "low_sample": false
+     }
+    ],
+    "row_count": 8,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.024,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "enforcements",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "spam_bot",
+    "group_by": [
+     "strategy_id"
+    ]
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "metric": "enforcements",
+    "metric_zh": "处罚 session 数",
+    "metric_version": "v2",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "spam_bot",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date",
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-104",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-117",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-121",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-104",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-117",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-121",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-104",
+      "value": 10,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-117",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-121",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-104",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-117",
+      "value": 13,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-121",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-104",
+      "value": 16,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-117",
+      "value": 14,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-121",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-104",
+      "value": 26,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-117",
+      "value": 21,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-121",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-104",
+      "value": 23,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-117",
+      "value": 18,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-121",
+      "value": 4,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-104",
+      "value": 30,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-117",
+      "value": 27,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-121",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-125",
+      "value": 0,
+      "low_sample": false
+     }
+    ],
+    "row_count": 32,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.024,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "scenario": "spam_bot",
+    "market": "BR"
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "count": 0,
+    "changes": [],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.117,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "enforcements",
+    "start_date": "2026-10-08",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "spam_bot",
+    "group_by": [
+     "guild_id"
+    ]
+   },
+   "result_summary": {
+    "ref_id": "Q-0005"
+   },
+   "result": {
+    "ref_id": "Q-0005",
+    "metric": "enforcements",
+    "metric_zh": "处罚 session 数",
+    "metric_version": "v2",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "filters": {
+     "market": [
+      "BR"
+     ],
+     "scenario": "spam_bot",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "date",
+     "guild_id"
+    ],
+    "rows": [
+     {
+      "date": "2026-10-08",
+      "guild_id": "(无公会)",
+      "value": 14,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-001",
+      "value": 3,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-004",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-002",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-002"
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-003",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-003"
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-005",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-08",
+      "guild_id": "G-BR-008",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-008"
+     },
+     {
+      "date": "2026-10-09",
+      "guild_id": "(无公会)",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "guild_id": "G-BR-005",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-09",
+      "guild_id": "G-BR-009",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-09",
+      "guild_id": "G-BR-003",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-003"
+     },
+     {
+      "date": "2026-10-09",
+      "guild_id": "G-BR-004",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "(无公会)",
+      "value": 11,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-001",
+      "value": 5,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-003",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-003"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-005",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-004",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-007",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-007"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-009",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-10",
+      "guild_id": "G-BR-011",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-011"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "(无公会)",
+      "value": 19,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-001",
+      "value": 5,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-010",
+      "value": 4,
+      "low_sample": false,
+      "guild_name": "巴西公会-010"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-004",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-008",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-008"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-011",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-011"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-005",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-11",
+      "guild_id": "G-BR-007",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-007"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "(无公会)",
+      "value": 16,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-001",
+      "value": 5,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-002",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-002"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-004",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-009",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-010",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-010"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-003",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-003"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-005",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-007",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-007"
+     },
+     {
+      "date": "2026-10-12",
+      "guild_id": "G-BR-011",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-011"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-002",
+      "value": 28,
+      "low_sample": false,
+      "guild_name": "巴西公会-002"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "(无公会)",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-001",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-004",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-005",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-011",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-011"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-006",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-006"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-007",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-007"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-008",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-008"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-009",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-13",
+      "guild_id": "G-BR-010",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-010"
+     },
+     {
+      "date": "2026-10-14",
+      "guild_id": "G-BR-002",
+      "value": 31,
+      "low_sample": false,
+      "guild_name": "巴西公会-002"
+     },
+     {
+      "date": "2026-10-14",
+      "guild_id": "(无公会)",
+      "value": 11,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "guild_id": "G-BR-003",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-003"
+     },
+     {
+      "date": "2026-10-14",
+      "guild_id": "G-BR-009",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-002",
+      "value": 35,
+      "low_sample": false,
+      "guild_name": "巴西公会-002"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "(无公会)",
+      "value": 12,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-001",
+      "value": 3,
+      "low_sample": false,
+      "guild_name": "巴西公会-001"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-005",
+      "value": 3,
+      "low_sample": false,
+      "guild_name": "巴西公会-005"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-009",
+      "value": 2,
+      "low_sample": false,
+      "guild_name": "巴西公会-009"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-004",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-004"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-006",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-006"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-007",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-007"
+     },
+     {
+      "date": "2026-10-15",
+      "guild_id": "G-BR-011",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-011"
+     }
+    ],
+    "row_count": 62,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.118,
+   "kind": "tool_call",
+   "tool": "get_guild_info",
+   "args": {
+    "guild_id": "G-BR-002"
+   },
+   "result_summary": {
+    "ref_id": "Q-0006"
+   },
+   "result": {
+    "ref_id": "Q-0006",
+    "count": 1,
+    "guilds": [
+     {
+      "guild_id": "G-BR-002",
+      "market": "BR",
+      "name": "巴西公会-002",
+      "sessions_28d": 2093,
+      "head_hosts": 67,
+      "tier": "mid",
+      "manager": "公会运营-BR"
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.147,
+   "kind": "tool_call",
+   "tool": "sample_cases",
+   "args": {
+    "start_date": "2026-10-15",
+    "end_date": "2026-10-15",
+    "market": "BR",
+    "scenario": "spam_bot",
+    "guild_id": "G-BR-002",
+    "n": 15
+   },
+   "result_summary": {
+    "ref_id": "Q-0007"
+   },
+   "result": {
+    "ref_id": "Q-0007",
+    "population": 41,
+    "n": 15,
+    "contains_head_host": true,
+    "guild_share_in_population": {
+     "G-BR-002": 1.0
+    },
+    "score_summary": {
+     "mean": 0.915,
+     "p50": 0.931,
+     "min": 0.721
+    },
+    "cases": [
+     {
+      "session_id": "LS-0102379",
+      "hit_id": "HT-0026596",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9178,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 0,
+       "viewers_peak": 13,
+       "gift_amount": 0,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102578",
+      "hit_id": "HT-0026674",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9703,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 3,
+       "viewers_peak": 21,
+       "gift_amount": 16,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 1
+      }
+     },
+     {
+      "session_id": "LS-0102704",
+      "hit_id": "HT-0026758",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.8337,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 81,
+       "gift_amount": 326,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102924",
+      "hit_id": "HT-0026851",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.8253,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": {
+       "appeal_id": "AP-005308",
+       "result": "upheld"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 0,
+       "viewers_peak": 81,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102479",
+      "hit_id": "HT-0026632",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "mid",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.8033,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 143,
+       "gift_amount": 6,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102662",
+      "hit_id": "HT-0026720",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.9453,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": {
+       "appeal_id": "AP-005284",
+       "result": "upheld"
+      },
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 13,
+       "viewers_peak": 13,
+       "gift_amount": 13,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102592",
+      "hit_id": "HT-0026679",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-121",
+      "strategy_version": "v1",
+      "score": 0.7419,
+      "threshold": 0.72,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 4,
+       "viewers_peak": 30,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102123",
+      "hit_id": "HT-0026484",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.868,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 8,
+       "gift_amount": 21,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102789",
+      "hit_id": "HT-0026781",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.9835,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 12,
+       "viewers_peak": 2,
+       "gift_amount": 0,
+       "report_count": 3,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102133",
+      "hit_id": "HT-0026490",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.8999,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 10,
+       "viewers_peak": 232,
+       "gift_amount": 15,
+       "report_count": 3,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102909",
+      "hit_id": "HT-0026839",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "mid",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.8433,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 2,
+       "viewers_peak": 73,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102598",
+      "hit_id": "HT-0026685",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.9895,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 6,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102865",
+      "hit_id": "HT-0026810",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.7597,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": {
+       "appeal_id": "AP-005303",
+       "result": "upheld"
+      },
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 11,
+       "viewers_peak": 282,
+       "gift_amount": 0,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102639",
+      "hit_id": "HT-0026700",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "head",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.87,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 10,
+       "viewers_peak": 16660,
+       "gift_amount": 42,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102531",
+      "hit_id": "HT-0026648",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "mid",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-104",
+      "strategy_version": "v4",
+      "score": 0.9966,
+      "threshold": 0.75,
+      "model_version": "v2.1",
+      "action": "limit_traffic",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 1212,
+       "gift_amount": 18,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.148,
+   "kind": "guardrails",
+   "needs_escalation": true,
+   "reasons": [
+    "涉及公会级处置，超出只读结论范围，需公会治理确认",
+    "涉及头部主播，需策略 owner 人工确认"
+   ],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "巴西刷量昨天处罚涨了",
+  "scope": {
+   "market": "BR",
+   "scenario": "spam_bot",
+   "metric": "enforcements",
+   "date": "2026-10-15",
+   "window_days": 1,
+   "baseline_window": [
+    "2026-10-08",
+    "2026-10-14"
+   ],
+   "direction": "up",
+   "note": "单日 vs 前 7 天中位数",
+   "low_sample": false,
+   "observed": {
+    "current": 59,
+    "baseline_median": 33.0,
+    "sessions_current": 885,
+    "sessions_baseline_median": 861.0
+   },
+   "decomposition": {
+    "count_ratio": 1.79,
+    "traffic_ratio": 1.03,
+    "rate_ratio": 1.74,
+    "traffic_share_of_change": 0.05
+   }
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0002",
+    "type": "metric",
+    "metric": "enforcements",
+    "what": "2026-10-15 enforcements=59，前 7 天中位数 33.0"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "metric",
+    "metric": "sessions",
+    "what": "2026-10-15 sessions=885，前 7 天中位数 861"
+   },
+   {
+    "ref_id": "Q-0003",
+    "type": "drilldown",
+    "metric": "enforcements",
+    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-117', 14.0, 0.52, 27, 13.0), ('S-104', 12.0, 0.44, 30, 18.0), ('S-121', -1.0, 0.04, 2, 3.0)]"
+   },
+   {
+    "ref_id": "Q-0005",
+    "type": "drilldown",
+    "metric": "enforcements",
+    "what": "按公会增量贡献: G-BR-002 15.0→35（增量份额 65%）；其余公会基本持平"
+   },
+   {
+    "ref_id": "Q-0006",
+    "type": "guild",
+    "what": "G-BR-002 巴西公会-002，mid 公会，近 28 天 2093 场，头部主播 67 个"
+   },
+   {
+    "ref_id": "Q-0007",
+    "type": "cases",
+    "what": "抽样 15 个 case（新设备占比高、账号年龄小），含头部主播=True"
+   }
+  ],
+  "next_steps": [
+   "公会治理：核查 G-BR-002 近 3 天新增主播和设备，必要时按公会维度处置",
+   "策略侧无需改动；如果是新型批量行为，把 case 送策略团队评估是否需要公会级特征"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "涉及公会级处置，超出只读结论范围，需公会治理确认",
+   "涉及头部主播，需策略 owner 人工确认"
+  ],
+  "platform_links": [
+   "platform://metrics?metric=enforcements&market=BR&scenario=spam_bot&date=2026-10-15",
+   "platform://guild/G-BR-002"
+  ],
+  "metric": {
+   "key": "enforcements",
+   "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+   "version": "v2",
+   "note": null
+  },
+  "sample_case_ids": [
+   "LS-0102379",
+   "LS-0102578",
+   "LS-0102704",
+   "LS-0102924",
+   "LS-0102479",
+   "LS-0102662",
+   "LS-0102592",
+   "LS-0102123",
+   "LS-0102789",
+   "LS-0102133",
+   "LS-0102909",
+   "LS-0102598",
+   "LS-0102865",
+   "LS-0102639",
+   "LS-0102531"
+  ],
+  "primary_cause": {
+   "type": "guild_concentration",
+   "strategy_ids": [
+    "S-117"
+   ],
+   "change_ids": [],
+   "guild_ids": [
+    "G-BR-002"
+   ],
+   "explanation": "同期无策略/模型/policy 变更；增量 65% 集中在公会 G-BR-002，其他公会平稳，更像该公会主播的集中违规而不是策略问题"
+  },
+  "conclusion": "BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+  "confidence": "medium",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

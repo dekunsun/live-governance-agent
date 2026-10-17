@@ -14,10 +14,10 @@ from agent.run import Copilot, render_card  # noqa: E402
 
 st.set_page_config(page_title="治理策略巡检与异常归因助手（原型）", page_icon="🛡️", layout="wide")
 
-EXAMPLES = ["美国昨天误杀申诉涨了，帮我看看", "ID 10月4日处罚量涨了", "巴西赌博命中最近下降了", "GB 骚扰 10-13 人审量涨了",
+EXAMPLES = ["美国昨天误杀申诉涨了，帮我看看", "ID 10月4日处罚量涨了", "巴西赌博命中最近下降了", "巴西刷量昨天处罚涨了", "GB 骚扰 10-13 人审量涨了",
             "印尼未成年 10-13 处罚上升", "肯尼亚昨天误杀申诉涨了", "US 昨天误杀率涨了", "S-104 有没有问题"]
 CAUSE_ZH = {"traffic_driven": "流量驱动", "model_drift_threshold": "模型升级后分数漂移、固定阈值失效", "strategy_change": "策略版本变更",
-            "new_strategy_launch": "新策略上线", "policy_update": "Policy 更新（预期内）", "recall_drop_evasion": "对抗绕过导致召回下降",
+            "new_strategy_launch": "新策略上线", "policy_update": "Policy 更新（预期内）", "recall_drop_evasion": "对抗绕过导致召回下降", "guild_concentration": "集中在单一公会（公会级问题）",
             "strategy_overlap": "策略重叠", "zombie_strategy": "僵尸策略", "no_anomaly": "正常波动", "insufficient_data": "样本不足",
             "unexplained": "无法解释", "needs_clarification": "需要澄清", "case_reconstruction": "Case 还原"}
 
@@ -45,7 +45,8 @@ def show_card(card, trace):
     st.markdown(f"**结论**：{card.get('conclusion')}")
     pc = card.get("primary_cause")
     if pc and card.get("card_type") != "health_check":
-        st.markdown(f"**主因**：`{pc.get('type')}` {CAUSE_ZH.get(pc.get('type'), '')} ｜ 策略 {pc.get('strategy_ids') or '—'} ｜ 变更 {pc.get('change_ids') or '—'}")
+        st.markdown(f"**主因**：`{pc.get('type')}` {CAUSE_ZH.get(pc.get('type'), '')} ｜ 策略 {pc.get('strategy_ids') or '—'} ｜ 变更 {pc.get('change_ids') or '—'}"
+                    + (f" ｜ 公会 {pc.get('guild_ids')}" if pc.get('guild_ids') else ""))
         st.caption(pc.get("explanation"))
     if card.get("escalation_reasons"):
         st.warning("升级原因：" + "；".join(card["escalation_reasons"]))

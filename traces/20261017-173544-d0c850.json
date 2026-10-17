@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-073556-b8df05",
+ "run_id": "20261017-173544-d0c850",
  "engine": "rules",
  "playbook": "case",
  "query": "还原 case LS-0101617",
- "latency_s": 0.036,
+ "latency_s": 0.04,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -14,7 +14,7 @@
  "tool_calls": 1,
  "events": [
   {
-   "t": 0.035,
+   "t": 0.038,
    "kind": "tool_call",
    "tool": "reconstruct_case",
    "args": {
@@ -31,6 +31,16 @@
      "market": "US",
      "host_id": "H153823",
      "host_tier": "head",
+     "guild_id": "G-US-010",
+     "guild": {
+      "guild_id": "G-US-010",
+      "market": "US",
+      "name": "美国公会-010",
+      "sessions_28d": 763,
+      "head_hosts": 35,
+      "tier": "small",
+      "manager": "公会运营-US"
+     },
      "duration_min": 120,
      "features": {
       "account_age_days": 531,
@@ -97,7 +107,7 @@
       "threshold": 0.85,
       "action": "suspend_live",
       "model_version": "v4",
-      "hit_id": "HT-0026195"
+      "hit_id": "HT-0026348"
      },
      {
       "step": "enforcement",
@@ -107,12 +117,12 @@
       "scenario": "scam_fraud",
       "final_action": "suspend_live",
       "triggered_by": "S-102",
-      "enforcement_id": "EN-0014946"
+      "enforcement_id": "EN-0015000"
      },
      {
       "step": "appeal",
-      "appeal_id": "AP-005179",
-      "enforcement_id": "EN-0014946",
+      "appeal_id": "AP-005411",
+      "enforcement_id": "EN-0015000",
       "strategy_id": "S-102",
       "scenario": "scam_fraud",
       "market": "US",
@@ -138,7 +148,7 @@
       "owner": "算法-交易安全"
      }
     ],
-    "qa_label": null,
+    "qa_label": "none",
     "escalation_flags": [
      "head_host: 头部主播，需人工确认",
      "appeal_overturned: 申诉已推翻，疑似误杀",
@@ -148,7 +158,7 @@
    }
   },
   {
-   "t": 0.036,
+   "t": 0.04,
    "kind": "guardrails",
    "needs_escalation": true,
    "reasons": [
@@ -194,6 +204,16 @@
     "market": "US",
     "host_id": "H153823",
     "host_tier": "head",
+    "guild_id": "G-US-010",
+    "guild": {
+     "guild_id": "G-US-010",
+     "market": "US",
+     "name": "美国公会-010",
+     "sessions_28d": 763,
+     "head_hosts": 35,
+     "tier": "small",
+     "manager": "公会运营-US"
+    },
     "duration_min": 120,
     "features": {
      "account_age_days": 531,
@@ -260,7 +280,7 @@
      "threshold": 0.85,
      "action": "suspend_live",
      "model_version": "v4",
-     "hit_id": "HT-0026195"
+     "hit_id": "HT-0026348"
     },
     {
      "step": "enforcement",
@@ -270,12 +290,12 @@
      "scenario": "scam_fraud",
      "final_action": "suspend_live",
      "triggered_by": "S-102",
-     "enforcement_id": "EN-0014946"
+     "enforcement_id": "EN-0015000"
     },
     {
      "step": "appeal",
-     "appeal_id": "AP-005179",
-     "enforcement_id": "EN-0014946",
+     "appeal_id": "AP-005411",
+     "enforcement_id": "EN-0015000",
      "strategy_id": "S-102",
      "scenario": "scam_fraud",
      "market": "US",
@@ -301,7 +321,7 @@
      "owner": "算法-交易安全"
     }
    ],
-   "qa_label": null,
+   "qa_label": "none",
    "escalation_flags": [
     "head_host: 头部主播，需人工确认",
     "appeal_overturned: 申诉已推翻，疑似误杀",

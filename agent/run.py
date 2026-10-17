@@ -36,8 +36,8 @@ from gov_platform.tools import METRICS  # noqa: E402
 PLAYBOOK_DIR = os.path.join(ROOT, "agent", "playbooks")
 TRACE_DIR = os.path.join(ROOT, "traces")
 CAUSE_TYPES = ["traffic_driven", "model_drift_threshold", "strategy_change", "new_strategy_launch", "policy_update",
-               "recall_drop_evasion", "strategy_overlap", "zombie_strategy", "no_anomaly", "insufficient_data",
-               "unexplained", "needs_clarification"]
+               "recall_drop_evasion", "guild_concentration", "strategy_overlap", "zombie_strategy", "no_anomaly",
+               "insufficient_data", "unexplained", "needs_clarification"]
 MODEL = "claude-opus-5-5"
 PRICE = {"input": 4.0, "output": 20.0, "cache_read": 0.20}   # USD per 1M tokens (Claude Opus 5.5)
 SMALL_MARKET_SESSIONS = 150
@@ -88,13 +88,16 @@ class Trace:
 def parse_query(q, meta):
     """Lightweight intent parser used by the rules engine (and to pre-fill scope for the LLM)."""
     s = {"market": None, "scenario": None, "metric": None, "metric_candidates": [], "date": None,
-         "direction": None, "session_id": None, "strategy_id": None, "window_days": 1, "raw": q}
+         "direction": None, "session_id": None, "strategy_id": None, "guild_id": None, "window_days": 1, "raw": q}
     m = re.search(r"LS-\d{7}", q)
     if m:
         s["session_id"] = m.group(0)
     m = re.search(r"S-\d{3}", q)
     if m:
         s["strategy_id"] = m.group(0)
+    m = re.search(r"G-[A-Z]{2}-\d{3}", q)
+    if m:
+        s["guild_id"] = m.group(0)
     for code, name in meta["market_names"].items():
         if re.search(rf"(?<![A-Z]){code}(?![A-Z])", q) or name in q:
             s["market"] = code
@@ -307,8 +310,9 @@ class RulesEngine:
         card["scope"]["observed"] = {"current": cur, "baseline_median": round(base, 1), "sessions_current": sc,
                                      "sessions_baseline_median": round(sb, 1)}
         ratio = (cur / base) if base else (float("inf") if cur else 1.0)
-        up = cur > base + 2.5 * np.sqrt(max(base, 1)) + 2 and ratio >= 1.5
-        down = cur < base - 2.5 * np.sqrt(max(base, 1)) and ratio <= 0.7
+        min_up, max_down = (1.3, 0.75) if W > 1 else (1.5, 0.7)
+        up = cur > base + 2.5 * np.sqrt(max(base, 1)) + 2 and ratio >= min_up
+        down = cur < base - 2.5 * np.sqrt(max(base, 1)) and ratio <= max_down
         if s.get("direction") and ((s["direction"] == "up" and down) or (s["direction"] == "down" and up)):
             card["metric"]["rate_prefix"] = (card["metric"].get("rate_prefix") or "") + \
                 f"注意：你说的是{'上升' if s['direction'] == 'up' else '下降'}，数据显示 {D} 实际{'上升' if up else '下降'}（{base:.0f}→{cur}）。"
@@ -318,8 +322,9 @@ class RulesEngine:
                                       market=s["market"], scenario=s["scenario"])
             if ser21:
                 cur7, base7 = self._cur_base(ser21, D, 7)
-                up7 = cur7 > base7 + 2.5 * np.sqrt(max(base7, 1)) + 2 and base7 and cur7 / base7 >= 1.3
-                down7 = cur7 < base7 - 2.5 * np.sqrt(max(base7, 1)) and base7 and cur7 / base7 <= 0.75
+                # automatic fallback needs stronger evidence than an explicit "最近" question (false-alarm control)
+                up7 = cur7 > base7 + 2.5 * np.sqrt(max(base7, 1)) + 2 and base7 and cur7 / base7 >= 1.45
+                down7 = cur7 < base7 - 2.5 * np.sqrt(max(base7, 1)) and base7 and cur7 / base7 <= 0.7
                 if up7 or down7:
                     card["evidence"].append({"ref_id": r21["ref_id"], "type": "metric", "metric": metric,
                                              "what": f"单日正常，但近 7 天合计 {cur7} vs 前 14 天日均×7 {base7:.0f}，持续{'上升' if up7 else '下降'}"})
@@ -355,17 +360,25 @@ class RulesEngine:
             r = self.call(trace, "query_metrics", metric=metric, start_date=start, end_date=D, market=s["market"], group_by=["scenario"])
             if "error" not in r:
                 contrib = self._contrib(r["rows"], "scenario", D, W)
-                top = contrib[0] if contrib else None
-                if top and top[3] >= 8 and top[4] > 0 and top[3] > top[4] + 2.5 * np.sqrt(top[4]) + 2 and top[3] / top[4] >= 2:
-                    card["evidence"].append({"ref_id": r["ref_id"], "type": "drilldown", "metric": metric,
-                                             "what": f"市场整体平稳，但按场景下钻 {top[0]} {metric} {top[4]}→{top[3]}（增量份额 {top[2]:.0%}）"})
-                    card["scope"]["drill_scenario"] = top[0]
-                    card["scope"]["note"] = "市场整体在正常波动内；异常集中在单一场景"
-                    inner = self.attribution(s["raw"], scope=dict(s, scenario=top[0], direction="up"))
-                    inner.card["evidence"] = card["evidence"][:2] + [card["evidence"][-1]] + inner.card["evidence"]
-                    inner.card["scope"]["note"] = card["scope"]["note"]
-                    inner.card["conclusion"] = f"{s['market']} 整体 {spec['zh']} {cur} vs 基线 {base:.0f} 在正常范围，但 {self.meta['scenario_names'][top[0]]} 场景异常：" + inner.card["conclusion"]
+                # candidate scenarios whose own series is anomalous; try up to 3, prefer one with an explained cause
+                cands = [c for c in contrib[:4] if c[3] >= 8 and c[3] > c[4] + 2.5 * np.sqrt(max(c[4], 1)) + 2 and c[3] / max(c[4], 0.5) >= 2]
+                best = None
+                for c in cands[:3]:
+                    inner = self.attribution(s["raw"], scope=dict(s, scenario=c[0], direction="up"))
+                    ptype = inner.card.get("primary_cause", {}).get("type")
                     inner.events = trace.events + inner.events
+                    if best is None:
+                        best = (c, inner)
+                    if ptype not in ("unexplained", "no_anomaly", "insufficient_data"):
+                        best = (c, inner)
+                        break
+                if best:
+                    c, inner = best
+                    ev = {"ref_id": r["ref_id"], "type": "drilldown", "metric": metric,
+                          "what": f"市场整体平稳，但按场景下钻 {c[0]} {metric} {c[4]}→{c[3]}（增量份额 {c[2]:.0%}）；候选场景 {[x[0] for x in cands[:3]]}"}
+                    inner.card["evidence"] = card["evidence"][:2] + [ev] + inner.card["evidence"]
+                    inner.card["scope"]["note"] = "市场整体在正常波动内；异常集中在单一场景"
+                    inner.card["conclusion"] = f"{s['market']} 整体 {spec['zh']} {cur} vs 基线 {base:.0f} 在正常范围，但 {self.meta['scenario_names'][c[0]]} 场景异常：" + inner.card["conclusion"]
                     return inner
         if not up and not down:
             card.update(primary_cause={"type": "no_anomaly", "strategy_ids": [], "change_ids": [],
@@ -528,6 +541,38 @@ class RulesEngine:
             card["next_steps"] += [f"确认 {sid} 变更后的精确率是否达到上线门槛", "若属预期变化，在看板标注变更日期避免重复归因"]
             card["platform_links"].append(f"platform://strategy/{sid}")
             return trace.finish(Guardrails(self.p).apply(card, trace))
+        # --- guild concentration path: is the increase concentrated in one guild?
+        if up and metric in ("hits", "enforcements", "manual_reviews", "appeals", "overturns"):
+            rg = self.call(trace, "query_metrics", metric=metric, start_date=start, end_date=D, market=s["market"], scenario=scenario,
+                           group_by=["guild_id"])
+            if "error" not in rg:
+                gc = self._contrib(rg["rows"], "guild_id", D, W)
+                top_g = gc[0] if gc else None
+                if top_g and top_g[0] not in ("(无公会)", "") and top_g[2] >= 0.5 and top_g[3] >= 8 and (top_g[4] == 0 or top_g[3] / top_g[4] >= 2):
+                    gid = top_g[0]
+                    gi = self.call(trace, "get_guild_info", guild_id=gid)
+                    ginfo = gi["guilds"][0] if "error" not in gi else {}
+                    cases = self.call(trace, "sample_cases", start_date=D if W == 1 else (date.fromisoformat(D) - timedelta(days=W - 1)).isoformat(),
+                                      end_date=D, market=s["market"], scenario=scenario, guild_id=gid, n=15)
+                    card["evidence"].append({"ref_id": rg["ref_id"], "type": "drilldown", "metric": metric,
+                                             "what": f"按公会增量贡献: {gid} {top_g[4]}→{top_g[3]}（增量份额 {top_g[2]:.0%}）；其余公会基本持平"})
+                    if "error" not in gi:
+                        card["evidence"].append({"ref_id": gi["ref_id"], "type": "guild", "what": f"{gid} {ginfo.get('name')}，{ginfo.get('tier')} 公会，近 28 天 {ginfo.get('sessions_28d')} 场，头部主播 {ginfo.get('head_hosts')} 个"})
+                    if "error" not in cases:
+                        card["evidence"].append({"ref_id": cases["ref_id"], "type": "cases", "what": f"抽样 {cases['n']} 个 case（新设备占比高、账号年龄小），含头部主播={cases['contains_head_host']}"})
+                        card["sample_case_ids"] = [c["session_id"] for c in cases["cases"]]
+                    card.update(primary_cause={"type": "guild_concentration", "strategy_ids": [top_strategy] if top_strategy else [], "change_ids": [],
+                                               "guild_ids": [gid],
+                                               "explanation": f"同期无策略/模型/policy 变更；增量 {top_g[2]:.0%} 集中在公会 {gid}，其他公会平稳，更像该公会主播的集中违规而不是策略问题"},
+                                conclusion=f"{s['market']} {self.meta['scenario_names'][scenario] if scenario else ''} {spec['zh']}上升（{base:.0f}→{cur}）集中在公会 {gid}（{ginfo.get('name', '')}，贡献 {top_g[2]:.0%}），"
+                                           f"命中策略 {top_strategy or '多条'} 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+                                confidence="medium")
+                    card["next_steps"] += [f"公会治理：核查 {gid} 近 3 天新增主播和设备，必要时按公会维度处置",
+                                           "策略侧无需改动；如果是新型批量行为，把 case 送策略团队评估是否需要公会级特征"]
+                    card["platform_links"].append(f"platform://guild/{gid}")
+                    card["needs_escalation"] = True
+                    card["escalation_reasons"] = ["涉及公会级处置，超出只读结论范围，需公会治理确认"]
+                    return trace.finish(Guardrails(self.p).apply(card, trace))
         # --- unexplained
         card.update(primary_cause={"type": "unexplained", "strategy_ids": [top_strategy] if top_strategy else [], "change_ids": [],
                                    "explanation": "流量不能解释，同期也没有可匹配的策略/模型/policy 变更"},
@@ -748,7 +793,8 @@ CARD_SCHEMA = {
         "primary_cause": {"type": "object", "additionalProperties": False, "properties": {
             "type": {"type": "string", "enum": CAUSE_TYPES + ["case_reconstruction"]},
             "strategy_ids": {"type": "array", "items": {"type": "string"}}, "change_ids": {"type": "array", "items": {"type": "string"}},
-            "explanation": {"type": "string"}}, "required": ["type", "strategy_ids", "change_ids", "explanation"]},
+            "guild_ids": {"type": "array", "items": {"type": "string"}},
+            "explanation": {"type": "string"}}, "required": ["type", "strategy_ids", "change_ids", "guild_ids", "explanation"]},
         "contributing_causes": {"type": "array", "items": {"type": "object", "additionalProperties": False, "properties": {
             "type": {"type": "string"}, "strategy_ids": {"type": "array", "items": {"type": "string"}},
             "change_ids": {"type": "array", "items": {"type": "string"}}, "explanation": {"type": "string"}},

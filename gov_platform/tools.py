@@ -101,6 +101,8 @@ class Platform:
         self.metrics_strategy = rd("metrics_daily_strategy.csv")
         self.strategies = json.load(open(os.path.join(data_dir, "strategies.json")))
         self.change_log = json.load(open(os.path.join(data_dir, "change_log.json")))
+        self.guilds = json.load(open(os.path.join(data_dir, "guilds.json")))
+        self.guild_by_id = {g["guild_id"]: g for g in self.guilds}
         self.meta = json.load(open(os.path.join(data_dir, "meta.json")))
         self.by_id = {s["strategy_id"]: s for s in self.strategies}
         self.sess_idx = self.sessions.set_index("session_id")
@@ -109,7 +111,7 @@ class Platform:
             "session_id": set(self.sessions.session_id), "hit_id": set(self.hits.hit_id),
             "appeal_id": set(self.appeals.appeal_id), "enforcement_id": set(self.enforcements.enforcement_id),
             "qa_id": set(self.qa.qa_id), "policy_id": {p["policy_id"] for p in self.meta["policies"]},
-            "model": {m["model"] for m in self.meta["model_versions"]}, "metric": set(METRICS),
+            "model": {m["model"] for m in self.meta["model_versions"]}, "metric": set(METRICS), "guild_id": set(self.guild_by_id),
             "market": set(self.meta["markets"]), "scenario": set(self.meta["scenarios"]),
         }
         self.refs = {}          # ref_id -> tool name (per run)
@@ -159,6 +161,16 @@ class Platform:
         clipped = s < lo or e > hi
         return max(s, lo).isoformat(), min(e, hi).isoformat(), clipped
 
+    def _check_guild(self, g):
+        if g is None:
+            return None
+        if g not in self.guild_by_id:
+            raise ToolError("unknown_guild", f"公会 {g} 不存在", "用 get_guild_info 查看公会；不要猜测公会编号")
+        return g
+
+    def _with_guild(self, df):
+        return df.assign(guild_id=df.session_id.map(self.sess_idx.guild_id).fillna(""))
+
     def resolve_metric(self, name):
         """Return (metric_key or None, candidates). Chinese aliases may be ambiguous (口径冲突)."""
         if name in METRICS:
@@ -170,7 +182,7 @@ class Platform:
 
     # ------------------------------------------------------------------ tools
     def query_metrics(self, metric, start_date, end_date, market=None, scenario=None, strategy_id=None,
-                      group_by=None, granularity="day"):
+                      group_by=None, granularity="day", guild_id=None):
         """Query governance metrics by day or as a window total, grouped by market/scenario/strategy_id."""
         key, cands = self.resolve_metric(metric)
         if key is None:
@@ -183,24 +195,29 @@ class Platform:
         markets = self._check_market(market)
         scenario = self._check_scenario(scenario)
         strategy_id = self._check_strategy(strategy_id)
+        guild_id = self._check_guild(guild_id)
         group_by = list(group_by or [])
         for g in group_by:
-            if g not in ("market", "scenario", "strategy_id", "date"):
-                raise ToolError("bad_group_by", f"不支持按 {g} 分组", "可选: market, scenario, strategy_id, date")
+            if g not in ("market", "scenario", "strategy_id", "date", "guild_id"):
+                raise ToolError("bad_group_by", f"不支持按 {g} 分组", "可选: market, scenario, strategy_id, date, guild_id")
         if granularity == "day" and "date" not in group_by:
             group_by = ["date"] + group_by
         spec = METRICS[key]
         if strategy_id and spec["level"] == "scenario":
             raise ToolError("bad_filter", f"{key} 是场景级指标，不能按 strategy_id 过滤", "改用 scenario 过滤")
 
-        if key in ("precision_est", "recall_est"):
+        if guild_id or "guild_id" in group_by:
+            if key in ("precision_est", "recall_est", "reports"):
+                raise ToolError("bad_filter", f"{key} 不支持公会维度", "公会维度支持 sessions/hits/manual_reviews/enforcements/appeals/overturns 及其比率")
+            rows = self._guild_rows(key, spec, start, end, markets, scenario, strategy_id, guild_id, group_by)
+        elif key in ("precision_est", "recall_est"):
             rows = self._estimate_rows(key, start, end, markets, scenario, strategy_id, group_by)
         else:
             rows = self._count_rows(key, spec, start, end, markets, scenario, strategy_id, group_by)
         rows = rows[:400]
         return {"ref_id": self._ref("query_metrics"), "metric": key, "metric_zh": spec["zh"],
                 "metric_version": spec["version"], "definition": spec["definition"],
-                "filters": {"market": markets or "ALL", "scenario": scenario, "strategy_id": strategy_id,
+                "filters": {"market": markets or "ALL", "scenario": scenario, "strategy_id": strategy_id, "guild_id": guild_id,
                             "start_date": start, "end_date": end, "window_clipped": clipped},
                 "group_by": group_by, "rows": rows, "row_count": len(rows),
                 "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"}
@@ -248,6 +265,60 @@ class Platform:
         for r in out:
             r.pop("_all", None)
         return out
+
+    def _guild_rows(self, key, spec, start, end, markets, scenario, strategy_id, guild_id, group_by):
+        """Counts computed from raw tables joined with the session's guild (metrics tables have no guild dimension)."""
+        def base(df, scn_col=None, strat_col=None):
+            df = df[(df.date >= start) & (df.date <= end)]
+            if markets:
+                df = df[df.market.isin(markets)]
+            if scenario and scn_col:
+                df = df[df[scn_col] == scenario]
+            if strategy_id and strat_col:
+                df = df[df[strat_col] == strategy_id]
+            df = self._with_guild(df)
+            if guild_id:
+                df = df[df.guild_id == guild_id]
+            return df
+        sess = base(self.sessions)
+        tables = {
+            "sessions": sess,
+            "hits": base(self.hits, "scenario", "strategy_id"),
+            "manual_reviews": base(self.hits[self.hits.action == "manual_review"], "scenario", "strategy_id"),
+            "enforcements": base(self.enforcements, "scenario", "primary_strategy_id"),
+            "appeals": base(self.appeals, "scenario", "strategy_id"),
+            "overturns": base(self.appeals[self.appeals.result == "overturned"], "scenario", "strategy_id"),
+        }
+        def count(name, keys):
+            df = tables[name]
+            ks = [k for k in keys if k in df.columns or k == "strategy_id"]
+            if name == "enforcements" and "strategy_id" in ks:
+                df = df.rename(columns={"primary_strategy_id": "strategy_id"})
+            ks = [k for k in ks if k in df.columns]
+            if not ks:
+                return {(): len(df)}, []
+            g = df.groupby(ks).size()
+            return {(k if isinstance(k, tuple) else (k,)): int(v) for k, v in g.items()}, ks
+        keys = group_by or []
+        if spec["kind"] == "count":
+            c, ks = count(key, keys)
+            out = [dict(zip(ks, k), value=v, low_sample=False) for k, v in c.items()]
+        else:
+            num, ks = count(spec["num"], keys)
+            den_keys = [k for k in keys if k in ("date", "market", "guild_id")] if spec["den"] == "sessions" else keys
+            den, dks = count(spec["den"], den_keys)
+            out = []
+            for k, n in num.items():
+                dk = tuple(v for kk, v in zip(ks, k) if kk in dks)
+                d = den.get(dk, 0)
+                out.append(dict(zip(ks, k), value=round(n / d, 4) if d else None, numerator=n, denominator=d,
+                                low_sample=d < (20 if spec["den"] != "sessions" else 150)))
+        for r in out:
+            if r.get("guild_id") == "":
+                r["guild_id"] = "(无公会)"
+            elif r.get("guild_id"):
+                r["guild_name"] = self.guild_by_id.get(r["guild_id"], {}).get("name")
+        return sorted(out, key=lambda r: (r.get("date", ""), -(r["value"] or 0)))
 
     def _estimate_rows(self, key, start, end, markets, scenario, strategy_id, group_by):
         qa = self.qa[(self.qa.date >= start) & (self.qa.date <= end)]
@@ -331,7 +402,7 @@ class Platform:
         return {"ref_id": self._ref("get_strategy_config"), "count": len(out), "strategies": out}
 
     def get_hit_logs(self, start_date, end_date, strategy_id=None, market=None, scenario=None, limit=50,
-                     overlap_analysis=False):
+                     overlap_analysis=False, guild_id=None):
         """Pull hit and disposition records, with per-action/strategy summary and optional overlap analysis."""
         start, end, _ = self._check_window(start_date, end_date)
         strategy_id = self._check_strategy(strategy_id)
@@ -344,13 +415,18 @@ class Platform:
             h = h[h.market.isin(markets)]
         if scenario:
             h = h[h.scenario == scenario]
+        guild_id = self._check_guild(guild_id)
+        h = self._with_guild(h)
+        if guild_id:
+            h = h[h.guild_id == guild_id]
         limit = int(min(max(limit, 1), 200))
         res = {"ref_id": self._ref("get_hit_logs"), "filters": {"strategy_id": strategy_id, "market": markets or "ALL",
-               "scenario": scenario, "start_date": start, "end_date": end},
+               "scenario": scenario, "guild_id": guild_id, "start_date": start, "end_date": end},
                "summary": {"hits": int(len(h)), "distinct_sessions": int(h.session_id.nunique()),
                            "by_action": h.action.value_counts().to_dict(),
                            "by_strategy": h.strategy_id.value_counts().head(20).to_dict(),
                            "by_market": h.market.value_counts().to_dict(),
+                           "by_guild": h.guild_id.replace("", "(无公会)").value_counts().head(10).to_dict(),
                            "by_model_version": h.model_version.value_counts().to_dict()},
                "rows": h.sort_values("date", ascending=False).head(limit).to_dict("records"),
                "truncated": len(h) > limit}
@@ -372,7 +448,7 @@ class Platform:
         return res
 
     def sample_cases(self, start_date, end_date, strategy_id=None, market=None, scenario=None, n=15,
-                     appealed=None, overturned=None, action=None, host_tier=None):
+                     appealed=None, overturned=None, action=None, host_tier=None, guild_id=None):
         """Sample typical cases (sessions) with scores, thresholds, actions, appeal results and QA labels."""
         start, end, _ = self._check_window(start_date, end_date)
         strategy_id = self._check_strategy(strategy_id)
@@ -395,6 +471,9 @@ class Platform:
             h = h[h.session_id.isin(ov) == bool(overturned)]
         if host_tier:
             h = h[h.session_id.map(self.sess_idx.host_tier) == host_tier]
+        guild_id = self._check_guild(guild_id)
+        if guild_id:
+            h = h[h.session_id.map(self.sess_idx.guild_id) == guild_id]
         if h.empty:
             raise ToolError("no_data", "没有符合条件的 case", "放宽过滤条件")
         n = int(min(max(n, 1), 30))
@@ -405,15 +484,17 @@ class Platform:
             s = self.sess_idx.loc[r.session_id]
             a = ap.loc[r.session_id] if r.session_id in ap.index else None
             cases.append({"session_id": r.session_id, "hit_id": r.hit_id, "date": r.date, "market": r.market,
-                          "host_tier": s.host_tier, "strategy_id": r.strategy_id, "strategy_version": r.strategy_version,
+                          "host_tier": s.host_tier, "guild_id": s.guild_id or None, "strategy_id": r.strategy_id, "strategy_version": r.strategy_version,
                           "score": float(r.score), "threshold": float(r.threshold), "model_version": r.model_version,
                           "action": r.action, "appeal": None if a is None else {"appeal_id": a.appeal_id, "result": a.result},
                           "qa_label": qa_lab.get(r.session_id, None),
                           "features": {k: (int(s[k]) if float(s[k]).is_integer() else float(s[k])) for k in
                                        ("account_age_days", "viewers_peak", "gift_amount", "report_count",
                                         "external_link_flag", "new_device_flag", "keyword_hits")}})
+        gshare = h.drop_duplicates("session_id").session_id.map(self.sess_idx.guild_id).replace("", "(无公会)").value_counts(normalize=True)
         return {"ref_id": self._ref("sample_cases"), "population": int(h.session_id.nunique()), "n": len(cases),
                 "contains_head_host": any(c["host_tier"] == "head" for c in cases),
+                "guild_share_in_population": {k: round(float(v), 3) for k, v in gshare.head(5).items()},
                 "score_summary": {"mean": round(float(h.score.mean()), 3), "p50": round(float(h.score.median()), 3),
                                   "min": round(float(h.score.min()), 3)},
                 "cases": cases}
@@ -561,13 +642,22 @@ class Platform:
                 flags.append(f"{r.strategy_id} 分数 {r.score:.3f} 仅略高于阈值 {r.threshold}（边界 case）")
         return {"ref_id": self._ref("reconstruct_case"), "session_id": session_id,
                 "session": {"date": d, "market": s.market, "host_id": s.host_id, "host_tier": s.host_tier,
-                            "duration_min": int(s.duration_min),
+                            "guild_id": s.guild_id or None, "guild": self.guild_by_id.get(s.guild_id), "duration_min": int(s.duration_min),
                             "features": {k: (int(s[k]) if float(s[k]).is_integer() else float(s[k])) for k in
                                          ("account_age_days", "viewers_peak", "gift_amount", "report_count",
                                           "external_link_flag", "new_device_flag", "keyword_hits", "legacy_brand_list_match")}},
                 "scores": scores, "chain": chain, "related_changes": changes,
                 "qa_label": q.iloc[0].qa_label if len(q) else None, "escalation_flags": flags,
                 "platform_link": f"platform://case/{session_id}"}
+
+    def get_guild_info(self, guild_id=None, market=None):
+        """Guild registry: id, market, name, size tier, 28-day sessions, head hosts, manager."""
+        guild_id = self._check_guild(guild_id)
+        markets = self._check_market(market)
+        out = [g for g in self.guilds if (not guild_id or g["guild_id"] == guild_id) and (not markets or g["market"] in markets)]
+        if not out:
+            raise ToolError("no_data", "没有匹配的公会")
+        return {"ref_id": self._ref("get_guild_info"), "count": len(out), "guilds": sorted(out, key=lambda g: -g["sessions_28d"])[:50]}
 
     def draft_change(self, strategy_id, proposed_threshold, rationale, evidence_ids, proposed_action=None):
         """Create a change-request DRAFT (never applied). Risk tier decides who must approve."""
@@ -618,26 +708,29 @@ _DATE = {"type": "string", "description": "YYYY-MM-DD"}
 _MKT = {"type": ["string", "null"], "description": "市场代码，如 US/BR/ID/GB/VN/KE；null 表示全部"}
 _SCN = {"type": ["string", "null"], "description": "场景: adult_content, minor_safety, scam_fraud, violence, spam_bot, gambling, hate_harassment, counterfeit"}
 _SID = {"type": ["string", "null"], "description": "策略编号，如 S-102"}
+_GID = {"type": ["string", "null"], "description": "公会编号，如 G-BR-003；null 表示不按公会过滤"}
 
 TOOL_SPECS = [
     {"name": "query_metrics", "description": "按天或汇总查询治理指标（sessions/hits/manual_reviews/enforcements/appeals/overturns/reports/"
-     "hit_rate/enforcement_rate/appeal_rate/overturn_rate/overturn_per_enforcement/precision_est/recall_est）。返回口径定义和 ref_id。"
+     "hit_rate/enforcement_rate/appeal_rate/overturn_rate/overturn_per_enforcement/precision_est/recall_est）。可按 market/scenario/strategy_id/guild_id 分组。返回口径定义和 ref_id。"
      "中文别名可能对应多个口径，此时返回 ambiguous_metric 错误，需选定一个。",
      "input_schema": {**_p(metric={"type": "string"}, start_date=_DATE, end_date=_DATE, market=_MKT, scenario=_SCN,
-                           strategy_id=_SID, group_by={"type": "array", "items": {"type": "string", "enum": ["market", "scenario", "strategy_id", "date"]}},
+                           strategy_id=_SID, guild_id=_GID,
+                           group_by={"type": "array", "items": {"type": "string", "enum": ["market", "scenario", "strategy_id", "date", "guild_id"]}},
                            granularity={"type": "string", "enum": ["day", "total"]}),
                       "required": ["metric", "start_date", "end_date"]}},
     {"name": "get_strategy_config", "description": "读取策略条件、阈值、动作、版本历史、owner。",
      "input_schema": {**_p(strategy_id=_SID, scenario=_SCN, market=_MKT, status={"type": ["string", "null"], "enum": ["active", "paused", None]}),
                       "required": []}},
     {"name": "get_hit_logs", "description": "拉取策略命中与处置记录；overlap_analysis=true 时给出与其他策略的重叠分析（需 strategy_id）。",
-     "input_schema": {**_p(start_date=_DATE, end_date=_DATE, strategy_id=_SID, market=_MKT, scenario=_SCN,
+     "input_schema": {**_p(start_date=_DATE, end_date=_DATE, strategy_id=_SID, market=_MKT, scenario=_SCN, guild_id=_GID,
                            limit={"type": "integer"}, overlap_analysis={"type": "boolean"}),
                       "required": ["start_date", "end_date"]}},
     {"name": "sample_cases", "description": "抽样典型 case（带分数、阈值、模型版本、处置、申诉结果、QA 标签、关键特征）。",
      "input_schema": {**_p(start_date=_DATE, end_date=_DATE, strategy_id=_SID, market=_MKT, scenario=_SCN, n={"type": "integer"},
                            appealed={"type": ["boolean", "null"]}, overturned={"type": ["boolean", "null"]},
-                           action={"type": ["string", "null"]}, host_tier={"type": ["string", "null"], "enum": ["head", "mid", "tail", None]}),
+                           action={"type": ["string", "null"]}, host_tier={"type": ["string", "null"], "enum": ["head", "mid", "tail", None]},
+                           guild_id=_GID),
                       "required": ["start_date", "end_date"]}},
     {"name": "get_change_log", "description": "查询窗口内的策略上线/更新、模型升级、policy 更新、特征管线变更。",
      "input_schema": {**_p(start_date=_DATE, end_date=_DATE, scenario=_SCN, market=_MKT, strategy_id=_SID,
@@ -653,6 +746,8 @@ TOOL_SPECS = [
                       "required": ["strategy_id", "start_date", "end_date"]}},
     {"name": "reconstruct_case", "description": "还原单个 case：特征、各模型分与版本、命中的策略、处罚链路、申诉、QA 标签、相关变更。",
      "input_schema": {**_p(session_id={"type": "string"}), "required": ["session_id"]}},
+    {"name": "get_guild_info", "description": "查询公会信息（市场、规模、头部主播数、运营负责人）。",
+     "input_schema": {**_p(guild_id=_GID, market=_MKT), "required": []}},
     {"name": "draft_change", "description": "生成策略变更单草稿（只生成草稿，不提交、不生效），按影响面给出风险等级和审批人。",
      "input_schema": {**_p(strategy_id={"type": "string"}, proposed_threshold={"type": "number"}, rationale={"type": "string"},
                            evidence_ids={"type": "array", "items": {"type": "string"}}, proposed_action={"type": ["string", "null"]}),

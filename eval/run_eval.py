@@ -37,6 +37,7 @@ def score_case(case, card):
         ok_type = ptype in case["accepted_cause_types"]
         ok_s = set(case["required_strategy_ids"]) <= set(pc.get("strategy_ids") or [])
         ok_c = set(case["required_change_ids"]) <= set(pc.get("change_ids") or [])
+        ok_s = ok_s and set(case.get("required_guild_ids", [])) <= set(pc.get("guild_ids") or [])
     esc_ok = True if case.get("needs_escalation") is None else (bool(card.get("needs_escalation")) == case["needs_escalation"])
     metric_ok = True
     if case.get("metric_in"):
@@ -47,7 +48,7 @@ def score_case(case, card):
     correct = ok_type and ok_s and ok_c
     return {"correct": correct, "type_ok": ok_type, "strategy_ok": ok_s, "change_ok": ok_c, "escalation_ok": esc_ok,
             "metric_ok": metric_ok, "hallucination": halluc, "got_type": ptype,
-            "got_strategy_ids": pc.get("strategy_ids"), "got_change_ids": pc.get("change_ids"),
+            "got_strategy_ids": pc.get("strategy_ids"), "got_change_ids": pc.get("change_ids"), "got_guild_ids": pc.get("guild_ids"),
             "got_escalation": card.get("needs_escalation"), "confidence": card.get("confidence")}
 
 
@@ -137,6 +138,7 @@ PLANTED = {  # (market, scenario) -> (cause, start_date, direction, metric word 
     ("BR", "gambling"): ("recall_drop_evasion", "2026-10-08", "down", "命中"),
     ("GB", "hate_harassment"): ("policy_update", "2026-10-11", "up", "人审"),
     ("ID", "minor_safety"): ("new_strategy_launch", "2026-10-12", "up", "处罚"),
+    ("BR", "spam_bot"): ("guild_concentration", "2026-10-13", "up", "处罚"),
 }
 
 

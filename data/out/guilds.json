@@ -1,0 +1,461 @@
+[
+ {
+  "guild_id": "G-BR-001",
+  "market": "BR",
+  "name": "巴西公会-001",
+  "sessions_28d": 3658,
+  "head_hosts": 99,
+  "tier": "large",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-002",
+  "market": "BR",
+  "name": "巴西公会-002",
+  "sessions_28d": 2093,
+  "head_hosts": 67,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-003",
+  "market": "BR",
+  "name": "巴西公会-003",
+  "sessions_28d": 1576,
+  "head_hosts": 51,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-004",
+  "market": "BR",
+  "name": "巴西公会-004",
+  "sessions_28d": 1200,
+  "head_hosts": 36,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-005",
+  "market": "BR",
+  "name": "巴西公会-005",
+  "sessions_28d": 1001,
+  "head_hosts": 23,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-006",
+  "market": "BR",
+  "name": "巴西公会-006",
+  "sessions_28d": 905,
+  "head_hosts": 32,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-007",
+  "market": "BR",
+  "name": "巴西公会-007",
+  "sessions_28d": 791,
+  "head_hosts": 28,
+  "tier": "mid",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-008",
+  "market": "BR",
+  "name": "巴西公会-008",
+  "sessions_28d": 677,
+  "head_hosts": 19,
+  "tier": "small",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-009",
+  "market": "BR",
+  "name": "巴西公会-009",
+  "sessions_28d": 661,
+  "head_hosts": 25,
+  "tier": "small",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-010",
+  "market": "BR",
+  "name": "巴西公会-010",
+  "sessions_28d": 556,
+  "head_hosts": 15,
+  "tier": "small",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-011",
+  "market": "BR",
+  "name": "巴西公会-011",
+  "sessions_28d": 540,
+  "head_hosts": 21,
+  "tier": "small",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-BR-012",
+  "market": "BR",
+  "name": "巴西公会-012",
+  "sessions_28d": 491,
+  "head_hosts": 18,
+  "tier": "small",
+  "manager": "公会运营-BR"
+ },
+ {
+  "guild_id": "G-GB-001",
+  "market": "GB",
+  "name": "英国公会-001",
+  "sessions_28d": 2673,
+  "head_hosts": 97,
+  "tier": "large",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-002",
+  "market": "GB",
+  "name": "英国公会-002",
+  "sessions_28d": 1530,
+  "head_hosts": 58,
+  "tier": "large",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-003",
+  "market": "GB",
+  "name": "英国公会-003",
+  "sessions_28d": 1121,
+  "head_hosts": 32,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-004",
+  "market": "GB",
+  "name": "英国公会-004",
+  "sessions_28d": 852,
+  "head_hosts": 34,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-005",
+  "market": "GB",
+  "name": "英国公会-005",
+  "sessions_28d": 763,
+  "head_hosts": 32,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-006",
+  "market": "GB",
+  "name": "英国公会-006",
+  "sessions_28d": 624,
+  "head_hosts": 26,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-007",
+  "market": "GB",
+  "name": "英国公会-007",
+  "sessions_28d": 524,
+  "head_hosts": 18,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-GB-008",
+  "market": "GB",
+  "name": "英国公会-008",
+  "sessions_28d": 533,
+  "head_hosts": 16,
+  "tier": "mid",
+  "manager": "公会运营-GB"
+ },
+ {
+  "guild_id": "G-ID-001",
+  "market": "ID",
+  "name": "印尼公会-001",
+  "sessions_28d": 4315,
+  "head_hosts": 155,
+  "tier": "large",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-002",
+  "market": "ID",
+  "name": "印尼公会-002",
+  "sessions_28d": 2449,
+  "head_hosts": 78,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-003",
+  "market": "ID",
+  "name": "印尼公会-003",
+  "sessions_28d": 1680,
+  "head_hosts": 46,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-004",
+  "market": "ID",
+  "name": "印尼公会-004",
+  "sessions_28d": 1383,
+  "head_hosts": 53,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-005",
+  "market": "ID",
+  "name": "印尼公会-005",
+  "sessions_28d": 1181,
+  "head_hosts": 32,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-006",
+  "market": "ID",
+  "name": "印尼公会-006",
+  "sessions_28d": 1011,
+  "head_hosts": 30,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-007",
+  "market": "ID",
+  "name": "印尼公会-007",
+  "sessions_28d": 866,
+  "head_hosts": 22,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-008",
+  "market": "ID",
+  "name": "印尼公会-008",
+  "sessions_28d": 809,
+  "head_hosts": 36,
+  "tier": "mid",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-009",
+  "market": "ID",
+  "name": "印尼公会-009",
+  "sessions_28d": 685,
+  "head_hosts": 34,
+  "tier": "small",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-010",
+  "market": "ID",
+  "name": "印尼公会-010",
+  "sessions_28d": 653,
+  "head_hosts": 26,
+  "tier": "small",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-011",
+  "market": "ID",
+  "name": "印尼公会-011",
+  "sessions_28d": 632,
+  "head_hosts": 30,
+  "tier": "small",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-ID-012",
+  "market": "ID",
+  "name": "印尼公会-012",
+  "sessions_28d": 545,
+  "head_hosts": 11,
+  "tier": "small",
+  "manager": "公会运营-ID"
+ },
+ {
+  "guild_id": "G-KE-001",
+  "market": "KE",
+  "name": "肯尼亚公会-001",
+  "sessions_28d": 164,
+  "head_hosts": 4,
+  "tier": "large",
+  "manager": "公会运营-KE"
+ },
+ {
+  "guild_id": "G-KE-002",
+  "market": "KE",
+  "name": "肯尼亚公会-002",
+  "sessions_28d": 71,
+  "head_hosts": 4,
+  "tier": "large",
+  "manager": "公会运营-KE"
+ },
+ {
+  "guild_id": "G-KE-003",
+  "market": "KE",
+  "name": "肯尼亚公会-003",
+  "sessions_28d": 72,
+  "head_hosts": 2,
+  "tier": "large",
+  "manager": "公会运营-KE"
+ },
+ {
+  "guild_id": "G-US-001",
+  "market": "US",
+  "name": "美国公会-001",
+  "sessions_28d": 4660,
+  "head_hosts": 161,
+  "tier": "large",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-002",
+  "market": "US",
+  "name": "美国公会-002",
+  "sessions_28d": 2697,
+  "head_hosts": 97,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-003",
+  "market": "US",
+  "name": "美国公会-003",
+  "sessions_28d": 1965,
+  "head_hosts": 66,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-004",
+  "market": "US",
+  "name": "美国公会-004",
+  "sessions_28d": 1571,
+  "head_hosts": 62,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-005",
+  "market": "US",
+  "name": "美国公会-005",
+  "sessions_28d": 1272,
+  "head_hosts": 40,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-006",
+  "market": "US",
+  "name": "美国公会-006",
+  "sessions_28d": 1066,
+  "head_hosts": 33,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-007",
+  "market": "US",
+  "name": "美国公会-007",
+  "sessions_28d": 1015,
+  "head_hosts": 34,
+  "tier": "mid",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-008",
+  "market": "US",
+  "name": "美国公会-008",
+  "sessions_28d": 849,
+  "head_hosts": 22,
+  "tier": "small",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-009",
+  "market": "US",
+  "name": "美国公会-009",
+  "sessions_28d": 841,
+  "head_hosts": 35,
+  "tier": "small",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-010",
+  "market": "US",
+  "name": "美国公会-010",
+  "sessions_28d": 763,
+  "head_hosts": 35,
+  "tier": "small",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-011",
+  "market": "US",
+  "name": "美国公会-011",
+  "sessions_28d": 704,
+  "head_hosts": 17,
+  "tier": "small",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-US-012",
+  "market": "US",
+  "name": "美国公会-012",
+  "sessions_28d": 666,
+  "head_hosts": 21,
+  "tier": "small",
+  "manager": "公会运营-US"
+ },
+ {
+  "guild_id": "G-VN-001",
+  "market": "VN",
+  "name": "越南公会-001",
+  "sessions_28d": 396,
+  "head_hosts": 10,
+  "tier": "large",
+  "manager": "公会运营-VN"
+ },
+ {
+  "guild_id": "G-VN-002",
+  "market": "VN",
+  "name": "越南公会-002",
+  "sessions_28d": 221,
+  "head_hosts": 6,
+  "tier": "large",
+  "manager": "公会运营-VN"
+ },
+ {
+  "guild_id": "G-VN-003",
+  "market": "VN",
+  "name": "越南公会-003",
+  "sessions_28d": 160,
+  "head_hosts": 6,
+  "tier": "large",
+  "manager": "公会运营-VN"
+ },
+ {
+  "guild_id": "G-VN-004",
+  "market": "VN",
+  "name": "越南公会-004",
+  "sessions_28d": 132,
+  "head_hosts": 5,
+  "tier": "mid",
+  "manager": "公会运营-VN"
+ }
+]

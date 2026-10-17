@@ -16,6 +16,8 @@ Embedded problems (see PROBLEMS below):
                        threshold (C-004) -> manual review volume up (expected)
   P7 new strategy      S-126 launched in ID on 2026-10-12 (minor_safety) -> enforcement up
   P8 head-host case    a head-tier host in US suspended by S-102 on 2026-10-15 (FP)
+  P9 guild spike       guild G-BR-002 runs coordinated spam_bot sessions on 2026-10-13..15 ->
+                       BR spam enforcement up, concentrated in one guild (no strategy/model change)
 """
 import json
 import os
@@ -58,7 +60,11 @@ PROBLEMS = {
                                    "changes": ["C-003", "C-004"]},
     "P7_new_strategy": {"market": "ID", "scenario": "minor_safety", "strategy": "S-126", "change_id": "C-005"},
     "P8_head_host_case": {"market": "US", "date": "2026-10-15", "strategy": "S-102", "session_id": None},
+    "P9_guild_spike": {"market": "BR", "guild_id": "G-BR-002", "scenario": "spam_bot",
+                       "dates": ["2026-10-13", "2026-10-14", "2026-10-15"], "extra_violation_prob": 0.7},
 }
+GUILDS_PER_MARKET = {"US": 12, "BR": 12, "ID": 12, "GB": 8, "VN": 4, "KE": 3}
+GUILD_FREE_SHARE = 0.45   # share of sessions whose host is not in any guild
 
 MODEL_VERSIONS = [  # (scenario, version, effective_from)
     {"model": "model_adult_content", "scenario": "adult_content", "version": "v5", "effective_from": "2026-06-01"},
@@ -263,6 +269,20 @@ def gen_sessions(rng):
     kw[kwv] = rng.poisson(1.6, kwv.sum())
     df["keyword_hits"] = kw
     df["legacy_brand_list_match"] = 0   # pipeline retired 2026-08-01 (C-007)
+    # guild membership (separate RNG stream; Zipf-like sizes; head hosts almost always in a guild)
+    rng_g = np.random.default_rng(SEED + 1)
+    guild = np.array([""] * N, dtype=object)
+    for m, k in GUILDS_PER_MARKET.items():
+        idx = np.where(df.market.values == m)[0]
+        w = 1.0 / np.arange(1, k + 1) ** 0.8
+        w = w / w.sum()
+        ids = np.array([f"G-{m}-{i:03d}" for i in range(1, k + 1)])
+        pick = rng_g.choice(ids, size=len(idx), p=w)
+        free = rng_g.random(len(idx)) < GUILD_FREE_SHARE
+        free &= ~(tier[idx] == "head") | (rng_g.random(len(idx)) < 0.1)
+        pick[free] = ""
+        guild[idx] = pick
+    df["guild_id"] = guild
 
     # model scores per scenario
     for s in SCENARIOS:
@@ -281,6 +301,17 @@ def gen_sessions(rng):
     p1 = PROBLEMS["P1_model_drift"]
     drift = df.date.values >= p1["from"]
     df.loc[drift, "score_scam_fraud"] = np.clip(df.loc[drift, "score_scam_fraud"] + p1["shift"], 0, 0.995)
+    # P9: coordinated spam from one guild (post-hoc override so other rows are untouched)
+    p9 = PROBLEMS["P9_guild_spike"]
+    rng9 = np.random.default_rng(SEED + 9)
+    cand = (df.market.values == p9["market"]) & (df.guild_id.values == p9["guild_id"]) & df.date.isin(p9["dates"]).values \
+        & (df.true_label.values == "none") & (rng9.random(N) < p9["extra_violation_prob"])
+    n9 = int(cand.sum())
+    df.loc[cand, "true_label"] = "spam_bot"
+    df.loc[cand, "score_spam_bot"] = rng9.beta(10, 1.5, n9)
+    df.loc[cand, "new_device_flag"] = (rng9.random(n9) < 0.9).astype(int)
+    df.loc[cand, "account_age_days"] = rng9.integers(0, 14, n9)
+    df.loc[cand, "report_count"] = rng9.poisson(2.0, n9)
     for s in SCENARIOS:
         df[f"score_{s}"] = df[f"score_{s}"].round(4)
     return df
@@ -342,10 +373,13 @@ def gen_enforcements(hits, df):
 def gen_appeals(enf, rng):
     fp = enf._is_fp.values
     p_app = np.where(fp, 0.70, 0.12)
-    appealed = rng.random(len(enf)) < p_app
+    # per-session uniforms keyed by session index, so appeals do not reshuffle when unrelated sessions change
+    u = np.random.default_rng(SEED + 3).random((400000, 2))
+    sidx = enf.session_id.str[3:].astype(int).values
+    appealed = u[sidx, 0] < p_app
     a = enf[appealed].copy()
     fp_a = a._is_fp.values
-    over = rng.random(len(a)) < np.where(fp_a, 0.90, 0.08)
+    over = u[sidx[appealed], 1] < np.where(fp_a, 0.90, 0.08)
     a["result"] = np.where(over, "overturned", "upheld")
     a["decision_date"] = a.date   # decided same day for simplicity
     a["appeal_id"] = [f"AP-{i:06d}" for i in range(len(a))]
@@ -470,6 +504,16 @@ def main():
     reports.to_csv(os.path.join(OUT, "reports.csv"), index=False)
     metrics.to_csv(os.path.join(OUT, "metrics_daily.csv"), index=False)
     metrics_strategy.to_csv(os.path.join(OUT, "metrics_daily_strategy.csv"), index=False)
+    guilds = []
+    gsz = df[df.guild_id != ""].groupby("guild_id").agg(sessions=("session_id", "size"), market=("market", "first"),
+                                                       head_hosts=("host_tier", lambda x: int((x == "head").sum())))
+    for gid, r in gsz.iterrows():
+        guilds.append({"guild_id": gid, "market": r.market, "name": f"{MARKET_NAMES[r.market]}公会-{gid.split('-')[-1]}",
+                       "sessions_28d": int(r.sessions), "head_hosts": int(r.head_hosts),
+                       "tier": "large" if r.sessions >= 0.1 * MARKETS[r.market] * DAYS else ("mid" if r.sessions >= 0.03 * MARKETS[r.market] * DAYS else "small"),
+                       "manager": f"公会运营-{r.market}"})
+    with open(os.path.join(OUT, "guilds.json"), "w") as f:
+        json.dump(guilds, f, ensure_ascii=False, indent=1)
     with open(os.path.join(OUT, "strategies.json"), "w") as f:
         json.dump(STRATEGIES, f, ensure_ascii=False, indent=1)
     with open(os.path.join(OUT, "change_log.json"), "w") as f:

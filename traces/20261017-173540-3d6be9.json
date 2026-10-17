@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-073551-b0d2df",
+ "run_id": "20261017-173540-3d6be9",
  "engine": "rules",
  "playbook": "attribution",
  "query": "US 昨天误杀率涨了",
- "latency_s": 0.335,
+ "latency_s": 0.204,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -29,12 +29,13 @@
     "direction": "up",
     "session_id": null,
     "strategy_id": null,
+    "guild_id": null,
     "window_days": 1,
     "raw": "US 昨天误杀率涨了"
    }
   },
   {
-   "t": 0.016,
+   "t": 0.017,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -58,6 +59,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -112,7 +114,7 @@
    }
   },
   {
-   "t": 0.022,
+   "t": 0.023,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -137,6 +139,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -147,58 +150,58 @@
     "rows": [
      {
       "date": "2026-10-08",
-      "value": 0.7759,
-      "numerator": 45,
-      "denominator": 58,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "value": 0.7,
-      "numerator": 28,
-      "denominator": 40,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-10",
-      "value": 0.6393,
-      "numerator": 39,
+      "value": 0.6885,
+      "numerator": 42,
       "denominator": 61,
       "low_sample": false
      },
      {
+      "date": "2026-10-09",
+      "value": 0.7143,
+      "numerator": 30,
+      "denominator": 42,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 0.6731,
+      "numerator": 35,
+      "denominator": 52,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-11",
-      "value": 0.7313,
-      "numerator": 49,
-      "denominator": 67,
+      "value": 0.7534,
+      "numerator": 55,
+      "denominator": 73,
       "low_sample": false
      },
      {
       "date": "2026-10-12",
-      "value": 0.7119,
-      "numerator": 42,
-      "denominator": 59,
+      "value": 0.7321,
+      "numerator": 41,
+      "denominator": 56,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
-      "value": 0.8409,
-      "numerator": 74,
-      "denominator": 88,
+      "value": 0.831,
+      "numerator": 59,
+      "denominator": 71,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
-      "value": 0.7407,
-      "numerator": 40,
-      "denominator": 54,
+      "value": 0.7015,
+      "numerator": 47,
+      "denominator": 67,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
       "value": 0.7143,
-      "numerator": 45,
-      "denominator": 63,
+      "numerator": 50,
+      "denominator": 70,
       "low_sample": false
      }
     ],
@@ -207,7 +210,7 @@
    }
   },
   {
-   "t": 0.026,
+   "t": 0.028,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -232,6 +235,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -242,42 +246,42 @@
     "rows": [
      {
       "date": "2026-10-08",
-      "value": 45,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "value": 28,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-10",
-      "value": 39,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "value": 49,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
       "value": 42,
       "low_sample": false
      },
      {
+      "date": "2026-10-09",
+      "value": 30,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 35,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 55,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 41,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-13",
-      "value": 74,
+      "value": 59,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
-      "value": 40,
+      "value": 47,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
-      "value": 45,
+      "value": 50,
       "low_sample": false
      }
     ],
@@ -286,7 +290,7 @@
    }
   },
   {
-   "t": 0.03,
+   "t": 0.032,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -311,6 +315,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-09-25",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -321,57 +326,57 @@
     "rows": [
      {
       "date": "2026-09-25",
-      "value": 39,
+      "value": 37,
       "low_sample": false
      },
      {
       "date": "2026-09-26",
-      "value": 46,
+      "value": 49,
       "low_sample": false
      },
      {
       "date": "2026-09-27",
-      "value": 51,
+      "value": 55,
       "low_sample": false
      },
      {
       "date": "2026-09-28",
-      "value": 44,
+      "value": 43,
       "low_sample": false
      },
      {
       "date": "2026-09-29",
-      "value": 42,
+      "value": 41,
       "low_sample": false
      },
      {
       "date": "2026-09-30",
-      "value": 36,
+      "value": 40,
       "low_sample": false
      },
      {
       "date": "2026-10-01",
-      "value": 45,
+      "value": 40,
       "low_sample": false
      },
      {
       "date": "2026-10-02",
-      "value": 33,
+      "value": 40,
       "low_sample": false
      },
      {
       "date": "2026-10-03",
-      "value": 50,
+      "value": 45,
       "low_sample": false
      },
      {
       "date": "2026-10-04",
-      "value": 44,
+      "value": 47,
       "low_sample": false
      },
      {
       "date": "2026-10-05",
-      "value": 39,
+      "value": 40,
       "low_sample": false
      },
      {
@@ -381,47 +386,47 @@
      },
      {
       "date": "2026-10-07",
-      "value": 40,
+      "value": 45,
       "low_sample": false
      },
      {
       "date": "2026-10-08",
-      "value": 45,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "value": 28,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-10",
-      "value": 39,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "value": 49,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
       "value": 42,
       "low_sample": false
      },
      {
+      "date": "2026-10-09",
+      "value": 30,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 35,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "value": 55,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "value": 41,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-13",
-      "value": 74,
+      "value": 59,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
-      "value": 40,
+      "value": 47,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
-      "value": 45,
+      "value": 50,
       "low_sample": false
      }
     ],
@@ -430,7 +435,7 @@
    }
   },
   {
-   "t": 0.035,
+   "t": 0.038,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -457,6 +462,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -469,133 +475,133 @@
      {
       "date": "2026-10-08",
       "scenario": "adult_content",
-      "value": 3,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "counterfeit",
-      "value": 0,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "gambling",
-      "value": 5,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "hate_harassment",
-      "value": 5,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "minor_safety",
-      "value": 22,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "scam_fraud",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "spam_bot",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "scenario": "violence",
       "value": 6,
       "low_sample": false
      },
      {
-      "date": "2026-10-09",
-      "scenario": "adult_content",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
+      "date": "2026-10-08",
       "scenario": "counterfeit",
-      "value": 1,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "gambling",
-      "value": 1,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "hate_harassment",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "minor_safety",
-      "value": 18,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "scam_fraud",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "spam_bot",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "scenario": "violence",
       "value": 0,
       "low_sample": false
      },
      {
-      "date": "2026-10-10",
+      "date": "2026-10-08",
+      "scenario": "gambling",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "hate_harassment",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "minor_safety",
+      "value": 20,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "scam_fraud",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "spam_bot",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "scenario": "violence",
+      "value": 5,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
       "scenario": "adult_content",
       "value": 4,
       "low_sample": false
      },
      {
-      "date": "2026-10-10",
+      "date": "2026-10-09",
       "scenario": "counterfeit",
-      "value": 1,
+      "value": 0,
       "low_sample": false
      },
      {
-      "date": "2026-10-10",
+      "date": "2026-10-09",
       "scenario": "gambling",
-      "value": 7,
+      "value": 4,
       "low_sample": false
      },
      {
-      "date": "2026-10-10",
+      "date": "2026-10-09",
       "scenario": "hate_harassment",
-      "value": 3,
+      "value": 0,
       "low_sample": false
      },
      {
-      "date": "2026-10-10",
+      "date": "2026-10-09",
       "scenario": "minor_safety",
       "value": 16,
       "low_sample": false
      },
      {
+      "date": "2026-10-09",
+      "scenario": "scam_fraud",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "spam_bot",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "scenario": "violence",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "adult_content",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "counterfeit",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "gambling",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "hate_harassment",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "scenario": "minor_safety",
+      "value": 13,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-10",
       "scenario": "scam_fraud",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -613,7 +619,7 @@
      {
       "date": "2026-10-11",
       "scenario": "adult_content",
-      "value": 4,
+      "value": 3,
       "low_sample": false
      },
      {
@@ -625,67 +631,67 @@
      {
       "date": "2026-10-11",
       "scenario": "gambling",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "hate_harassment",
+      "value": 7,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "minor_safety",
+      "value": 29,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "scam_fraud",
+      "value": 2,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "spam_bot",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-11",
+      "scenario": "violence",
+      "value": 8,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "adult_content",
+      "value": 3,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "counterfeit",
+      "value": 1,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "gambling",
+      "value": 6,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "scenario": "hate_harassment",
       "value": 5,
       "low_sample": false
      },
      {
-      "date": "2026-10-11",
-      "scenario": "hate_harassment",
-      "value": 6,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "scenario": "minor_safety",
-      "value": 25,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "scenario": "scam_fraud",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "scenario": "spam_bot",
-      "value": 1,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-11",
-      "scenario": "violence",
-      "value": 6,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
-      "scenario": "adult_content",
-      "value": 3,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
-      "scenario": "counterfeit",
-      "value": 2,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
-      "scenario": "gambling",
-      "value": 8,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-12",
-      "scenario": "hate_harassment",
-      "value": 8,
-      "low_sample": false
-     },
-     {
       "date": "2026-10-12",
       "scenario": "minor_safety",
-      "value": 15,
+      "value": 19,
       "low_sample": false
      },
      {
@@ -703,7 +709,7 @@
      {
       "date": "2026-10-12",
       "scenario": "violence",
-      "value": 3,
+      "value": 4,
       "low_sample": false
      },
      {
@@ -715,25 +721,25 @@
      {
       "date": "2026-10-13",
       "scenario": "counterfeit",
-      "value": 3,
+      "value": 1,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
       "scenario": "gambling",
-      "value": 6,
+      "value": 5,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
       "scenario": "hate_harassment",
-      "value": 6,
+      "value": 5,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
       "scenario": "minor_safety",
-      "value": 29,
+      "value": 20,
       "low_sample": false
      },
      {
@@ -745,7 +751,7 @@
      {
       "date": "2026-10-13",
       "scenario": "spam_bot",
-      "value": 4,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -763,7 +769,7 @@
      {
       "date": "2026-10-14",
       "scenario": "counterfeit",
-      "value": 0,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -775,37 +781,37 @@
      {
       "date": "2026-10-14",
       "scenario": "hate_harassment",
-      "value": 2,
+      "value": 4,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
       "scenario": "minor_safety",
-      "value": 12,
+      "value": 11,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
       "scenario": "scam_fraud",
-      "value": 13,
+      "value": 16,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
       "scenario": "spam_bot",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
       "scenario": "violence",
-      "value": 3,
+      "value": 4,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
       "scenario": "adult_content",
-      "value": 5,
+      "value": 7,
       "low_sample": false
      },
      {
@@ -823,7 +829,7 @@
      {
       "date": "2026-10-15",
       "scenario": "hate_harassment",
-      "value": 5,
+      "value": 8,
       "low_sample": false
      },
      {
@@ -835,7 +841,7 @@
      {
       "date": "2026-10-15",
       "scenario": "scam_fraud",
-      "value": 13,
+      "value": 14,
       "low_sample": false
      },
      {
@@ -847,7 +853,7 @@
      {
       "date": "2026-10-15",
       "scenario": "violence",
-      "value": 5,
+      "value": 4,
       "low_sample": false
      }
     ],
@@ -871,6 +877,7 @@
     "direction": "up",
     "session_id": null,
     "strategy_id": null,
+    "guild_id": null,
     "window_days": 1,
     "raw": "US 昨天误杀率涨了"
    }
@@ -900,6 +907,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -954,7 +962,7 @@
    }
   },
   {
-   "t": 0.009,
+   "t": 0.019,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -979,6 +987,7 @@
      ],
      "scenario": "scam_fraud",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -989,30 +998,30 @@
     "rows": [
      {
       "date": "2026-10-08",
-      "value": 0.6667,
-      "numerator": 2,
-      "denominator": 3,
+      "value": 0.25,
+      "numerator": 1,
+      "denominator": 4,
       "low_sample": true
      },
      {
       "date": "2026-10-09",
-      "value": 0.6667,
-      "numerator": 2,
-      "denominator": 3,
+      "value": 0.75,
+      "numerator": 3,
+      "denominator": 4,
       "low_sample": true
      },
      {
       "date": "2026-10-10",
-      "value": 0.2,
-      "numerator": 1,
-      "denominator": 5,
+      "value": 1.0,
+      "numerator": 2,
+      "denominator": 2,
       "low_sample": true
      },
      {
       "date": "2026-10-11",
-      "value": 1.0,
+      "value": 0.6667,
       "numerator": 2,
-      "denominator": 2,
+      "denominator": 3,
       "low_sample": true
      },
      {
@@ -1024,23 +1033,23 @@
      },
      {
       "date": "2026-10-13",
-      "value": 0.8182,
+      "value": 1.0,
       "numerator": 18,
-      "denominator": 22,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-14",
-      "value": 0.7647,
-      "numerator": 13,
-      "denominator": 17,
+      "denominator": 18,
       "low_sample": true
      },
      {
+      "date": "2026-10-14",
+      "value": 0.8,
+      "numerator": 16,
+      "denominator": 20,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-15",
-      "value": 0.8125,
-      "numerator": 13,
-      "denominator": 16,
+      "value": 0.7778,
+      "numerator": 14,
+      "denominator": 18,
       "low_sample": true
      }
     ],
@@ -1049,7 +1058,7 @@
    }
   },
   {
-   "t": 0.016,
+   "t": 0.024,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1074,6 +1083,7 @@
      ],
      "scenario": "scam_fraud",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -1084,17 +1094,17 @@
     "rows": [
      {
       "date": "2026-10-08",
-      "value": 2,
+      "value": 1,
       "low_sample": false
      },
      {
       "date": "2026-10-09",
-      "value": 2,
+      "value": 3,
       "low_sample": false
      },
      {
       "date": "2026-10-10",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -1114,12 +1124,12 @@
      },
      {
       "date": "2026-10-14",
-      "value": 13,
+      "value": 16,
       "low_sample": false
      },
      {
       "date": "2026-10-15",
-      "value": 13,
+      "value": 14,
       "low_sample": false
      }
     ],
@@ -1128,7 +1138,7 @@
    }
   },
   {
-   "t": 0.024,
+   "t": 0.031,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1156,6 +1166,7 @@
      ],
      "scenario": "scam_fraud",
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -1168,7 +1179,7 @@
      {
       "date": "2026-10-08",
       "strategy_id": "S-102",
-      "value": 2,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -1192,7 +1203,7 @@
      {
       "date": "2026-10-09",
       "strategy_id": "S-102",
-      "value": 2,
+      "value": 3,
       "low_sample": false
      },
      {
@@ -1216,7 +1227,7 @@
      {
       "date": "2026-10-10",
       "strategy_id": "S-102",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -1312,7 +1323,7 @@
      {
       "date": "2026-10-14",
       "strategy_id": "S-102",
-      "value": 13,
+      "value": 16,
       "low_sample": false
      },
      {
@@ -1336,7 +1347,7 @@
      {
       "date": "2026-10-15",
       "strategy_id": "S-102",
-      "value": 13,
+      "value": 14,
       "low_sample": false
      },
      {
@@ -1363,7 +1374,7 @@
    }
   },
   {
-   "t": 0.025,
+   "t": 0.031,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -1404,7 +1415,7 @@
    }
   },
   {
-   "t": 0.19,
+   "t": 0.131,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -1490,16 +1501,16 @@
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 854,
-      "mean": 0.568,
-      "p50": 0.7272,
-      "p90": 0.9226,
-      "p99": 0.9781
+      "n": 820,
+      "mean": 0.591,
+      "p50": 0.7418,
+      "p90": 0.9244,
+      "p99": 0.9795
      },
      "current": {
-      "n": 371,
-      "mean": 0.7129,
-      "p50": 0.8737,
+      "n": 381,
+      "mean": 0.6875,
+      "p50": 0.8517,
       "p90": 0.995,
       "p99": 0.995
      }
@@ -1507,7 +1518,7 @@
    }
   },
   {
-   "t": 0.294,
+   "t": 0.192,
    "kind": "tool_call",
    "tool": "sample_cases",
    "args": {
@@ -1523,90 +1534,72 @@
    },
    "result": {
     "ref_id": "Q-0012",
-    "population": 45,
+    "population": 48,
     "n": 15,
-    "contains_head_host": false,
+    "contains_head_host": true,
+    "guild_share_in_population": {
+     "G-US-002": 0.207,
+     "G-US-001": 0.207,
+     "G-US-004": 0.103,
+     "G-US-003": 0.069,
+     "G-US-006": 0.069
+    },
     "score_summary": {
      "mean": 0.921,
-     "p50": 0.925,
-     "min": 0.851
+     "p50": 0.914,
+     "min": 0.85
     },
     "cases": [
      {
-      "session_id": "LS-0097402",
-      "hit_id": "HT-0024952",
-      "date": "2026-10-14",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9015,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004906",
-       "result": "overturned"
-      },
-      "qa_label": "none",
-      "features": {
-       "account_age_days": 1043,
-       "viewers_peak": 57,
-       "gift_amount": 86,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0097316",
-      "hit_id": "HT-0024933",
-      "date": "2026-10-14",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.8507,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004903",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 120,
-       "viewers_peak": 27,
-       "gift_amount": 0,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0094676",
-      "hit_id": "HT-0024059",
+      "session_id": "LS-0094684",
+      "hit_id": "HT-0024061",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": NaN,
       "strategy_id": "S-102",
       "strategy_version": "v3",
-      "score": 0.876,
+      "score": 0.9091,
       "threshold": 0.85,
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004730",
+       "appeal_id": "AP-004760",
        "result": "overturned"
       },
       "qa_label": null,
       "features": {
-       "account_age_days": 66,
-       "viewers_peak": 83,
-       "gift_amount": 119,
+       "account_age_days": 141,
+       "viewers_peak": 10,
+       "gift_amount": 1,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094782",
+      "hit_id": "HT-0024080",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": NaN,
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8539,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004764",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 152,
+       "viewers_peak": 8,
+       "gift_amount": 164,
        "report_count": 0,
        "external_link_flag": 0,
        "new_device_flag": 0,
@@ -1615,10 +1608,11 @@
      },
      {
       "session_id": "LS-0097537",
-      "hit_id": "HT-0024981",
+      "hit_id": "HT-0025052",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": "G-US-001",
       "strategy_id": "S-102",
       "strategy_version": "v3",
       "score": 0.8889,
@@ -1626,7 +1620,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004911",
+       "appeal_id": "AP-004938",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1641,188 +1635,27 @@
       }
      },
      {
-      "session_id": "LS-0093832",
-      "hit_id": "HT-0023817",
-      "date": "2026-10-13",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9676,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004662",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 2015,
-       "viewers_peak": 302,
-       "gift_amount": 0,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0094447",
-      "hit_id": "HT-0023993",
-      "date": "2026-10-13",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9602,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004708",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 9,
-       "viewers_peak": 82,
-       "gift_amount": 26,
-       "report_count": 2,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0094711",
-      "hit_id": "HT-0024065",
-      "date": "2026-10-13",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9813,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004733",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 271,
-       "viewers_peak": 114,
-       "gift_amount": 29,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0094813",
-      "hit_id": "HT-0024093",
-      "date": "2026-10-13",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9284,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004741",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 76,
-       "viewers_peak": 8,
-       "gift_amount": 18,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0097781",
-      "hit_id": "HT-0025040",
-      "date": "2026-10-14",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.9853,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004922",
-       "result": "overturned"
-      },
-      "qa_label": null,
-      "features": {
-       "account_age_days": 150,
-       "viewers_peak": 34,
-       "gift_amount": 0,
-       "report_count": 0,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0101695",
-      "hit_id": "HT-0026212",
+      "session_id": "LS-0101100",
+      "hit_id": "HT-0026215",
       "date": "2026-10-15",
       "market": "US",
-      "host_tier": "tail",
+      "host_tier": "mid",
+      "guild_id": NaN,
       "strategy_id": "S-102",
       "strategy_version": "v3",
-      "score": 0.858,
+      "score": 0.995,
       "threshold": 0.85,
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005181",
-       "result": "overturned"
-      },
-      "qa_label": "none",
-      "features": {
-       "account_age_days": 198,
-       "viewers_peak": 22,
-       "gift_amount": 0,
-       "report_count": 1,
-       "external_link_flag": 0,
-       "new_device_flag": 0,
-       "keyword_hits": 0
-      }
-     },
-     {
-      "session_id": "LS-0097992",
-      "hit_id": "HT-0025115",
-      "date": "2026-10-14",
-      "market": "US",
-      "host_tier": "tail",
-      "strategy_id": "S-102",
-      "strategy_version": "v3",
-      "score": 0.967,
-      "threshold": 0.85,
-      "model_version": "v4",
-      "action": "suspend_live",
-      "appeal": {
-       "appeal_id": "AP-004936",
+       "appeal_id": "AP-005175",
        "result": "overturned"
       },
       "qa_label": null,
       "features": {
-       "account_age_days": 66,
-       "viewers_peak": 17,
-       "gift_amount": 19,
+       "account_age_days": 115,
+       "viewers_peak": 706,
+       "gift_amount": 0,
        "report_count": 0,
        "external_link_flag": 0,
        "new_device_flag": 0,
@@ -1831,10 +1664,11 @@
      },
      {
       "session_id": "LS-0101340",
-      "hit_id": "HT-0026130",
+      "hit_id": "HT-0026283",
       "date": "2026-10-15",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": "G-US-002",
       "strategy_id": "S-102",
       "strategy_version": "v3",
       "score": 0.9082,
@@ -1842,7 +1676,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005168",
+       "appeal_id": "AP-005194",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1857,25 +1691,194 @@
       }
      },
      {
-      "session_id": "LS-0098095",
-      "hit_id": "HT-0025142",
+      "session_id": "LS-0097767",
+      "hit_id": "HT-0025108",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": NaN,
       "strategy_id": "S-102",
       "strategy_version": "v3",
-      "score": 0.8557,
+      "score": 0.8774,
       "threshold": 0.85,
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004945",
+       "appeal_id": "AP-004950",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 118,
+       "viewers_peak": 22,
+       "gift_amount": 11,
+       "report_count": 3,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0093842",
+      "hit_id": "HT-0023823",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-003",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9301,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004702",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 35,
+       "viewers_peak": 31,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097400",
+      "hit_id": "HT-0025019",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": NaN,
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.995,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004930",
+       "result": "overturned"
+      },
+      "qa_label": "counterfeit",
+      "features": {
+       "account_age_days": 68,
+       "viewers_peak": 51,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 2
+      }
+     },
+     {
+      "session_id": "LS-0094320",
+      "hit_id": "HT-0023960",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "mid",
+      "guild_id": NaN,
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9521,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004740",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 83,
+       "viewers_peak": 292,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 1,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0100891",
+      "hit_id": "HT-0026171",
+      "date": "2026-10-15",
+      "market": "US",
+      "host_tier": "mid",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8897,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005164",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 249,
+       "viewers_peak": 105,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0098033",
+      "hit_id": "HT-0025194",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-004",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9605,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004969",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 34,
+       "viewers_peak": 30,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0101661",
+      "hit_id": "HT-0026355",
+      "date": "2026-10-15",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-002",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8816,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005207",
        "result": "overturned"
       },
       "qa_label": "none",
       "features": {
-       "account_age_days": 453,
-       "viewers_peak": 62,
+       "account_age_days": 69,
+       "viewers_peak": 13,
        "gift_amount": 0,
        "report_count": 0,
        "external_link_flag": 0,
@@ -1884,25 +1887,54 @@
       }
      },
      {
-      "session_id": "LS-0097570",
-      "hit_id": "HT-0024991",
+      "session_id": "LS-0098293",
+      "hit_id": "HT-0025245",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": NaN,
       "strategy_id": "S-102",
       "strategy_version": "v3",
-      "score": 0.8552,
+      "score": 0.8988,
       "threshold": 0.85,
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004913",
+       "appeal_id": "AP-004983",
+       "result": "overturned"
+      },
+      "qa_label": "none",
+      "features": {
+       "account_age_days": 96,
+       "viewers_peak": 21,
+       "gift_amount": 58,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097332",
+      "hit_id": "HT-0025008",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "head",
+      "guild_id": "G-US-012",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8993,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004926",
        "result": "overturned"
       },
       "qa_label": null,
       "features": {
-       "account_age_days": 69,
-       "viewers_peak": 38,
+       "account_age_days": 114,
+       "viewers_peak": 17580,
        "gift_amount": 0,
        "report_count": 0,
        "external_link_flag": 0,
@@ -1911,26 +1943,27 @@
       }
      },
      {
-      "session_id": "LS-0094385",
-      "hit_id": "HT-0023979",
+      "session_id": "LS-0094813",
+      "hit_id": "HT-0024093",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
+      "guild_id": NaN,
       "strategy_id": "S-102",
       "strategy_version": "v3",
-      "score": 0.945,
+      "score": 0.9284,
       "threshold": 0.85,
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004704",
+       "appeal_id": "AP-004766",
        "result": "overturned"
       },
-      "qa_label": null,
+      "qa_label": "none",
       "features": {
-       "account_age_days": 809,
-       "viewers_peak": 56,
-       "gift_amount": 25,
+       "account_age_days": 76,
+       "viewers_peak": 8,
+       "gift_amount": 18,
        "report_count": 0,
        "external_link_flag": 0,
        "new_device_flag": 0,
@@ -1941,7 +1974,7 @@
    }
   },
   {
-   "t": 0.327,
+   "t": 0.197,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1964,6 +1997,7 @@
      "market": "ALL",
      "scenario": null,
      "strategy_id": "S-102",
+     "guild_id": null,
      "start_date": "2026-10-13",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -1971,7 +2005,7 @@
     "group_by": [],
     "rows": [
      {
-      "value": 0.559,
+      "value": 0.504,
       "n": 127,
       "low_sample": false
      }
@@ -1981,7 +2015,7 @@
    }
   },
   {
-   "t": 0.333,
+   "t": 0.203,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -2004,6 +2038,7 @@
      "market": "ALL",
      "scenario": null,
      "strategy_id": "S-102",
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-12",
      "window_clipped": false
@@ -2011,7 +2046,7 @@
     "group_by": [],
     "rows": [
      {
-      "value": 0.775,
+      "value": 0.77,
       "n": 191,
       "low_sample": false
      }
@@ -2021,10 +2056,12 @@
    }
   },
   {
-   "t": 0.335,
+   "t": 0.204,
    "kind": "guardrails",
-   "needs_escalation": false,
-   "reasons": [],
+   "needs_escalation": true,
+   "reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ],
    "unknown_references": []
   }
  ],
@@ -2045,15 +2082,15 @@
    "note": "市场整体在正常波动内；异常集中在单一场景",
    "low_sample": false,
    "observed": {
-    "current": 13,
+    "current": 14,
     "baseline_median": 2.0,
     "sessions_current": 1197,
     "sessions_baseline_median": 1131.0
    },
    "decomposition": {
-    "count_ratio": 6.5,
+    "count_ratio": 7.0,
     "traffic_ratio": 1.06,
-    "rate_ratio": 6.14,
+    "rate_ratio": 6.61,
     "traffic_share_of_change": 0.03
    }
   },
@@ -2062,31 +2099,31 @@
     "ref_id": "Q-0002",
     "type": "metric",
     "metric": "overturn_rate",
-    "what": "2026-10-15 overturn_rate=0.7143（分母 63），前 7 天中位数 0.731"
+    "what": "2026-10-15 overturn_rate=0.7143（分母 70），前 7 天中位数 0.714"
    },
    {
     "ref_id": "Q-0003",
     "type": "metric",
     "metric": "overturns",
-    "what": "2026-10-15 overturns=45，前 7 天中位数 42.0"
+    "what": "2026-10-15 overturns=50，前 7 天中位数 42.0"
    },
    {
     "ref_id": "Q-0005",
     "type": "drilldown",
     "metric": "overturns",
-    "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→13（增量份额 38%）"
+    "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→14（增量份额 36%）；候选场景 ['scam_fraud']"
    },
    {
     "ref_id": "Q-0007",
     "type": "metric",
     "metric": "overturn_rate",
-    "what": "2026-10-15 overturn_rate=0.8125（分母 16），前 7 天中位数 0.667"
+    "what": "2026-10-15 overturn_rate=0.7778（分母 18），前 7 天中位数 0.750"
    },
    {
     "ref_id": "Q-0008",
     "type": "metric",
     "metric": "overturns",
-    "what": "2026-10-15 overturns=13，前 7 天中位数 2.0"
+    "what": "2026-10-15 overturns=14，前 7 天中位数 2.0"
    },
    {
     "ref_id": "Q-0006",
@@ -2098,7 +2135,7 @@
     "ref_id": "Q-0009",
     "type": "drilldown",
     "metric": "overturns",
-    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-102', 11.0, 1.0, 13, 2.0), ('S-110', 0.0, 0.0, 0, 0.0), ('S-114', 0.0, 0.0, 0, 0.0)]"
+    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-102', 12.0, 1.0, 14, 2.0), ('S-110', 0.0, 0.0, 0, 0.0), ('S-114', 0.0, 0.0, 0, 0.0)]"
    },
    {
     "ref_id": "Q-0010",
@@ -2114,12 +2151,12 @@
     "ref_id": "Q-0013",
     "type": "metric",
     "metric": "precision_est",
-    "what": "S-102 抽检精确率 0.775→0.559"
+    "what": "S-102 抽检精确率 0.77→0.504"
    },
    {
     "ref_id": "Q-0012",
     "type": "cases",
-    "what": "抽样 15 个 case，分数均值 0.921，含头部主播=False"
+    "what": "抽样 15 个 case，分数均值 0.921，含头部主播=True"
    }
   ],
   "next_steps": [
@@ -2128,8 +2165,10 @@
    "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校"
   ],
   "contributing_causes": [],
-  "needs_escalation": false,
-  "escalation_reasons": [],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "涉及头部主播，需策略 owner 人工确认"
+  ],
   "platform_links": [
    "platform://metrics?metric=overturn_rate&market=US&scenario=scam_fraud&date=2026-10-15",
    "platform://strategy/S-102"
@@ -2141,21 +2180,21 @@
    "note": "“['overturn_rate', 'overturn_per_enforcement', 'precision_est']” 存在口径冲突，本次按 overturn_rate（overturns / appeals（分母是申诉数）。）；其他口径：overturn_per_enforcement: overturns / enforcements（分母是处罚数）。与 overturn_rate 分母不同，口径冲突时需明确。；precision_est: QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。\n比率指标按分子 overturns 下钻，分母 appeals 作为对照"
   },
   "sample_case_ids": [
-   "LS-0097402",
-   "LS-0097316",
-   "LS-0094676",
+   "LS-0094684",
+   "LS-0094782",
    "LS-0097537",
-   "LS-0093832",
-   "LS-0094447",
-   "LS-0094711",
-   "LS-0094813",
-   "LS-0097781",
-   "LS-0101695",
-   "LS-0097992",
+   "LS-0101100",
    "LS-0101340",
-   "LS-0098095",
-   "LS-0097570",
-   "LS-0094385"
+   "LS-0097767",
+   "LS-0093842",
+   "LS-0097400",
+   "LS-0094320",
+   "LS-0100891",
+   "LS-0098033",
+   "LS-0101661",
+   "LS-0098293",
+   "LS-0097332",
+   "LS-0094813"
   ],
   "primary_cause": {
    "type": "model_drift_threshold",
@@ -2167,8 +2206,8 @@
    ],
    "explanation": "C-006（model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移）后分数分布上移，S-102 固定阈值 0.85 命中增加，误杀上升"
   },
-  "conclusion": "US 整体 申诉推翻数 45 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.812 vs 基线 0.667）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→13）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校",
-  "confidence": "high",
+  "conclusion": "US 整体 申诉推翻数 50 vs 基线 42 在正常范围，但 诈骗引流 场景异常：按 overturn_rate 口径（0.778 vs 基线 0.750）未见显著变化；按分子 overturns 绝对数看：US 申诉推翻数上升（2→14）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
+  "confidence": "medium",
   "validation": {
    "unknown_references": [],
    "passed": true

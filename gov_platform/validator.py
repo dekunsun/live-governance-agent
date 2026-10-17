@@ -46,6 +46,9 @@ class Validator:
         for cid in pc.get("change_ids", []) or []:
             if cid not in self.p.known["change_id"] and ("change_id", cid) not in unknown:
                 unknown.append(("change_id", cid))
+        for gid in pc.get("guild_ids", []) or []:
+            if gid not in self.p.known["guild_id"] and ("guild_id", gid) not in unknown:
+                unknown.append(("guild_id", gid))
         m = (card.get("metric") or {}).get("key")
         if m and m not in self.p.known["metric"]:
             unknown.append(("metric", m))

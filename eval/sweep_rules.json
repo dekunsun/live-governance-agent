@@ -3,15 +3,15 @@
   "n": 672,
   "tally": {
    "false_alarm": 10,
-   "clean_no_alarm": 384,
-   "planted_found": 26,
-   "planted_found_outside_window": 26,
+   "clean_no_alarm": 378,
+   "planted_found": 29,
+   "planted_found_outside_window": 29,
    "planted_missed": 2,
    "clean_small_market_escalated": 218,
    "planted_small_market_escalated": 6
   },
   "false_alarm_rate_on_clean_cells": 0.016,
-  "planted_detection_rate": 0.765,
+  "planted_detection_rate": 0.784,
   "problems": [
    {
     "market": "US",
@@ -465,7 +465,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "US 处罚 session 数上升（17→34）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "US 处罚 session 数上升（17→34）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -476,7 +476,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（17→34）。US 处罚 session 数上升（17→34）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（17→34）。US 处罚 session 数上升（17→34）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -487,7 +487,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "US 处罚 session 数上升（17→51）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "US 处罚 session 数上升（17→51）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -498,7 +498,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（17→51）。US 处罚 session 数上升（17→51）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（17→51）。US 处罚 session 数上升（17→51）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -509,7 +509,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": true,
-   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -520,7 +520,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": true,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（15→46）。US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（15→46）。US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "US",
@@ -1697,7 +1697,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "BR 处罚 session 数上升（17→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "BR 处罚 session 数上升（17→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -1708,7 +1708,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（17→46）。BR 处罚 session 数上升（17→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（17→46）。BR 处罚 session 数上升（17→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -1719,7 +1719,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "BR 处罚 session 数上升（17→36）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "BR 处罚 session 数上升（17→36）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -1730,7 +1730,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（17→36）。BR 处罚 session 数上升（17→36）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（17→36）。BR 处罚 session 数上升（17→36）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -1741,7 +1741,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "BR 处罚 session 数上升（11→32）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "BR 处罚 session 数上升（11→32）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -1752,7 +1752,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（11→32）。BR 处罚 session 数上升（11→32）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（11→32）。BR 处罚 session 数上升（11→32）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "BR",
@@ -2001,66 +2001,66 @@
    "scenario": "spam_bot",
    "date": "2026-10-15",
    "direction": "up",
-   "got": "no_anomaly",
-   "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-15=24，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "got": "guild_concentration",
+   "expected": "guild_concentration",
+   "class": "planted_found",
+   "escalated": true,
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
    "scenario": "spam_bot",
    "date": "2026-10-15",
    "direction": "down",
-   "got": "no_anomaly",
+   "got": "guild_concentration",
    "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-15=24，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "class": "planted_found_outside_window",
+   "escalated": true,
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（33→59）。BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
    "scenario": "spam_bot",
    "date": "2026-10-14",
    "direction": "up",
-   "got": "no_anomaly",
-   "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-14=17，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "got": "guild_concentration",
+   "expected": "guild_concentration",
+   "class": "planted_found",
+   "escalated": true,
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（24→45）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
    "scenario": "spam_bot",
    "date": "2026-10-14",
    "direction": "down",
-   "got": "no_anomaly",
+   "got": "guild_concentration",
    "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-14=17，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "class": "planted_found_outside_window",
+   "escalated": true,
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（24→45）。BR 垃圾刷量 处罚 session 数上升（24→45）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
    "scenario": "spam_bot",
    "date": "2026-10-13",
    "direction": "up",
-   "got": "no_anomaly",
-   "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-13=21，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "got": "guild_concentration",
+   "expected": "guild_concentration",
+   "class": "planted_found",
+   "escalated": true,
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（23→48）集中在公会 G-BR-002（巴西公会-002，贡献 69%），命中策略 S-104 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
    "scenario": "spam_bot",
    "date": "2026-10-13",
    "direction": "down",
-   "got": "no_anomaly",
+   "got": "guild_concentration",
    "expected": null,
-   "class": "clean_no_alarm",
-   "escalated": false,
-   "conclusion": "BR spam_bot 处罚 session 数 2026-10-13=21，前 7 天中位数 23.0，属正常波动，未发现异常"
+   "class": "planted_found_outside_window",
+   "escalated": true,
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（23→48）。BR 垃圾刷量 处罚 session 数上升（23→48）集中在公会 G-BR-002（巴西公会-002，贡献 69%），命中策略 S-104 的分数和特征正常，不是误杀；建议公会治理跟进该公会"
   },
   {
    "market": "BR",
@@ -2159,7 +2159,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "2026-10-15 单日（15 vs 基线 11）在正常范围，但近 7 天持续下降（98 vs 184）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-15 单日（15 vs 基线 11）在正常范围，但近 7 天持续下降（98 vs 184）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2170,7 +2170,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "2026-10-15 单日（15 vs 基线 11）在正常范围，但近 7 天持续下降（98 vs 184）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.733→0.204，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-15 单日（15 vs 基线 11）在正常范围，但近 7 天持续下降（98 vs 184）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2181,7 +2181,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "2026-10-14 单日（13 vs 基线 11）在正常范围，但近 7 天持续下降（86 vs 203）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.56→0.193，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-14 单日（13 vs 基线 11）在正常范围，但近 7 天持续下降（86 vs 203）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.953→0.258，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2192,7 +2192,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "2026-10-14 单日（13 vs 基线 11）在正常范围，但近 7 天持续下降（86 vs 203）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.56→0.193，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-14 单日（13 vs 基线 11）在正常范围，但近 7 天持续下降（86 vs 203）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.953→0.258，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2203,7 +2203,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "2026-10-13 单日（11 vs 基线 18）在正常范围，但近 7 天持续下降（109 vs 198）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.936→0.278，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-13 单日（11 vs 基线 18）在正常范围，但近 7 天持续下降（109 vs 198）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.941→0.395，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2214,7 +2214,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "2026-10-13 单日（11 vs 基线 18）在正常范围，但近 7 天持续下降（109 vs 198）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.936→0.278，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-13 单日（11 vs 基线 18）在正常范围，但近 7 天持续下降（109 vs 198）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.941→0.395，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2225,7 +2225,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是上升，数据显示 2026-10-12 实际下降（21→9）。BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.858→0.356，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "注意：你说的是上升，数据显示 2026-10-12 实际下降（21→9）。BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.857→0.448，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2236,7 +2236,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.858→0.356，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.857→0.448，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2247,7 +2247,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "2026-10-11 单日（18 vs 基线 24）在正常范围，但近 7 天持续下降（141 vs 204）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.855→0.431，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-11 单日（18 vs 基线 24）在正常范围，但近 7 天持续下降（141 vs 204）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.855→0.492，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2258,7 +2258,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "2026-10-11 单日（18 vs 基线 24）在正常范围，但近 7 天持续下降（141 vs 204）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.855→0.431，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "2026-10-11 单日（18 vs 基线 24）在正常范围，但近 7 天持续下降（141 vs 204）：BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.855→0.492，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2291,7 +2291,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是上升，数据显示 2026-10-09 实际下降（28→11）。BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.869→0.683，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "注意：你说的是上升，数据显示 2026-10-09 实际下降（28→11）。BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.867→0.684，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2302,7 +2302,7 @@
    "expected": "recall_drop_evasion",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.869→0.683，判断为绕过导致召回下降（主要影响 S-115）"
+   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.867→0.684，判断为绕过导致召回下降（主要影响 S-115）"
   },
   {
    "market": "BR",
@@ -2929,7 +2929,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "ID 处罚 session 数上升（15→42）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "ID 处罚 session 数上升（15→42）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -2940,7 +2940,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（15→42）。ID 处罚 session 数上升（15→42）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（15→42）。ID 处罚 session 数上升（15→42）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -2951,7 +2951,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "ID 处罚 session 数上升（15→47）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "ID 处罚 session 数上升（15→47）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -2962,7 +2962,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（15→47）。ID 处罚 session 数上升（15→47）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（15→47）。ID 处罚 session 数上升（15→47）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -2973,7 +2973,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "ID 处罚 session 数上升（14→45）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "ID 处罚 session 数上升（14→45）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -2984,7 +2984,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（14→45）。ID 处罚 session 数上升（14→45）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（14→45）。ID 处罚 session 数上升（14→45）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "ID",
@@ -3523,7 +3523,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-09 单日（19 vs 基线 20）在正常范围，但近 7 天持续上升（152 vs 112）：ID gambling 处罚 session 数 2026-10-09=152，前 7 天中位数 111.5，属正常波动，未发现异常"
+   "conclusion": "ID gambling 处罚 session 数 2026-10-09=19，前 7 天中位数 20.0，属正常波动，未发现异常"
   },
   {
    "market": "ID",
@@ -3534,7 +3534,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-09 单日（19 vs 基线 20）在正常范围，但近 7 天持续上升（152 vs 112）：ID gambling 处罚 session 数 2026-10-09=152，前 7 天中位数 111.5，属正常波动，未发现异常"
+   "conclusion": "ID gambling 处罚 session 数 2026-10-09=19，前 7 天中位数 20.0，属正常波动，未发现异常"
   },
   {
    "market": "ID",
@@ -3677,7 +3677,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-09 单日（14 vs 基线 15）在正常范围，但近 7 天持续上升（114 vs 80）：ID hate_harassment 处罚 session 数 2026-10-09=114，前 7 天中位数 80.0，属正常波动，未发现异常"
+   "conclusion": "ID hate_harassment 处罚 session 数 2026-10-09=14，前 7 天中位数 15.0，属正常波动，未发现异常"
   },
   {
    "market": "ID",
@@ -3688,7 +3688,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-09 单日（14 vs 基线 15）在正常范围，但近 7 天持续上升（114 vs 80）：ID hate_harassment 处罚 session 数 2026-10-09=114，前 7 天中位数 80.0，属正常波动，未发现异常"
+   "conclusion": "ID hate_harassment 处罚 session 数 2026-10-09=14，前 7 天中位数 15.0，属正常波动，未发现异常"
   },
   {
    "market": "ID",
@@ -4161,7 +4161,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": true,
-   "conclusion": "GB 处罚 session 数上升（10→27）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "GB 处罚 session 数上升（10→27）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4172,7 +4172,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": true,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（10→27）。GB 处罚 session 数上升（10→27）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.775→0.559。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-15 实际上升（10→27）。GB 处罚 session 数上升（10→27）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4183,7 +4183,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4194,7 +4194,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（10→23）。GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.786→0.558。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-14 实际上升（10→23）。GB 处罚 session 数上升（10→23）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.32，抽检精确率 0.777→0.512。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4205,7 +4205,7 @@
    "expected": "model_drift_threshold",
    "class": "planted_found",
    "escalated": false,
-   "conclusion": "GB 处罚 session 数上升（6→25）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "GB 处罚 session 数上升（6→25）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4216,7 +4216,7 @@
    "expected": null,
    "class": "planted_found_outside_window",
    "escalated": false,
-   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（6→25）。GB 处罚 session 数上升（6→25）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.802→0.628。建议策略 owner 评估阈值重校"
+   "conclusion": "注意：你说的是下降，数据显示 2026-10-13 实际上升（6→25）。GB 处罚 session 数上升（6→25）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校"
   },
   {
    "market": "GB",
@@ -4469,7 +4469,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-15 单日（13 vs 基线 15）在正常范围，但近 7 天持续上升（110 vs 79）：GB spam_bot 处罚 session 数 2026-10-15=110，前 7 天中位数 79.0，属正常波动，未发现异常"
+   "conclusion": "GB spam_bot 处罚 session 数 2026-10-15=13，前 7 天中位数 15.0，属正常波动，未发现异常"
   },
   {
    "market": "GB",
@@ -4480,7 +4480,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-15 单日（13 vs 基线 15）在正常范围，但近 7 天持续上升（110 vs 79）：GB spam_bot 处罚 session 数 2026-10-15=110，前 7 天中位数 79.0，属正常波动，未发现异常"
+   "conclusion": "GB spam_bot 处罚 session 数 2026-10-15=13，前 7 天中位数 15.0，属正常波动，未发现异常"
   },
   {
    "market": "GB",
@@ -4491,7 +4491,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-14 单日（21 vs 基线 13）在正常范围，但近 7 天持续上升（107 vs 78）：GB spam_bot 处罚 session 数 2026-10-14=107，前 7 天中位数 78.0，属正常波动，未发现异常"
+   "conclusion": "GB spam_bot 处罚 session 数 2026-10-14=21，前 7 天中位数 13.0，属正常波动，未发现异常"
   },
   {
    "market": "GB",
@@ -4502,7 +4502,7 @@
    "expected": null,
    "class": "clean_no_alarm",
    "escalated": false,
-   "conclusion": "2026-10-14 单日（21 vs 基线 13）在正常范围，但近 7 天持续上升（107 vs 78）：GB spam_bot 处罚 session 数 2026-10-14=107，前 7 天中位数 78.0，属正常波动，未发现异常"
+   "conclusion": "GB spam_bot 处罚 session 数 2026-10-14=21，前 7 天中位数 13.0，属正常波动，未发现异常"
   },
   {
    "market": "GB",

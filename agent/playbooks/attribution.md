@@ -12,7 +12,9 @@
 2. **分解变化**。把计数拆成 `sessions × rate`：先查 `sessions`（流量），再查指标本身。
    若流量变化解释了大部分变化且 rate 基本不变，结论是“流量驱动”，不是策略问题（常见陷阱）。
    基线用前 7 天的中位数，不用单日对比。
-3. **下钻**。市场 → 场景 → 策略：用 `group_by` 找贡献最大的部分（按绝对增量）。
+3. **下钻**。市场 → 场景 → 策略 → 公会：用 `group_by` 找贡献最大的部分（按绝对增量）。
+   同期没有任何变更、但增量 ≥ 50% 集中在单一公会且其他公会平稳 → 更像该公会的集中违规（公会级问题），
+   不是策略误杀；用 `get_guild_info` 和 `sample_cases(guild_id=...)` 取证，转公会治理，不建议改策略。
 4. **查变更**。`get_change_log` 查同期（前 7 天到当天）是否有策略上线/更新、模型升级、policy 更新、特征下线。
    - 同期有模型升级 → 用 `score_drift` 看分布是否上移、超过固定阈值的比例是否变化。
    - 策略版本变化 → 对比 `get_strategy_config` 里的版本历史。
@@ -32,7 +34,7 @@
 
 `traffic_driven` 流量驱动 · `model_drift_threshold` 模型升级后分数漂移、固定阈值失效 ·
 `strategy_change` 策略版本变更 · `new_strategy_launch` 新策略上线 · `policy_update` policy 更新引起的预期变化 ·
-`recall_drop_evasion` 对抗绕过导致召回下降 · `no_anomaly` 波动在正常范围 · `insufficient_data` 样本不足 ·
+`recall_drop_evasion` 对抗绕过导致召回下降 · `guild_concentration` 增量集中在单一公会 · `no_anomaly` 波动在正常范围 · `insufficient_data` 样本不足 ·
 `unexplained` 无法解释 · `needs_clarification` 需要先澄清输入
 
 ## 禁止

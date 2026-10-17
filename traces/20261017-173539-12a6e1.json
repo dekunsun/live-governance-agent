@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-073550-b02745",
+ "run_id": "20261017-173539-12a6e1",
  "engine": "rules",
  "playbook": "attribution",
  "query": "肯尼亚昨天误杀申诉涨了",
- "latency_s": 0.035,
+ "latency_s": 0.032,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -27,12 +27,13 @@
     "direction": "up",
     "session_id": null,
     "strategy_id": null,
+    "guild_id": null,
     "window_days": 1,
     "raw": "肯尼亚昨天误杀申诉涨了"
    }
   },
   {
-   "t": 0.026,
+   "t": 0.024,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -56,6 +57,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -110,7 +112,7 @@
    }
   },
   {
-   "t": 0.033,
+   "t": 0.03,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -135,6 +137,7 @@
      ],
      "scenario": null,
      "strategy_id": null,
+     "guild_id": null,
      "start_date": "2026-10-08",
      "end_date": "2026-10-15",
      "window_clipped": false
@@ -155,17 +158,17 @@
      },
      {
       "date": "2026-10-10",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
       "date": "2026-10-11",
-      "value": 1,
+      "value": 0,
       "low_sample": false
      },
      {
       "date": "2026-10-12",
-      "value": 2,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -189,7 +192,7 @@
    }
   },
   {
-   "t": 0.033,
+   "t": 0.03,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -271,7 +274,7 @@
    }
   },
   {
-   "t": 0.035,
+   "t": 0.032,
    "kind": "guardrails",
    "needs_escalation": true,
    "reasons": [
@@ -298,7 +301,7 @@
    "low_sample": true,
    "observed": {
     "current": 1,
-    "baseline_median": 1.0,
+    "baseline_median": 0.0,
     "sessions_current": 14,
     "sessions_baseline_median": 15.0
    }
@@ -308,7 +311,7 @@
     "ref_id": "Q-0002",
     "type": "metric",
     "metric": "overturns",
-    "what": "2026-10-15 overturns=1，前 7 天中位数 1.0"
+    "what": "2026-10-15 overturns=1，前 7 天中位数 0.0"
    },
    {
     "ref_id": "Q-0001",
@@ -355,7 +358,7 @@
    "type": "insufficient_data",
    "strategy_ids": [],
    "change_ids": [],
-   "explanation": "KE 日均 sessions≈15，overturns 当日 1、基线中位数 1.0，计数太小，单日波动没有统计意义"
+   "explanation": "KE 日均 sessions≈15，overturns 当日 1、基线中位数 0.0，计数太小，单日波动没有统计意义"
   },
   "conclusion": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
   "confidence": "low",
