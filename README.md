@@ -1,6 +1,6 @@
 # governance-copilot — 治理策略巡检与异常归因助手（可演示原型）
 
-对应 PRD《治理策略巡检与异常归因助手（假设版）》。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
+对应 PRD《治理策略巡检与异常归因助手（假设版）》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
 **异常归因**、**策略健康巡检**、**Case 证据包**，带评估报告。全部数据合成，不含任何真实内部信息。
 
 ```
@@ -15,6 +15,7 @@ governance-copilot/
   eval/golden_set.json      30 个标准答案场景 + 巡检期望发现
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
+  docs/PRD.md               产品需求文档（假设版）
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
 ```
 
