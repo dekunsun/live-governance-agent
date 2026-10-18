@@ -44,6 +44,7 @@ def main():
     ap.add_argument("--max_steps", type=int, default=0, help="optimizer steps cap (timing runs)")
     ap.add_argument("--grad_ckpt", type=int, default=1)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--ckpt_every", type=int, default=5, help="save a resumable checkpoint every N optimizer steps")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     torch.manual_seed(0); random.seed(0)
@@ -68,14 +69,24 @@ def main():
     warm = max(1, int(0.06 * total_steps))
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: min(1.0, (s + 1) / warm) * (0.1 + 0.9 * 0.5 * (1 + math.cos(math.pi * min(1.0, s / total_steps)))))
     os.makedirs(a.out, exist_ok=True)
-    log = open(os.path.join(a.out, "train_log.jsonl"), "w")
+    ckpt_path = os.path.join(a.out, "ckpt.pt")
+    trainable = {n: p for n, p in model.named_parameters() if p.requires_grad}
+    start = 0
+    if os.path.exists(ckpt_path):   # resume after an interrupted run (container restarts kill background jobs)
+        ck = torch.load(ckpt_path, weights_only=False)
+        for n, v in ck["params"].items():
+            trainable[n].data.copy_(v)
+        opt.load_state_dict(ck["opt"]); sched.load_state_dict(ck["sched"]); start = ck["step"]
+        torch.set_rng_state(ck["rng"])
+        print(f"resumed from step {start}", flush=True)
+    log = open(os.path.join(a.out, "train_log.jsonl"), "a" if start else "w")
     print(f"samples={len(data)} micro={total_micro} opt_steps={total_steps} trainable={sum(p.numel() for p in model.parameters() if p.requires_grad) / 1e6:.1f}M", flush=True)
     model.train()
     order = []
     while len(order) < total_steps * a.accum:
         perm = list(range(len(data))); random.shuffle(perm); order += perm
     t_start = time.time()
-    for step in range(total_steps):
+    for step in range(start, total_steps):
         t0, loss_sum, ntok = time.time(), 0.0, 0
         for k in range(a.accum):
             ids, lab = data[order[step * a.accum + k]]
@@ -93,7 +104,13 @@ def main():
                "trained_tokens": ntok, "elapsed_min": round((time.time() - t_start) / 60, 1)}
         log.write(json.dumps(rec) + "\n"); log.flush()
         print(rec, flush=True)
+        if (step + 1) % a.ckpt_every == 0 and step + 1 < total_steps:
+            torch.save({"step": step + 1, "params": {n: p.detach().clone() for n, p in trainable.items()}, "opt": opt.state_dict(),
+                        "sched": sched.state_dict(), "rng": torch.get_rng_state()}, ckpt_path + ".tmp")
+            os.replace(ckpt_path + ".tmp", ckpt_path)
     model.save_pretrained(a.out)
+    if os.path.exists(ckpt_path):
+        os.remove(ckpt_path)
     print("saved", a.out, flush=True)
 
 
