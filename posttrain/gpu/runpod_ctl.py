@@ -30,7 +30,7 @@ PRICE_GUESS = {"NVIDIA A40": 0.4, "NVIDIA RTX A6000": 0.5, "NVIDIA L40S": 0.8, "
 
 
 def _headers():
-    h = {"Content-Type": "application/json"}
+    h = {"Content-Type": "application/json", "User-Agent": "live-governance-agent/1.0 (+https://github.com/dekunsun/live-governance-agent)"}
     key = os.environ.get("RUNPOD_API_KEY")
     if key:
         h["Authorization"] = f"Bearer {key}"
