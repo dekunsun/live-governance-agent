@@ -1,5 +1,8 @@
 """Policy backed by a vLLM OpenAI-compatible server (GPU runs).
 
+max_new_tokens is 384 (v2.1): with 220 the SFT models' submit turn (thought + JSON card) was cut off in 14%–27% of
+episodes and had to be retried.
+
 Same interface as posttrain.policy.QwenPolicy (start / continue_ / gen_tokens / tok), but the conversation is
 kept as text and re-sent on every turn; vLLM's prefix caching makes that cheap. We call /v1/completions with
 the raw rendered prompt so the token stream is exactly what the CPU harness renders (no server-side chat
@@ -15,7 +18,7 @@ END = "<|im_end|>"
 
 
 class VLLMPolicy:
-    def __init__(self, base_url=None, model=None, max_new_tokens=220, max_chars=26000, temperature=0.0, timeout=600, tok=None):
+    def __init__(self, base_url=None, model=None, max_new_tokens=384, max_chars=26000, temperature=0.0, timeout=600, tok=None):
         self.base = (base_url or os.environ.get("VLLM_BASE_URL", "http://127.0.0.1:8001")).rstrip("/")
         self.model = model or os.environ.get("VLLM_MODEL", "Qwen/Qwen3-4B")
         self.max_new, self.max_chars, self.temperature, self.timeout = max_new_tokens, max_chars, temperature, timeout
