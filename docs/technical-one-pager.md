@@ -67,27 +67,15 @@ Oct 18, 2026 · Dekun Sun · 全部基于本仓库的可运行原型与合成数
 
 ### 系统概览
 
-```
-用户（策略 owner）
-   │ 提问 / 确认 / 修改 / 推翻
-   ▼
-会话层：开场与冷启动问题 · 范围解析（市场/场景/日期）· 调用过程展示 · 结论卡片 · 反馈
-   │
-Agent 层：LLM 引擎（tool-use 回路，Qwen3-4B + LoRA，vLLM）│ 规则引擎（教师 / 参考 / 兜底）
-   │                                                      │
-Harness：参数规整 · 重复错误阻断 · 提交门控（主因 / 流量 / 编号）· 调用预算 · 升级规则（写死）
-   │
-平台工具层（只读 10 + 草稿 1）：query_metrics · get_change_log · score_drift · sample_cases · get_hit_logs ·
-   get_strategy_config · get_guild_info · get_guild_health · reconstruct_case · run_backtest · draft_change
-   │ 校验层：编号必须真实存在；返回带证据编号
-   ▼
-数据层：指标 · 命中日志 · 申诉 · 抽检样本 · 策略配置 · 变更日志 · 公会（合成世界 / 真实平台的同构接口）
+![系统分层：会话层、Agent 层 / Harness / 训练与评测、平台工具层、模型与推理基础、数据层与存储；实线已完成，虚线规划中](images/arch-layers.png)
 
-离线：合成世界生成 → 出题与标准答案 → 示范 → SFT → GRPO → 评测（同一评分器）
-在线回流：确认 / 修改 / 推翻 → 训练样本池（只收经人确认的）
-```
+（源文件 `docs/diagrams/build.py` 生成 SVG，`docs/diagrams/render.js` 渲染 PNG；SVG 版见 [images/arch-layers.svg](images/arch-layers.svg)。）
+
+离线链路：合成世界生成 → 出题与标准答案 → 示范 → SFT → GRPO → 评测（同一评分器）。在线回流：确认 / 修改 / 推翻 → 训练样本池（只收经人确认的）。
 
 ### 响应生成流程
+
+![响应生成与训练回路：范围解析 → 路由 → 归因回路（≤14 次调用）→ 提交门控 → 结论卡片 → 人工决策；策略调整分支；离线训练与评测回路](images/response-flow.png)
 
 1. **范围解析**：从问题里抽市场、场景、日期；缺失字段先澄清。
 2. **循环**（最多 14 次）：模型输出一段想法 + 一个工具调用 → Harness 规整参数并执行 → 观察拼回上下文。
