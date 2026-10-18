@@ -72,6 +72,7 @@ case "$STAGE" in
     done ;;
   *) log "unknown STAGE $STAGE" ;;
 esac
-cp $R/LOG $R/LOG.txt; (cd /workspace && tar czf results/bundle.tgz --exclude=bundle.tgz results)
+cp $R/LOG $R/LOG.txt; ls -1 $R > $R/MANIFEST.txt
+tar czf /workspace/bundle.tgz -C /workspace results && mv /workspace/bundle.tgz $R/bundle.tgz; ls -la $R/bundle.tgz >> $R/LOG
 status DONE
 sleep infinity

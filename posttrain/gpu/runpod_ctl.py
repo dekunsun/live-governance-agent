@@ -15,6 +15,7 @@ import argparse
 import io
 import json
 import os
+import re
 import sys
 import tarfile
 import time
@@ -93,12 +94,14 @@ def pod_status_url(pid, port=8000):
     return f"https://{pid}-{port}.proxy.runpod.net"
 
 
-def fetch(url, timeout=30, binary=False):
+def fetch(url, timeout=30, binary=False, quiet=True):
     try:
         with urllib.request.urlopen(url, timeout=timeout) as r:
             d = r.read()
             return d if binary else d.decode(errors="replace")
-    except Exception:
+    except Exception as e:
+        if not quiet:
+            print(f"fetch {url} failed: {e}")
         return None
 
 
@@ -113,18 +116,42 @@ def cmd_status(a):
 
 
 def cmd_results(a):
-    os.makedirs(os.path.join(OUT, a.pod), exist_ok=True)
-    data = fetch(pod_status_url(a.pod) + "/bundle.tgz", timeout=300, binary=True)
-    if not data:
-        print("no bundle yet"); return False
-    with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as tf:
-        tf.extractall(os.path.join(OUT, a.pod), filter="data")
-    print(f"results -> {os.path.join(OUT, a.pod, 'results')}  ({len(data) // 1024} KB)")
-    for fn in sorted(os.listdir(os.path.join(OUT, a.pod, "results"))):
+    """Download everything the Pod published. Returns True only when the per-file download got the key files.
+    Tries the bundle first, then falls back to every file listed by the Pod's directory index."""
+    dest = os.path.join(OUT, a.pod, "results")
+    os.makedirs(dest, exist_ok=True)
+    base = pod_status_url(a.pod)
+    data = fetch(base + "/bundle.tgz", timeout=600, binary=True, quiet=False)
+    if data:
+        try:
+            with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as tf:
+                tf.extractall(os.path.join(OUT, a.pod), filter="data")
+            print(f"bundle -> {dest} ({len(data) // 1024} KB)")
+        except Exception as e:
+            print(f"bundle unreadable: {e}")
+    index = fetch(base + "/", timeout=60, quiet=False) or ""
+    names = [n for n in re.findall(r'href="([^"]+)"', index) if not n.endswith("/") and n != "bundle.tgz"]
+    got = 0
+    for n in names:
+        if os.path.exists(os.path.join(dest, n)) and os.path.getsize(os.path.join(dest, n)) > 0:
+            got += 1
+            continue
+        d = fetch(base + "/" + n, timeout=600, binary=True)
+        if d is not None:
+            open(os.path.join(dest, n), "wb").write(d); got += 1
+        else:
+            print(f"  failed: {n}")
+    files = sorted(os.listdir(dest)) if os.path.isdir(dest) else []
+    ok = bool(files) and any(f.startswith("summary_") for f in files) and got == len(names) and len(names) > 0
+    print(f"results: {got}/{len(names)} files listed by the Pod downloaded -> {dest}  complete={ok}")
+    for fn in files:
         if fn.startswith("summary_") and fn.endswith(".json"):
-            o = json.load(open(os.path.join(OUT, a.pod, "results", fn)))["overall"]
-            print(f"  {fn}: pass {o['pass_rate']:.3f} score {o['mean_score']:.3f} n={o['n']}")
-    return True
+            try:
+                o = json.load(open(os.path.join(dest, fn)))["overall"]
+                print(f"  {fn}: pass {o['pass_rate']:.3f} score {o['mean_score']:.3f} n={o['n']}")
+            except Exception:
+                pass
+    return ok
 
 
 def cmd_terminate(a):
@@ -137,17 +164,24 @@ def cmd_wait(a):
     while True:
         pod, st = cmd_status(a)
         if st in ("DONE", "TIMEOUT") or st.startswith("FAILED"):
-            ok = cmd_results(a) if st in ("DONE", "TIMEOUT") else False
+            ok = cmd_results(a)
             log = fetch(pod_status_url(a.pod) + "/LOG")
             if log:
                 open(os.path.join(OUT, f"{a.pod}.log"), "w").write(log)
-            if not a.keep:
+            if ok and not a.keep:
                 cmd_terminate(a)
+            elif not ok:
+                print(f"NOT terminating {a.pod}: results incomplete. Re-run `results {a.pod}`; terminate by hand when done.")
             hrs = (time.time() - t0) / 3600
             print(f"finished with {st}; waited {hrs:.2f} h; approx cost this wait ≈ ${hrs * float(pod.get('costPerHr') or 0):.2f}")
             return
         if (time.time() - t0) / 3600 > a.max_hours:
-            print("wait cap reached; terminating"); cmd_results(a); cmd_terminate(a); return
+            print("wait cap reached"); ok = cmd_results(a)
+            if ok:
+                cmd_terminate(a)
+            else:
+                print(f"results incomplete; Pod {a.pod} left running for a manual `results` + `terminate`")
+            return
         time.sleep(a.poll)
 
 
