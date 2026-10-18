@@ -42,7 +42,15 @@ python posttrain/gpu/runpod_ctl.py create --stage B1 --models Qwen/Qwen3-4B --se
 
 对比口径：所有结果都在 Harness v2 上；CPU 上 0.6B 的基线（`summary_base_v2_test.json`）是旧的 73 题，GPU 上是扩大后的 194 题，比较时取 task_id 交集。
 
+## B2（GRPO）
+
+```bash
+python posttrain/gpu/runpod_ctl.py create --stage B2 --models Qwen/Qwen3-4B --max-hours 4 --self-key-secret lga_key \
+  --grpo "GRPO_ITERS=12 GRPO_SECONDS=7200 GRPO_TASKS=48 GRPO_GROUP=8"
+```
+
+Pod 里的顺序：训练 SFT 种子 1（17 分钟）→ 起 vLLM（显存 45%，允许运行时换 LoRA）→ 在 384 token 上限下重测 sft_s1 → `posttrain/grpo.py`（每轮 48 题 × 8 次采样，温度 1，奖励 = 评分 + 通过加 1，组内归一化优势，只对有分歧的组做一步策略梯度，然后把新 LoRA 热换进 vLLM）→ 评测 `grpo_final`。结果里多出 `grpo_log_*.jsonl`（每轮通过率、奖励、有信号的组数、loss）和 `grpo_final_*.tgz`（最终 LoRA）。
+
 ## 已知未做
 
-- B2（GRPO）还没有实现：需要 vLLM 带 LoRA 的采样回路 + 评分器奖励 + 策略梯度更新；等 B0/B1 结果出来再决定做不做、在哪个模型上做。
 - `pod_job.sh` 第一次在真实 Pod 上跑时大概率要调一两处（镜像里缺的包、vLLM 参数名随版本变化）。先用 `--max-hours 1` 跑 B0 的 4B 单模型探路：`create --stage B0 --models Qwen/Qwen3-4B --max-hours 1`。

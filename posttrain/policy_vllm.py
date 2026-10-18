@@ -24,10 +24,13 @@ class VLLMPolicy:
         self.max_new, self.max_chars, self.temperature, self.timeout = max_new_tokens, max_chars, temperature, timeout
         self.tok = tok   # tokenizer for rendering the prompt (shared across instances; read-only)
         self.text, self.gen_tokens = "", 0
+        self.spans = []   # (start, end) char offsets of every generated segment (END included), for RL training
 
     def _complete(self):
         body = {"model": self.model, "prompt": self.text, "max_tokens": self.max_new, "temperature": self.temperature,
                 "stop": [END], "skip_special_tokens": True}
+        if self.temperature > 0:
+            body["top_p"] = 1.0
         req = urllib.request.Request(self.base + "/v1/completions", data=json.dumps(body).encode(), headers={"Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=self.timeout) as r:
             out = json.loads(r.read())
@@ -39,11 +42,12 @@ class VLLMPolicy:
         if len(self.text) > self.max_chars:
             return "<context_exhausted>"
         out = self._complete()
+        self.spans.append((len(self.text), len(self.text) + len(out) + len(END)))
         self.text += out + END   # close the turn exactly like the CPU policy does
         return out
 
     def start(self, prefix, raw=True):
-        self.text, self.gen_tokens = prefix, 0
+        self.text, self.gen_tokens, self.spans = prefix, 0, []
         return self._generate()
 
     def continue_(self, segment):
