@@ -36,7 +36,8 @@ from gov_platform.tools import METRICS  # noqa: E402
 PLAYBOOK_DIR = os.path.join(ROOT, "agent", "playbooks")
 TRACE_DIR = os.path.join(ROOT, "traces")
 CAUSE_TYPES = ["traffic_driven", "model_drift_threshold", "strategy_change", "new_strategy_launch", "policy_update",
-               "recall_drop_evasion", "guild_concentration", "strategy_overlap", "zombie_strategy", "no_anomaly",
+               "recall_drop_evasion", "guild_concentration", "guild_health_real_violations", "guild_health_unfair_deduction",
+               "strategy_overlap", "zombie_strategy", "guild_health_breach", "no_anomaly",
                "insufficient_data", "unexplained", "needs_clarification"]
 MODEL = "claude-opus-5-5"
 PRICE = {"input": 4.0, "output": 20.0, "cache_read": 0.20}   # USD per 1M tokens (Claude Opus 5.5)
@@ -88,7 +89,8 @@ class Trace:
 def parse_query(q, meta):
     """Lightweight intent parser used by the rules engine (and to pre-fill scope for the LLM)."""
     s = {"market": None, "scenario": None, "metric": None, "metric_candidates": [], "date": None,
-         "direction": None, "session_id": None, "strategy_id": None, "guild_id": None, "window_days": 1, "raw": q}
+         "direction": None, "session_id": None, "strategy_id": None, "guild_id": None, "window_days": 1, "raw": q,
+         "guild_health": bool(re.search(r"健康分|扣分|health score", q, re.I))}
     m = re.search(r"LS-\d{7}", q)
     if m:
         s["session_id"] = m.group(0)
@@ -172,6 +174,10 @@ class Guardrails:
                 and e["result"].get("error") in ("no_data", "insufficient_sample")]
         if errs and card.get("primary_cause", {}).get("type") not in ("needs_clarification", "no_anomaly"):
             reasons.append(f"部分数据缺失（{', '.join(sorted(set(errs)))}），结论只覆盖可验证部分")
+        fin = [sid for sid in (card.get("primary_cause") or {}).get("strategy_ids", []) or []
+               if sid in self.p.by_id and self.p.by_id[sid]["action"] in self.p.meta["financial_actions"]]
+        if fin and (card.get("primary_cause") or {}).get("type") in ("model_drift_threshold", "strategy_change", "unexplained", "guild_health_unfair_deduction"):
+            reasons.append(f"涉及资金侧处置策略 {fin}，误杀需解冻/释放结算，需运营与结算确认")
         if card.get("scope", {}).get("low_sample"):
             if not any("样本不足" in r for r in reasons):
                 reasons.append("样本不足（小市场或计数过低）")
@@ -246,6 +252,8 @@ class RulesEngine:
                 "contributing_causes": [], "needs_escalation": False, "escalation_reasons": [], "platform_links": []}
         if s["session_id"]:
             return self.case(query, s["session_id"])
+        if s.get("guild_health") and s.get("guild_id"):
+            return self.guild_health(query, s["guild_id"], s.get("date") or self.meta["end"])
         if s["strategy_id"] and not s["metric"] and not s["metric_candidates"]:
             return self.health_check(query, strategy_ids=[s["strategy_id"]])
         missing = [k for k in ("market", "date") if not s.get(k)]
@@ -503,6 +511,16 @@ class RulesEngine:
                                 confidence="high")
                     card["next_steps"] += [f"请 {top_cfg['owner']} 评估 {top_strategy} 阈值重校（可用 run_backtest 回放新阈值）",
                                            "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校"]
+                    fin = self.call(trace, "query_metrics", metric="frozen_amount", start_date=mc["date"], end_date=D, market=s["market"],
+                                    scenario=scenario, group_by=["strategy_id"], granularity="total")
+                    if "error" not in fin:
+                        fin_rows = [r for r in fin["rows"] if r["value"] > 0 and self.p.by_id[r["strategy_id"]]["action"] in self.meta["financial_actions"]]
+                        if fin_rows:
+                            card["evidence"].append({"ref_id": fin["ref_id"], "type": "metric", "metric": "frozen_amount",
+                                                     "what": "同一模型的资金侧策略同期冻结/延迟结算金额: " + ", ".join(f"{r['strategy_id']}={r['value']}" for r in fin_rows)})
+                            card["next_steps"].append("资金侧：同一模型的 " + "、".join(r["strategy_id"] for r in fin_rows) + " 受同样漂移影响，误杀场次的冻结收益需复核后解冻（走结算复核）")
+                            card["contributing_causes"].append({"type": "financial_exposure", "strategy_ids": [r["strategy_id"] for r in fin_rows], "change_ids": [],
+                                                                "explanation": "资金侧动作误杀的代价不可逆性更高，需同步处理"})
                     card["platform_links"].append(f"platform://strategy/{top_strategy}")
                     if strat_changes or policy_changes:
                         card["contributing_causes"].append({"type": "other_changes", "change_ids": [c["change_id"] for c in strat_changes + policy_changes],
@@ -636,6 +654,78 @@ class RulesEngine:
         out = [(k, round(dlt, 1), round(abs(dlt) / tot, 2), cur, round(base, 1)) for k, dlt, cur, base in out]
         return sorted(out, key=lambda x: -abs(x[1]))
 
+    # --- guild health score attribution: real violations vs unfair deductions
+    def guild_health(self, query, gid, D):
+        trace = Trace("rules", "guild_health", query)
+        d = date.fromisoformat(D)
+        start = (d - timedelta(days=13)).isoformat()
+        card = {"card_type": "attribution", "query": query, "scope": {"guild_id": gid, "date": D, "window": [start, D], "low_sample": False},
+                "metric": {"key": "guild_health_score", "definition": self.meta["guild_health_rule"], "version": "v1", "note": "机构健康分（合成规则）"},
+                "evidence": [], "next_steps": [], "contributing_causes": [], "needs_escalation": False, "escalation_reasons": [],
+                "platform_links": [f"platform://guild/{gid}/health"]}
+        gh = self.call(trace, "get_guild_health", start_date=start, end_date=D, guild_id=gid)
+        if "error" in gh:
+            return self._fail(card, trace, gh)
+        drop = gh["score_start"] - gh["score_end"]
+        card["evidence"].append({"ref_id": gh["ref_id"], "type": "guild_health",
+                                 "what": f"{gid} 健康分 {gh['score_start']}→{gh['score_end']}（{gh['tier_now']}），窗口扣分 {gh['total_deduction']}，"
+                                         f"最大扣分日 {max(gh['deductions_by_date'], key=gh['deductions_by_date'].get) if gh['deductions_by_date'] else '无'}"})
+        if drop < 3 and gh["tier_now"] == "正常":
+            card.update(primary_cause={"type": "no_anomaly", "strategy_ids": [], "change_ids": [], "guild_ids": [gid],
+                                       "explanation": f"净变化 {drop:.1f} 分，扣分与日常恢复相抵，未越档"},
+                        conclusion=f"{gid} 近 14 天健康分 {gh['score_start']}→{gh['score_end']}（{gh['tier_now']}），扣分 {gh['total_deduction']}、恢复 {gh['total_recovery']}，属正常波动", confidence="high")
+            return trace.finish(Guardrails(self.p).apply(card, trace))
+        by = gh["deductions_by_strategy"]
+        top = by[0]
+        share = top["points"] / max(gh["total_deduction"], 0.01)
+        card["evidence"].append({"ref_id": gh["ref_id"], "type": "drilldown", "what": "扣分来源（策略, 分值）: " + ", ".join(f"{b['strategy_id']} {b['points']}" for b in by[:4])})
+        ch = self.call(trace, "get_change_log", start_date=start, end_date=D)
+        model_changes = [c for c in ch.get("changes", []) if c["type"] == "model_update"]
+        unfair = None
+        for cand in by[:3]:   # any top-3 contributor driven by a drifting model with >= 25% of the deduction
+            if cand["points"] / max(gh["total_deduction"], 0.01) < 0.25:
+                continue
+            mcs = [c for c in model_changes if c["scenario"] == cand["scenario"]]
+            if not mcs:
+                continue
+            mc = mcs[0]
+            dr = self.call(trace, "score_drift", scenario=cand["scenario"], baseline_start=(date.fromisoformat(mc["date"]) - timedelta(days=7)).isoformat(),
+                           baseline_end=(date.fromisoformat(mc["date"]) - timedelta(days=1)).isoformat(), current_start=mc["date"], current_end=D)
+            th = next((t for t in dr.get("share_above_thresholds", []) if t["strategy_id"] == cand["strategy_id"]), None)
+            if "error" not in dr and dr["psi"] > 0.1 and th and th["ratio"] and th["ratio"] >= 1.5:
+                unfair = (mc, dr, th)
+                top = cand
+                share = cand["points"] / max(gh["total_deduction"], 0.01)
+                break
+        cases = self.call(trace, "sample_cases", start_date=start, end_date=D, strategy_id=top["strategy_id"], guild_id=gid, n=10)
+        if "error" not in cases:
+            card["evidence"].append({"ref_id": cases["ref_id"], "type": "cases", "what": f"{gid} 被 {top['strategy_id']} 命中的 case 抽样 {cases['n']} 个，含头部主播={cases['contains_head_host']}"})
+            card["sample_case_ids"] = [c["session_id"] for c in cases["cases"]]
+        if unfair:
+            mc, dr, th = unfair
+            card["evidence"] += [{"ref_id": ch["ref_id"], "type": "change_log", "what": f"{mc['change_id']} {mc['date']} {mc['summary']}"},
+                                 {"ref_id": dr["ref_id"], "type": "score_drift", "what": f"{dr['model']} PSI={dr['psi']}，超过 {top['strategy_id']} 阈值的比例 ×{th['ratio']}"}]
+            card.update(primary_cause={"type": "guild_health_unfair_deduction", "strategy_ids": [top["strategy_id"]], "change_ids": [mc["change_id"]], "guild_ids": [gid],
+                                       "explanation": f"扣分 {share:.0%} 来自 {top['strategy_id']}，而该策略正受 {mc['change_id']} 模型漂移影响（命中 ×{th['ratio']}），扣分可能不反映真实违规"},
+                        conclusion=f"{gid} 健康分下降（{gh['score_start']}→{gh['score_end']}）主要由 {top['strategy_id']} 的严重处置驱动；该策略在 {mc['date']} 模型升级后命中 ×{th['ratio']}，"
+                                   f"扣分可能不合理，建议暂缓按健康分处置并在阈值重校后回补分数",
+                        confidence="medium", needs_escalation=True,
+                        escalation_reasons=["机构健康分扣分可能源于策略误杀，涉及公会级处置与分数回补，需公会治理 + 策略 owner 共同确认"])
+            card["next_steps"] += [f"策略侧：{top['strategy_id']} 阈值重校（见归因卡片）", f"公会侧：冻结 {gid} 的档位处置直到复核完成；复核后回补误扣分数"]
+        else:
+            gi = self.call(trace, "get_guild_info", guild_id=gid)
+            card.update(primary_cause={"type": "guild_health_real_violations", "strategy_ids": [top["strategy_id"]], "change_ids": [], "guild_ids": [gid],
+                                       "explanation": f"扣分 {share:.0%} 来自 {top['strategy_id']}（{self.meta['scenario_names'][top['scenario']]}），同期无模型/策略变更，"
+                                                      f"严重处置 {top['severe_enforcements']} 次集中出现，是旗下主播的真实违规"},
+                        conclusion=f"{gid} 健康分下降（{gh['score_start']}→{gh['score_end']}，{gh['tier_now']}）来自旗下主播的真实违规：{top['strategy_id']} "
+                                   f"严重处置 {top['severe_enforcements']} 次，占扣分 {share:.0%}；下一档 {gh['next_threshold']['action'] if gh['next_threshold'] else '无'}（{gh['next_threshold']['score'] if gh['next_threshold'] else ''} 分）",
+                        confidence="high", needs_escalation=True,
+                        escalation_reasons=["涉及公会级处置（约谈/暂停结算），需公会治理确认"])
+            card["next_steps"] += [f"公会治理：约谈 {gid}，要求整改并核查近 3 天新增主播", "若连续扣分，将在下一档触发暂停结算；提前告知公会"]
+            if "error" not in gi:
+                card["evidence"].append({"ref_id": gi["ref_id"], "type": "guild", "what": f"{gi['guilds'][0]['name']}，{gi['guilds'][0]['tier']} 公会，头部主播 {gi['guilds'][0]['head_hosts']} 个"})
+        return trace.finish(Guardrails(self.p).apply(card, trace))
+
     # --- case evidence pack
     def case(self, query, session_id):
         trace = Trace("rules", "case", query)
@@ -722,7 +812,7 @@ class RulesEngine:
                     pv = prec["rows"][0]["value"] if "error" not in prec else None
                     pv0 = prec0["rows"][0]["value"] if "error" not in prec0 else None
                     worse = (pv is not None and pv0 is not None and pv0 - pv >= 0.1)
-                    sev = ("high" if self.meta["action_severity"][t["action"]] >= 4 else "medium") if worse else "low"
+                    sev = ("high" if self.meta["action_severity"][t["action"]] >= 5 else "medium") if worse else "low"
                     findings.append({"finding_type": "drift_threshold", "strategy_ids": [t["strategy_id"]], "severity": sev, "market": "ALL",
                                      "evidence": [dr["ref_id"], c["change_id"], prec["ref_id"] if "error" not in prec else None],
                                      "explanation": f"{c['change_id']} 后 {dr['model']} PSI={dr['psi']}，超过 {t['strategy_id']} 阈值 {t['threshold']} 的比例 ×{t['ratio']}，抽检精确率 {pv0}→{pv}",
@@ -758,6 +848,16 @@ class RulesEngine:
                                      "evidence": [r1["ref_id"], r0["ref_id"], h1["ref_id"], rep1["ref_id"]],
                                      "explanation": f"{r['market']} {scn} recall_est {b['value']}→{r['value']}，命中日均 {hv0:.0f}→{hv1:.0f}，举报日均 {rv0:.0f}→{rv1:.0f} 未降，疑似绕过",
                                      "suggested_action": "bad case 送模型团队；评估临时补充条件", "needs_human": True})
+        # guild health breaches (机构健康分越档)
+        if not strategy_ids:
+            ghm = self.call(trace, "get_guild_health", start_date=w7, end_date=D)
+            for b in ghm.get("breached", []):
+                g1 = self.call(trace, "get_guild_health", start_date=w21, end_date=D, guild_id=b["guild_id"])
+                top = g1["deductions_by_strategy"][0] if "error" not in g1 and g1["deductions_by_strategy"] else None
+                findings.append({"finding_type": "guild_health_breach", "strategy_ids": [top["strategy_id"]] if top else [], "severity": "high" if b["score"] <= 70 else "medium",
+                                 "market": b["market"], "evidence": [ghm["ref_id"], g1["ref_id"] if "error" not in g1 else None],
+                                 "explanation": f"{b['guild_id']} 健康分 {b['score']} 进入「{b['tier']}」档" + (f"，扣分主要来自 {top['strategy_id']}（{top['points']} 分）" if top else ""),
+                                 "suggested_action": "公会治理按档位处置前，先确认扣分来源策略是否受漂移影响（问：该公会健康分为什么掉了）", "needs_human": True})
         # expected changes -> info
         for c in [c for c in changes if c["type"] in ("strategy_update", "strategy_launch") and (not strategy_ids or c["strategy_id"] in strategy_ids)]:
             findings.append({"finding_type": "expected_change", "strategy_ids": [c["strategy_id"]], "severity": "info", "market": ",".join(c["markets"]),
@@ -804,7 +904,7 @@ CARD_SCHEMA = {
             "metric": {"type": ["string", "null"]}, "what": {"type": "string"}}, "required": ["ref_id", "type", "metric", "what"]}},
         "findings": {"type": "array", "items": {"type": "object", "additionalProperties": False, "properties": {
             "finding_type": {"type": "string", "enum": ["effect_decline", "zombie_strategy", "strategy_overlap", "drift_threshold",
-                                                        "precision_decline", "recall_decline", "expected_change"]},
+                                                        "precision_decline", "recall_decline", "guild_health_breach", "expected_change"]},
             "strategy_ids": {"type": "array", "items": {"type": "string"}}, "severity": {"type": "string", "enum": ["high", "medium", "low", "info"]},
             "market": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}, "explanation": {"type": "string"},
             "suggested_action": {"type": "string"}, "needs_human": {"type": "boolean"}},

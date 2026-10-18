@@ -1,7 +1,7 @@
 {
  "summary": {
   "engine": "rules",
-  "n_cases": 33,
+  "n_cases": 36,
   "accuracy": 1.0,
   "hallucination_rate": 0.0,
   "trap_pass_rate": 1.0,
@@ -21,7 +21,8 @@
    "small_market": 1.0,
    "case": 1.0,
    "overlap": 1.0,
-   "guild": 1.0
+   "guild": 1.0,
+   "guild_health": 1.0
   },
   "by_market": {
    "US": 1.0,
@@ -32,25 +33,25 @@
    "VN": 1.0
   },
   "latency_s": {
-   "mean": 0.062,
-   "max": 0.39
+   "mean": 0.078,
+   "max": 0.395
   },
   "cost_usd": {
    "mean": 0.0,
    "total": 0.0
   },
-  "tool_calls_mean": 5.3,
+  "tool_calls_mean": 5.4,
   "health": {
-   "expected": 5,
-   "found": 5,
+   "expected": 6,
+   "found": 6,
    "missed": [],
    "false_positives": [],
    "recall": 1.0,
    "precision": 1.0,
-   "n_alerts": 6,
-   "latency_s": 2.263,
+   "n_alerts": 7,
+   "latency_s": 3.118,
    "cost_usd": 0.0,
-   "tool_calls": 64
+   "tool_calls": 67
   },
   "consistency": {
    "G01": {
@@ -158,8 +159,8 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.266,
-   "tool_calls": 12,
+   "latency_s": 0.353,
+   "tool_calls": 13,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
@@ -193,15 +194,15 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.141,
-   "tool_calls": 8,
+   "latency_s": 0.246,
+   "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 申诉数上升（4→19）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
+   "conclusion": "BR 申诉数上升（5→19）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
    "escalation_reasons": []
   },
   {
@@ -226,8 +227,8 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.107,
-   "tool_calls": 8,
+   "latency_s": 0.143,
+   "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
@@ -259,8 +260,8 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.13,
-   "tool_calls": 8,
+   "latency_s": 0.186,
+   "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
@@ -292,15 +293,15 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.1,
-   "tool_calls": 8,
+   "latency_s": 0.13,
+   "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "US 处罚 session 数上升（15→46）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校",
+   "conclusion": "US 处罚 session 数上升（15→47）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.25，抽检精确率 0.79→0.558。建议策略 owner 评估阈值重校",
    "escalation_reasons": [
     "涉及头部主播，需策略 owner 人工确认"
    ]
@@ -323,7 +324,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.008,
+   "latency_s": 0.009,
    "tool_calls": 2,
    "cost_usd": 0.0,
    "usage": {
@@ -352,7 +353,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.007,
+   "latency_s": 0.009,
    "tool_calls": 2,
    "cost_usd": 0.0,
    "usage": {
@@ -381,7 +382,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.01,
+   "latency_s": 0.014,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -389,7 +390,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "ID spam_bot 处罚 session 数 2026-10-04=33，前 7 天中位数 23.0，属正常波动，未发现异常",
+   "conclusion": "ID spam_bot 处罚 session 数 2026-10-04=33，前 7 天中位数 24.0，属正常波动，未发现异常",
    "escalation_reasons": []
   },
   {
@@ -412,7 +413,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.08,
+   "latency_s": 0.11,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -443,7 +444,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.15,
+   "latency_s": 0.136,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -474,7 +475,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.075,
+   "latency_s": 0.094,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -508,7 +509,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.017,
+   "latency_s": 0.022,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -542,7 +543,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.019,
+   "latency_s": 0.026,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -575,7 +576,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.016,
+   "latency_s": 0.022,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -608,7 +609,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.018,
+   "latency_s": 0.021,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -637,7 +638,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.012,
+   "latency_s": 0.013,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -666,7 +667,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.01,
+   "latency_s": 0.013,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -695,7 +696,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.01,
+   "latency_s": 0.013,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -724,7 +725,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.01,
+   "latency_s": 0.013,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -753,7 +754,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "n/a",
-   "latency_s": 0.0,
+   "latency_s": 0.001,
    "tool_calls": 0,
    "cost_usd": 0.0,
    "usage": {
@@ -844,8 +845,8 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.141,
-   "tool_calls": 14,
+   "latency_s": 0.189,
+   "tool_calls": 15,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
@@ -879,8 +880,8 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.158,
-   "tool_calls": 9,
+   "latency_s": 0.155,
+   "tool_calls": 10,
    "cost_usd": 0.0,
    "usage": {
     "input_tokens": 0,
@@ -908,7 +909,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.01,
+   "latency_s": 0.008,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -939,7 +940,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.01,
+   "latency_s": 0.008,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -970,7 +971,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.01,
+   "latency_s": 0.011,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -1005,7 +1006,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.012,
+   "latency_s": 0.011,
    "tool_calls": 1,
    "cost_usd": 0.0,
    "usage": {
@@ -1067,7 +1068,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.39,
+   "latency_s": 0.395,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -1100,7 +1101,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.067,
+   "latency_s": 0.096,
    "tool_calls": 7,
    "cost_usd": 0.0,
    "usage": {
@@ -1108,7 +1109,7 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（34→59）集中在公会 G-BR-002（巴西公会-002，贡献 64%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
    "escalation_reasons": [
     "涉及公会级处置，超出只读结论范围，需公会治理确认",
     "涉及头部主播，需策略 owner 人工确认"
@@ -1136,7 +1137,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.064,
+   "latency_s": 0.091,
    "tool_calls": 7,
    "cost_usd": 0.0,
    "usage": {
@@ -1167,7 +1168,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.01,
+   "latency_s": 0.013,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -1175,7 +1176,110 @@
     "output_tokens": 0,
     "cache_read_input_tokens": 0
    },
-   "conclusion": "BR spam_bot 申诉数 2026-10-15=8，前 7 天中位数 3.0，属正常波动，未发现异常",
+   "conclusion": "BR spam_bot 申诉数 2026-10-15=8，前 7 天中位数 4.0，属正常波动，未发现异常",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G34",
+   "category": "guild_health",
+   "market": "BR",
+   "query": "G-BR-002 健康分为什么掉了",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "guild_health_real_violations",
+   "got_strategy_ids": [
+    "S-117"
+   ],
+   "got_change_ids": [],
+   "got_guild_ids": [
+    "G-BR-002"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.132,
+   "tool_calls": 5,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "G-BR-002 健康分下降（98.51→75.05，警告约谈）来自旗下主播的真实违规：S-117 严重处置 46 次，占扣分 66%；下一档 暂停结算（70 分）",
+   "escalation_reasons": [
+    "涉及公会级处置（约谈/暂停结算），需公会治理确认"
+   ]
+  },
+  {
+   "id": "G35",
+   "category": "guild_health",
+   "market": "US",
+   "query": "G-US-001 健康分最近为什么扣分",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "guild_health_unfair_deduction",
+   "got_strategy_ids": [
+    "S-102"
+   ],
+   "got_change_ids": [
+    "C-006"
+   ],
+   "got_guild_ids": [
+    "G-US-001"
+   ],
+   "got_escalation": true,
+   "confidence": "medium",
+   "latency_s": 0.109,
+   "tool_calls": 4,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "G-US-001 健康分下降（100.0→95.06）主要由 S-102 的严重处置驱动；该策略在 2026-10-13 模型升级后命中 ×3.26，扣分可能不合理，建议暂缓按健康分处置并在阈值重校后回补分数",
+   "escalation_reasons": [
+    "机构健康分扣分可能源于策略误杀，涉及公会级处置与分数回补，需公会治理 + 策略 owner 共同确认"
+   ]
+  },
+  {
+   "id": "G36",
+   "category": "guild_health",
+   "market": "GB",
+   "query": "G-GB-001 健康分最近有没有问题",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": "no_anomaly",
+   "got_strategy_ids": [],
+   "got_change_ids": [],
+   "got_guild_ids": [
+    "G-GB-001"
+   ],
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.015,
+   "tool_calls": 1,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "G-GB-001 近 14 天健康分 96.54→96.24（正常），扣分 4.95、恢复 4.0，属正常波动",
    "escalation_reasons": []
   }
  ]

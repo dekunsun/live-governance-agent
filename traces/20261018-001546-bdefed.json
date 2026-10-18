@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-173534-1da436",
+ "run_id": "20261018-001546-bdefed",
  "engine": "rules",
  "playbook": "attribution",
  "query": "ID 10月4日处罚量涨了",
- "latency_s": 0.028,
+ "latency_s": 0.012,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -29,11 +29,12 @@
     "strategy_id": null,
     "guild_id": null,
     "window_days": 1,
-    "raw": "ID 10月4日处罚量涨了"
+    "raw": "ID 10月4日处罚量涨了",
+    "guild_health": false
    }
   },
   {
-   "t": 0.02,
+   "t": 0.006,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -112,7 +113,7 @@
    }
   },
   {
-   "t": 0.026,
+   "t": 0.01,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -148,37 +149,37 @@
     "rows": [
      {
       "date": "2026-09-27",
-      "value": 174,
+      "value": 176,
       "low_sample": false
      },
      {
       "date": "2026-09-28",
-      "value": 137,
+      "value": 141,
       "low_sample": false
      },
      {
       "date": "2026-09-29",
-      "value": 112,
+      "value": 113,
       "low_sample": false
      },
      {
       "date": "2026-09-30",
-      "value": 124,
+      "value": 125,
       "low_sample": false
      },
      {
       "date": "2026-10-01",
-      "value": 126,
+      "value": 127,
       "low_sample": false
      },
      {
       "date": "2026-10-02",
-      "value": 134,
+      "value": 135,
       "low_sample": false
      },
      {
       "date": "2026-10-03",
-      "value": 256,
+      "value": 259,
       "low_sample": false
      },
      {
@@ -192,7 +193,7 @@
    }
   },
   {
-   "t": 0.028,
+   "t": 0.012,
    "kind": "guardrails",
    "needs_escalation": false,
    "reasons": [],
@@ -217,15 +218,15 @@
    "low_sample": false,
    "observed": {
     "current": 217,
-    "baseline_median": 134.0,
+    "baseline_median": 135.0,
     "sessions_current": 1543,
     "sessions_baseline_median": 974.0
    },
    "decomposition": {
-    "count_ratio": 1.62,
+    "count_ratio": 1.61,
     "traffic_ratio": 1.58,
-    "rate_ratio": 1.02,
-    "traffic_share_of_change": 0.95
+    "rate_ratio": 1.01,
+    "traffic_share_of_change": 0.97
    }
   },
   "evidence": [
@@ -233,7 +234,7 @@
     "ref_id": "Q-0002",
     "type": "metric",
     "metric": "enforcements",
-    "what": "2026-10-04 enforcements=217，前 7 天中位数 134.0"
+    "what": "2026-10-04 enforcements=217，前 7 天中位数 135.0"
    },
    {
     "ref_id": "Q-0001",
@@ -262,7 +263,7 @@
    "type": "traffic_driven",
    "strategy_ids": [],
    "change_ids": [],
-   "explanation": "sessions 974→1543（×1.58），enforcements/sessions 比率 ×1.02 基本不变；流量解释了约 95% 的变化"
+   "explanation": "sessions 974→1543（×1.58），enforcements/sessions 比率 ×1.01 基本不变；流量解释了约 97% 的变化"
   },
   "conclusion": "ID 处罚 session 数 上涨主要由流量变化驱动（974→1543 sessions），处罚 session 数率基本不变，不是策略或模型问题",
   "confidence": "high",

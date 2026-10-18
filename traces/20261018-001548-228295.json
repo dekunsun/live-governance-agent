@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-173536-7a2f18",
+ "run_id": "20261018-001548-228295",
  "engine": "rules",
  "playbook": "attribution",
  "query": "巴西赌博命中最近下降了",
- "latency_s": 0.221,
+ "latency_s": 0.207,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -29,11 +29,12 @@
     "strategy_id": null,
     "guild_id": null,
     "window_days": 7,
-    "raw": "巴西赌博命中最近下降了"
+    "raw": "巴西赌博命中最近下降了",
+    "guild_health": false
    }
   },
   {
-   "t": 0.023,
+   "t": 0.006,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -177,7 +178,7 @@
    }
   },
   {
-   "t": 0.029,
+   "t": 0.011,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -322,7 +323,7 @@
    }
   },
   {
-   "t": 0.037,
+   "t": 0.018,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -744,7 +745,7 @@
    }
   },
   {
-   "t": 0.037,
+   "t": 0.018,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -770,7 +771,7 @@
    }
   },
   {
-   "t": 0.042,
+   "t": 0.022,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -806,12 +807,12 @@
     "rows": [
      {
       "date": "2026-09-25",
-      "value": 26,
+      "value": 34,
       "low_sample": false
      },
      {
       "date": "2026-09-26",
-      "value": 29,
+      "value": 23,
       "low_sample": false
      },
      {
@@ -821,7 +822,7 @@
      },
      {
       "date": "2026-09-28",
-      "value": 43,
+      "value": 40,
       "low_sample": false
      },
      {
@@ -836,72 +837,72 @@
      },
      {
       "date": "2026-10-01",
-      "value": 37,
+      "value": 36,
       "low_sample": false
      },
      {
       "date": "2026-10-02",
-      "value": 29,
+      "value": 24,
       "low_sample": false
      },
      {
       "date": "2026-10-03",
-      "value": 52,
+      "value": 53,
       "low_sample": false
      },
      {
       "date": "2026-10-04",
-      "value": 54,
+      "value": 48,
       "low_sample": false
      },
      {
       "date": "2026-10-05",
-      "value": 29,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-06",
-      "value": 41,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-07",
-      "value": 54,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-08",
-      "value": 35,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-09",
-      "value": 38,
-      "low_sample": false
-     },
-     {
-      "date": "2026-10-10",
       "value": 39,
       "low_sample": false
      },
      {
+      "date": "2026-10-06",
+      "value": 36,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-07",
+      "value": 57,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-08",
+      "value": 34,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-09",
+      "value": 29,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-10",
+      "value": 36,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-11",
-      "value": 71,
+      "value": 60,
       "low_sample": false
      },
      {
       "date": "2026-10-12",
-      "value": 45,
+      "value": 41,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
-      "value": 37,
+      "value": 50,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
-      "value": 26,
+      "value": 32,
       "low_sample": false
      },
      {
@@ -915,7 +916,7 @@
    }
   },
   {
-   "t": 0.194,
+   "t": 0.157,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -995,24 +996,24 @@
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 16,
-      "mean": 0.5769,
-      "p50": 0.7589,
-      "p90": 0.9102,
-      "p99": 0.9528
+      "n": 24,
+      "mean": 0.4526,
+      "p50": 0.4567,
+      "p90": 0.9068,
+      "p99": 0.9491
      },
      "current": {
-      "n": 196,
-      "mean": 0.3265,
-      "p50": 0.2788,
-      "p90": 0.7173,
-      "p99": 0.9131
+      "n": 175,
+      "mean": 0.3217,
+      "p50": 0.2755,
+      "p90": 0.7024,
+      "p99": 0.9102
      }
     }
    }
   },
   {
-   "t": 0.208,
+   "t": 0.186,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1051,7 +1052,7 @@
       "precision_est": 0.427,
       "hit_qa_n": 89,
       "nonhit_qa_n": 561,
-      "missed_est": 73.5,
+      "missed_est": 73.6,
       "low_sample": false
      }
     ],
@@ -1060,7 +1061,7 @@
    }
   },
   {
-   "t": 0.219,
+   "t": 0.204,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1098,7 +1099,7 @@
       "hit_sessions": 14,
       "precision_est": 0.647,
       "hit_qa_n": 17,
-      "nonhit_qa_n": 74,
+      "nonhit_qa_n": 73,
       "missed_est": 3.0,
       "low_sample": true
      }
@@ -1108,7 +1109,7 @@
    }
   },
   {
-   "t": 0.22,
+   "t": 0.207,
    "kind": "guardrails",
    "needs_escalation": false,
    "reasons": [],
@@ -1167,12 +1168,12 @@
     "ref_id": "Q-0005",
     "type": "metric",
     "metric": "reports",
-    "what": "举报 2026-10-15=301，基线 278，未同步下降"
+    "what": "举报 2026-10-15=293，基线 276，未同步下降"
    },
    {
     "ref_id": "Q-0006",
     "type": "score_drift",
-    "what": "被举报人群 model_gambling 分数中位数 0.7589→0.2788"
+    "what": "被举报人群 model_gambling 分数中位数 0.4567→0.2755"
    },
    {
     "ref_id": "Q-0007",
@@ -1204,7 +1205,7 @@
     "S-115"
    ],
    "change_ids": [],
-   "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.7589→0.2788），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
+   "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.4567→0.2755），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
   },
   "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
   "confidence": "medium",

@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-173541-5a4f3d",
+ "run_id": "20261018-001555-b069cc",
  "engine": "rules",
  "playbook": "health_check",
  "query": "策略健康巡检",
- "latency_s": 2.363,
+ "latency_s": 3.354,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -11,7 +11,7 @@
   "cache_read_input_tokens": 0
  },
  "cost_usd": 0.0,
- "tool_calls": 64,
+ "tool_calls": 67,
  "events": [
   {
    "t": 0.0,
@@ -25,7 +25,7 @@
    },
    "result": {
     "ref_id": "Q-0001",
-    "count": 27,
+    "count": 28,
     "strategies": [
      {
       "strategy_id": "S-101",
@@ -493,14 +493,14 @@
      },
      {
       "strategy_id": "S-114",
-      "name": "诈骗-高打赏新号限流",
+      "name": "诈骗-高打赏新号冻结收益",
       "scenario": "scam_fraud",
       "markets": [
        "ALL"
       ],
       "score_field": "score_scam_fraud",
       "threshold": 0.6,
-      "action": "limit_traffic",
+      "action": "freeze_earnings",
       "extra_conditions": [
        {
         "field": "gift_amount",
@@ -519,7 +519,7 @@
         "version": "v1",
         "effective_from": "2026-06-10",
         "threshold": 0.6,
-        "action": "limit_traffic"
+        "action": "freeze_earnings"
        }
       ],
       "owner": "策略-交易安全组",
@@ -849,14 +849,14 @@
      },
      {
       "strategy_id": "S-125",
-      "name": "刷量-小场高打赏观察",
+      "name": "刷量-小场高打赏延迟结算",
       "scenario": "spam_bot",
       "markets": [
        "ALL"
       ],
       "score_field": "score_spam_bot",
       "threshold": 0.6,
-      "action": "observe",
+      "action": "delay_settlement",
       "extra_conditions": [
        {
         "field": "viewers_peak",
@@ -875,7 +875,7 @@
         "version": "v1",
         "effective_from": "2026-05-01",
         "threshold": 0.6,
-        "action": "observe"
+        "action": "delay_settlement"
        }
       ],
       "owner": "策略-生态组",
@@ -947,12 +947,46 @@
       "notes": "",
       "model": "model_gambling",
       "condition_text": "score_gambling >= 0.7 AND external_link_flag == 1"
+     },
+     {
+      "strategy_id": "S-129",
+      "name": "诈骗-高打赏场次冻结收益",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "score_field": "score_scam_fraud",
+      "threshold": 0.75,
+      "action": "freeze_earnings",
+      "extra_conditions": [
+       {
+        "field": "gift_amount",
+        "op": ">=",
+        "value": 300
+       }
+      ],
+      "version": "v1",
+      "versions": [
+       {
+        "version": "v1",
+        "effective_from": "2026-08-05",
+        "threshold": 0.75,
+        "action": "freeze_earnings"
+       }
+      ],
+      "owner": "策略-交易安全组",
+      "status": "active",
+      "created_at": "2026-08-05",
+      "updated_at": "2026-08-05",
+      "notes": "资金侧动作；固定阈值，同样依赖 model_scam_fraud 原始分",
+      "model": "model_scam_fraud",
+      "condition_text": "score_scam_fraud >= 0.75 AND gift_amount >= 300"
      }
     ]
    }
   },
   {
-   "t": 0.019,
+   "t": 0.007,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1125,14 +1159,19 @@
       "strategy_id": "S-128",
       "value": 124,
       "low_sample": false
+     },
+     {
+      "strategy_id": "S-129",
+      "value": 67,
+      "low_sample": false
      }
     ],
-    "row_count": 28,
+    "row_count": 29,
     "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
    }
   },
   {
-   "t": 0.022,
+   "t": 0.011,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1305,14 +1344,19 @@
       "strategy_id": "S-128",
       "value": 344,
       "low_sample": false
+     },
+     {
+      "strategy_id": "S-129",
+      "value": 118,
+      "low_sample": false
      }
     ],
-    "row_count": 28,
+    "row_count": 29,
     "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
    }
   },
   {
-   "t": 0.025,
+   "t": 0.026,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1485,14 +1529,19 @@
       "strategy_id": "S-128",
       "value": 617,
       "low_sample": false
+     },
+     {
+      "strategy_id": "S-129",
+      "value": 267,
+      "low_sample": false
      }
     ],
-    "row_count": 28,
+    "row_count": 29,
     "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
    }
   },
   {
-   "t": 0.025,
+   "t": 0.026,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -1601,7 +1650,7 @@
    }
   },
   {
-   "t": 0.025,
+   "t": 0.026,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -1641,7 +1690,7 @@
    }
   },
   {
-   "t": 0.192,
+   "t": 0.243,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -1709,7 +1758,7 @@
       "threshold": 0.8,
       "action": "suspend_live",
       "model_version": "v5",
-      "hit_id": "HT-0026168",
+      "hit_id": "HT-0026422",
       "guild_id": "G-US-009"
      }
     ],
@@ -1800,7 +1849,7 @@
    }
   },
   {
-   "t": 0.283,
+   "t": 0.383,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -1869,7 +1918,7 @@
       "threshold": 0.85,
       "action": "suspend_live",
       "model_version": "v4",
-      "hit_id": "HT-0026171",
+      "hit_id": "HT-0026425",
       "guild_id": "G-US-001"
      }
     ],
@@ -1889,6 +1938,14 @@
       "co_hit_sessions": 380,
       "share_of_this": 0.284,
       "share_of_other": 0.474,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 107,
+      "share_of_this": 0.08,
+      "share_of_other": 0.578,
       "same_action": false
      },
      {
@@ -1946,21 +2003,13 @@
       "share_of_this": 0.01,
       "share_of_other": 0.014,
       "same_action": true
-     },
-     {
-      "strategy_id": "S-121",
-      "scenario": "spam_bot",
-      "co_hit_sessions": 12,
-      "share_of_this": 0.009,
-      "share_of_other": 0.006,
-      "same_action": false
      }
     ],
     "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
    }
   },
   {
-   "t": 0.357,
+   "t": 0.512,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2028,7 +2077,7 @@
       "threshold": 0.6,
       "action": "manual_review",
       "model_version": "v5",
-      "hit_id": "HT-0026169",
+      "hit_id": "HT-0026423",
       "guild_id": "G-US-009"
      }
     ],
@@ -2119,7 +2168,7 @@
    }
   },
   {
-   "t": 0.458,
+   "t": 0.616,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2188,7 +2237,7 @@
       "threshold": 0.75,
       "action": "limit_traffic",
       "model_version": "v2.1",
-      "hit_id": "HT-0026185",
+      "hit_id": "HT-0026439",
       "guild_id": ""
      }
     ],
@@ -2279,7 +2328,7 @@
    }
   },
   {
-   "t": 0.579,
+   "t": 0.734,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2347,7 +2396,7 @@
       "threshold": 0.7,
       "action": "suspend_live",
       "model_version": "v3",
-      "hit_id": "HT-0026173",
+      "hit_id": "HT-0026427",
       "guild_id": "G-US-001"
      }
     ],
@@ -2438,7 +2487,7 @@
    }
   },
   {
-   "t": 0.68,
+   "t": 0.832,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2506,7 +2555,7 @@
       "threshold": 0.5,
       "action": "manual_review",
       "model_version": "v3",
-      "hit_id": "HT-0026181",
+      "hit_id": "HT-0026435",
       "guild_id": "G-US-001"
      }
     ],
@@ -2597,7 +2646,7 @@
    }
   },
   {
-   "t": 0.783,
+   "t": 0.924,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2665,7 +2714,7 @@
       "threshold": 0.8,
       "action": "suspend_live",
       "model_version": "v2",
-      "hit_id": "HT-0026212",
+      "hit_id": "HT-0026466",
       "guild_id": ""
      }
     ],
@@ -2756,7 +2805,7 @@
    }
   },
   {
-   "t": 0.863,
+   "t": 1.022,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2824,7 +2873,7 @@
       "threshold": 0.85,
       "action": "warn",
       "model_version": "v2",
-      "hit_id": "HT-0026188",
+      "hit_id": "HT-0026442",
       "guild_id": ""
      }
     ],
@@ -2915,7 +2964,7 @@
    }
   },
   {
-   "t": 0.92,
+   "t": 1.101,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -2984,7 +3033,7 @@
       "threshold": 0.7,
       "action": "manual_review",
       "model_version": "v4",
-      "hit_id": "HT-0026202",
+      "hit_id": "HT-0026456",
       "guild_id": ""
      }
     ],
@@ -3005,6 +3054,14 @@
       "share_of_this": 0.257,
       "share_of_other": 0.248,
       "same_action": true
+     },
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 83,
+      "share_of_this": 0.107,
+      "share_of_other": 0.449,
+      "same_action": false
      },
      {
       "strategy_id": "S-114",
@@ -3061,21 +3118,13 @@
       "share_of_this": 0.008,
       "share_of_other": 0.005,
       "same_action": false
-     },
-     {
-      "strategy_id": "S-121",
-      "scenario": "spam_bot",
-      "co_hit_sessions": 6,
-      "share_of_this": 0.008,
-      "share_of_other": 0.003,
-      "same_action": false
      }
     ],
     "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
    }
   },
   {
-   "t": 0.985,
+   "t": 1.188,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3143,7 +3192,7 @@
       "threshold": 0.8,
       "action": "warn",
       "model_version": "v4",
-      "hit_id": "HT-0026194",
+      "hit_id": "HT-0026448",
       "guild_id": ""
      }
     ],
@@ -3234,7 +3283,7 @@
    }
   },
   {
-   "t": 1.035,
+   "t": 1.255,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3296,7 +3345,7 @@
       "threshold": 0.5,
       "action": "manual_review",
       "model_version": "v4",
-      "hit_id": "HT-0027263",
+      "hit_id": "HT-0027530",
       "guild_id": ""
      }
     ],
@@ -3387,7 +3436,7 @@
    }
   },
   {
-   "t": 1.092,
+   "t": 1.332,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3455,7 +3504,7 @@
       "threshold": 0.6,
       "action": "manual_review",
       "model_version": "v2",
-      "hit_id": "HT-0026205",
+      "hit_id": "HT-0026459",
       "guild_id": "G-US-004"
      }
     ],
@@ -3546,7 +3595,7 @@
    }
   },
   {
-   "t": 1.135,
+   "t": 1.397,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3573,7 +3622,7 @@
      "hits": 90,
      "distinct_sessions": 90,
      "by_action": {
-      "limit_traffic": 90
+      "freeze_earnings": 90
      },
      "by_strategy": {
       "S-114": 90
@@ -3613,14 +3662,22 @@
       "date": "2026-10-15",
       "score": 0.8595,
       "threshold": 0.6,
-      "action": "limit_traffic",
+      "action": "freeze_earnings",
       "model_version": "v4",
-      "hit_id": "HT-0026315",
+      "hit_id": "HT-0026570",
       "guild_id": "G-US-001"
      }
     ],
     "truncated": true,
     "overlap": [
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 69,
+      "share_of_this": 0.767,
+      "share_of_other": 0.373,
+      "same_action": true
+     },
      {
       "strategy_id": "S-110",
       "scenario": "scam_fraud",
@@ -3683,19 +3740,11 @@
       "co_hit_sessions": 1,
       "share_of_this": 0.011,
       "share_of_other": 0.001,
-      "same_action": true
+      "same_action": false
      },
      {
       "strategy_id": "S-106",
       "scenario": "minor_safety",
-      "co_hit_sessions": 1,
-      "share_of_this": 0.011,
-      "share_of_other": 0.001,
-      "same_action": false
-     },
-     {
-      "strategy_id": "S-107",
-      "scenario": "violence",
       "co_hit_sessions": 1,
       "share_of_this": 0.011,
       "share_of_other": 0.001,
@@ -3706,7 +3755,7 @@
    }
   },
   {
-   "t": 1.199,
+   "t": 1.489,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3774,7 +3823,7 @@
       "threshold": 0.8,
       "action": "suspend_live",
       "model_version": "v3",
-      "hit_id": "HT-0026266",
+      "hit_id": "HT-0026520",
       "guild_id": "G-US-006"
      }
     ],
@@ -3865,7 +3914,7 @@
    }
   },
   {
-   "t": 1.25,
+   "t": 1.556,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -3933,7 +3982,7 @@
       "threshold": 0.55,
       "action": "manual_review",
       "model_version": "v3",
-      "hit_id": "HT-0026248",
+      "hit_id": "HT-0026502",
       "guild_id": "G-US-002"
      }
     ],
@@ -4024,7 +4073,7 @@
    }
   },
   {
-   "t": 1.308,
+   "t": 1.634,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4093,7 +4142,7 @@
       "threshold": 0.9,
       "action": "suspend_live",
       "model_version": "v2.1",
-      "hit_id": "HT-0026232",
+      "hit_id": "HT-0026486",
       "guild_id": "G-US-010"
      }
     ],
@@ -4184,7 +4233,7 @@
    }
   },
   {
-   "t": 1.347,
+   "t": 1.687,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4252,7 +4301,7 @@
       "threshold": 0.95,
       "action": "ban_7d",
       "model_version": "v5",
-      "hit_id": "HT-0026200",
+      "hit_id": "HT-0026454",
       "guild_id": ""
      }
     ],
@@ -4343,7 +4392,7 @@
    }
   },
   {
-   "t": 1.418,
+   "t": 1.781,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4412,7 +4461,7 @@
       "threshold": 0.72,
       "action": "limit_traffic",
       "model_version": "v2.1",
-      "hit_id": "HT-0026186",
+      "hit_id": "HT-0026440",
       "guild_id": ""
      }
     ],
@@ -4503,7 +4552,7 @@
    }
   },
   {
-   "t": 1.49,
+   "t": 1.88,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4567,7 +4616,7 @@
       "threshold": 0.75,
       "action": "manual_review",
       "model_version": "v4",
-      "hit_id": "HT-0026871",
+      "hit_id": "HT-0027135",
       "guild_id": "G-ID-004"
      }
     ],
@@ -4588,6 +4637,14 @@
       "share_of_this": 0.248,
       "share_of_other": 0.257,
       "same_action": true
+     },
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 54,
+      "share_of_this": 0.067,
+      "share_of_other": 0.292,
+      "same_action": false
      },
      {
       "strategy_id": "S-106",
@@ -4644,21 +4701,13 @@
       "share_of_this": 0.011,
       "share_of_other": 0.022,
       "same_action": true
-     },
-     {
-      "strategy_id": "S-115",
-      "scenario": "gambling",
-      "co_hit_sessions": 9,
-      "share_of_this": 0.011,
-      "share_of_other": 0.008,
-      "same_action": false
      }
     ],
     "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
    }
   },
   {
-   "t": 1.555,
+   "t": 1.965,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4726,7 +4775,7 @@
       "threshold": 0.9,
       "action": "suspend_live",
       "model_version": "v4",
-      "hit_id": "HT-0026239",
+      "hit_id": "HT-0026493",
       "guild_id": "G-US-002"
      }
     ],
@@ -4817,7 +4866,7 @@
    }
   },
   {
-   "t": 1.604,
+   "t": 2.059,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -4884,7 +4933,7 @@
       "threshold": 0.6,
       "action": "manual_review",
       "model_version": "v2",
-      "hit_id": "HT-0026172",
+      "hit_id": "HT-0026426",
       "guild_id": "G-US-012"
      }
     ],
@@ -4975,7 +5024,7 @@
    }
   },
   {
-   "t": 1.634,
+   "t": 2.108,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -5002,7 +5051,7 @@
      "hits": 63,
      "distinct_sessions": 63,
      "by_action": {
-      "observe": 63
+      "delay_settlement": 63
      },
      "by_strategy": {
       "S-125": 63
@@ -5041,9 +5090,9 @@
       "date": "2026-10-15",
       "score": 0.8941,
       "threshold": 0.6,
-      "action": "observe",
+      "action": "delay_settlement",
       "model_version": "v2.1",
-      "hit_id": "HT-0026980",
+      "hit_id": "HT-0027245",
       "guild_id": ""
      }
     ],
@@ -5118,7 +5167,7 @@
    }
   },
   {
-   "t": 1.692,
+   "t": 2.19,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -5181,7 +5230,7 @@
       "threshold": 0.6,
       "action": "suspend_live",
       "model_version": "v3",
-      "hit_id": "HT-0026869",
+      "hit_id": "HT-0027133",
       "guild_id": "G-ID-008"
      }
     ],
@@ -5272,7 +5321,7 @@
    }
   },
   {
-   "t": 1.752,
+   "t": 2.269,
    "kind": "tool_call",
    "tool": "get_hit_logs",
    "args": {
@@ -5340,7 +5389,7 @@
       "threshold": 0.7,
       "action": "suspend_live",
       "model_version": "v3",
-      "hit_id": "HT-0026240",
+      "hit_id": "HT-0026494",
       "guild_id": "G-US-001"
      }
     ],
@@ -5431,7 +5480,167 @@
    }
   },
   {
-   "t": 1.832,
+   "t": 2.34,
+   "kind": "tool_call",
+   "tool": "get_hit_logs",
+   "args": {
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-129",
+    "overlap_analysis": true,
+    "limit": 1
+   },
+   "result_summary": {
+    "ref_id": "Q-0031"
+   },
+   "result": {
+    "ref_id": "Q-0031",
+    "filters": {
+     "strategy_id": "S-129",
+     "market": "ALL",
+     "scenario": null,
+     "guild_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "summary": {
+     "hits": 185,
+     "distinct_sessions": 185,
+     "by_action": {
+      "freeze_earnings": 185
+     },
+     "by_strategy": {
+      "S-129": 185
+     },
+     "by_market": {
+      "BR": 56,
+      "ID": 54,
+      "US": 43,
+      "GB": 26,
+      "VN": 3,
+      "KE": 3
+     },
+     "by_guild": {
+      "(无公会)": 77,
+      "G-BR-002": 11,
+      "G-US-001": 6,
+      "G-US-002": 6,
+      "G-ID-003": 6,
+      "G-GB-001": 5,
+      "G-US-007": 5,
+      "G-BR-006": 4,
+      "G-GB-004": 4,
+      "G-ID-002": 4
+     },
+     "by_model_version": {
+      "v3": 151,
+      "v4": 34
+     }
+    },
+    "rows": [
+     {
+      "session_id": "LS-0101441",
+      "strategy_id": "S-129",
+      "strategy_version": "v1",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.7925,
+      "threshold": 0.75,
+      "action": "freeze_earnings",
+      "model_version": "v4",
+      "hit_id": "HT-0026556",
+      "guild_id": "G-US-009"
+     }
+    ],
+    "truncated": true,
+    "overlap": [
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 107,
+      "share_of_this": 0.578,
+      "share_of_other": 0.08,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-110",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 83,
+      "share_of_this": 0.449,
+      "share_of_other": 0.107,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-114",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 69,
+      "share_of_this": 0.373,
+      "share_of_other": 0.767,
+      "same_action": true
+     },
+     {
+      "strategy_id": "S-122",
+      "scenario": "scam_fraud",
+      "co_hit_sessions": 54,
+      "share_of_this": 0.292,
+      "share_of_other": 0.067,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-111",
+      "scenario": "hate_harassment",
+      "co_hit_sessions": 7,
+      "share_of_this": 0.038,
+      "share_of_other": 0.006,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.027,
+      "share_of_other": 0.002,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-106",
+      "scenario": "minor_safety",
+      "co_hit_sessions": 5,
+      "share_of_this": 0.027,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-103",
+      "scenario": "adult_content",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.022,
+      "share_of_other": 0.004,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-113",
+      "scenario": "violence",
+      "co_hit_sessions": 4,
+      "share_of_this": 0.022,
+      "share_of_other": 0.01,
+      "same_action": false
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "co_hit_sessions": 2,
+      "share_of_this": 0.011,
+      "share_of_other": 0.002,
+      "same_action": false
+     }
+    ],
+    "overlap_note": "share_of_this = 本策略命中 session 中也被对方命中的比例；两者都高且动作相同 => 重复处罚风险"
+   }
+  },
+  {
+   "t": 2.452,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -5442,10 +5651,10 @@
     "current_end": "2026-10-15"
    },
    "result_summary": {
-    "ref_id": "Q-0031"
+    "ref_id": "Q-0032"
    },
    "result": {
-    "ref_id": "Q-0031",
+    "ref_id": "Q-0032",
     "model": "model_spam_bot",
     "market": "ALL",
     "baseline": {
@@ -5507,7 +5716,7 @@
      {
       "strategy_id": "S-125",
       "threshold": 0.6,
-      "action": "observe",
+      "action": "delay_settlement",
       "share_above_baseline": 0.0812,
       "share_above_current": 0.0877,
       "ratio": 1.08
@@ -5516,24 +5725,24 @@
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 1204,
-      "mean": 0.6326,
-      "p50": 0.7527,
-      "p90": 0.9232,
-      "p99": 0.981
+      "n": 1205,
+      "mean": 0.6385,
+      "p50": 0.7575,
+      "p90": 0.9237,
+      "p99": 0.9803
      },
      "current": {
-      "n": 1925,
-      "mean": 0.6582,
-      "p50": 0.7782,
-      "p90": 0.9329,
+      "n": 1917,
+      "mean": 0.6546,
+      "p50": 0.7767,
+      "p90": 0.9333,
       "p99": 0.9841
      }
     }
    }
   },
   {
-   "t": 1.887,
+   "t": 2.519,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -5544,10 +5753,10 @@
     "current_end": "2026-10-15"
    },
    "result_summary": {
-    "ref_id": "Q-0032"
+    "ref_id": "Q-0033"
    },
    "result": {
-    "ref_id": "Q-0032",
+    "ref_id": "Q-0033",
     "model": "model_scam_fraud",
     "market": "ALL",
     "baseline": {
@@ -5601,7 +5810,7 @@
      {
       "strategy_id": "S-114",
       "threshold": 0.6,
-      "action": "limit_traffic",
+      "action": "freeze_earnings",
       "share_above_baseline": 0.0716,
       "share_above_current": 0.1123,
       "ratio": 1.57
@@ -5613,21 +5822,29 @@
       "share_above_baseline": 0.0315,
       "share_above_current": 0.0694,
       "ratio": 2.2
+     },
+     {
+      "strategy_id": "S-129",
+      "threshold": 0.75,
+      "action": "freeze_earnings",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
      }
     ],
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 820,
-      "mean": 0.591,
-      "p50": 0.7418,
-      "p90": 0.9244,
-      "p99": 0.9795
+      "n": 835,
+      "mean": 0.5839,
+      "p50": 0.7357,
+      "p90": 0.9252,
+      "p99": 0.9793
      },
      "current": {
-      "n": 381,
-      "mean": 0.6875,
-      "p50": 0.8517,
+      "n": 363,
+      "mean": 0.7125,
+      "p50": 0.8824,
       "p90": 0.995,
       "p99": 0.995
      }
@@ -5635,7 +5852,7 @@
    }
   },
   {
-   "t": 1.892,
+   "t": 2.525,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5646,10 +5863,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0033"
+    "ref_id": "Q-0034"
    },
    "result": {
-    "ref_id": "Q-0033",
+    "ref_id": "Q-0034",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5676,7 +5893,7 @@
    }
   },
   {
-   "t": 1.899,
+   "t": 2.534,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5687,10 +5904,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0034"
+    "ref_id": "Q-0035"
    },
    "result": {
-    "ref_id": "Q-0034",
+    "ref_id": "Q-0035",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5717,7 +5934,7 @@
    }
   },
   {
-   "t": 1.904,
+   "t": 2.539,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5728,10 +5945,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0035"
+    "ref_id": "Q-0036"
    },
    "result": {
-    "ref_id": "Q-0035",
+    "ref_id": "Q-0036",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5758,7 +5975,7 @@
    }
   },
   {
-   "t": 1.912,
+   "t": 2.548,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5769,10 +5986,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0036"
+    "ref_id": "Q-0037"
    },
    "result": {
-    "ref_id": "Q-0036",
+    "ref_id": "Q-0037",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5799,7 +6016,7 @@
    }
   },
   {
-   "t": 1.916,
+   "t": 2.553,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5810,10 +6027,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0037"
+    "ref_id": "Q-0038"
    },
    "result": {
-    "ref_id": "Q-0037",
+    "ref_id": "Q-0038",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5840,7 +6057,7 @@
    }
   },
   {
-   "t": 1.922,
+   "t": 2.561,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5851,10 +6068,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0038"
+    "ref_id": "Q-0039"
    },
    "result": {
-    "ref_id": "Q-0038",
+    "ref_id": "Q-0039",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5871,7 +6088,7 @@
     "group_by": [],
     "rows": [
      {
-      "value": 0.962,
+      "value": 0.963,
       "n": 80,
       "low_sample": false
      }
@@ -5881,7 +6098,7 @@
    }
   },
   {
-   "t": 1.927,
+   "t": 2.567,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5892,10 +6109,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0039"
+    "ref_id": "Q-0040"
    },
    "result": {
-    "ref_id": "Q-0039",
+    "ref_id": "Q-0040",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5922,7 +6139,7 @@
    }
   },
   {
-   "t": 1.933,
+   "t": 2.575,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5933,10 +6150,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0040"
+    "ref_id": "Q-0041"
    },
    "result": {
-    "ref_id": "Q-0040",
+    "ref_id": "Q-0041",
     "metric": "precision_est",
     "metric_zh": "抽检精确率",
     "metric_version": "v3",
@@ -5963,7 +6180,89 @@
    }
   },
   {
-   "t": 1.957,
+   "t": 2.582,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-129",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0042"
+   },
+   "result": {
+    "ref_id": "Q-0042",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-129",
+     "guild_id": null,
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.824,
+      "n": 34,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.594,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "precision_est",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-12",
+    "strategy_id": "S-129",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0043"
+   },
+   "result": {
+    "ref_id": "Q-0043",
+    "metric": "precision_est",
+    "metric_zh": "抽检精确率",
+    "metric_version": "v3",
+    "definition": "QA 抽检的命中样本中确认违规的比例（每策略/市场/天最多抽 10 条）。样本不足时不可靠。",
+    "filters": {
+     "market": "ALL",
+     "scenario": null,
+     "strategy_id": "S-129",
+     "guild_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 0.894,
+      "n": 151,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.634,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -5977,10 +6276,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0041"
+    "ref_id": "Q-0044"
    },
    "result": {
-    "ref_id": "Q-0041",
+    "ref_id": "Q-0044",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6000,32 +6299,32 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.749,
+      "value": 0.681,
       "hit_sessions": 215,
       "precision_est": 0.811,
       "hit_qa_n": 164,
       "nonhit_qa_n": 561,
-      "missed_est": 58.6,
+      "missed_est": 81.9,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.626,
+      "value": 0.819,
       "hit_sessions": 117,
       "precision_est": 0.658,
       "hit_qa_n": 117,
       "nonhit_qa_n": 439,
-      "missed_est": 45.9,
+      "missed_est": 17.0,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.644,
+      "value": 0.627,
       "hit_sessions": 210,
       "precision_est": 0.764,
       "hit_qa_n": 148,
       "nonhit_qa_n": 525,
-      "missed_est": 88.5,
+      "missed_est": 95.5,
       "low_sample": false
      },
      {
@@ -6040,12 +6339,12 @@
      },
      {
       "market": "US",
-      "value": 0.757,
+      "value": 0.576,
       "hit_sessions": 240,
       "precision_est": 0.816,
       "hit_qa_n": 158,
-      "nonhit_qa_n": 560,
-      "missed_est": 62.9,
+      "nonhit_qa_n": 558,
+      "missed_est": 144.5,
       "low_sample": false
      },
      {
@@ -6064,7 +6363,7 @@
    }
   },
   {
-   "t": 1.982,
+   "t": 2.675,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6078,10 +6377,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0042"
+    "ref_id": "Q-0045"
    },
    "result": {
-    "ref_id": "Q-0042",
+    "ref_id": "Q-0045",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6101,12 +6400,12 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.683,
+      "value": 0.712,
       "hit_sessions": 427,
       "precision_est": 0.82,
       "hit_qa_n": 305,
-      "nonhit_qa_n": 1125,
-      "missed_est": 162.3,
+      "nonhit_qa_n": 1119,
+      "missed_est": 141.4,
       "low_sample": false
      },
      {
@@ -6115,18 +6414,18 @@
       "hit_sessions": 178,
       "precision_est": 0.655,
       "hit_qa_n": 197,
-      "nonhit_qa_n": 909,
+      "nonhit_qa_n": 908,
       "missed_est": 36.4,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.734,
+      "value": 0.648,
       "hit_sessions": 464,
       "precision_est": 0.761,
       "hit_qa_n": 301,
       "nonhit_qa_n": 1064,
-      "missed_est": 127.8,
+      "missed_est": 191.9,
       "low_sample": false
      },
      {
@@ -6141,22 +6440,22 @@
      },
      {
       "market": "US",
-      "value": 0.776,
+      "value": 0.734,
       "hit_sessions": 437,
       "precision_est": 0.808,
       "hit_qa_n": 302,
       "nonhit_qa_n": 1126,
-      "missed_est": 102.1,
+      "missed_est": 127.8,
       "low_sample": false
      },
      {
       "market": "VN",
-      "value": 0.728,
+      "value": 0.756,
       "hit_sessions": 28,
       "precision_est": 0.794,
       "hit_qa_n": 34,
       "nonhit_qa_n": 661,
-      "missed_est": 8.3,
+      "missed_est": 7.2,
       "low_sample": false
      }
     ],
@@ -6165,7 +6464,7 @@
    }
   },
   {
-   "t": 2.005,
+   "t": 2.706,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6179,10 +6478,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0043"
+    "ref_id": "Q-0046"
    },
    "result": {
-    "ref_id": "Q-0043",
+    "ref_id": "Q-0046",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6246,7 +6545,7 @@
       "hit_sessions": 328,
       "precision_est": 0.386,
       "hit_qa_n": 140,
-      "nonhit_qa_n": 560,
+      "nonhit_qa_n": 558,
       "missed_est": 2.0,
       "low_sample": false
      },
@@ -6266,7 +6565,7 @@
    }
   },
   {
-   "t": 2.032,
+   "t": 2.739,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6280,10 +6579,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0044"
+    "ref_id": "Q-0047"
    },
    "result": {
-    "ref_id": "Q-0044",
+    "ref_id": "Q-0047",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6303,22 +6602,22 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.987,
+      "value": 0.932,
       "hit_sessions": 547,
       "precision_est": 0.414,
       "hit_qa_n": 280,
-      "nonhit_qa_n": 1125,
-      "missed_est": 3.0,
+      "nonhit_qa_n": 1119,
+      "missed_est": 16.6,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.899,
+      "value": 0.991,
       "hit_sessions": 292,
       "precision_est": 0.371,
       "hit_qa_n": 232,
-      "nonhit_qa_n": 909,
-      "missed_est": 12.2,
+      "nonhit_qa_n": 908,
+      "missed_est": 1.0,
       "low_sample": false
      },
      {
@@ -6353,12 +6652,12 @@
      },
      {
       "market": "VN",
-      "value": 0.892,
+      "value": 1.0,
       "hit_sessions": 26,
       "precision_est": 0.345,
       "hit_qa_n": 29,
       "nonhit_qa_n": 661,
-      "missed_est": 1.1,
+      "missed_est": 0.0,
       "low_sample": true
      }
     ],
@@ -6367,7 +6666,7 @@
    }
   },
   {
-   "t": 2.055,
+   "t": 2.77,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6381,10 +6680,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0045"
+    "ref_id": "Q-0048"
    },
    "result": {
-    "ref_id": "Q-0045",
+    "ref_id": "Q-0048",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6404,52 +6703,52 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.753,
-      "hit_sessions": 196,
-      "precision_est": 0.803,
-      "hit_qa_n": 132,
+      "value": 0.755,
+      "hit_sessions": 198,
+      "precision_est": 0.805,
+      "hit_qa_n": 149,
       "nonhit_qa_n": 561,
       "missed_est": 51.7,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.753,
+      "value": 0.827,
       "hit_sessions": 124,
-      "precision_est": 0.806,
-      "hit_qa_n": 108,
+      "precision_est": 0.814,
+      "hit_qa_n": 118,
       "nonhit_qa_n": 439,
-      "missed_est": 32.8,
+      "missed_est": 21.1,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.879,
+      "value": 0.837,
       "hit_sessions": 348,
-      "precision_est": 0.694,
-      "hit_qa_n": 216,
+      "precision_est": 0.71,
+      "hit_qa_n": 238,
       "nonhit_qa_n": 525,
-      "missed_est": 33.1,
+      "missed_est": 48.3,
       "low_sample": false
      },
      {
       "market": "KE",
-      "value": 0.643,
+      "value": 0.632,
       "hit_sessions": 3,
-      "precision_est": 0.6,
-      "hit_qa_n": 5,
+      "precision_est": 0.571,
+      "hit_qa_n": 7,
       "nonhit_qa_n": 86,
       "missed_est": 1.0,
       "low_sample": true
      },
      {
       "market": "US",
-      "value": 0.851,
-      "hit_sessions": 230,
-      "precision_est": 0.794,
-      "hit_qa_n": 141,
-      "nonhit_qa_n": 560,
-      "missed_est": 32.0,
+      "value": 0.801,
+      "hit_sessions": 233,
+      "precision_est": 0.809,
+      "hit_qa_n": 157,
+      "nonhit_qa_n": 558,
+      "missed_est": 46.7,
       "low_sample": false
      },
      {
@@ -6468,7 +6767,7 @@
    }
   },
   {
-   "t": 2.08,
+   "t": 2.802,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6482,10 +6781,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0046"
+    "ref_id": "Q-0049"
    },
    "result": {
-    "ref_id": "Q-0046",
+    "ref_id": "Q-0049",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6505,62 +6804,62 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.687,
-      "hit_sessions": 240,
-      "precision_est": 0.901,
-      "hit_qa_n": 253,
-      "nonhit_qa_n": 1125,
-      "missed_est": 98.4,
+      "value": 0.62,
+      "hit_sessions": 249,
+      "precision_est": 0.908,
+      "hit_qa_n": 292,
+      "nonhit_qa_n": 1119,
+      "missed_est": 138.4,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.633,
-      "hit_sessions": 143,
-      "precision_est": 0.886,
-      "hit_qa_n": 175,
-      "nonhit_qa_n": 909,
-      "missed_est": 73.4,
+      "value": 0.687,
+      "hit_sessions": 146,
+      "precision_est": 0.885,
+      "hit_qa_n": 191,
+      "nonhit_qa_n": 908,
+      "missed_est": 58.8,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.778,
+      "value": 0.883,
       "hit_sessions": 492,
-      "precision_est": 0.82,
-      "hit_qa_n": 416,
+      "precision_est": 0.817,
+      "hit_qa_n": 448,
       "nonhit_qa_n": 1064,
-      "missed_est": 115.2,
+      "missed_est": 53.5,
       "low_sample": false
      },
      {
       "market": "KE",
-      "value": 0.533,
+      "value": 0.5,
       "hit_sessions": 4,
-      "precision_est": 0.857,
-      "hit_qa_n": 7,
+      "precision_est": 0.75,
+      "hit_qa_n": 8,
       "nonhit_qa_n": 251,
       "missed_est": 3.0,
       "low_sample": true
      },
      {
       "market": "US",
-      "value": 0.562,
-      "hit_sessions": 252,
-      "precision_est": 0.912,
-      "hit_qa_n": 273,
+      "value": 0.626,
+      "hit_sessions": 254,
+      "precision_est": 0.917,
+      "hit_qa_n": 300,
       "nonhit_qa_n": 1126,
-      "missed_est": 179.0,
+      "missed_est": 139.0,
       "low_sample": false
      },
      {
       "market": "VN",
-      "value": 0.653,
+      "value": 0.619,
       "hit_sessions": 13,
-      "precision_est": 0.867,
-      "hit_qa_n": 15,
+      "precision_est": 0.889,
+      "hit_qa_n": 18,
       "nonhit_qa_n": 661,
-      "missed_est": 6.0,
+      "missed_est": 7.1,
       "low_sample": true
      }
     ],
@@ -6569,7 +6868,7 @@
    }
   },
   {
-   "t": 2.103,
+   "t": 2.833,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6583,10 +6882,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0047"
+    "ref_id": "Q-0050"
    },
    "result": {
-    "ref_id": "Q-0047",
+    "ref_id": "Q-0050",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6606,12 +6905,12 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.671,
+      "value": 0.845,
       "hit_sessions": 112,
       "precision_est": 0.438,
       "hit_qa_n": 105,
       "nonhit_qa_n": 561,
-      "missed_est": 24.1,
+      "missed_est": 9.0,
       "low_sample": false
      },
      {
@@ -6646,12 +6945,12 @@
      },
      {
       "market": "US",
-      "value": 0.646,
+      "value": 0.533,
       "hit_sessions": 114,
       "precision_est": 0.466,
       "hit_qa_n": 103,
-      "nonhit_qa_n": 560,
-      "missed_est": 29.1,
+      "nonhit_qa_n": 558,
+      "missed_est": 46.5,
       "low_sample": false
      },
      {
@@ -6670,7 +6969,7 @@
    }
   },
   {
-   "t": 2.127,
+   "t": 2.879,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6684,10 +6983,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0048"
+    "ref_id": "Q-0051"
    },
    "result": {
-    "ref_id": "Q-0048",
+    "ref_id": "Q-0051",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6707,32 +7006,32 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.673,
+      "value": 0.604,
       "hit_sessions": 200,
       "precision_est": 0.534,
       "hit_qa_n": 193,
-      "nonhit_qa_n": 1125,
-      "missed_est": 51.9,
+      "nonhit_qa_n": 1119,
+      "missed_est": 70.0,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.745,
+      "value": 0.749,
       "hit_sessions": 117,
       "precision_est": 0.414,
       "hit_qa_n": 133,
-      "nonhit_qa_n": 909,
-      "missed_est": 16.6,
+      "nonhit_qa_n": 908,
+      "missed_est": 16.2,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.644,
+      "value": 0.734,
       "hit_sessions": 210,
       "precision_est": 0.474,
       "hit_qa_n": 192,
       "nonhit_qa_n": 1064,
-      "missed_est": 55.1,
+      "missed_est": 36.1,
       "low_sample": false
      },
      {
@@ -6747,12 +7046,12 @@
      },
      {
       "market": "US",
-      "value": 0.611,
+      "value": 0.754,
       "hit_sessions": 260,
       "precision_est": 0.477,
       "hit_qa_n": 220,
       "nonhit_qa_n": 1126,
-      "missed_est": 79.1,
+      "missed_est": 40.4,
       "low_sample": false
      },
      {
@@ -6771,7 +7070,93 @@
    }
   },
   {
-   "t": 2.151,
+   "t": 2.887,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-10-09",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0052"
+   },
+   "result": {
+    "ref_id": "Q-0052",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 127,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.895,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "hits",
+    "start_date": "2026-09-25",
+    "end_date": "2026-10-08",
+    "market": "US",
+    "scenario": "violence",
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0053"
+   },
+   "result": {
+    "ref_id": "Q-0053",
+    "metric": "hits",
+    "metric_zh": "策略命中数",
+    "metric_version": "v1",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "violence",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "window_clipped": false
+    },
+    "group_by": [],
+    "rows": [
+     {
+      "value": 293,
+      "low_sample": false
+     }
+    ],
+    "row_count": 1,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 2.946,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6785,10 +7170,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0049"
+    "ref_id": "Q-0054"
    },
    "result": {
-    "ref_id": "Q-0049",
+    "ref_id": "Q-0054",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6808,32 +7193,32 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.683,
+      "value": 0.691,
       "hit_sessions": 282,
       "precision_est": 0.951,
       "hit_qa_n": 206,
       "nonhit_qa_n": 561,
-      "missed_est": 124.3,
+      "missed_est": 120.0,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.694,
+      "value": 0.651,
       "hit_sessions": 124,
       "precision_est": 0.938,
       "hit_qa_n": 193,
       "nonhit_qa_n": 439,
-      "missed_est": 51.2,
+      "missed_est": 62.4,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.635,
+      "value": 0.624,
       "hit_sessions": 180,
       "precision_est": 0.971,
       "hit_qa_n": 209,
       "nonhit_qa_n": 525,
-      "missed_est": 100.6,
+      "missed_est": 105.4,
       "low_sample": false
      },
      {
@@ -6848,12 +7233,12 @@
      },
      {
       "market": "US",
-      "value": 0.507,
+      "value": 0.644,
       "hit_sessions": 204,
       "precision_est": 0.946,
       "hit_qa_n": 204,
-      "nonhit_qa_n": 560,
-      "missed_est": 188.0,
+      "nonhit_qa_n": 558,
+      "missed_est": 106.8,
       "low_sample": false
      },
      {
@@ -6872,7 +7257,7 @@
    }
   },
   {
-   "t": 2.176,
+   "t": 3.002,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6886,10 +7271,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0050"
+    "ref_id": "Q-0055"
    },
    "result": {
-    "ref_id": "Q-0050",
+    "ref_id": "Q-0055",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -6909,32 +7294,32 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.651,
+      "value": 0.634,
       "hit_sessions": 353,
       "precision_est": 0.922,
       "hit_qa_n": 398,
-      "nonhit_qa_n": 1125,
-      "missed_est": 174.2,
+      "nonhit_qa_n": 1119,
+      "missed_est": 187.5,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.734,
+      "value": 0.767,
       "hit_sessions": 176,
       "precision_est": 0.9,
       "hit_qa_n": 309,
-      "nonhit_qa_n": 909,
-      "missed_est": 57.4,
+      "nonhit_qa_n": 908,
+      "missed_est": 48.0,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.66,
+      "value": 0.717,
       "hit_sessions": 369,
       "precision_est": 0.933,
       "hit_qa_n": 403,
       "nonhit_qa_n": 1064,
-      "missed_est": 177.6,
+      "missed_est": 136.0,
       "low_sample": false
      },
      {
@@ -6949,22 +7334,22 @@
      },
      {
       "market": "US",
-      "value": 0.686,
+      "value": 0.624,
       "hit_sessions": 442,
       "precision_est": 0.916,
       "hit_qa_n": 428,
       "nonhit_qa_n": 1126,
-      "missed_est": 185.1,
+      "missed_est": 244.1,
       "low_sample": false
      },
      {
       "market": "VN",
-      "value": 0.686,
+      "value": 0.704,
       "hit_sessions": 38,
       "precision_est": 0.944,
       "hit_qa_n": 72,
       "nonhit_qa_n": 661,
-      "missed_est": 16.4,
+      "missed_est": 15.1,
       "low_sample": false
      }
     ],
@@ -6973,7 +7358,7 @@
    }
   },
   {
-   "t": 2.199,
+   "t": 3.055,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -6987,10 +7372,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0051"
+    "ref_id": "Q-0056"
    },
    "result": {
-    "ref_id": "Q-0051",
+    "ref_id": "Q-0056",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7015,27 +7400,27 @@
       "precision_est": 0.427,
       "hit_qa_n": 89,
       "nonhit_qa_n": 561,
-      "missed_est": 73.5,
+      "missed_est": 73.6,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.685,
+      "value": 0.903,
       "hit_sessions": 72,
       "precision_est": 0.777,
       "hit_qa_n": 103,
       "nonhit_qa_n": 439,
-      "missed_est": 25.7,
+      "missed_est": 6.0,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.681,
+      "value": 0.882,
       "hit_sessions": 136,
       "precision_est": 0.712,
       "hit_qa_n": 156,
       "nonhit_qa_n": 525,
-      "missed_est": 45.3,
+      "missed_est": 13.0,
       "low_sample": false
      },
      {
@@ -7050,12 +7435,12 @@
      },
      {
       "market": "US",
-      "value": 0.772,
+      "value": 0.663,
       "hit_sessions": 148,
       "precision_est": 0.678,
       "hit_qa_n": 149,
-      "nonhit_qa_n": 560,
-      "missed_est": 29.7,
+      "nonhit_qa_n": 558,
+      "missed_est": 50.9,
       "low_sample": false
      },
      {
@@ -7074,7 +7459,7 @@
    }
   },
   {
-   "t": 2.224,
+   "t": 3.113,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7088,10 +7473,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0052"
+    "ref_id": "Q-0057"
    },
    "result": {
-    "ref_id": "Q-0052",
+    "ref_id": "Q-0057",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7111,12 +7496,12 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.763,
+      "value": 0.718,
       "hit_sessions": 263,
       "precision_est": 0.747,
       "hit_qa_n": 297,
-      "nonhit_qa_n": 1125,
-      "missed_est": 61.1,
+      "nonhit_qa_n": 1119,
+      "missed_est": 77.2,
       "low_sample": false
      },
      {
@@ -7125,7 +7510,7 @@
       "hit_sessions": 141,
       "precision_est": 0.732,
       "hit_qa_n": 205,
-      "nonhit_qa_n": 909,
+      "nonhit_qa_n": 908,
       "missed_est": 13.0,
       "low_sample": false
      },
@@ -7151,22 +7536,22 @@
      },
      {
       "market": "US",
-      "value": 0.827,
+      "value": 0.838,
       "hit_sessions": 352,
       "precision_est": 0.778,
       "hit_qa_n": 365,
       "nonhit_qa_n": 1126,
-      "missed_est": 57.3,
+      "missed_est": 52.8,
       "low_sample": false
      },
      {
       "market": "VN",
-      "value": 0.784,
+      "value": 0.717,
       "hit_sessions": 14,
       "precision_est": 0.778,
       "hit_qa_n": 18,
       "nonhit_qa_n": 661,
-      "missed_est": 3.0,
+      "missed_est": 4.3,
       "low_sample": true
      }
     ],
@@ -7175,7 +7560,7 @@
    }
   },
   {
-   "t": 2.229,
+   "t": 3.121,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7187,10 +7572,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0053"
+    "ref_id": "Q-0058"
    },
    "result": {
-    "ref_id": "Q-0053",
+    "ref_id": "Q-0058",
     "metric": "hits",
     "metric_zh": "策略命中数",
     "metric_version": "v1",
@@ -7218,7 +7603,7 @@
    }
   },
   {
-   "t": 2.234,
+   "t": 3.129,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7230,10 +7615,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0054"
+    "ref_id": "Q-0059"
    },
    "result": {
-    "ref_id": "Q-0054",
+    "ref_id": "Q-0059",
     "metric": "hits",
     "metric_zh": "策略命中数",
     "metric_version": "v1",
@@ -7261,7 +7646,7 @@
    }
   },
   {
-   "t": 2.238,
+   "t": 3.137,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7273,10 +7658,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0055"
+    "ref_id": "Q-0060"
    },
    "result": {
-    "ref_id": "Q-0055",
+    "ref_id": "Q-0060",
     "metric": "reports",
     "metric_zh": "用户举报数",
     "metric_version": "v1",
@@ -7295,7 +7680,7 @@
     "group_by": [],
     "rows": [
      {
-      "value": 301,
+      "value": 293,
       "low_sample": false
      }
     ],
@@ -7304,7 +7689,7 @@
    }
   },
   {
-   "t": 2.242,
+   "t": 3.144,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7316,10 +7701,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0056"
+    "ref_id": "Q-0061"
    },
    "result": {
-    "ref_id": "Q-0056",
+    "ref_id": "Q-0061",
     "metric": "reports",
     "metric_zh": "用户举报数",
     "metric_version": "v1",
@@ -7338,7 +7723,7 @@
     "group_by": [],
     "rows": [
      {
-      "value": 556,
+      "value": 551,
       "low_sample": false
      }
     ],
@@ -7347,93 +7732,7 @@
    }
   },
   {
-   "t": 2.246,
-   "kind": "tool_call",
-   "tool": "query_metrics",
-   "args": {
-    "metric": "hits",
-    "start_date": "2026-10-09",
-    "end_date": "2026-10-15",
-    "market": "GB",
-    "scenario": "gambling",
-    "granularity": "total"
-   },
-   "result_summary": {
-    "ref_id": "Q-0057"
-   },
-   "result": {
-    "ref_id": "Q-0057",
-    "metric": "hits",
-    "metric_zh": "策略命中数",
-    "metric_version": "v1",
-    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
-    "filters": {
-     "market": [
-      "GB"
-     ],
-     "scenario": "gambling",
-     "strategy_id": null,
-     "guild_id": null,
-     "start_date": "2026-10-09",
-     "end_date": "2026-10-15",
-     "window_clipped": false
-    },
-    "group_by": [],
-    "rows": [
-     {
-      "value": 106,
-      "low_sample": false
-     }
-    ],
-    "row_count": 1,
-    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
-   }
-  },
-  {
-   "t": 2.25,
-   "kind": "tool_call",
-   "tool": "query_metrics",
-   "args": {
-    "metric": "hits",
-    "start_date": "2026-09-25",
-    "end_date": "2026-10-08",
-    "market": "GB",
-    "scenario": "gambling",
-    "granularity": "total"
-   },
-   "result_summary": {
-    "ref_id": "Q-0058"
-   },
-   "result": {
-    "ref_id": "Q-0058",
-    "metric": "hits",
-    "metric_zh": "策略命中数",
-    "metric_version": "v1",
-    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
-    "filters": {
-     "market": [
-      "GB"
-     ],
-     "scenario": "gambling",
-     "strategy_id": null,
-     "guild_id": null,
-     "start_date": "2026-09-25",
-     "end_date": "2026-10-08",
-     "window_clipped": false
-    },
-    "group_by": [],
-    "rows": [
-     {
-      "value": 209,
-      "low_sample": false
-     }
-    ],
-    "row_count": 1,
-    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
-   }
-  },
-  {
-   "t": 2.276,
+   "t": 3.187,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7447,10 +7746,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0059"
+    "ref_id": "Q-0062"
    },
    "result": {
-    "ref_id": "Q-0059",
+    "ref_id": "Q-0062",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7490,12 +7789,12 @@
      },
      {
       "market": "ID",
-      "value": 0.63,
+      "value": 0.592,
       "hit_sessions": 96,
       "precision_est": 0.554,
       "hit_qa_n": 92,
       "nonhit_qa_n": 525,
-      "missed_est": 31.2,
+      "missed_est": 36.7,
       "low_sample": false
      },
      {
@@ -7510,12 +7809,12 @@
      },
      {
       "market": "US",
-      "value": 0.461,
+      "value": 0.594,
       "hit_sessions": 119,
       "precision_est": 0.564,
       "hit_qa_n": 101,
-      "nonhit_qa_n": 560,
-      "missed_est": 78.5,
+      "nonhit_qa_n": 558,
+      "missed_est": 45.9,
       "low_sample": false
      },
      {
@@ -7534,7 +7833,7 @@
    }
   },
   {
-   "t": 2.303,
+   "t": 3.221,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7548,10 +7847,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0060"
+    "ref_id": "Q-0063"
    },
    "result": {
-    "ref_id": "Q-0060",
+    "ref_id": "Q-0063",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7571,32 +7870,32 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.673,
+      "value": 0.546,
       "hit_sessions": 192,
       "precision_est": 0.63,
       "hit_qa_n": 184,
-      "nonhit_qa_n": 1125,
-      "missed_est": 58.8,
+      "nonhit_qa_n": 1119,
+      "missed_est": 100.8,
       "low_sample": false
      },
      {
       "market": "GB",
-      "value": 0.625,
+      "value": 0.591,
       "hit_sessions": 171,
       "precision_est": 0.778,
       "hit_qa_n": 293,
-      "nonhit_qa_n": 909,
-      "missed_est": 79.7,
+      "nonhit_qa_n": 908,
+      "missed_est": 92.1,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.563,
+      "value": 0.506,
       "hit_sessions": 198,
       "precision_est": 0.607,
       "hit_qa_n": 191,
       "nonhit_qa_n": 1064,
-      "missed_est": 93.2,
+      "missed_est": 117.6,
       "low_sample": false
      },
      {
@@ -7611,12 +7910,12 @@
      },
      {
       "market": "US",
-      "value": 0.563,
+      "value": 0.59,
       "hit_sessions": 214,
       "precision_est": 0.607,
       "hit_qa_n": 191,
       "nonhit_qa_n": 1126,
-      "missed_est": 100.9,
+      "missed_est": 90.3,
       "low_sample": false
      },
      {
@@ -7635,7 +7934,7 @@
    }
   },
   {
-   "t": 2.326,
+   "t": 3.251,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7649,10 +7948,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0061"
+    "ref_id": "Q-0064"
    },
    "result": {
-    "ref_id": "Q-0061",
+    "ref_id": "Q-0064",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7672,12 +7971,12 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.63,
+      "value": 0.802,
       "hit_sessions": 68,
       "precision_est": 0.654,
       "hit_qa_n": 78,
       "nonhit_qa_n": 561,
-      "missed_est": 26.1,
+      "missed_est": 11.0,
       "low_sample": false
      },
      {
@@ -7712,12 +8011,12 @@
      },
      {
       "market": "US",
-      "value": 0.495,
+      "value": 0.708,
       "hit_sessions": 57,
       "precision_est": 0.638,
       "hit_qa_n": 69,
-      "nonhit_qa_n": 560,
-      "missed_est": 37.1,
+      "nonhit_qa_n": 558,
+      "missed_est": 15.0,
       "low_sample": false
      },
      {
@@ -7736,7 +8035,7 @@
    }
   },
   {
-   "t": 2.353,
+   "t": 3.301,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -7750,10 +8049,10 @@
     "granularity": "total"
    },
    "result_summary": {
-    "ref_id": "Q-0062"
+    "ref_id": "Q-0065"
    },
    "result": {
-    "ref_id": "Q-0062",
+    "ref_id": "Q-0065",
     "metric": "recall_est",
     "metric_zh": "召回估计",
     "metric_version": "v2",
@@ -7773,12 +8072,12 @@
     "rows": [
      {
       "market": "BR",
-      "value": 0.636,
+      "value": 0.646,
       "hit_sessions": 129,
       "precision_est": 0.664,
       "hit_qa_n": 149,
-      "nonhit_qa_n": 1125,
-      "missed_est": 49.1,
+      "nonhit_qa_n": 1119,
+      "missed_est": 47.0,
       "low_sample": false
      },
      {
@@ -7787,18 +8086,18 @@
       "hit_sessions": 69,
       "precision_est": 0.712,
       "hit_qa_n": 80,
-      "nonhit_qa_n": 909,
+      "nonhit_qa_n": 908,
       "missed_est": 18.4,
       "low_sample": false
      },
      {
       "market": "ID",
-      "value": 0.608,
+      "value": 0.494,
       "hit_sessions": 128,
       "precision_est": 0.691,
       "hit_qa_n": 149,
       "nonhit_qa_n": 1064,
-      "missed_est": 57.2,
+      "missed_est": 90.8,
       "low_sample": false
      },
      {
@@ -7813,12 +8112,12 @@
      },
      {
       "market": "US",
-      "value": 0.806,
+      "value": 0.706,
       "hit_sessions": 135,
       "precision_est": 0.739,
       "hit_qa_n": 157,
       "nonhit_qa_n": 1126,
-      "missed_est": 24.0,
+      "missed_est": 41.5,
       "low_sample": false
      },
      {
@@ -7837,93 +8136,635 @@
    }
   },
   {
-   "t": 2.357,
+   "t": 3.331,
    "kind": "tool_call",
-   "tool": "query_metrics",
+   "tool": "get_guild_health",
    "args": {
-    "metric": "hits",
     "start_date": "2026-10-09",
-    "end_date": "2026-10-15",
-    "market": "US",
-    "scenario": "counterfeit",
-    "granularity": "total"
+    "end_date": "2026-10-15"
    },
    "result_summary": {
-    "ref_id": "Q-0063"
+    "ref_id": "Q-0066"
    },
    "result": {
-    "ref_id": "Q-0063",
-    "metric": "hits",
-    "metric_zh": "策略命中数",
-    "metric_version": "v1",
-    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
-    "filters": {
-     "market": [
-      "US"
+    "ref_id": "Q-0066",
+    "as_of": "2026-10-15",
+    "market": "ALL",
+    "tiers": [
+     [
+      80,
+      "警告约谈"
      ],
-     "scenario": "counterfeit",
-     "strategy_id": null,
-     "guild_id": null,
-     "start_date": "2026-10-09",
-     "end_date": "2026-10-15",
-     "window_clipped": false
-    },
-    "group_by": [],
-    "rows": [
+     [
+      70,
+      "暂停结算"
+     ],
+     [
+      60,
+      "扣当月收益"
+     ],
+     [
+      50,
+      "清退公示"
+     ]
+    ],
+    "guilds": [
      {
-      "value": 70,
-      "low_sample": false
+      "guild_id": "G-BR-002",
+      "market": "BR",
+      "name": "巴西公会-002",
+      "score": 75.05,
+      "tier": "警告约谈",
+      "min_score_window": 75.05
+     },
+     {
+      "guild_id": "G-ID-001",
+      "market": "ID",
+      "name": "印尼公会-001",
+      "score": 90.21,
+      "tier": "正常",
+      "min_score_window": 90.21
+     },
+     {
+      "guild_id": "G-ID-007",
+      "market": "ID",
+      "name": "印尼公会-007",
+      "score": 92.53,
+      "tier": "正常",
+      "min_score_window": 92.53
+     },
+     {
+      "guild_id": "G-ID-003",
+      "market": "ID",
+      "name": "印尼公会-003",
+      "score": 93.04,
+      "tier": "正常",
+      "min_score_window": 93.04
+     },
+     {
+      "guild_id": "G-ID-011",
+      "market": "ID",
+      "name": "印尼公会-011",
+      "score": 94.47,
+      "tier": "正常",
+      "min_score_window": 94.47
+     },
+     {
+      "guild_id": "G-US-001",
+      "market": "US",
+      "name": "美国公会-001",
+      "score": 95.06,
+      "tier": "正常",
+      "min_score_window": 94.56
+     },
+     {
+      "guild_id": "G-ID-005",
+      "market": "ID",
+      "name": "印尼公会-005",
+      "score": 95.63,
+      "tier": "正常",
+      "min_score_window": 95.63
+     },
+     {
+      "guild_id": "G-ID-010",
+      "market": "ID",
+      "name": "印尼公会-010",
+      "score": 95.72,
+      "tier": "正常",
+      "min_score_window": 95.26
+     },
+     {
+      "guild_id": "G-ID-002",
+      "market": "ID",
+      "name": "印尼公会-002",
+      "score": 95.74,
+      "tier": "正常",
+      "min_score_window": 95.74
+     },
+     {
+      "guild_id": "G-ID-008",
+      "market": "ID",
+      "name": "印尼公会-008",
+      "score": 96.21,
+      "tier": "正常",
+      "min_score_window": 95.71
+     },
+     {
+      "guild_id": "G-GB-001",
+      "market": "GB",
+      "name": "英国公会-001",
+      "score": 96.24,
+      "tier": "正常",
+      "min_score_window": 95.74
+     },
+     {
+      "guild_id": "G-BR-012",
+      "market": "BR",
+      "name": "巴西公会-012",
+      "score": 96.71,
+      "tier": "正常",
+      "min_score_window": 96.71
+     },
+     {
+      "guild_id": "G-ID-009",
+      "market": "ID",
+      "name": "印尼公会-009",
+      "score": 96.72,
+      "tier": "正常",
+      "min_score_window": 96.72
+     },
+     {
+      "guild_id": "G-BR-005",
+      "market": "BR",
+      "name": "巴西公会-005",
+      "score": 96.81,
+      "tier": "正常",
+      "min_score_window": 95.91
+     },
+     {
+      "guild_id": "G-ID-006",
+      "market": "ID",
+      "name": "印尼公会-006",
+      "score": 97.1,
+      "tier": "正常",
+      "min_score_window": 97.1
+     },
+     {
+      "guild_id": "G-GB-004",
+      "market": "GB",
+      "name": "英国公会-004",
+      "score": 97.23,
+      "tier": "正常",
+      "min_score_window": 96.73
+     },
+     {
+      "guild_id": "G-ID-004",
+      "market": "ID",
+      "name": "印尼公会-004",
+      "score": 97.23,
+      "tier": "正常",
+      "min_score_window": 97.23
+     },
+     {
+      "guild_id": "G-US-010",
+      "market": "US",
+      "name": "美国公会-010",
+      "score": 97.33,
+      "tier": "正常",
+      "min_score_window": 97.33
+     },
+     {
+      "guild_id": "G-GB-005",
+      "market": "GB",
+      "name": "英国公会-005",
+      "score": 97.54,
+      "tier": "正常",
+      "min_score_window": 97.54
+     },
+     {
+      "guild_id": "G-BR-007",
+      "market": "BR",
+      "name": "巴西公会-007",
+      "score": 97.7,
+      "tier": "正常",
+      "min_score_window": 97.01
+     },
+     {
+      "guild_id": "G-US-011",
+      "market": "US",
+      "name": "美国公会-011",
+      "score": 97.94,
+      "tier": "正常",
+      "min_score_window": 97.94
+     },
+     {
+      "guild_id": "G-US-006",
+      "market": "US",
+      "name": "美国公会-006",
+      "score": 98.15,
+      "tier": "正常",
+      "min_score_window": 98.15
+     },
+     {
+      "guild_id": "G-BR-004",
+      "market": "BR",
+      "name": "巴西公会-004",
+      "score": 98.19,
+      "tier": "正常",
+      "min_score_window": 98.19
+     },
+     {
+      "guild_id": "G-GB-007",
+      "market": "GB",
+      "name": "英国公会-007",
+      "score": 98.3,
+      "tier": "正常",
+      "min_score_window": 97.97
+     },
+     {
+      "guild_id": "G-GB-003",
+      "market": "GB",
+      "name": "英国公会-003",
+      "score": 98.46,
+      "tier": "正常",
+      "min_score_window": 98.41
+     },
+     {
+      "guild_id": "G-GB-002",
+      "market": "GB",
+      "name": "英国公会-002",
+      "score": 98.53,
+      "tier": "正常",
+      "min_score_window": 98.03
+     },
+     {
+      "guild_id": "G-GB-008",
+      "market": "GB",
+      "name": "英国公会-008",
+      "score": 98.56,
+      "tier": "正常",
+      "min_score_window": 97.8
+     },
+     {
+      "guild_id": "G-US-005",
+      "market": "US",
+      "name": "美国公会-005",
+      "score": 98.82,
+      "tier": "正常",
+      "min_score_window": 98.32
+     },
+     {
+      "guild_id": "G-BR-003",
+      "market": "BR",
+      "name": "巴西公会-003",
+      "score": 99.06,
+      "tier": "正常",
+      "min_score_window": 98.93
+     },
+     {
+      "guild_id": "G-ID-012",
+      "market": "ID",
+      "name": "印尼公会-012",
+      "score": 99.09,
+      "tier": "正常",
+      "min_score_window": 99.09
      }
     ],
-    "row_count": 1,
-    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+    "breached": [
+     {
+      "guild_id": "G-BR-002",
+      "market": "BR",
+      "tier": "警告约谈",
+      "score": 75.05
+     }
+    ]
    }
   },
   {
-   "t": 2.361,
+   "t": 3.35,
    "kind": "tool_call",
-   "tool": "query_metrics",
+   "tool": "get_guild_health",
    "args": {
-    "metric": "hits",
     "start_date": "2026-09-25",
-    "end_date": "2026-10-08",
-    "market": "US",
-    "scenario": "counterfeit",
-    "granularity": "total"
+    "end_date": "2026-10-15",
+    "guild_id": "G-BR-002"
    },
    "result_summary": {
-    "ref_id": "Q-0064"
+    "ref_id": "Q-0067"
    },
    "result": {
-    "ref_id": "Q-0064",
-    "metric": "hits",
-    "metric_zh": "策略命中数",
-    "metric_version": "v1",
-    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
-    "filters": {
-     "market": [
-      "US"
-     ],
-     "scenario": "counterfeit",
-     "strategy_id": null,
-     "guild_id": null,
-     "start_date": "2026-09-25",
-     "end_date": "2026-10-08",
-     "window_clipped": false
+    "ref_id": "Q-0067",
+    "guild_id": "G-BR-002",
+    "guild": {
+     "guild_id": "G-BR-002",
+     "market": "BR",
+     "name": "巴西公会-002",
+     "sessions_28d": 2093,
+     "head_hosts": 67,
+     "tier": "mid",
+     "manager": "公会运营-BR"
     },
-    "group_by": [],
-    "rows": [
+    "window": [
+     "2026-09-25",
+     "2026-10-15"
+    ],
+    "rule": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+    "tiers": [
+     [
+      80,
+      "警告约谈"
+     ],
+     [
+      70,
+      "暂停结算"
+     ],
+     [
+      60,
+      "扣当月收益"
+     ],
+     [
+      50,
+      "清退公示"
+     ]
+    ],
+    "score_start": 99.88,
+    "score_end": 75.05,
+    "min_score": 75.05,
+    "tier_now": "警告约谈",
+    "next_threshold": {
+     "score": 70,
+     "action": "暂停结算"
+    },
+    "total_deduction": 30.1,
+    "total_recovery": 6.5,
+    "daily": [
      {
-      "value": 158,
-      "low_sample": false
+      "date": "2026-09-25",
+      "sessions": 58,
+      "severe_enforcements": 9,
+      "expected_severe": 8.76,
+      "deduction": 0.12,
+      "recovery": 0.0,
+      "score": 99.88,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-09-26",
+      "sessions": 78,
+      "severe_enforcements": 6,
+      "expected_severe": 11.78,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-09-27",
+      "sessions": 79,
+      "severe_enforcements": 13,
+      "expected_severe": 11.94,
+      "deduction": 0.53,
+      "recovery": 0.0,
+      "score": 99.47,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-09-28",
+      "sessions": 63,
+      "severe_enforcements": 7,
+      "expected_severe": 9.52,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.97,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-09-29",
+      "sessions": 87,
+      "severe_enforcements": 7,
+      "expected_severe": 13.14,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-09-30",
+      "sessions": 80,
+      "severe_enforcements": 12,
+      "expected_severe": 12.09,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-01",
+      "sessions": 73,
+      "severe_enforcements": 15,
+      "expected_severe": 11.03,
+      "deduction": 1.99,
+      "recovery": 0.0,
+      "score": 98.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-02",
+      "sessions": 79,
+      "severe_enforcements": 11,
+      "expected_severe": 11.94,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-03",
+      "sessions": 86,
+      "severe_enforcements": 16,
+      "expected_severe": 12.99,
+      "deduction": 1.5,
+      "recovery": 0.0,
+      "score": 97.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-04",
+      "sessions": 85,
+      "severe_enforcements": 12,
+      "expected_severe": 12.84,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 97.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-05",
+      "sessions": 70,
+      "severe_enforcements": 9,
+      "expected_severe": 10.58,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-06",
+      "sessions": 68,
+      "severe_enforcements": 10,
+      "expected_severe": 10.27,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-07",
+      "sessions": 76,
+      "severe_enforcements": 9,
+      "expected_severe": 11.48,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-08",
+      "sessions": 70,
+      "severe_enforcements": 13,
+      "expected_severe": 10.58,
+      "deduction": 1.21,
+      "recovery": 0.0,
+      "score": 97.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-09",
+      "sessions": 59,
+      "severe_enforcements": 2,
+      "expected_severe": 8.91,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.3,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-10",
+      "sessions": 52,
+      "severe_enforcements": 5,
+      "expected_severe": 7.86,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-11",
+      "sessions": 96,
+      "severe_enforcements": 9,
+      "expected_severe": 14.5,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.3,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-12",
+      "sessions": 62,
+      "severe_enforcements": 6,
+      "expected_severe": 9.37,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-13",
+      "sessions": 63,
+      "severe_enforcements": 23,
+      "expected_severe": 9.52,
+      "deduction": 6.74,
+      "recovery": 0.0,
+      "score": 93.06,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-14",
+      "sessions": 59,
+      "severe_enforcements": 28,
+      "expected_severe": 8.91,
+      "deduction": 9.54,
+      "recovery": 0.0,
+      "score": 83.52,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-15",
+      "sessions": 93,
+      "severe_enforcements": 31,
+      "expected_severe": 14.05,
+      "deduction": 8.47,
+      "recovery": 0.0,
+      "score": 75.05,
+      "tier": "警告约谈"
      }
     ],
-    "row_count": 1,
-    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+    "deductions_by_strategy": [
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "points": 18.4,
+      "severe_enforcements": 48
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "points": 5.35,
+      "severe_enforcements": 26
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "points": 1.48,
+      "severe_enforcements": 16
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "points": 1.42,
+      "severe_enforcements": 13
+     },
+     {
+      "strategy_id": "S-118",
+      "scenario": "adult_content",
+      "points": 1.09,
+      "severe_enforcements": 5
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "points": 0.88,
+      "severe_enforcements": 6
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "points": 0.49,
+      "severe_enforcements": 6
+     },
+     {
+      "strategy_id": "S-123",
+      "scenario": "hate_harassment",
+      "points": 0.41,
+      "severe_enforcements": 3
+     },
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "points": 0.31,
+      "severe_enforcements": 2
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "points": 0.27,
+      "severe_enforcements": 2
+     }
+    ],
+    "deductions_by_date": {
+     "2026-09-25": 0.12,
+     "2026-09-27": 0.53,
+     "2026-10-01": 1.99,
+     "2026-10-03": 1.5,
+     "2026-10-08": 1.21,
+     "2026-10-13": 6.74,
+     "2026-10-14": 9.54,
+     "2026-10-15": 8.47
+    }
    }
   },
   {
-   "t": 2.363,
+   "t": 3.354,
    "kind": "guardrails",
    "needs_escalation": false,
    "reasons": [],
@@ -7935,7 +8776,7 @@
   "query": "策略健康巡检",
   "as_of": "2026-10-15",
   "scope": {
-   "strategies_checked": 27
+   "strategies_checked": 28
   },
   "findings": [
    {
@@ -7961,9 +8802,9 @@
     "severity": "high",
     "market": "ALL",
     "evidence": [
-     "Q-0032",
+     "Q-0033",
      "C-006",
-     "Q-0033"
+     "Q-0034"
     ],
     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.814→0.504",
     "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
@@ -7978,12 +8819,12 @@
     "severity": "high",
     "market": "BR",
     "evidence": [
-     "Q-0051",
-     "Q-0052",
-     "Q-0053",
-     "Q-0055"
+     "Q-0056",
+     "Q-0057",
+     "Q-0058",
+     "Q-0060"
     ],
-    "explanation": "BR gambling recall_est 0.763→0.328，命中日均 26→14，举报日均 40→43 未降，疑似绕过",
+    "explanation": "BR gambling recall_est 0.718→0.328，命中日均 26→14，举报日均 39→42 未降，疑似绕过",
     "suggested_action": "bad case 送模型团队；评估临时补充条件",
     "needs_human": true
    },
@@ -8024,12 +8865,27 @@
     "severity": "medium",
     "market": "ALL",
     "evidence": [
-     "Q-0032",
+     "Q-0033",
      "C-006",
-     "Q-0039"
+     "Q-0040"
     ],
     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.589→0.4",
     "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
+    "needs_human": true
+   },
+   {
+    "finding_type": "guild_health_breach",
+    "strategy_ids": [
+     "S-117"
+    ],
+    "severity": "medium",
+    "market": "BR",
+    "evidence": [
+     "Q-0066",
+     "Q-0067"
+    ],
+    "explanation": "G-BR-002 健康分 75.05 进入「警告约谈」档，扣分主要来自 S-117（18.4 分）",
+    "suggested_action": "公会治理按档位处置前，先确认扣分来源策略是否受漂移影响（问：该公会健康分为什么掉了）",
     "needs_human": true
    },
    {
@@ -8040,9 +8896,9 @@
     "severity": "low",
     "market": "ALL",
     "evidence": [
-     "Q-0032",
+     "Q-0033",
      "C-006",
-     "Q-0035"
+     "Q-0036"
     ],
     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.986→0.944",
     "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
@@ -8056,11 +8912,27 @@
     "severity": "low",
     "market": "ALL",
     "evidence": [
-     "Q-0032",
+     "Q-0033",
      "C-006",
-     "Q-0037"
+     "Q-0038"
     ],
-    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.962→1.0",
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.963→1.0",
+    "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+    "needs_human": false
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-129"
+    ],
+    "severity": "low",
+    "market": "ALL",
+    "evidence": [
+     "Q-0033",
+     "C-006",
+     "Q-0042"
+    ],
+    "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-129 阈值 0.75 的比例 ×2.2，抽检精确率 0.894→0.824",
     "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
     "needs_human": false
    },
@@ -8093,7 +8965,7 @@
     "needs_human": false
    }
   ],
-  "conclusion": "巡检 27 条线上策略，6 条待处理，2 条预期内变更",
+  "conclusion": "巡检 28 条线上策略，7 条待处理，2 条预期内变更",
   "confidence": "high",
   "evidence": [
    {
@@ -8102,14 +8974,14 @@
     "what": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置"
    },
    {
-    "ref_id": "Q-0032",
+    "ref_id": "Q-0033",
     "type": "drift_threshold",
     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.814→0.504"
    },
    {
-    "ref_id": "Q-0051",
+    "ref_id": "Q-0056",
     "type": "recall_decline",
-    "what": "BR gambling recall_est 0.763→0.328，命中日均 26→14，举报日均 40→43 未降，疑似绕过"
+    "what": "BR gambling recall_est 0.718→0.328，命中日均 26→14，举报日均 39→42 未降，疑似绕过"
    },
    {
     "ref_id": "Q-0004",
@@ -8122,19 +8994,29 @@
     "what": "S-119 近 28 天 0 命中；条件过窄"
    },
    {
-    "ref_id": "Q-0032",
+    "ref_id": "Q-0033",
     "type": "drift_threshold",
     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.589→0.4"
    },
    {
-    "ref_id": "Q-0032",
+    "ref_id": "Q-0066",
+    "type": "guild_health_breach",
+    "what": "G-BR-002 健康分 75.05 进入「警告约谈」档，扣分主要来自 S-117（18.4 分）"
+   },
+   {
+    "ref_id": "Q-0033",
     "type": "drift_threshold",
     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.986→0.944"
    },
    {
-    "ref_id": "Q-0032",
+    "ref_id": "Q-0033",
     "type": "drift_threshold",
-    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.962→1.0"
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.963→1.0"
+   },
+   {
+    "ref_id": "Q-0033",
+    "type": "drift_threshold",
+    "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-129 阈值 0.75 的比例 ×2.2，抽检精确率 0.894→0.824"
    },
    {
     "ref_id": "C-004",
@@ -8163,8 +9045,8 @@
    "platform://strategy/S-108",
    "platform://strategy/S-119",
    "platform://strategy/S-122",
-   "platform://strategy/S-110",
-   "platform://strategy/S-114"
+   "platform://strategy/S-117",
+   "platform://strategy/S-110"
   ],
   "validation": {
    "unknown_references": [],

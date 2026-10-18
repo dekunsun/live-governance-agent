@@ -14,6 +14,20 @@
   "owner": "特征平台"
  },
  {
+  "change_id": "C-010",
+  "date": "2026-08-05",
+  "type": "strategy_launch",
+  "target": "S-129",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "strategy_id": "S-129",
+  "model": null,
+  "summary": "S-129 上线：诈骗高打赏场次冻结收益（资金侧处置）",
+  "owner": "策略-交易安全组"
+ },
+ {
   "change_id": "C-008",
   "date": "2026-08-20",
   "type": "strategy_launch",

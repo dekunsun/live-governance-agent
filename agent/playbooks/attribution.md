@@ -23,6 +23,17 @@
 5. **抽样**。`sample_cases` 拉 10–20 个典型 case（申诉推翻的优先）作为证据；注意 `contains_head_host`。
 6. **输出归因卡片**：结论 + 置信度 + 证据（必须带 ref_id 或实体 id）+ 建议下一步 + 是否升级。
 
+## 机构健康分为什么掉了（公会侧提问）
+
+用 `get_guild_health(guild_id)` 看逐日分数和扣分来源（按策略）。扣分主要来自的策略若同期有模型升级且 `score_drift` 显示命中倍增 →
+`guild_health_unfair_deduction`：扣分可能不反映真实违规，建议暂缓档位处置、阈值重校后回补分数。否则 → `guild_health_real_violations`：
+旗下主播真实违规，转公会治理按档位处置。两种都需要升级（公会级处置）。
+
+## 资金侧处置
+
+动作 delay_settlement / freeze_earnings / disable_gifts 影响主播收入，误杀代价高于下播。结论涉及这类策略时：
+查 `frozen_amount`，在下一步里写明"误杀场次需复核后解冻"，并标记需运营与结算确认。
+
 ## 停止与升级条件（写死，代码也会强制执行）
 
 - 样本不足：当日指标计数与基线合计 < 20，或该市场日均 sessions < 150（小市场）→ `needs_escalation=true`，置信度不高于 low。
@@ -34,7 +45,8 @@
 
 `traffic_driven` 流量驱动 · `model_drift_threshold` 模型升级后分数漂移、固定阈值失效 ·
 `strategy_change` 策略版本变更 · `new_strategy_launch` 新策略上线 · `policy_update` policy 更新引起的预期变化 ·
-`recall_drop_evasion` 对抗绕过导致召回下降 · `guild_concentration` 增量集中在单一公会 · `no_anomaly` 波动在正常范围 · `insufficient_data` 样本不足 ·
+`recall_drop_evasion` 对抗绕过导致召回下降 · `guild_concentration` 增量集中在单一公会 · `guild_health_real_violations` 机构扣分来自真实违规 ·
+`guild_health_unfair_deduction` 机构扣分可能源于策略误杀 · `no_anomaly` 波动在正常范围 · `insufficient_data` 样本不足 ·
 `unexplained` 无法解释 · `needs_clarification` 需要先澄清输入
 
 ## 禁止

@@ -16,6 +16,9 @@ Embedded problems (see PROBLEMS below):
                        threshold (C-004) -> manual review volume up (expected)
   P7 new strategy      S-126 launched in ID on 2026-10-12 (minor_safety) -> enforcement up
   P8 head-host case    a head-tier host in US suspended by S-102 on 2026-10-15 (FP)
+  Financial actions    S-114 freeze_earnings, S-125 delay_settlement, S-129 freeze_earnings (scam, also drift-hit)
+  Guild health score   daily per-guild score (100 start) deducted when severe enforcements exceed the market
+                       baseline rate; P9 pushes G-BR-002 below 80; drift silently erodes US guilds (unfair deductions)
   P9 guild spike       guild G-BR-002 runs coordinated spam_bot sessions on 2026-10-13..15 ->
                        BR spam enforcement up, concentrated in one guild (no strategy/model change)
 """
@@ -45,8 +48,12 @@ BASE_VIOL = {"adult_content": 0.030, "minor_safety": 0.012, "scam_fraud": 0.025,
 MARKET_VIOL_MULT = {"US": 1.0, "BR": 1.2, "ID": 1.1, "GB": 0.9, "VN": 1.3, "KE": 1.4}
 SCENARIO_MARKET_MULT = {("GB", "hate_harassment"): 2.4}   # GB has a structurally higher harassment rate
 
-ACTION_SEVERITY = {"observe": 0, "manual_review": 1, "limit_traffic": 2, "warn": 3, "suspend_live": 4, "ban_7d": 5}
-ENFORCEMENT_ACTIONS = {"limit_traffic", "warn", "suspend_live", "ban_7d"}
+ACTION_SEVERITY = {"observe": 0, "manual_review": 1, "limit_traffic": 2, "warn": 3, "delay_settlement": 4,
+                   "freeze_earnings": 5, "suspend_live": 6, "disable_gifts": 7, "ban_7d": 8}
+FINANCIAL_ACTIONS = {"delay_settlement", "freeze_earnings", "disable_gifts"}   # 资金侧处置
+ENFORCEMENT_ACTIONS = {"limit_traffic", "warn", "suspend_live", "ban_7d"} | FINANCIAL_ACTIONS
+SEVERE_ACTIONS = {"freeze_earnings", "suspend_live", "disable_gifts", "ban_7d"}   # count toward guild health deductions
+GUILD_HEALTH_TIERS = [(80, "警告约谈"), (70, "暂停结算"), (60, "扣当月收益"), (50, "清退公示")]
 
 PROBLEMS = {
     "P1_model_drift": {"scenario": "scam_fraud", "model": "model_scam_fraud", "from": "2026-10-13",
@@ -134,7 +141,7 @@ STRATEGIES = [
       notes="v3 对应 policy P-7（GB 骚扰定义扩大）"),
     S("S-113", "暴力-中分+举报人审", "violence", ["ALL"], 0.60, "manual_review", "策略-内容组", "2026-03-01",
       extra=[{"field": "report_count", "op": ">=", "value": 3}]),
-    S("S-114", "诈骗-高打赏新号限流", "scam_fraud", ["ALL"], 0.60, "limit_traffic", "策略-交易安全组", "2026-06-10",
+    S("S-114", "诈骗-高打赏新号冻结收益", "scam_fraud", ["ALL"], 0.60, "freeze_earnings", "策略-交易安全组", "2026-06-10",
       extra=[{"field": "gift_amount", "op": ">=", "value": 500},
              {"field": "account_age_days", "op": "<", "value": 14}]),
     S("S-115", "赌博-高分下播", "gambling", ["ALL"], 0.80, "suspend_live", "策略-交易安全组", "2026-02-20"),
@@ -155,7 +162,7 @@ STRATEGIES = [
     S("S-123", "仇恨-极高分下播", "hate_harassment", ["ALL"], 0.90, "suspend_live", "策略-社区组", "2026-02-01"),
     S("S-124", "假冒-关键词人审", "counterfeit", ["ALL"], 0.60, "manual_review", "策略-电商治理组", "2026-01-15",
       extra=[{"field": "keyword_hits", "op": ">=", "value": 2}]),
-    S("S-125", "刷量-小场高打赏观察", "spam_bot", ["ALL"], 0.60, "observe", "策略-生态组", "2026-05-01",
+    S("S-125", "刷量-小场高打赏延迟结算", "spam_bot", ["ALL"], 0.60, "delay_settlement", "策略-生态组", "2026-05-01",
       extra=[{"field": "viewers_peak", "op": "<", "value": 20}, {"field": "gift_amount", "op": ">=", "value": 200}]),
     S("S-126", "未成年-ID 中分下播", "minor_safety", ["ID"], 0.60, "suspend_live", "策略-未成年组", "2026-10-12",
       notes="ID 市场专项，2026-10-12 上线"),
@@ -163,6 +170,8 @@ STRATEGIES = [
       extra=[{"field": "report_count", "op": ">=", "value": 1}], status="paused"),
     S("S-128", "赌博-外链下播", "gambling", ["ALL"], 0.70, "suspend_live", "策略-交易安全组", "2026-06-15",
       extra=[{"field": "external_link_flag", "op": "==", "value": 1}]),
+    S("S-129", "诈骗-高打赏场次冻结收益", "scam_fraud", ["ALL"], 0.75, "freeze_earnings", "策略-交易安全组", "2026-08-05",
+      extra=[{"field": "gift_amount", "op": ">=", "value": 300}], notes="资金侧动作；固定阈值，同样依赖 model_scam_fraud 原始分"),
 ]
 
 CHANGE_LOG = [
@@ -172,6 +181,9 @@ CHANGE_LOG = [
     {"change_id": "C-008", "date": "2026-08-20", "type": "strategy_launch", "target": "S-121",
      "scenario": "spam_bot", "markets": ["ALL"], "strategy_id": "S-121", "model": None,
      "summary": "S-121 上线：新设备刷量限流（平台生态组重写版）", "owner": "策略-平台生态组"},
+    {"change_id": "C-010", "date": "2026-08-05", "type": "strategy_launch", "target": "S-129",
+     "scenario": "scam_fraud", "markets": ["ALL"], "strategy_id": "S-129", "model": None,
+     "summary": "S-129 上线：诈骗高打赏场次冻结收益（资金侧处置）", "owner": "策略-交易安全组"},
     {"change_id": "C-001", "date": "2026-09-20", "type": "strategy_update", "target": "S-117",
      "scenario": "spam_bot", "markets": ["ALL"], "strategy_id": "S-117", "model": None,
      "summary": "S-117 v2：阈值 0.88 -> 0.90", "owner": "策略-生态组"},
@@ -365,6 +377,11 @@ def gen_enforcements(hits, df):
     enf["triggered_by"] = grp.strategy_id.apply(lambda s: ",".join(sorted(set(s))))
     enf = enf.reset_index()
     enf["enforcement_id"] = [f"EN-{i:07d}" for i in range(len(enf))]
+    fin_sessions = set(hits[hits.action.isin(FINANCIAL_ACTIONS)].session_id)
+    enf["financial_action"] = enf.session_id.isin(fin_sessions)        # 资金侧动作可与下播并存
+    enf["financial_strategy_id"] = enf.session_id.map(hits[hits.action.isin(FINANCIAL_ACTIONS)].drop_duplicates("session_id").set_index("session_id").strategy_id)
+    gift = df.set_index("session_id").gift_amount
+    enf["frozen_amount"] = np.where(enf.financial_action, enf.session_id.map(gift).values, 0.0).round(0)
     lab = df.set_index("session_id").true_label
     enf["_is_fp"] = enf.session_id.map(lab).values != enf.scenario.values
     return enf
@@ -438,12 +455,16 @@ def gen_metrics(df, hits, enf, appeals, reports):
     m = m.merge(cnt(hits, "hits"), on=["date", "market", "scenario"], how="left")
     m = m.merge(cnt(hits[hits.action == "manual_review"], "manual_reviews"), on=["date", "market", "scenario"], how="left")
     m = m.merge(cnt(enf, "enforcements"), on=["date", "market", "scenario"], how="left")
+    fe = enf[enf.financial_action].copy()
+    fe["scenario"] = fe.financial_strategy_id.map({st["strategy_id"]: st["scenario"] for st in STRATEGIES})
+    m = m.merge(cnt(fe, "financial_actions"), on=["date", "market", "scenario"], how="left")
+    m = m.merge(fe.groupby(["date", "market", "scenario"]).frozen_amount.sum().rename("frozen_amount").reset_index(), how="left")
     m = m.merge(cnt(appeals, "appeals"), on=["date", "market", "scenario"], how="left")
     m = m.merge(cnt(appeals[appeals.result == "overturned"], "overturns"), on=["date", "market", "scenario"], how="left")
     m = m.merge(reports.groupby(["date", "market", "reason"]).size().rename("reports").reset_index()
                 .rename(columns={"reason": "scenario"}), on=["date", "market", "scenario"], how="left")
     m = m.fillna(0)
-    for c in ["sessions", "hits", "manual_reviews", "enforcements", "appeals", "overturns", "reports"]:
+    for c in ["sessions", "hits", "manual_reviews", "enforcements", "financial_actions", "appeals", "overturns", "reports", "frozen_amount"]:
         m[c] = m[c].astype(int)
     # per-strategy daily
     sidx = pd.MultiIndex.from_product([dates, list(MARKETS), [s["strategy_id"] for s in STRATEGIES]],
@@ -453,13 +474,66 @@ def gen_metrics(df, hits, enf, appeals, reports):
     ms = ms.merge(cnt(hits[hits.action == "manual_review"], "manual_reviews", ("date", "market", "strategy_id")), how="left")
     ms = ms.merge(cnt(enf, "enforcements", ("date", "market", "primary_strategy_id")).rename(
         columns={"primary_strategy_id": "strategy_id"}), how="left")
+    fe = enf[enf.financial_action]
+    ms = ms.merge(cnt(fe, "financial_actions", ("date", "market", "financial_strategy_id")).rename(
+        columns={"financial_strategy_id": "strategy_id"}), how="left")
+    ms = ms.merge(fe.groupby(["date", "market", "financial_strategy_id"]).frozen_amount.sum().rename("frozen_amount").reset_index()
+                  .rename(columns={"financial_strategy_id": "strategy_id"}), how="left")
     ms = ms.merge(cnt(appeals, "appeals", ("date", "market", "strategy_id")), how="left")
     ms = ms.merge(cnt(appeals[appeals.result == "overturned"], "overturns", ("date", "market", "strategy_id")), how="left")
     ms = ms.fillna(0)
-    for c in ["hits", "manual_reviews", "enforcements", "appeals", "overturns"]:
+    for c in ["hits", "manual_reviews", "enforcements", "financial_actions", "appeals", "overturns", "frozen_amount"]:
         ms[c] = ms[c].astype(int)
     ms = ms.merge(sess.reset_index(), on=["date", "market"], how="left")
     return m, ms
+
+
+def gen_guild_health(df, enf):
+    """Daily guild health score. Start 100. Deduct when the guild's severe-enforcement count exceeds 1.2x what the
+    market baseline rate (first 14 days) predicts; recover +0.5/day otherwise. A day's deduction is allocated to
+    strategies in proportion to each strategy's own excess over its baseline, so a drifting strategy shows up."""
+    dates = sorted(df.date.unique())
+    base_end = dates[13]
+    sev = enf[enf.final_action.isin(SEVERE_ACTIONS)].copy()
+    sev["guild_id"] = sev.session_id.map(df.set_index("session_id").guild_id)
+    mkt_sessions_base = df[df.date <= base_end].groupby("market").size()
+    base_rate = (sev[sev.date <= base_end].groupby("market").size() / mkt_sessions_base).to_dict()
+    base_rate_strat = (sev[sev.date <= base_end].groupby(["market", "primary_strategy_id"]).size()
+                       / mkt_sessions_base.reindex(sev[sev.date <= base_end].groupby(["market", "primary_strategy_id"]).size().index.get_level_values(0)).values).to_dict()
+    gs = df[df.guild_id != ""].groupby(["guild_id", "date"]).size()
+    gm = df[df.guild_id != ""].groupby("guild_id").market.first()
+    sv = sev[sev.guild_id != ""].groupby(["guild_id", "date"]).size()
+    sv_strat = sev[sev.guild_id != ""].groupby(["guild_id", "date", "primary_strategy_id", "scenario"]).size()
+    sv_strat_by_gd = {}
+    for (g, d, sid, scn), c in sv_strat.items():
+        sv_strat_by_gd.setdefault((g, d), []).append((sid, scn, int(c)))
+    rows, ded_rows = [], []
+    for gid in sorted(gm.index):
+        score, m = 100.0, gm[gid]
+        for d in dates:
+            n = int(gs.get((gid, d), 0))
+            k = int(sv.get((gid, d), 0))
+            expected = 1.2 * base_rate.get(m, 0) * n
+            excess = k - expected
+            deduction = round(min(10.0, 0.5 * excess), 2) if excess > 0 else 0.0
+            recovery = 0.5 if excess <= 0 else 0.0
+            score = float(np.clip(score - deduction + recovery, 0, 100))
+            tier = next((name for thr, name in GUILD_HEALTH_TIERS[::-1] if score <= thr), "正常")
+            rows.append({"date": d, "guild_id": gid, "market": m, "sessions": n, "severe_enforcements": k,
+                         "expected_severe": round(expected, 2), "deduction": deduction, "recovery": recovery,
+                         "score": round(score, 2), "tier": tier})
+            if deduction > 0 and k > 0:
+                parts = sv_strat_by_gd.get((gid, d), [])
+                exc = [(sid, scn, c, max(0.0, c - 1.2 * base_rate_strat.get((m, sid), 0) * n)) for sid, scn, c in parts]
+                tot = sum(e[3] for e in exc)
+                if tot <= 0:
+                    exc = [(sid, scn, c, float(c)) for sid, scn, c, _ in exc]
+                    tot = sum(e[3] for e in exc)
+                for sid, scn, c, w in exc:
+                    if w > 0:
+                        ded_rows.append({"date": d, "guild_id": gid, "strategy_id": sid, "scenario": scn,
+                                         "severe_enforcements": c, "points": round(deduction * w / tot, 3)})
+    return pd.DataFrame(rows), pd.DataFrame(ded_rows)
 
 
 def main():
@@ -494,6 +568,9 @@ def main():
             "decision_date": e.date, "result": "overturned", "reason": "误判：直播内容不构成违规"}])], ignore_index=True)
         metrics, metrics_strategy = gen_metrics(df, hits, enf, appeals, reports)
 
+    guild_health, guild_ded = gen_guild_health(df, enf)
+    guild_health.to_csv(os.path.join(OUT, "guild_health_daily.csv"), index=False)
+    guild_ded.to_csv(os.path.join(OUT, "guild_health_deductions.csv"), index=False)
     public_cols = [c for c in df.columns if c != "true_label"]
     df[public_cols].to_csv(os.path.join(OUT, "sessions.csv"), index=False)
     df[["session_id", "true_label"]].to_csv(os.path.join(OUT, "_hidden_truth.csv"), index=False)
@@ -523,6 +600,8 @@ def main():
                    "markets": MARKETS, "market_names": MARKET_NAMES, "scenarios": SCENARIOS,
                    "scenario_names": SCENARIO_NAMES, "model_versions": MODEL_VERSIONS, "policies": POLICIES,
                    "action_severity": ACTION_SEVERITY, "enforcement_actions": sorted(ENFORCEMENT_ACTIONS),
+                   "financial_actions": sorted(FINANCIAL_ACTIONS), "severe_actions": sorted(SEVERE_ACTIONS),
+                   "guild_health_tiers": GUILD_HEALTH_TIERS, "guild_health_rule": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
                    "small_market_threshold_sessions_per_day": 150, "seed": SEED}, f, ensure_ascii=False, indent=1)
     with open(os.path.join(OUT, "_embedded_problems.json"), "w") as f:
         json.dump(PROBLEMS, f, ensure_ascii=False, indent=1)

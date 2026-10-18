@@ -439,14 +439,14 @@
  },
  {
   "strategy_id": "S-114",
-  "name": "诈骗-高打赏新号限流",
+  "name": "诈骗-高打赏新号冻结收益",
   "scenario": "scam_fraud",
   "markets": [
    "ALL"
   ],
   "score_field": "score_scam_fraud",
   "threshold": 0.6,
-  "action": "limit_traffic",
+  "action": "freeze_earnings",
   "extra_conditions": [
    {
     "field": "gift_amount",
@@ -465,7 +465,7 @@
     "version": "v1",
     "effective_from": "2026-06-10",
     "threshold": 0.6,
-    "action": "limit_traffic"
+    "action": "freeze_earnings"
    }
   ],
   "owner": "策略-交易安全组",
@@ -773,14 +773,14 @@
  },
  {
   "strategy_id": "S-125",
-  "name": "刷量-小场高打赏观察",
+  "name": "刷量-小场高打赏延迟结算",
   "scenario": "spam_bot",
   "markets": [
    "ALL"
   ],
   "score_field": "score_spam_bot",
   "threshold": 0.6,
-  "action": "observe",
+  "action": "delay_settlement",
   "extra_conditions": [
    {
     "field": "viewers_peak",
@@ -799,7 +799,7 @@
     "version": "v1",
     "effective_from": "2026-05-01",
     "threshold": 0.6,
-    "action": "observe"
+    "action": "delay_settlement"
    }
   ],
   "owner": "策略-生态组",
@@ -897,5 +897,37 @@
   "created_at": "2026-06-15",
   "updated_at": "2026-06-15",
   "notes": ""
+ },
+ {
+  "strategy_id": "S-129",
+  "name": "诈骗-高打赏场次冻结收益",
+  "scenario": "scam_fraud",
+  "markets": [
+   "ALL"
+  ],
+  "score_field": "score_scam_fraud",
+  "threshold": 0.75,
+  "action": "freeze_earnings",
+  "extra_conditions": [
+   {
+    "field": "gift_amount",
+    "op": ">=",
+    "value": 300
+   }
+  ],
+  "version": "v1",
+  "versions": [
+   {
+    "version": "v1",
+    "effective_from": "2026-08-05",
+    "threshold": 0.75,
+    "action": "freeze_earnings"
+   }
+  ],
+  "owner": "策略-交易安全组",
+  "status": "active",
+  "created_at": "2026-08-05",
+  "updated_at": "2026-08-05",
+  "notes": "资金侧动作；固定阈值，同样依赖 model_scam_fraud 原始分"
  }
 ]

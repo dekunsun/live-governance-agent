@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-173537-23b2a5",
+ "run_id": "20261018-001549-5a9cb2",
  "engine": "rules",
  "playbook": "attribution",
  "query": "巴西刷量昨天处罚涨了",
- "latency_s": 0.148,
+ "latency_s": 0.185,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -29,11 +29,12 @@
     "strategy_id": null,
     "guild_id": null,
     "window_days": 1,
-    "raw": "巴西刷量昨天处罚涨了"
+    "raw": "巴西刷量昨天处罚涨了",
+    "guild_health": false
    }
   },
   {
-   "t": 0.015,
+   "t": 0.006,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -112,7 +113,7 @@
    }
   },
   {
-   "t": 0.019,
+   "t": 0.01,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -148,7 +149,7 @@
     "rows": [
      {
       "date": "2026-10-08",
-      "value": 23,
+      "value": 24,
       "low_sample": false
      },
      {
@@ -163,17 +164,17 @@
      },
      {
       "date": "2026-10-11",
-      "value": 36,
+      "value": 38,
       "low_sample": false
      },
      {
       "date": "2026-10-12",
-      "value": 33,
+      "value": 34,
       "low_sample": false
      },
      {
       "date": "2026-10-13",
-      "value": 48,
+      "value": 49,
       "low_sample": false
      },
      {
@@ -192,7 +193,7 @@
    }
   },
   {
-   "t": 0.024,
+   "t": 0.017,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -233,7 +234,7 @@
      {
       "date": "2026-10-08",
       "strategy_id": "S-104",
-      "value": 18,
+      "value": 17,
       "low_sample": false
      },
      {
@@ -251,7 +252,7 @@
      {
       "date": "2026-10-08",
       "strategy_id": "S-125",
-      "value": 0,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -323,7 +324,7 @@
      {
       "date": "2026-10-11",
       "strategy_id": "S-125",
-      "value": 0,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -347,7 +348,7 @@
      {
       "date": "2026-10-12",
       "strategy_id": "S-125",
-      "value": 0,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -371,13 +372,13 @@
      {
       "date": "2026-10-13",
       "strategy_id": "S-125",
-      "value": 0,
+      "value": 1,
       "low_sample": false
      },
      {
       "date": "2026-10-14",
       "strategy_id": "S-104",
-      "value": 23,
+      "value": 22,
       "low_sample": false
      },
      {
@@ -395,7 +396,7 @@
      {
       "date": "2026-10-14",
       "strategy_id": "S-125",
-      "value": 0,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -428,7 +429,7 @@
    }
   },
   {
-   "t": 0.024,
+   "t": 0.017,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -454,7 +455,7 @@
    }
   },
   {
-   "t": 0.117,
+   "t": 0.146,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -495,7 +496,7 @@
      {
       "date": "2026-10-08",
       "guild_id": "(无公会)",
-      "value": 14,
+      "value": 15,
       "low_sample": false
      },
      {
@@ -638,7 +639,7 @@
      {
       "date": "2026-10-11",
       "guild_id": "G-BR-001",
-      "value": 5,
+      "value": 6,
       "low_sample": false,
       "guild_name": "巴西公会-001"
      },
@@ -679,6 +680,13 @@
      },
      {
       "date": "2026-10-11",
+      "guild_id": "G-BR-006",
+      "value": 1,
+      "low_sample": false,
+      "guild_name": "巴西公会-006"
+     },
+     {
+      "date": "2026-10-11",
       "guild_id": "G-BR-007",
       "value": 1,
       "low_sample": false,
@@ -687,7 +695,7 @@
      {
       "date": "2026-10-12",
       "guild_id": "(无公会)",
-      "value": 16,
+      "value": 17,
       "low_sample": false
      },
      {
@@ -756,7 +764,7 @@
      {
       "date": "2026-10-13",
       "guild_id": "G-BR-002",
-      "value": 28,
+      "value": 29,
       "low_sample": false,
       "guild_name": "巴西公会-002"
      },
@@ -919,12 +927,12 @@
       "guild_name": "巴西公会-011"
      }
     ],
-    "row_count": 62,
+    "row_count": 63,
     "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
    }
   },
   {
-   "t": 0.118,
+   "t": 0.147,
    "kind": "tool_call",
    "tool": "get_guild_info",
    "args": {
@@ -950,7 +958,7 @@
    }
   },
   {
-   "t": 0.147,
+   "t": 0.183,
    "kind": "tool_call",
    "tool": "sample_cases",
    "args": {
@@ -980,7 +988,7 @@
     "cases": [
      {
       "session_id": "LS-0102379",
-      "hit_id": "HT-0026596",
+      "hit_id": "HT-0026857",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1005,7 +1013,7 @@
      },
      {
       "session_id": "LS-0102578",
-      "hit_id": "HT-0026674",
+      "hit_id": "HT-0026937",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1030,7 +1038,7 @@
      },
      {
       "session_id": "LS-0102704",
-      "hit_id": "HT-0026758",
+      "hit_id": "HT-0027022",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1055,7 +1063,7 @@
      },
      {
       "session_id": "LS-0102924",
-      "hit_id": "HT-0026851",
+      "hit_id": "HT-0027115",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1067,7 +1075,7 @@
       "model_version": "v2.1",
       "action": "limit_traffic",
       "appeal": {
-       "appeal_id": "AP-005308",
+       "appeal_id": "AP-005364",
        "result": "upheld"
       },
       "qa_label": null,
@@ -1083,7 +1091,7 @@
      },
      {
       "session_id": "LS-0102479",
-      "hit_id": "HT-0026632",
+      "hit_id": "HT-0026893",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "mid",
@@ -1108,7 +1116,7 @@
      },
      {
       "session_id": "LS-0102662",
-      "hit_id": "HT-0026720",
+      "hit_id": "HT-0026983",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1120,7 +1128,7 @@
       "model_version": "v2.1",
       "action": "limit_traffic",
       "appeal": {
-       "appeal_id": "AP-005284",
+       "appeal_id": "AP-005340",
        "result": "upheld"
       },
       "qa_label": "spam_bot",
@@ -1136,7 +1144,7 @@
      },
      {
       "session_id": "LS-0102592",
-      "hit_id": "HT-0026679",
+      "hit_id": "HT-0026942",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1161,7 +1169,7 @@
      },
      {
       "session_id": "LS-0102123",
-      "hit_id": "HT-0026484",
+      "hit_id": "HT-0026742",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1186,7 +1194,7 @@
      },
      {
       "session_id": "LS-0102789",
-      "hit_id": "HT-0026781",
+      "hit_id": "HT-0027045",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1211,7 +1219,7 @@
      },
      {
       "session_id": "LS-0102133",
-      "hit_id": "HT-0026490",
+      "hit_id": "HT-0026748",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1236,7 +1244,7 @@
      },
      {
       "session_id": "LS-0102909",
-      "hit_id": "HT-0026839",
+      "hit_id": "HT-0027103",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "mid",
@@ -1261,7 +1269,7 @@
      },
      {
       "session_id": "LS-0102598",
-      "hit_id": "HT-0026685",
+      "hit_id": "HT-0026948",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1286,7 +1294,7 @@
      },
      {
       "session_id": "LS-0102865",
-      "hit_id": "HT-0026810",
+      "hit_id": "HT-0027074",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "tail",
@@ -1298,7 +1306,7 @@
       "model_version": "v2.1",
       "action": "limit_traffic",
       "appeal": {
-       "appeal_id": "AP-005303",
+       "appeal_id": "AP-005359",
        "result": "upheld"
       },
       "qa_label": "spam_bot",
@@ -1314,7 +1322,7 @@
      },
      {
       "session_id": "LS-0102639",
-      "hit_id": "HT-0026700",
+      "hit_id": "HT-0026963",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "head",
@@ -1339,7 +1347,7 @@
      },
      {
       "session_id": "LS-0102531",
-      "hit_id": "HT-0026648",
+      "hit_id": "HT-0026910",
       "date": "2026-10-15",
       "market": "BR",
       "host_tier": "mid",
@@ -1366,7 +1374,7 @@
    }
   },
   {
-   "t": 0.148,
+   "t": 0.185,
    "kind": "guardrails",
    "needs_escalation": true,
    "reasons": [
@@ -1394,14 +1402,14 @@
    "low_sample": false,
    "observed": {
     "current": 59,
-    "baseline_median": 33.0,
+    "baseline_median": 34.0,
     "sessions_current": 885,
     "sessions_baseline_median": 861.0
    },
    "decomposition": {
-    "count_ratio": 1.79,
+    "count_ratio": 1.74,
     "traffic_ratio": 1.03,
-    "rate_ratio": 1.74,
+    "rate_ratio": 1.69,
     "traffic_share_of_change": 0.05
    }
   },
@@ -1410,7 +1418,7 @@
     "ref_id": "Q-0002",
     "type": "metric",
     "metric": "enforcements",
-    "what": "2026-10-15 enforcements=59，前 7 天中位数 33.0"
+    "what": "2026-10-15 enforcements=59，前 7 天中位数 34.0"
    },
    {
     "ref_id": "Q-0001",
@@ -1422,13 +1430,13 @@
     "ref_id": "Q-0003",
     "type": "drilldown",
     "metric": "enforcements",
-    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-117', 14.0, 0.52, 27, 13.0), ('S-104', 12.0, 0.44, 30, 18.0), ('S-121', -1.0, 0.04, 2, 3.0)]"
+    "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-117', 14.0, 0.48, 27, 13.0), ('S-104', 13.0, 0.45, 30, 17.0), ('S-121', -1.0, 0.03, 2, 3.0)]"
    },
    {
     "ref_id": "Q-0005",
     "type": "drilldown",
     "metric": "enforcements",
-    "what": "按公会增量贡献: G-BR-002 15.0→35（增量份额 65%）；其余公会基本持平"
+    "what": "按公会增量贡献: G-BR-002 15.5→35（增量份额 64%）；其余公会基本持平"
    },
    {
     "ref_id": "Q-0006",
@@ -1487,9 +1495,9 @@
    "guild_ids": [
     "G-BR-002"
    ],
-   "explanation": "同期无策略/模型/policy 变更；增量 65% 集中在公会 G-BR-002，其他公会平稳，更像该公会主播的集中违规而不是策略问题"
+   "explanation": "同期无策略/模型/policy 变更；增量 64% 集中在公会 G-BR-002，其他公会平稳，更像该公会主播的集中违规而不是策略问题"
   },
-  "conclusion": "BR 垃圾刷量 处罚 session 数上升（33→59）集中在公会 G-BR-002（巴西公会-002，贡献 65%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+  "conclusion": "BR 垃圾刷量 处罚 session 数上升（34→59）集中在公会 G-BR-002（巴西公会-002，贡献 64%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
   "confidence": "medium",
   "validation": {
    "unknown_references": [],

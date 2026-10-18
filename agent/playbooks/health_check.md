@@ -13,6 +13,7 @@
 | 策略重叠 overlap | `get_hit_logs(strategy_id, overlap_analysis=true)` | 两个方向的重叠比例都 ≥ 0.8 且动作相同 → 重复处罚 |
 | 模型分漂移导致阈值失效 drift_threshold | 同期有 `model_update` → `score_drift` | PSI > 0.1 且超阈值比例变化 ≥ 1.5 倍；再看 `precision_est`/`overturn_rate` 是否恶化 |
 | 精确率下降 precision_decline | `precision_est` 近 7 天 vs 前 14 天 | 下降 ≥ 0.15 且样本 ≥ 30 |
+| 机构健康分越档 guild_health_breach | `get_guild_health(market)` 的 breached 列表 | 分数 ≤80 进入档位；处置前先看扣分来源策略是否受漂移影响 |
 | 召回下降 recall_decline | `recall_est` 按市场近 7 天 vs 前 14 天 | 下降 ≥ 0.2 且样本充足；同时看 `reports` 是否不降 |
 
 ## 输出

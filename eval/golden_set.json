@@ -475,6 +475,54 @@
    "required_strategy_ids": [],
    "required_change_ids": [],
    "needs_escalation": null
+  },
+  {
+   "id": "G34",
+   "category": "guild_health",
+   "market": "BR",
+   "query": "G-BR-002 健康分为什么掉了",
+   "accepted_cause_types": [
+    "guild_health_real_violations"
+   ],
+   "required_strategy_ids": [
+    "S-117"
+   ],
+   "required_change_ids": [],
+   "required_guild_ids": [
+    "G-BR-002"
+   ],
+   "needs_escalation": true
+  },
+  {
+   "id": "G35",
+   "category": "guild_health",
+   "market": "US",
+   "query": "G-US-001 健康分最近为什么扣分",
+   "accepted_cause_types": [
+    "guild_health_unfair_deduction"
+   ],
+   "required_strategy_ids": [],
+   "required_change_ids": [
+    "C-006"
+   ],
+   "required_guild_ids": [
+    "G-US-001"
+   ],
+   "needs_escalation": true
+  },
+  {
+   "id": "G36",
+   "category": "guild_health",
+   "market": "GB",
+   "query": "G-GB-001 健康分最近有没有问题",
+   "accepted_cause_types": [
+    "no_anomaly",
+    "guild_health_unfair_deduction"
+   ],
+   "required_strategy_ids": [],
+   "required_change_ids": [],
+   "required_guild_ids": [],
+   "needs_escalation": null
   }
  ],
  "health_truth": {
@@ -509,6 +557,13 @@
     "finding_type": "recall_decline",
     "strategy_ids": [
      "S-115"
+    ],
+    "market": "BR"
+   },
+   {
+    "finding_type": "guild_health_breach",
+    "strategy_ids": [
+     "S-117"
     ],
     "market": "BR"
    }
@@ -548,6 +603,12 @@
     "finding_type": "expected_change",
     "strategy_ids": [
      "S-126"
+    ]
+   },
+   {
+    "finding_type": "drift_threshold",
+    "strategy_ids": [
+     "S-129"
     ]
    }
   ]

@@ -1,0 +1,885 @@
+{
+ "run_id": "20261018-001551-8f8c74",
+ "engine": "rules",
+ "playbook": "guild_health",
+ "query": "G-BR-002 健康分为什么掉了",
+ "latency_s": 0.28,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 5,
+ "events": [
+  {
+   "t": 0.031,
+   "kind": "tool_call",
+   "tool": "get_guild_health",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15",
+    "guild_id": "G-BR-002"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "guild_id": "G-BR-002",
+    "guild": {
+     "guild_id": "G-BR-002",
+     "market": "BR",
+     "name": "巴西公会-002",
+     "sessions_28d": 2093,
+     "head_hosts": 67,
+     "tier": "mid",
+     "manager": "公会运营-BR"
+    },
+    "window": [
+     "2026-10-02",
+     "2026-10-15"
+    ],
+    "rule": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+    "tiers": [
+     [
+      80,
+      "警告约谈"
+     ],
+     [
+      70,
+      "暂停结算"
+     ],
+     [
+      60,
+      "扣当月收益"
+     ],
+     [
+      50,
+      "清退公示"
+     ]
+    ],
+    "score_start": 98.51,
+    "score_end": 75.05,
+    "min_score": 75.05,
+    "tier_now": "警告约谈",
+    "next_threshold": {
+     "score": 70,
+     "action": "暂停结算"
+    },
+    "total_deduction": 27.46,
+    "total_recovery": 4.5,
+    "daily": [
+     {
+      "date": "2026-10-02",
+      "sessions": 79,
+      "severe_enforcements": 11,
+      "expected_severe": 11.94,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-03",
+      "sessions": 86,
+      "severe_enforcements": 16,
+      "expected_severe": 12.99,
+      "deduction": 1.5,
+      "recovery": 0.0,
+      "score": 97.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-04",
+      "sessions": 85,
+      "severe_enforcements": 12,
+      "expected_severe": 12.84,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 97.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-05",
+      "sessions": 70,
+      "severe_enforcements": 9,
+      "expected_severe": 10.58,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-06",
+      "sessions": 68,
+      "severe_enforcements": 10,
+      "expected_severe": 10.27,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.51,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-07",
+      "sessions": 76,
+      "severe_enforcements": 9,
+      "expected_severe": 11.48,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.01,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-08",
+      "sessions": 70,
+      "severe_enforcements": 13,
+      "expected_severe": 10.58,
+      "deduction": 1.21,
+      "recovery": 0.0,
+      "score": 97.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-09",
+      "sessions": 59,
+      "severe_enforcements": 2,
+      "expected_severe": 8.91,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.3,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-10",
+      "sessions": 52,
+      "severe_enforcements": 5,
+      "expected_severe": 7.86,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 98.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-11",
+      "sessions": 96,
+      "severe_enforcements": 9,
+      "expected_severe": 14.5,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.3,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-12",
+      "sessions": 62,
+      "severe_enforcements": 6,
+      "expected_severe": 9.37,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 99.8,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-13",
+      "sessions": 63,
+      "severe_enforcements": 23,
+      "expected_severe": 9.52,
+      "deduction": 6.74,
+      "recovery": 0.0,
+      "score": 93.06,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-14",
+      "sessions": 59,
+      "severe_enforcements": 28,
+      "expected_severe": 8.91,
+      "deduction": 9.54,
+      "recovery": 0.0,
+      "score": 83.52,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-15",
+      "sessions": 93,
+      "severe_enforcements": 31,
+      "expected_severe": 14.05,
+      "deduction": 8.47,
+      "recovery": 0.0,
+      "score": 75.05,
+      "tier": "警告约谈"
+     }
+    ],
+    "deductions_by_strategy": [
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "points": 18.1,
+      "severe_enforcements": 46
+     },
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "points": 4.35,
+      "severe_enforcements": 18
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "points": 1.4,
+      "severe_enforcements": 13
+     },
+     {
+      "strategy_id": "S-118",
+      "scenario": "adult_content",
+      "points": 0.99,
+      "severe_enforcements": 4
+     },
+     {
+      "strategy_id": "S-107",
+      "scenario": "violence",
+      "points": 0.87,
+      "severe_enforcements": 5
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "points": 0.81,
+      "severe_enforcements": 8
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "points": 0.45,
+      "severe_enforcements": 4
+     },
+     {
+      "strategy_id": "S-129",
+      "scenario": "scam_fraud",
+      "points": 0.18,
+      "severe_enforcements": 1
+     },
+     {
+      "strategy_id": "S-123",
+      "scenario": "hate_harassment",
+      "points": 0.16,
+      "severe_enforcements": 1
+     },
+     {
+      "strategy_id": "S-128",
+      "scenario": "gambling",
+      "points": 0.16,
+      "severe_enforcements": 1
+     }
+    ],
+    "deductions_by_date": {
+     "2026-10-03": 1.5,
+     "2026-10-08": 1.21,
+     "2026-10-13": 6.74,
+     "2026-10-14": 9.54,
+     "2026-10-15": 8.47
+    }
+   }
+  },
+  {
+   "t": 0.031,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "count": 5,
+    "changes": [
+     {
+      "change_id": "C-009",
+      "date": "2026-10-05",
+      "type": "model_update",
+      "target": "model_spam_bot",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_spam_bot",
+      "summary": "model_spam_bot v2 -> v2.1：线上推理热修复，分数分布无变化",
+      "owner": "算法-生态"
+     },
+     {
+      "change_id": "C-003",
+      "date": "2026-10-10",
+      "type": "policy_update",
+      "target": "P-7",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "Policy P-7：GB 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值",
+      "owner": "T&S Policy"
+     },
+     {
+      "change_id": "C-004",
+      "date": "2026-10-11",
+      "type": "strategy_update",
+      "target": "S-112",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": "S-112",
+      "model": null,
+      "summary": "S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升",
+      "owner": "策略-社区组"
+     },
+     {
+      "change_id": "C-005",
+      "date": "2026-10-12",
+      "type": "strategy_launch",
+      "target": "S-126",
+      "scenario": "minor_safety",
+      "markets": [
+       "ID"
+      ],
+      "strategy_id": "S-126",
+      "model": null,
+      "summary": "S-126 上线：ID 未成年人中分直接下播（专项）",
+      "owner": "策略-未成年组"
+     },
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.195,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "spam_bot",
+    "baseline_start": "2026-09-28",
+    "baseline_end": "2026-10-04",
+    "current_start": "2026-10-05",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "model": "model_spam_bot",
+    "market": "ALL",
+    "baseline": {
+     "window": [
+      "2026-09-28",
+      "2026-10-04"
+     ],
+     "model_versions": [
+      "v2"
+     ],
+     "n": 26784,
+     "mean": 0.1873,
+     "p50": 0.1102,
+     "p90": 0.5341,
+     "p99": 0.8974
+    },
+    "current": {
+     "window": [
+      "2026-10-05",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v2.1"
+     ],
+     "n": 40216,
+     "mean": 0.1927,
+     "p50": 0.1126,
+     "p90": 0.5594,
+     "p99": 0.9042
+    },
+    "psi": 0.0012,
+    "drift_flag": false,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-104",
+      "threshold": 0.75,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0393,
+      "share_above_current": 0.044,
+      "ratio": 1.12
+     },
+     {
+      "strategy_id": "S-117",
+      "threshold": 0.9,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0096,
+      "share_above_current": 0.0107,
+      "ratio": 1.11
+     },
+     {
+      "strategy_id": "S-121",
+      "threshold": 0.72,
+      "action": "limit_traffic",
+      "share_above_baseline": 0.0474,
+      "share_above_current": 0.0521,
+      "ratio": 1.1
+     },
+     {
+      "strategy_id": "S-125",
+      "threshold": 0.6,
+      "action": "delay_settlement",
+      "share_above_baseline": 0.0812,
+      "share_above_current": 0.0877,
+      "ratio": 1.08
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 1205,
+      "mean": 0.6385,
+      "p50": 0.7575,
+      "p90": 0.9237,
+      "p99": 0.9803
+     },
+     "current": {
+      "n": 1917,
+      "mean": 0.6546,
+      "p50": 0.7767,
+      "p90": 0.9333,
+      "p99": 0.9841
+     }
+    }
+   }
+  },
+  {
+   "t": 0.279,
+   "kind": "tool_call",
+   "tool": "sample_cases",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-117",
+    "guild_id": "G-BR-002",
+    "n": 10
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "population": 65,
+    "n": 10,
+    "contains_head_host": false,
+    "guild_share_in_population": {
+     "G-BR-002": 1.0
+    },
+    "score_summary": {
+     "mean": 0.949,
+     "p50": 0.952,
+     "min": 0.902
+    },
+    "cases": [
+     {
+      "session_id": "LS-0098586",
+      "hit_id": "HT-0025568",
+      "date": "2026-10-14",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9484,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 9,
+       "viewers_peak": 16,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0056700",
+      "hit_id": "HT-0014615",
+      "date": "2026-10-03",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9468,
+      "threshold": 0.9,
+      "model_version": "v2",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 5,
+       "viewers_peak": 379,
+       "gift_amount": 13,
+       "report_count": 6,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0099236",
+      "hit_id": "HT-0025802",
+      "date": "2026-10-14",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9605,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005098",
+       "result": "overturned"
+      },
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 1,
+       "viewers_peak": 149,
+       "gift_amount": 64,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102605",
+      "hit_id": "HT-0026953",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9397,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 7,
+       "viewers_peak": 178,
+       "gift_amount": 0,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0095420",
+      "hit_id": "HT-0024555",
+      "date": "2026-10-13",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.947,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 5,
+       "viewers_peak": 14,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102509",
+      "hit_id": "HT-0026900",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9034,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 2,
+       "viewers_peak": 184,
+       "gift_amount": 0,
+       "report_count": 4,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102532",
+      "hit_id": "HT-0026914",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9538,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "spam_bot",
+      "features": {
+       "account_age_days": 6,
+       "viewers_peak": 68,
+       "gift_amount": 68,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0095347",
+      "hit_id": "HT-0024521",
+      "date": "2026-10-13",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9037,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 10,
+       "viewers_peak": 15,
+       "gift_amount": 0,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0098943",
+      "hit_id": "HT-0025688",
+      "date": "2026-10-14",
+      "market": "BR",
+      "host_tier": "tail",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9908,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 9,
+       "viewers_peak": 150,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 1,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0102905",
+      "hit_id": "HT-0027100",
+      "date": "2026-10-15",
+      "market": "BR",
+      "host_tier": "mid",
+      "guild_id": "G-BR-002",
+      "strategy_id": "S-117",
+      "strategy_version": "v2",
+      "score": 0.9726,
+      "threshold": 0.9,
+      "model_version": "v2.1",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 100,
+       "gift_amount": 35,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.279,
+   "kind": "tool_call",
+   "tool": "get_guild_info",
+   "args": {
+    "guild_id": "G-BR-002"
+   },
+   "result_summary": {
+    "ref_id": "Q-0005"
+   },
+   "result": {
+    "ref_id": "Q-0005",
+    "count": 1,
+    "guilds": [
+     {
+      "guild_id": "G-BR-002",
+      "market": "BR",
+      "name": "巴西公会-002",
+      "sessions_28d": 2093,
+      "head_hosts": 67,
+      "tier": "mid",
+      "manager": "公会运营-BR"
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.28,
+   "kind": "guardrails",
+   "needs_escalation": true,
+   "reasons": [
+    "涉及公会级处置（约谈/暂停结算），需公会治理确认"
+   ],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "G-BR-002 健康分为什么掉了",
+  "scope": {
+   "guild_id": "G-BR-002",
+   "date": "2026-10-15",
+   "window": [
+    "2026-10-02",
+    "2026-10-15"
+   ],
+   "low_sample": false
+  },
+  "metric": {
+   "key": "guild_health_score",
+   "definition": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+   "version": "v1",
+   "note": "机构健康分（合成规则）"
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0001",
+    "type": "guild_health",
+    "what": "G-BR-002 健康分 98.51→75.05（警告约谈），窗口扣分 27.46，最大扣分日 2026-10-14"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "drilldown",
+    "what": "扣分来源（策略, 分值）: S-117 18.1, S-102 4.35, S-101 1.4, S-118 0.99"
+   },
+   {
+    "ref_id": "Q-0004",
+    "type": "cases",
+    "what": "G-BR-002 被 S-117 命中的 case 抽样 10 个，含头部主播=False"
+   },
+   {
+    "ref_id": "Q-0005",
+    "type": "guild",
+    "what": "巴西公会-002，mid 公会，头部主播 67 个"
+   }
+  ],
+  "next_steps": [
+   "公会治理：约谈 G-BR-002，要求整改并核查近 3 天新增主播",
+   "若连续扣分，将在下一档触发暂停结算；提前告知公会"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "涉及公会级处置（约谈/暂停结算），需公会治理确认"
+  ],
+  "platform_links": [
+   "platform://guild/G-BR-002/health"
+  ],
+  "sample_case_ids": [
+   "LS-0098586",
+   "LS-0056700",
+   "LS-0099236",
+   "LS-0102605",
+   "LS-0095420",
+   "LS-0102509",
+   "LS-0102532",
+   "LS-0095347",
+   "LS-0098943",
+   "LS-0102905"
+  ],
+  "primary_cause": {
+   "type": "guild_health_real_violations",
+   "strategy_ids": [
+    "S-117"
+   ],
+   "change_ids": [],
+   "guild_ids": [
+    "G-BR-002"
+   ],
+   "explanation": "扣分 66% 来自 S-117（垃圾刷量），同期无模型/策略变更，严重处置 46 次集中出现，是旗下主播的真实违规"
+  },
+  "conclusion": "G-BR-002 健康分下降（98.51→75.05，警告约谈）来自旗下主播的真实违规：S-117 严重处置 46 次，占扣分 66%；下一档 暂停结算（70 分）",
+  "confidence": "medium",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}

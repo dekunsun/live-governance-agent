@@ -38,6 +38,12 @@ METRICS = {
     "enforcements": {"zh": "处罚 session 数", "level": "strategy", "kind": "count", "version": "v2",
                      "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，"
                                    "归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。"},
+    "financial_actions": {"zh": "资金侧处置数", "level": "strategy", "kind": "count", "version": "v1",
+                          "definition": "处罚中动作为资金侧（delay_settlement 延迟结算 / freeze_earnings 冻结违规场次收益 / disable_gifts 关闭礼物）的 session 数。"},
+    "frozen_amount": {"zh": "冻结/延迟结算金额", "level": "strategy", "kind": "count", "version": "v1",
+                      "definition": "资金侧处置涉及的场次打赏金额合计（合成单位）。误杀时需解冻，是资金侧误杀代价的直接度量。"},
+    "guild_health_score": {"zh": "机构健康分", "level": "guild", "kind": "score", "version": "v1",
+                           "definition": "机构（公会）健康分，起始 100，严重处置超出市场基准时扣分；通过 get_guild_health 查询，不走 query_metrics。"},
     "appeals": {"zh": "申诉数", "level": "strategy", "kind": "count", "version": "v1",
                 "definition": "对处罚提交的申诉数，按申诉提交日期归属。"},
     "overturns": {"zh": "申诉推翻数", "level": "strategy", "kind": "count", "version": "v1",
@@ -64,6 +70,7 @@ METRICS = {
 ALIASES = {
     "误杀率": ["overturn_rate", "overturn_per_enforcement", "precision_est"],
     "误杀申诉": ["overturns"], "误杀": ["overturns"], "申诉推翻": ["overturns"], "推翻": ["overturns"],
+    "冻结金额": ["frozen_amount"], "冻结": ["financial_actions"], "延迟结算": ["financial_actions"], "资金处置": ["financial_actions"],
     "申诉": ["appeals"], "处罚": ["enforcements"], "处罚量": ["enforcements"], "命中": ["hits"],
     "人审": ["manual_reviews"], "举报": ["reports"], "召回": ["recall_est"], "精确率": ["precision_est"],
     "准确率": ["precision_est"], "流量": ["sessions"], "开播": ["sessions"], "命中率": ["hit_rate"], "处罚率": ["enforcement_rate"],
@@ -102,6 +109,8 @@ class Platform:
         self.strategies = json.load(open(os.path.join(data_dir, "strategies.json")))
         self.change_log = json.load(open(os.path.join(data_dir, "change_log.json")))
         self.guilds = json.load(open(os.path.join(data_dir, "guilds.json")))
+        self.guild_health = rd("guild_health_daily.csv")
+        self.guild_deductions = rd("guild_health_deductions.csv")
         self.guild_by_id = {g["guild_id"]: g for g in self.guilds}
         self.meta = json.load(open(os.path.join(data_dir, "meta.json")))
         self.by_id = {s["strategy_id"]: s for s in self.strategies}
@@ -203,6 +212,8 @@ class Platform:
         if granularity == "day" and "date" not in group_by:
             group_by = ["date"] + group_by
         spec = METRICS[key]
+        if key == "guild_health_score":
+            raise ToolError("bad_metric_route", "机构健康分请用 get_guild_health 查询", "get_guild_health(guild_id=..., start_date, end_date)")
         if strategy_id and spec["level"] == "scenario":
             raise ToolError("bad_filter", f"{key} 是场景级指标，不能按 strategy_id 过滤", "改用 scenario 过滤")
 
@@ -286,10 +297,22 @@ class Platform:
             "hits": base(self.hits, "scenario", "strategy_id"),
             "manual_reviews": base(self.hits[self.hits.action == "manual_review"], "scenario", "strategy_id"),
             "enforcements": base(self.enforcements, "scenario", "primary_strategy_id"),
+            "financial_actions": base(self.enforcements[self.enforcements.financial_action].assign(
+                scenario=lambda x: x.financial_strategy_id.map({st["strategy_id"]: st["scenario"] for st in self.strategies})),
+                "scenario", "financial_strategy_id").rename(columns={"financial_strategy_id": "strategy_id"}),
             "appeals": base(self.appeals, "scenario", "strategy_id"),
             "overturns": base(self.appeals[self.appeals.result == "overturned"], "scenario", "strategy_id"),
         }
         def count(name, keys):
+            if name == "frozen_amount":
+                df = tables["financial_actions"]
+                ks = [k for k in keys if k in df.columns or k == "strategy_id"]
+                df = df.rename(columns={"primary_strategy_id": "strategy_id"})
+                ks = [k for k in ks if k in df.columns]
+                if not ks:
+                    return {(): int(df.frozen_amount.sum())}, []
+                g = df.groupby(ks).frozen_amount.sum()
+                return {(k if isinstance(k, tuple) else (k,)): int(v) for k, v in g.items()}, ks
             df = tables[name]
             ks = [k for k in keys if k in df.columns or k == "strategy_id"]
             if name == "enforcements" and "strategy_id" in ks:
@@ -339,7 +362,7 @@ class Platform:
             for k, sub in g:
                 k = k if isinstance(k, tuple) else (k,)
                 row = dict(zip(keys, k)) if keys else {}
-                row.update(value=round(sub.tp.mean(), 3), n=int(len(sub)), low_sample=len(sub) < 30)
+                row.update(value=round(float(sub.tp.mean()), 3), n=int(len(sub)), low_sample=len(sub) < 30)
                 out.append(row)
             return out
         # recall_est (scenario-level)
@@ -659,6 +682,40 @@ class Platform:
             raise ToolError("no_data", "没有匹配的公会")
         return {"ref_id": self._ref("get_guild_info"), "count": len(out), "guilds": sorted(out, key=lambda g: -g["sessions_28d"])[:50]}
 
+    def get_guild_health(self, start_date, end_date, guild_id=None, market=None):
+        """Guild (机构) health score: daily score/tier, deductions by strategy/scenario, thresholds. One guild, or a market ranking."""
+        start, end, _ = self._check_window(start_date, end_date)
+        guild_id = self._check_guild(guild_id)
+        markets = self._check_market(market)
+        h = self.guild_health[(self.guild_health.date >= start) & (self.guild_health.date <= end)]
+        d = self.guild_deductions[(self.guild_deductions.date >= start) & (self.guild_deductions.date <= end)]
+        if markets:
+            h = h[h.market.isin(markets)]
+        tiers = self.meta["guild_health_tiers"]
+        if guild_id:
+            hg = h[h.guild_id == guild_id].sort_values("date")
+            if hg.empty:
+                raise ToolError("no_data", f"{guild_id} 在窗口内没有健康分记录")
+            dg = d[d.guild_id == guild_id]
+            by_s = dg.groupby(["strategy_id", "scenario"]).agg(points=("points", "sum"), severe=("severe_enforcements", "sum")).reset_index()
+            by_s = by_s.sort_values("points", ascending=False)
+            last = hg.iloc[-1]
+            nxt = next(((thr, name) for thr, name in tiers if last.score > thr), None)
+            return {"ref_id": self._ref("get_guild_health"), "guild_id": guild_id, "guild": self.guild_by_id[guild_id],
+                    "window": [start, end], "rule": self.meta["guild_health_rule"], "tiers": tiers,
+                    "score_start": float(hg.iloc[0].score), "score_end": float(last.score), "min_score": float(hg.score.min()),
+                    "tier_now": last.tier, "next_threshold": {"score": nxt[0], "action": nxt[1]} if nxt else None,
+                    "total_deduction": round(float(hg.deduction.sum()), 2), "total_recovery": round(float(hg.recovery.sum()), 2),
+                    "daily": hg[["date", "sessions", "severe_enforcements", "expected_severe", "deduction", "recovery", "score", "tier"]].to_dict("records"),
+                    "deductions_by_strategy": [{"strategy_id": r.strategy_id, "scenario": r.scenario, "points": round(float(r.points), 2),
+                                                "severe_enforcements": int(r.severe)} for r in by_s.itertuples()],
+                    "deductions_by_date": dg.groupby("date").points.sum().round(2).to_dict()}
+        last = h[h.date == end].sort_values("score")
+        return {"ref_id": self._ref("get_guild_health"), "as_of": end, "market": markets or "ALL", "tiers": tiers,
+                "guilds": [{"guild_id": r.guild_id, "market": r.market, "name": self.guild_by_id[r.guild_id]["name"], "score": float(r.score),
+                            "tier": r.tier, "min_score_window": float(h[h.guild_id == r.guild_id].score.min())} for r in last.head(30).itertuples()],
+                "breached": [{"guild_id": r.guild_id, "market": r.market, "tier": r.tier, "score": float(r.score)} for r in last[last.tier != "正常"].itertuples()]}
+
     def draft_change(self, strategy_id, proposed_threshold, rationale, evidence_ids, proposed_action=None):
         """Create a change-request DRAFT (never applied). Risk tier decides who must approve."""
         strategy_id = self._check_strategy(strategy_id)
@@ -669,8 +726,11 @@ class Platform:
         act = proposed_action or st["action"]
         if act not in sev:
             raise ToolError("bad_action", f"未知动作 {act}", f"可选: {list(sev)}")
-        if sev[act] >= 4 and st["markets"] == ["ALL"]:
+        financial = act in self.meta["financial_actions"] or st["action"] in self.meta["financial_actions"]
+        if sev[act] >= 6 and st["markets"] == ["ALL"]:
             risk, approvers = "high", ["仅输出建议：需策略负责人 + 运营 + 治理质量评审会"]
+        elif financial:
+            risk, approvers = "high" if st["markets"] == ["ALL"] else "medium", ["策略负责人", "运营负责人", "结算/财务（资金侧动作，误杀需解冻）"]
         elif sev[act] >= 2:
             risk, approvers = "medium", ["策略负责人", "运营负责人"]
         else:
@@ -680,7 +740,7 @@ class Platform:
         draft = {"draft_id": f"CHG-{n:04d}", "status": "draft_pending_approval", "created_by": self.user,
                  "strategy_id": strategy_id, "current": {"threshold": st["threshold"], "action": st["action"], "version": st["version"]},
                  "proposed": {"threshold": proposed_threshold, "action": act}, "rationale": rationale,
-                 "evidence_ids": evidence_ids, "risk_level": risk, "required_approvals": approvers,
+                 "evidence_ids": evidence_ids, "risk_level": risk, "required_approvals": approvers, "financial_action": bool(financial),
                  "note": "草稿不会生效；提交需走现有变更审批流。"}
         with open(os.path.join(DRAFT_DIR, draft["draft_id"] + ".json"), "w") as f:
             json.dump(draft, f, ensure_ascii=False, indent=1)
@@ -712,7 +772,7 @@ _GID = {"type": ["string", "null"], "description": "公会编号，如 G-BR-003�
 
 TOOL_SPECS = [
     {"name": "query_metrics", "description": "按天或汇总查询治理指标（sessions/hits/manual_reviews/enforcements/appeals/overturns/reports/"
-     "hit_rate/enforcement_rate/appeal_rate/overturn_rate/overturn_per_enforcement/precision_est/recall_est）。可按 market/scenario/strategy_id/guild_id 分组。返回口径定义和 ref_id。"
+     "financial_actions/frozen_amount/hit_rate/enforcement_rate/appeal_rate/overturn_rate/overturn_per_enforcement/precision_est/recall_est）。可按 market/scenario/strategy_id/guild_id 分组。返回口径定义和 ref_id。"
      "中文别名可能对应多个口径，此时返回 ambiguous_metric 错误，需选定一个。",
      "input_schema": {**_p(metric={"type": "string"}, start_date=_DATE, end_date=_DATE, market=_MKT, scenario=_SCN,
                            strategy_id=_SID, guild_id=_GID,
@@ -748,6 +808,8 @@ TOOL_SPECS = [
      "input_schema": {**_p(session_id={"type": "string"}), "required": ["session_id"]}},
     {"name": "get_guild_info", "description": "查询公会信息（市场、规模、头部主播数、运营负责人）。",
      "input_schema": {**_p(guild_id=_GID, market=_MKT), "required": []}},
+    {"name": "get_guild_health", "description": "查询机构（公会）健康分：单个公会的逐日分数、档位、扣分来源（按策略/场景）；或某市场的公会健康分排名与越档清单。",
+     "input_schema": {**_p(start_date=_DATE, end_date=_DATE, guild_id=_GID, market=_MKT), "required": ["start_date", "end_date"]}},
     {"name": "draft_change", "description": "生成策略变更单草稿（只生成草稿，不提交、不生效），按影响面给出风险等级和审批人。",
      "input_schema": {**_p(strategy_id={"type": "string"}, proposed_threshold={"type": "number"}, rationale={"type": "string"},
                            evidence_ids={"type": "array", "items": {"type": "string"}}, proposed_action={"type": ["string", "null"]}),

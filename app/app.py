@@ -14,10 +14,10 @@ from agent.run import Copilot, render_card  # noqa: E402
 
 st.set_page_config(page_title="治理策略巡检与异常归因助手（原型）", page_icon="🛡️", layout="wide")
 
-EXAMPLES = ["美国昨天误杀申诉涨了，帮我看看", "ID 10月4日处罚量涨了", "巴西赌博命中最近下降了", "巴西刷量昨天处罚涨了", "GB 骚扰 10-13 人审量涨了",
+EXAMPLES = ["美国昨天误杀申诉涨了，帮我看看", "ID 10月4日处罚量涨了", "巴西赌博命中最近下降了", "巴西刷量昨天处罚涨了", "G-BR-002 健康分为什么掉了", "G-US-001 健康分最近为什么扣分", "GB 骚扰 10-13 人审量涨了",
             "印尼未成年 10-13 处罚上升", "肯尼亚昨天误杀申诉涨了", "US 昨天误杀率涨了", "S-104 有没有问题"]
 CAUSE_ZH = {"traffic_driven": "流量驱动", "model_drift_threshold": "模型升级后分数漂移、固定阈值失效", "strategy_change": "策略版本变更",
-            "new_strategy_launch": "新策略上线", "policy_update": "Policy 更新（预期内）", "recall_drop_evasion": "对抗绕过导致召回下降", "guild_concentration": "集中在单一公会（公会级问题）",
+            "new_strategy_launch": "新策略上线", "policy_update": "Policy 更新（预期内）", "recall_drop_evasion": "对抗绕过导致召回下降", "guild_concentration": "集中在单一公会（公会级问题）", "guild_health_real_violations": "机构扣分来自旗下主播真实违规", "guild_health_unfair_deduction": "机构扣分可能源于策略误杀", "guild_health_breach": "机构健康分越档",
             "strategy_overlap": "策略重叠", "zombie_strategy": "僵尸策略", "no_anomaly": "正常波动", "insufficient_data": "样本不足",
             "unexplained": "无法解释", "needs_clarification": "需要澄清", "case_reconstruction": "Case 还原"}
 

@@ -119,15 +119,51 @@
   "manual_review": 1,
   "limit_traffic": 2,
   "warn": 3,
-  "suspend_live": 4,
-  "ban_7d": 5
+  "delay_settlement": 4,
+  "freeze_earnings": 5,
+  "suspend_live": 6,
+  "disable_gifts": 7,
+  "ban_7d": 8
  },
  "enforcement_actions": [
   "ban_7d",
+  "delay_settlement",
+  "disable_gifts",
+  "freeze_earnings",
   "limit_traffic",
   "suspend_live",
   "warn"
  ],
+ "financial_actions": [
+  "delay_settlement",
+  "disable_gifts",
+  "freeze_earnings"
+ ],
+ "severe_actions": [
+  "ban_7d",
+  "disable_gifts",
+  "freeze_earnings",
+  "suspend_live"
+ ],
+ "guild_health_tiers": [
+  [
+   80,
+   "警告约谈"
+  ],
+  [
+   70,
+   "暂停结算"
+  ],
+  [
+   60,
+   "扣当月收益"
+  ],
+  [
+   50,
+   "清退公示"
+  ]
+ ],
+ "guild_health_rule": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
  "small_market_threshold_sessions_per_day": 150,
  "seed": 20261016
 }

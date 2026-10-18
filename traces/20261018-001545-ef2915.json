@@ -1,9 +1,9 @@
 {
- "run_id": "20261017-173533-ed2378",
+ "run_id": "20261018-001545-ef2915",
  "engine": "rules",
  "playbook": "attribution",
  "query": "美国昨天误杀申诉涨了，帮我看看",
- "latency_s": 0.197,
+ "latency_s": 0.3,
  "model_calls": 0,
  "usage": {
   "input_tokens": 0,
@@ -11,7 +11,7 @@
   "cache_read_input_tokens": 0
  },
  "cost_usd": 0.0,
- "tool_calls": 12,
+ "tool_calls": 13,
  "events": [
   {
    "t": 0.0,
@@ -29,11 +29,12 @@
     "strategy_id": null,
     "guild_id": null,
     "window_days": 1,
-    "raw": "美国昨天误杀申诉涨了，帮我看看"
+    "raw": "美国昨天误杀申诉涨了，帮我看看",
+    "guild_health": false
    }
   },
   {
-   "t": 0.014,
+   "t": 0.006,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -112,7 +113,7 @@
    }
   },
   {
-   "t": 0.017,
+   "t": 0.011,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -153,12 +154,12 @@
      },
      {
       "date": "2026-10-09",
-      "value": 30,
+      "value": 31,
       "low_sample": false
      },
      {
       "date": "2026-10-10",
-      "value": 35,
+      "value": 36,
       "low_sample": false
      },
      {
@@ -192,7 +193,7 @@
    }
   },
   {
-   "t": 0.021,
+   "t": 0.015,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -228,22 +229,22 @@
     "rows": [
      {
       "date": "2026-09-25",
-      "value": 37,
+      "value": 38,
       "low_sample": false
      },
      {
       "date": "2026-09-26",
-      "value": 49,
+      "value": 48,
       "low_sample": false
      },
      {
       "date": "2026-09-27",
-      "value": 55,
+      "value": 56,
       "low_sample": false
      },
      {
       "date": "2026-09-28",
-      "value": 43,
+      "value": 44,
       "low_sample": false
      },
      {
@@ -253,12 +254,12 @@
      },
      {
       "date": "2026-09-30",
-      "value": 40,
+      "value": 41,
       "low_sample": false
      },
      {
       "date": "2026-10-01",
-      "value": 40,
+      "value": 41,
       "low_sample": false
      },
      {
@@ -268,7 +269,7 @@
      },
      {
       "date": "2026-10-03",
-      "value": 45,
+      "value": 47,
       "low_sample": false
      },
      {
@@ -298,12 +299,12 @@
      },
      {
       "date": "2026-10-09",
-      "value": 30,
+      "value": 31,
       "low_sample": false
      },
      {
       "date": "2026-10-10",
-      "value": 35,
+      "value": 36,
       "low_sample": false
      },
      {
@@ -337,7 +338,7 @@
    }
   },
   {
-   "t": 0.025,
+   "t": 0.02,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -395,7 +396,7 @@
      {
       "date": "2026-10-08",
       "scenario": "hate_harassment",
-      "value": 5,
+      "value": 4,
       "low_sample": false
      },
      {
@@ -413,7 +414,7 @@
      {
       "date": "2026-10-08",
       "scenario": "spam_bot",
-      "value": 0,
+      "value": 1,
       "low_sample": false
      },
      {
@@ -461,7 +462,7 @@
      {
       "date": "2026-10-09",
       "scenario": "spam_bot",
-      "value": 1,
+      "value": 2,
       "low_sample": false
      },
      {
@@ -509,7 +510,7 @@
      {
       "date": "2026-10-10",
       "scenario": "spam_bot",
-      "value": 2,
+      "value": 3,
       "low_sample": false
      },
      {
@@ -779,11 +780,12 @@
     "strategy_id": null,
     "guild_id": null,
     "window_days": 1,
-    "raw": "美国昨天误杀申诉涨了，帮我看看"
+    "raw": "美国昨天误杀申诉涨了，帮我看看",
+    "guild_health": false
    }
   },
   {
-   "t": 0.002,
+   "t": 0.003,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -862,7 +864,7 @@
    }
   },
   {
-   "t": 0.005,
+   "t": 0.007,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -942,7 +944,7 @@
    }
   },
   {
-   "t": 0.017,
+   "t": 0.026,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1005,6 +1007,12 @@
       "low_sample": false
      },
      {
+      "date": "2026-10-08",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-09",
       "strategy_id": "S-102",
       "value": 3,
@@ -1029,6 +1037,12 @@
       "low_sample": false
      },
      {
+      "date": "2026-10-09",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-10",
       "strategy_id": "S-102",
       "value": 2,
@@ -1053,6 +1067,12 @@
       "low_sample": false
      },
      {
+      "date": "2026-10-10",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-11",
       "strategy_id": "S-102",
       "value": 2,
@@ -1077,6 +1097,12 @@
       "low_sample": false
      },
      {
+      "date": "2026-10-11",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-12",
       "strategy_id": "S-102",
       "value": 2,
@@ -1097,6 +1123,12 @@
      {
       "date": "2026-10-12",
       "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-12",
+      "strategy_id": "S-129",
       "value": 0,
       "low_sample": false
      },
@@ -1125,6 +1157,12 @@
       "low_sample": false
      },
      {
+      "date": "2026-10-13",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
+     },
+     {
       "date": "2026-10-14",
       "strategy_id": "S-102",
       "value": 16,
@@ -1145,6 +1183,12 @@
      {
       "date": "2026-10-14",
       "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "date": "2026-10-14",
+      "strategy_id": "S-129",
       "value": 0,
       "low_sample": false
      },
@@ -1171,14 +1215,20 @@
       "strategy_id": "S-122",
       "value": 0,
       "low_sample": false
+     },
+     {
+      "date": "2026-10-15",
+      "strategy_id": "S-129",
+      "value": 0,
+      "low_sample": false
      }
     ],
-    "row_count": 32,
+    "row_count": 40,
     "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
    }
   },
   {
-   "t": 0.017,
+   "t": 0.026,
    "kind": "tool_call",
    "tool": "get_change_log",
    "args": {
@@ -1219,7 +1269,7 @@
    }
   },
   {
-   "t": 0.114,
+   "t": 0.168,
    "kind": "tool_call",
    "tool": "score_drift",
    "args": {
@@ -1288,7 +1338,7 @@
      {
       "strategy_id": "S-114",
       "threshold": 0.6,
-      "action": "limit_traffic",
+      "action": "freeze_earnings",
       "share_above_baseline": 0.0716,
       "share_above_current": 0.1123,
       "ratio": 1.57
@@ -1300,21 +1350,29 @@
       "share_above_baseline": 0.0315,
       "share_above_current": 0.0694,
       "ratio": 2.2
+     },
+     {
+      "strategy_id": "S-129",
+      "threshold": 0.75,
+      "action": "freeze_earnings",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
      }
     ],
     "reported_population": {
      "note": "被举报为该场景的 session 的分数（召回侧信号）",
      "baseline": {
-      "n": 820,
-      "mean": 0.591,
-      "p50": 0.7418,
-      "p90": 0.9244,
-      "p99": 0.9795
+      "n": 835,
+      "mean": 0.5839,
+      "p50": 0.7357,
+      "p90": 0.9252,
+      "p99": 0.9793
      },
      "current": {
-      "n": 381,
-      "mean": 0.6875,
-      "p50": 0.8517,
+      "n": 363,
+      "mean": 0.7125,
+      "p50": 0.8824,
       "p90": 0.995,
       "p99": 0.995
      }
@@ -1322,7 +1380,7 @@
    }
   },
   {
-   "t": 0.179,
+   "t": 0.269,
    "kind": "tool_call",
    "tool": "sample_cases",
    "args": {
@@ -1356,7 +1414,7 @@
     "cases": [
      {
       "session_id": "LS-0094684",
-      "hit_id": "HT-0024061",
+      "hit_id": "HT-0024297",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
@@ -1368,7 +1426,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004760",
+       "appeal_id": "AP-004816",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1384,7 +1442,7 @@
      },
      {
       "session_id": "LS-0094782",
-      "hit_id": "HT-0024080",
+      "hit_id": "HT-0024316",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
@@ -1396,7 +1454,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004764",
+       "appeal_id": "AP-004820",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1412,7 +1470,7 @@
      },
      {
       "session_id": "LS-0097537",
-      "hit_id": "HT-0025052",
+      "hit_id": "HT-0025297",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
@@ -1424,7 +1482,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004938",
+       "appeal_id": "AP-004994",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1440,7 +1498,7 @@
      },
      {
       "session_id": "LS-0101100",
-      "hit_id": "HT-0026215",
+      "hit_id": "HT-0026469",
       "date": "2026-10-15",
       "market": "US",
       "host_tier": "mid",
@@ -1452,7 +1510,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005175",
+       "appeal_id": "AP-005231",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1468,7 +1526,7 @@
      },
      {
       "session_id": "LS-0101340",
-      "hit_id": "HT-0026283",
+      "hit_id": "HT-0026537",
       "date": "2026-10-15",
       "market": "US",
       "host_tier": "tail",
@@ -1480,7 +1538,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005194",
+       "appeal_id": "AP-005250",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1496,7 +1554,7 @@
      },
      {
       "session_id": "LS-0097767",
-      "hit_id": "HT-0025108",
+      "hit_id": "HT-0025355",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
@@ -1508,7 +1566,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004950",
+       "appeal_id": "AP-005006",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1524,7 +1582,7 @@
      },
      {
       "session_id": "LS-0093842",
-      "hit_id": "HT-0023823",
+      "hit_id": "HT-0024056",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
@@ -1536,7 +1594,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004702",
+       "appeal_id": "AP-004758",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1552,7 +1610,7 @@
      },
      {
       "session_id": "LS-0097400",
-      "hit_id": "HT-0025019",
+      "hit_id": "HT-0025264",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
@@ -1564,7 +1622,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004930",
+       "appeal_id": "AP-004986",
        "result": "overturned"
       },
       "qa_label": "counterfeit",
@@ -1580,7 +1638,7 @@
      },
      {
       "session_id": "LS-0094320",
-      "hit_id": "HT-0023960",
+      "hit_id": "HT-0024195",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "mid",
@@ -1592,7 +1650,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004740",
+       "appeal_id": "AP-004796",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1608,7 +1666,7 @@
      },
      {
       "session_id": "LS-0100891",
-      "hit_id": "HT-0026171",
+      "hit_id": "HT-0026425",
       "date": "2026-10-15",
       "market": "US",
       "host_tier": "mid",
@@ -1620,7 +1678,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005164",
+       "appeal_id": "AP-005220",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1636,7 +1694,7 @@
      },
      {
       "session_id": "LS-0098033",
-      "hit_id": "HT-0025194",
+      "hit_id": "HT-0025441",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
@@ -1648,7 +1706,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004969",
+       "appeal_id": "AP-005025",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1664,7 +1722,7 @@
      },
      {
       "session_id": "LS-0101661",
-      "hit_id": "HT-0026355",
+      "hit_id": "HT-0026612",
       "date": "2026-10-15",
       "market": "US",
       "host_tier": "tail",
@@ -1676,7 +1734,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-005207",
+       "appeal_id": "AP-005263",
        "result": "overturned"
       },
       "qa_label": "none",
@@ -1692,7 +1750,7 @@
      },
      {
       "session_id": "LS-0098293",
-      "hit_id": "HT-0025245",
+      "hit_id": "HT-0025492",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "tail",
@@ -1704,7 +1762,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004983",
+       "appeal_id": "AP-005039",
        "result": "overturned"
       },
       "qa_label": "none",
@@ -1720,7 +1778,7 @@
      },
      {
       "session_id": "LS-0097332",
-      "hit_id": "HT-0025008",
+      "hit_id": "HT-0025253",
       "date": "2026-10-14",
       "market": "US",
       "host_tier": "head",
@@ -1732,7 +1790,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004926",
+       "appeal_id": "AP-004982",
        "result": "overturned"
       },
       "qa_label": null,
@@ -1748,7 +1806,7 @@
      },
      {
       "session_id": "LS-0094813",
-      "hit_id": "HT-0024093",
+      "hit_id": "HT-0024329",
       "date": "2026-10-13",
       "market": "US",
       "host_tier": "tail",
@@ -1760,7 +1818,7 @@
       "model_version": "v4",
       "action": "suspend_live",
       "appeal": {
-       "appeal_id": "AP-004766",
+       "appeal_id": "AP-004822",
        "result": "overturned"
       },
       "qa_label": "none",
@@ -1778,7 +1836,7 @@
    }
   },
   {
-   "t": 0.184,
+   "t": 0.275,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1819,7 +1877,7 @@
    }
   },
   {
-   "t": 0.196,
+   "t": 0.293,
    "kind": "tool_call",
    "tool": "query_metrics",
    "args": {
@@ -1860,7 +1918,76 @@
    }
   },
   {
-   "t": 0.197,
+   "t": 0.298,
+   "kind": "tool_call",
+   "tool": "query_metrics",
+   "args": {
+    "metric": "frozen_amount",
+    "start_date": "2026-10-13",
+    "end_date": "2026-10-15",
+    "market": "US",
+    "scenario": "scam_fraud",
+    "group_by": [
+     "strategy_id"
+    ],
+    "granularity": "total"
+   },
+   "result_summary": {
+    "ref_id": "Q-0013"
+   },
+   "result": {
+    "ref_id": "Q-0013",
+    "metric": "frozen_amount",
+    "metric_zh": "冻结/延迟结算金额",
+    "metric_version": "v1",
+    "definition": "资金侧处置涉及的场次打赏金额合计（合成单位）。误杀时需解冻，是资金侧误杀代价的直接度量。",
+    "filters": {
+     "market": [
+      "US"
+     ],
+     "scenario": "scam_fraud",
+     "strategy_id": null,
+     "guild_id": null,
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "window_clipped": false
+    },
+    "group_by": [
+     "strategy_id"
+    ],
+    "rows": [
+     {
+      "strategy_id": "S-102",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-110",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-114",
+      "value": 2250,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-122",
+      "value": 0,
+      "low_sample": false
+     },
+     {
+      "strategy_id": "S-129",
+      "value": 2120,
+      "low_sample": false
+     }
+    ],
+    "row_count": 5,
+    "note": "low_sample=true 表示分母或样本量低于门槛，结论应降低置信度或升级。"
+   }
+  },
+  {
+   "t": 0.3,
    "kind": "guardrails",
    "needs_escalation": true,
    "reasons": [
@@ -1915,7 +2042,7 @@
     "ref_id": "Q-0004",
     "type": "drilldown",
     "metric": "overturns",
-    "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→14（增量份额 36%）；候选场景 ['scam_fraud']"
+    "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→14（增量份额 34%）；候选场景 ['scam_fraud']"
    },
    {
     "ref_id": "Q-0006",
@@ -1955,13 +2082,30 @@
     "ref_id": "Q-0010",
     "type": "cases",
     "what": "抽样 15 个 case，分数均值 0.921，含头部主播=True"
+   },
+   {
+    "ref_id": "Q-0013",
+    "type": "metric",
+    "metric": "frozen_amount",
+    "what": "同一模型的资金侧策略同期冻结/延迟结算金额: S-114=2250, S-129=2120"
    }
   ],
   "next_steps": [
    "请 策略-交易安全组 评估 S-102 阈值重校（可用 run_backtest 回放新阈值）",
-   "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校"
+   "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校",
+   "资金侧：同一模型的 S-114、S-129 受同样漂移影响，误杀场次的冻结收益需复核后解冻（走结算复核）"
   ],
-  "contributing_causes": [],
+  "contributing_causes": [
+   {
+    "type": "financial_exposure",
+    "strategy_ids": [
+     "S-114",
+     "S-129"
+    ],
+    "change_ids": [],
+    "explanation": "资金侧动作误杀的代价不可逆性更高，需同步处理"
+   }
+  ],
   "needs_escalation": true,
   "escalation_reasons": [
    "涉及头部主播，需策略 owner 人工确认"

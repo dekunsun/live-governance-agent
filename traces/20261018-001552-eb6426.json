@@ -1,0 +1,855 @@
+{
+ "run_id": "20261018-001552-eb6426",
+ "engine": "rules",
+ "playbook": "guild_health",
+ "query": "G-US-001 健康分最近为什么扣分",
+ "latency_s": 0.143,
+ "model_calls": 0,
+ "usage": {
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "cache_read_input_tokens": 0
+ },
+ "cost_usd": 0.0,
+ "tool_calls": 4,
+ "events": [
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "get_guild_health",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15",
+    "guild_id": "G-US-001"
+   },
+   "result_summary": {
+    "ref_id": "Q-0001"
+   },
+   "result": {
+    "ref_id": "Q-0001",
+    "guild_id": "G-US-001",
+    "guild": {
+     "guild_id": "G-US-001",
+     "market": "US",
+     "name": "美国公会-001",
+     "sessions_28d": 4660,
+     "head_hosts": 161,
+     "tier": "large",
+     "manager": "公会运营-US"
+    },
+    "window": [
+     "2026-10-02",
+     "2026-10-15"
+    ],
+    "rule": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+    "tiers": [
+     [
+      80,
+      "警告约谈"
+     ],
+     [
+      70,
+      "暂停结算"
+     ],
+     [
+      60,
+      "扣当月收益"
+     ],
+     [
+      50,
+      "清退公示"
+     ]
+    ],
+    "score_start": 100.0,
+    "score_end": 95.06,
+    "min_score": 94.56,
+    "tier_now": "正常",
+    "next_threshold": {
+     "score": 80,
+     "action": "警告约谈"
+    },
+    "total_deduction": 5.44,
+    "total_recovery": 6.5,
+    "daily": [
+     {
+      "date": "2026-10-02",
+      "sessions": 174,
+      "severe_enforcements": 18,
+      "expected_severe": 23.95,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-03",
+      "sessions": 168,
+      "severe_enforcements": 22,
+      "expected_severe": 23.13,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-04",
+      "sessions": 205,
+      "severe_enforcements": 19,
+      "expected_severe": 28.22,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-05",
+      "sessions": 168,
+      "severe_enforcements": 20,
+      "expected_severe": 23.13,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-06",
+      "sessions": 160,
+      "severe_enforcements": 8,
+      "expected_severe": 22.03,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-07",
+      "sessions": 184,
+      "severe_enforcements": 20,
+      "expected_severe": 25.33,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-08",
+      "sessions": 166,
+      "severe_enforcements": 11,
+      "expected_severe": 22.85,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-09",
+      "sessions": 159,
+      "severe_enforcements": 20,
+      "expected_severe": 21.89,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-10",
+      "sessions": 196,
+      "severe_enforcements": 26,
+      "expected_severe": 26.98,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-11",
+      "sessions": 196,
+      "severe_enforcements": 22,
+      "expected_severe": 26.98,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-12",
+      "sessions": 149,
+      "severe_enforcements": 16,
+      "expected_severe": 20.51,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-13",
+      "sessions": 143,
+      "severe_enforcements": 17,
+      "expected_severe": 19.69,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 100.0,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-14",
+      "sessions": 168,
+      "severe_enforcements": 34,
+      "expected_severe": 23.13,
+      "deduction": 5.44,
+      "recovery": 0.0,
+      "score": 94.56,
+      "tier": "正常"
+     },
+     {
+      "date": "2026-10-15",
+      "sessions": 163,
+      "severe_enforcements": 21,
+      "expected_severe": 22.44,
+      "deduction": 0.0,
+      "recovery": 0.5,
+      "score": 95.06,
+      "tier": "正常"
+     }
+    ],
+    "deductions_by_strategy": [
+     {
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "points": 2.4,
+      "severe_enforcements": 8
+     },
+     {
+      "strategy_id": "S-105",
+      "scenario": "minor_safety",
+      "points": 1.56,
+      "severe_enforcements": 11
+     },
+     {
+      "strategy_id": "S-118",
+      "scenario": "adult_content",
+      "points": 0.64,
+      "severe_enforcements": 2
+     },
+     {
+      "strategy_id": "S-117",
+      "scenario": "spam_bot",
+      "points": 0.46,
+      "severe_enforcements": 3
+     },
+     {
+      "strategy_id": "S-115",
+      "scenario": "gambling",
+      "points": 0.38,
+      "severe_enforcements": 4
+     },
+     {
+      "strategy_id": "S-101",
+      "scenario": "adult_content",
+      "points": 0.02,
+      "severe_enforcements": 4
+     }
+    ],
+    "deductions_by_date": {
+     "2026-10-14": 5.44
+    }
+   }
+  },
+  {
+   "t": 0.025,
+   "kind": "tool_call",
+   "tool": "get_change_log",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0002"
+   },
+   "result": {
+    "ref_id": "Q-0002",
+    "count": 5,
+    "changes": [
+     {
+      "change_id": "C-009",
+      "date": "2026-10-05",
+      "type": "model_update",
+      "target": "model_spam_bot",
+      "scenario": "spam_bot",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_spam_bot",
+      "summary": "model_spam_bot v2 -> v2.1：线上推理热修复，分数分布无变化",
+      "owner": "算法-生态"
+     },
+     {
+      "change_id": "C-003",
+      "date": "2026-10-10",
+      "type": "policy_update",
+      "target": "P-7",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": null,
+      "model": null,
+      "summary": "Policy P-7：GB 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值",
+      "owner": "T&S Policy"
+     },
+     {
+      "change_id": "C-004",
+      "date": "2026-10-11",
+      "type": "strategy_update",
+      "target": "S-112",
+      "scenario": "hate_harassment",
+      "markets": [
+       "GB"
+      ],
+      "strategy_id": "S-112",
+      "model": null,
+      "summary": "S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升",
+      "owner": "策略-社区组"
+     },
+     {
+      "change_id": "C-005",
+      "date": "2026-10-12",
+      "type": "strategy_launch",
+      "target": "S-126",
+      "scenario": "minor_safety",
+      "markets": [
+       "ID"
+      ],
+      "strategy_id": "S-126",
+      "model": null,
+      "summary": "S-126 上线：ID 未成年人中分直接下播（专项）",
+      "owner": "策略-未成年组"
+     },
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "types": [
+     "strategy_launch",
+     "strategy_update",
+     "model_update",
+     "policy_update",
+     "feature_pipeline"
+    ]
+   }
+  },
+  {
+   "t": 0.093,
+   "kind": "tool_call",
+   "tool": "score_drift",
+   "args": {
+    "scenario": "scam_fraud",
+    "baseline_start": "2026-10-06",
+    "baseline_end": "2026-10-12",
+    "current_start": "2026-10-13",
+    "current_end": "2026-10-15"
+   },
+   "result_summary": {
+    "ref_id": "Q-0003"
+   },
+   "result": {
+    "ref_id": "Q-0003",
+    "model": "model_scam_fraud",
+    "market": "ALL",
+    "baseline": {
+     "window": [
+      "2026-10-06",
+      "2026-10-12"
+     ],
+     "model_versions": [
+      "v3"
+     ],
+     "n": 25796,
+     "mean": 0.1802,
+     "p50": 0.1096,
+     "p90": 0.4952,
+     "p99": 0.8743
+    },
+    "current": {
+     "window": [
+      "2026-10-13",
+      "2026-10-15"
+     ],
+     "model_versions": [
+      "v4"
+     ],
+     "n": 10715,
+     "mean": 0.3277,
+     "p50": 0.2575,
+     "p90": 0.64,
+     "p99": 0.995
+    },
+    "psi": 7.6485,
+    "drift_flag": true,
+    "psi_note": "PSI < 0.1 稳定；0.1~0.25 轻微漂移；> 0.25 显著漂移",
+    "share_above_thresholds": [
+     {
+      "strategy_id": "S-102",
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "share_above_baseline": 0.0133,
+      "share_above_current": 0.0434,
+      "ratio": 3.26
+     },
+     {
+      "strategy_id": "S-110",
+      "threshold": 0.7,
+      "action": "manual_review",
+      "share_above_baseline": 0.0436,
+      "share_above_current": 0.082,
+      "ratio": 1.88
+     },
+     {
+      "strategy_id": "S-114",
+      "threshold": 0.6,
+      "action": "freeze_earnings",
+      "share_above_baseline": 0.0716,
+      "share_above_current": 0.1123,
+      "ratio": 1.57
+     },
+     {
+      "strategy_id": "S-122",
+      "threshold": 0.75,
+      "action": "manual_review",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
+     },
+     {
+      "strategy_id": "S-129",
+      "threshold": 0.75,
+      "action": "freeze_earnings",
+      "share_above_baseline": 0.0315,
+      "share_above_current": 0.0694,
+      "ratio": 2.2
+     }
+    ],
+    "reported_population": {
+     "note": "被举报为该场景的 session 的分数（召回侧信号）",
+     "baseline": {
+      "n": 835,
+      "mean": 0.5839,
+      "p50": 0.7357,
+      "p90": 0.9252,
+      "p99": 0.9793
+     },
+     "current": {
+      "n": 363,
+      "mean": 0.7125,
+      "p50": 0.8824,
+      "p90": 0.995,
+      "p99": 0.995
+     }
+    }
+   }
+  },
+  {
+   "t": 0.142,
+   "kind": "tool_call",
+   "tool": "sample_cases",
+   "args": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-15",
+    "strategy_id": "S-102",
+    "guild_id": "G-US-001",
+    "n": 10
+   },
+   "result_summary": {
+    "ref_id": "Q-0004"
+   },
+   "result": {
+    "ref_id": "Q-0004",
+    "population": 34,
+    "n": 10,
+    "contains_head_host": false,
+    "guild_share_in_population": {
+     "G-US-001": 1.0
+    },
+    "score_summary": {
+     "mean": 0.914,
+     "p50": 0.909,
+     "min": 0.851
+    },
+    "cases": [
+     {
+      "session_id": "LS-0055402",
+      "hit_id": "HT-0014273",
+      "date": "2026-10-03",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9298,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "scam_fraud",
+      "features": {
+       "account_age_days": 11,
+       "viewers_peak": 106,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0094102",
+      "hit_id": "HT-0024135",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9141,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004778",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 155,
+       "viewers_peak": 106,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0052319",
+      "hit_id": "HT-0013484",
+      "date": "2026-10-02",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.933,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "scam_fraud",
+      "features": {
+       "account_age_days": 9,
+       "viewers_peak": 414,
+       "gift_amount": 1045,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 1
+      }
+     },
+     {
+      "session_id": "LS-0074844",
+      "hit_id": "HT-0019192",
+      "date": "2026-10-08",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9147,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-003797",
+       "result": "overturned"
+      },
+      "qa_label": "none",
+      "features": {
+       "account_age_days": 141,
+       "viewers_peak": 189,
+       "gift_amount": 5,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0082130",
+      "hit_id": "HT-0021020",
+      "date": "2026-10-10",
+      "market": "US",
+      "host_tier": "mid",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8994,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-004131",
+       "result": "overturned"
+      },
+      "qa_label": null,
+      "features": {
+       "account_age_days": 410,
+       "viewers_peak": 135,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0060705",
+      "hit_id": "HT-0015655",
+      "date": "2026-10-04",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.8656,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "scam_fraud",
+      "features": {
+       "account_age_days": 12,
+       "viewers_peak": 33,
+       "gift_amount": 56,
+       "report_count": 1,
+       "external_link_flag": 1,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0097402",
+      "hit_id": "HT-0025268",
+      "date": "2026-10-14",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9015,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": null,
+      "features": {
+       "account_age_days": 1043,
+       "viewers_peak": 57,
+       "gift_amount": 86,
+       "report_count": 0,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0091072",
+      "hit_id": "HT-0023236",
+      "date": "2026-10-12",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9135,
+      "threshold": 0.85,
+      "model_version": "v3",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "scam_fraud",
+      "features": {
+       "account_age_days": 8,
+       "viewers_peak": 10,
+       "gift_amount": 0,
+       "report_count": 1,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     },
+     {
+      "session_id": "LS-0101281",
+      "hit_id": "HT-0026521",
+      "date": "2026-10-15",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.9325,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": {
+       "appeal_id": "AP-005247",
+       "result": "upheld"
+      },
+      "qa_label": "counterfeit",
+      "features": {
+       "account_age_days": 2053,
+       "viewers_peak": 1311,
+       "gift_amount": 0,
+       "report_count": 2,
+       "external_link_flag": 0,
+       "new_device_flag": 0,
+       "keyword_hits": 1
+      }
+     },
+     {
+      "session_id": "LS-0093914",
+      "hit_id": "HT-0024088",
+      "date": "2026-10-13",
+      "market": "US",
+      "host_tier": "tail",
+      "guild_id": "G-US-001",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "score": 0.995,
+      "threshold": 0.85,
+      "model_version": "v4",
+      "action": "suspend_live",
+      "appeal": null,
+      "qa_label": "scam_fraud",
+      "features": {
+       "account_age_days": 11,
+       "viewers_peak": 39,
+       "gift_amount": 0,
+       "report_count": 0,
+       "external_link_flag": 1,
+       "new_device_flag": 0,
+       "keyword_hits": 0
+      }
+     }
+    ]
+   }
+  },
+  {
+   "t": 0.143,
+   "kind": "guardrails",
+   "needs_escalation": true,
+   "reasons": [
+    "机构健康分扣分可能源于策略误杀，涉及公会级处置与分数回补，需公会治理 + 策略 owner 共同确认"
+   ],
+   "unknown_references": []
+  }
+ ],
+ "card": {
+  "card_type": "attribution",
+  "query": "G-US-001 健康分最近为什么扣分",
+  "scope": {
+   "guild_id": "G-US-001",
+   "date": "2026-10-15",
+   "window": [
+    "2026-10-02",
+    "2026-10-15"
+   ],
+   "low_sample": false
+  },
+  "metric": {
+   "key": "guild_health_score",
+   "definition": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+   "version": "v1",
+   "note": "机构健康分（合成规则）"
+  },
+  "evidence": [
+   {
+    "ref_id": "Q-0001",
+    "type": "guild_health",
+    "what": "G-US-001 健康分 100.0→95.06（正常），窗口扣分 5.44，最大扣分日 2026-10-14"
+   },
+   {
+    "ref_id": "Q-0001",
+    "type": "drilldown",
+    "what": "扣分来源（策略, 分值）: S-102 2.4, S-105 1.56, S-118 0.64, S-117 0.46"
+   },
+   {
+    "ref_id": "Q-0004",
+    "type": "cases",
+    "what": "G-US-001 被 S-102 命中的 case 抽样 10 个，含头部主播=False"
+   },
+   {
+    "ref_id": "Q-0002",
+    "type": "change_log",
+    "what": "C-006 2026-10-13 model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移"
+   },
+   {
+    "ref_id": "Q-0003",
+    "type": "score_drift",
+    "what": "model_scam_fraud PSI=7.6485，超过 S-102 阈值的比例 ×3.26"
+   }
+  ],
+  "next_steps": [
+   "策略侧：S-102 阈值重校（见归因卡片）",
+   "公会侧：冻结 G-US-001 的档位处置直到复核完成；复核后回补误扣分数"
+  ],
+  "contributing_causes": [],
+  "needs_escalation": true,
+  "escalation_reasons": [
+   "机构健康分扣分可能源于策略误杀，涉及公会级处置与分数回补，需公会治理 + 策略 owner 共同确认"
+  ],
+  "platform_links": [
+   "platform://guild/G-US-001/health"
+  ],
+  "sample_case_ids": [
+   "LS-0055402",
+   "LS-0094102",
+   "LS-0052319",
+   "LS-0074844",
+   "LS-0082130",
+   "LS-0060705",
+   "LS-0097402",
+   "LS-0091072",
+   "LS-0101281",
+   "LS-0093914"
+  ],
+  "primary_cause": {
+   "type": "guild_health_unfair_deduction",
+   "strategy_ids": [
+    "S-102"
+   ],
+   "change_ids": [
+    "C-006"
+   ],
+   "guild_ids": [
+    "G-US-001"
+   ],
+   "explanation": "扣分 44% 来自 S-102，而该策略正受 C-006 模型漂移影响（命中 ×3.26），扣分可能不反映真实违规"
+  },
+  "conclusion": "G-US-001 健康分下降（100.0→95.06）主要由 S-102 的严重处置驱动；该策略在 2026-10-13 模型升级后命中 ×3.26，扣分可能不合理，建议暂缓按健康分处置并在阈值重校后回补分数",
+  "confidence": "medium",
+  "validation": {
+   "unknown_references": [],
+   "passed": true
+  }
+ }
+}
