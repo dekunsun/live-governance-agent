@@ -25,6 +25,14 @@ live-governance-agent/
 
 > 目录用 `gov_platform/` 而不是 PRD 里写的 `platform/`，因为 `platform` 是 Python 标准库模块名，会被遮蔽。
 
+## 一图看懂
+
+策略 owner 一句话提问，助手调用治理平台查数、下钻、查变更，给出结论卡片；人可以确认、修改或推翻，修改和确认都会记成训练样本。[动画版（28 秒）](docs/media/assistant-flow.mp4)
+
+![助手流程：三轮对话后人确认](docs/images/flow-3-confirm.png)
+
+更多分步截图见 [PRD 的交互设计一节](docs/PRD.md#交互设计)。
+
 ## 运行
 
 ```bash
