@@ -70,14 +70,19 @@ def main():
     ap.add_argument("--rules", action="store_true")
     ap.add_argument("--split", default="test")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--harness", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--threads", type=int, default=4)
     a = ap.parse_args()
+    episode = run_episode
+    if a.harness == "v2":
+        from posttrain.harness_v2 import run_episode as episode
     tasks = [json.loads(l) for l in open(os.path.join(RUNS, f"tasks_{a.split}.jsonl"))]
     if a.limit:
         tasks = tasks[:a.limit]
     policy = None
     if not a.rules:
         from posttrain.policy import QwenPolicy, load
-        tok, model = load(a.adapter)
+        tok, model = load(a.adapter, threads=a.threads)
         policy = QwenPolicy(tok, model)
     platforms = {}
     out_path = os.path.join(RUNS, f"eval_{a.name}_{a.split}.jsonl")
@@ -92,7 +97,7 @@ def main():
                 continue
             p = platforms.get(t["world"]) or platforms.setdefault(t["world"], Platform(data_dir=os.path.join(WORLDS, t["world"])))
             t0 = time.time()
-            r = rules_episode(p, t) if a.rules else run_episode(policy, p, t)
+            r = rules_episode(p, t) if a.rules else episode(policy, p, t)
             r["latency_s"] = round(time.time() - t0, 1)
             r["gen_tokens"] = getattr(policy, "gen_tokens", 0)
             rows.append(r)

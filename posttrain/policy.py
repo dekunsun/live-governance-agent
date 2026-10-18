@@ -51,9 +51,10 @@ class QwenPolicy:
         self.gen_tokens += len(out)
         return self.tok.decode(out, skip_special_tokens=True)
 
-    def start(self, query):
+    def start(self, query, raw=False):
+        """raw=True: `query` is already the full rendered prefix (used by harness v2)."""
         self.cache, self.length, self.gen_tokens = DynamicCache(), 0, 0
-        return self._generate(self.tok(prefix_text(self.tok, query)).input_ids)
+        return self._generate(self.tok(query if raw else prefix_text(self.tok, query)).input_ids)
 
     def continue_(self, text):
         return self._generate(self.tok(text).input_ids)
