@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Option A pipeline (CPU): base eval -> LoRA SFT -> SFT eval (held-out) -> SFT eval on 20 seen train tasks.
-# Idempotent: a finished stage leaves a .done_<stage> marker and is skipped; eval and training resume where they stopped,
+# Idempotent: a finished stage leaves a .done_<stage> marker and is skipped; eval and training resume where they stopped
+# (training checkpoints after every optimizer step),
 # so after a container restart just run this script again.
 set -u
 cd "$(dirname "$0")/.."

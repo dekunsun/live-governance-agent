@@ -44,7 +44,7 @@ def main():
     ap.add_argument("--max_steps", type=int, default=0, help="optimizer steps cap (timing runs)")
     ap.add_argument("--grad_ckpt", type=int, default=1)
     ap.add_argument("--threads", type=int, default=4)
-    ap.add_argument("--ckpt_every", type=int, default=5, help="save a resumable checkpoint every N optimizer steps")
+    ap.add_argument("--ckpt_every", type=int, default=1, help="save a resumable checkpoint every N optimizer steps")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
     torch.manual_seed(0); random.seed(0)
