@@ -39,8 +39,29 @@ FIX = {
 }
 
 
+def residual_error(r, task):
+    """Harness v2 already repairs arguments and gates the submission, so classify what is LEFT at the end."""
+    s, crit = r.get("submit"), r["criteria"]
+    n_asst = sum(1 for m in r["transcript"] if m["role"] == "assistant")
+    if s is None:
+        return "H-format", n_asst, f"没有提交（门控退回 {r.get('gate_rejects')}，格式错误 {r.get('format_errors')}）"
+    if s.get("cause_type") not in CAUSES:
+        return "H-enum", n_asst, f"cause_type={s.get('cause_type')!r}（门控退回两次后仍不合法）"
+    if crit.get("checked_traffic_first") is False:
+        return "H-premature", n_asst, "门控退回后仍未查流量"
+    if r.get("unknown_refs"):
+        return "H-ids", n_asst, f"编造编号 {r['unknown_refs'][:3]}"
+    if not crit.get("cause_correct"):
+        return "T-cause", n_asst, f"提交 {s.get('cause_type')}，应为 {task['expected']['accepted_cause_types'][0]}"
+    if crit.get("escalation") is False:
+        return "T-escalation", n_asst, f"needs_escalation={s.get('needs_escalation')}"
+    return "T-cite", n_asst, f"缺 {[k for k in ('strategy_ids', 'change_ids', 'guild_ids') if crit.get(k) is False]}"
+
+
 def first_error(r, task):
     """Walk the episode in order and return (label, step_index, snippet)."""
+    if r.get("harness_version") == "v2":
+        return residual_error(r, task)
     tr, calls = r["transcript"], r["calls"]
     errs, first_arg = collections.Counter(), None
     k, step = 0, 0
@@ -121,12 +142,17 @@ def main():
            "first_error": dict(firsts), "any_issue": dict(multi),
            "harness_first": sum(v for k, v in firsts.items() if LABELS[k][0] == "harness"),
            "training_first": sum(v for k, v in firsts.items() if LABELS[k][0] == "training"),
-           "examples": {k: v[:3] for k, v in examples.items()}, "labels": LABELS, "fix": FIX}
+           "examples": {k: v[:3] for k, v in examples.items()}, "labels": LABELS, "fix": FIX,
+           "gate_rejects": dict(sum((collections.Counter(r.get("gate_rejects") or {}) for r in rows), collections.Counter())),
+           "normalized_calls": sum(1 for r in rows for c in r["calls"] if c.get("normalized")),
+           "blocked_repeats": sum(r.get("blocked_repeats", 0) for r in rows)}
     json.dump(out, open(os.path.join(R, f"triage_{a.name}_{a.split}.json"), "w"), ensure_ascii=False, indent=1)
     print(f"{a.name}/{a.split}: {out['passed']}/{out['n']} passed; failed {out['failed']}: harness-first {out['harness_first']}, training-first {out['training_first']}")
     for k, v in firsts.most_common():
         print(f"  {k:13s} {v:3d}  {LABELS[k][1]}")
     print("any-issue (multi-label):", dict(multi.most_common()))
+    if out["gate_rejects"] or out["normalized_calls"]:
+        print("v2 gate rejects:", out["gate_rejects"], "normalized calls:", out["normalized_calls"], "blocked repeats:", out["blocked_repeats"])
 
 
 if __name__ == "__main__":
