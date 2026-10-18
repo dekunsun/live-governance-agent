@@ -74,15 +74,25 @@ def main():
     ap.add_argument("--train", type=int, default=16)
     ap.add_argument("--test", type=int, default=6)
     ap.add_argument("--jobs", type=int, default=4)
+    ap.add_argument("--extra-test", type=int, default=0,
+                    help="append N more TEST worlds after the existing ones (same rng stream, existing worlds untouched)")
     a = ap.parse_args()
     rng = random.Random(7)
     specs = [make_spec(i, "train", rng) for i in range(a.train)] + \
             [make_spec(a.train + j, "test", rng) for j in range(a.test)]
+    if a.extra_test:
+        idx_path = os.path.join(WORLD_DIR, "index.json")
+        existing = json.load(open(idx_path))
+        assert [s["world_id"] for s in existing] == [s["world_id"] for s in specs], "index.json does not match the base spec stream"
+        n0 = len(specs)
+        specs = [make_spec(n0 + j, "test", rng) for j in range(a.extra_test)]
+        print(f"appending {len(specs)} test worlds: {specs[0]['world_id']}..{specs[-1]['world_id']}", flush=True)
     with ThreadPoolExecutor(a.jobs) as ex:
         for wid, line in ex.map(build, specs):
             print(wid, line, flush=True)
+    index = (json.load(open(os.path.join(WORLD_DIR, "index.json"))) if a.extra_test else []) + [{k: v for k, v in s.items()} for s in specs]
     with open(os.path.join(WORLD_DIR, "index.json"), "w") as f:
-        json.dump([{k: v for k, v in s.items()} for s in specs], f, ensure_ascii=False, indent=1)
+        json.dump(index, f, ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":
