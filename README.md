@@ -3,9 +3,11 @@
 对应 PRD《治理策略巡检与异常归因助手（假设版）》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
 **异常归因**、**策略健康巡检**、**Case 证据包**，带评估报告。全部数据合成，不含任何真实内部信息。
 
+给非技术读者：模拟的策略库和数据各有一份白话说明，见 [docs/simulated-strategy-library.md](docs/simulated-strategy-library.md) 和 [docs/simulated-data.md](docs/simulated-data.md)。
+
 ```
 governance-copilot/
-  data/generate.py          合成数据 + 埋入的 8 个问题（见文件头注释）
+  data/generate.py          合成数据 + 埋入的 11 个问题（见文件头注释）
   data/out/                 生成结果（sessions / hit_logs / appeals / qa_samples / metrics / strategies / change_log）
   gov_platform/tools.py     模拟平台工具（10 个读工具 + 1 个只出草稿的写工具），JSON schema，返回带 ref_id
   gov_platform/validator.py 校验层：agent 引用的策略/变更/指标/session id 必须真实存在
@@ -16,6 +18,8 @@ governance-copilot/
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
   docs/PRD.md               产品需求文档（假设版）
+  docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
+  posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
 ```
 
