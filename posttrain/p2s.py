@@ -435,10 +435,105 @@ def reference(task, world):
     return steps, sub
 
 
+# ----------------------------------------------------------------------------- harness v2 (fixes from the base-model triage)
+SID_RE = __import__("re").compile(r"^S-\d{3}$")
+SYSTEM_V2 = SYSTEM + """
+参数约定: strategy_id 只能是工具返回过的 S-xxx 编号（新建填 NEW），不要填动作名或 policy 编号；get_strategy_config 可用 action 过滤（例如 action=manual_review 找转人审策略）。
+分数线是 0~1 之间的小数（例如 0.65）；人审量上限、覆盖率百分比都不是分数线。backtest_rule 的 thresholds 是数字列表，例如 [0.6, 0.65, 0.7]。"""
+
+
+def prefix_text_v2(tok, query):
+    msgs = [{"role": "system", "content": SYSTEM_V2}, {"role": "user", "content": query}]
+    tools = json.loads(json.dumps(TOOLS))
+    tools[0]["function"]["parameters"]["properties"]["action"] = {"type": "string"}
+    return tok.apply_chat_template(msgs, tools=tools, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+
+
+def _num_list(v):
+    """Thresholds the model wrote as objects, strings or percentages -> floats in (0, 1)."""
+    out, notes = [], []
+    for x in (v if isinstance(v, list) else [v]):
+        if isinstance(x, dict):
+            x = x.get("threshold", next((y for y in x.values() if isinstance(y, (int, float))), None))
+        try:
+            f = float(x)
+        except (TypeError, ValueError):
+            continue
+        if 1 < f <= 100:
+            notes.append(f"{x}→{f / 100:g}")
+            f /= 100
+        if 0 < f < 1:
+            out.append(f)
+    return out, notes
+
+
+class EnvV2(Env):
+    def __init__(self, world):
+        super().__init__(world)
+        self.notes = []
+
+    def step(self, name, args):
+        args, notes = dict(args), []
+        sid = args.get("strategy_id")
+        if sid is not None and not SID_RE.match(str(sid)):
+            args.pop("strategy_id")
+            if name == "get_strategy_config" and sid in ACT_ZH:
+                args["action"] = sid
+                notes.append(f"strategy_id={sid} 是动作名，已改为 action 过滤")
+            else:
+                notes.append(f"strategy_id={sid} 不是策略编号，已忽略")
+        if name == "backtest_rule" and "thresholds" in args:
+            nums, n2 = _num_list(args["thresholds"])
+            if nums != args["thresholds"]:
+                notes.append("分数线列表已规整为数字" + (f"（{'，'.join(n2)}）" if n2 else ""))
+            args["thresholds"] = nums or args["thresholds"]
+        obs = super().step(name, args)
+        if notes:
+            self.notes += notes
+            obs = "（已自动修正：" + "；".join(notes) + "）" + obs
+        return obs
+
+    def _get_strategy_config(self, scenario=None, market=None, strategy_id=None, action=None):
+        rows = [s for s in self.w.strategies.values() if s["status"] == "active"
+                and (not scenario or s["scenario"] == scenario) and (not strategy_id or s["strategy_id"] == strategy_id)
+                and (not action or s["action"] == action)]
+        narrowed = [s for s in rows if not market or s["markets"] == ["ALL"] or market in s["markets"]]
+        if not rows:
+            raise ValueError("not_found: 没有匹配的策略；可以只按 scenario 查，或 scenario + action")
+        self.seen.update(s["strategy_id"] for s in (narrowed or rows))
+        note = "" if narrowed else f"（{market} 没有专属策略，以下是该场景的全部策略）"
+        return note + "; ".join(f"{s['strategy_id']} {SCN_ZH[s['scenario']]} 动作 {s['action']} 分数线 {s['threshold']} 附加 {_extra_zh(s['extra_conditions'])} "
+                                f"市场 {','.join(s['markets'])}" for s in (narrowed or rows)[:8])
+
+
+def gate_v2(sub, env, rejects):
+    sub, dec = dict(sub), sub.get("decision")
+    if dec == "no_change":
+        return None, sub   # nothing else to check: the other fields are ignored
+    thr = sub.get("threshold")
+    if thr is not None:
+        try:
+            if float(thr) >= 1:
+                if rejects.get("threshold", 0) < 2:
+                    rejects["threshold"] = rejects.get("threshold", 0) + 1
+                    return f"提交被退回（threshold）: 分数线 {thr} 不在 0~1 之间。分数线是像 0.65 这样的小数；人审量上限和百分比不是分数线。", sub
+        except (TypeError, ValueError):
+            pass
+    sid = sub.get("strategy_id")
+    if dec == "change" and sid not in env.seen:
+        if rejects.get("ids", 0) < 2:
+            rejects["ids"] = rejects.get("ids", 0) + 1
+            seen = ", ".join(sorted(env.seen)) or "无（先用 get_strategy_config 查）"
+            return f"提交被退回（ids）: strategy_id={sid!r} 没有在工具结果里出现过。已出现过的编号: {seen}。", sub
+    return gate(sub, env, rejects), sub
+
+
 # ----------------------------------------------------------------------------- episode loop
-def run_episode(policy, world, task, max_turns=10):
-    env = Env(world)
-    out = policy.start(prefix_text(policy.tok, task["query"]) if policy.tok else task["query"], raw=True)
+def run_episode(policy, world, task, max_turns=10, harness="v1"):
+    v2 = harness == "v2"
+    env = EnvV2(world) if v2 else Env(world)
+    pre = (prefix_text_v2 if v2 else prefix_text)
+    out = policy.start(pre(policy.tok, task["query"]) if policy.tok else task["query"], raw=True)
     transcript = [{"role": "assistant", "text": out}]
     submit, fmt_err, rejects = None, 0, {}
     for turn in range(max_turns):
@@ -448,7 +543,7 @@ def run_episode(policy, world, task, max_turns=10):
             obs = (f"格式错误 {err}：工具名只能是 {', '.join(TOOL_NAMES)} 或 submit_change。" if err.startswith("bad_tool")
                    else "格式错误：请用 <tool_call>{\"name\": ..., \"arguments\": {...}}</tool_call> 调用一个工具。")
         elif call[0] == "submit_change":
-            msg = gate(call[1], env, rejects)
+            msg = gate_v2(call[1], env, rejects)[0] if v2 else gate(call[1], env, rejects)
             if msg is None:
                 submit = call[1]
                 break
@@ -461,8 +556,8 @@ def run_episode(policy, world, task, max_turns=10):
         out = policy.continue_(obs_segment(obs))
         transcript.append({"role": "assistant", "text": out})
     g = grade(task, submit, env.calls, world)
-    return {"task_id": task["task_id"], "harness_version": HARNESS_VERSION, "submit": submit, "calls": env.calls, "transcript": transcript,
-            "gate_rejects": rejects, "format_errors": fmt_err, **g}
+    return {"task_id": task["task_id"], "harness_version": "p2s-v2" if v2 else HARNESS_VERSION, "submit": submit, "calls": env.calls,
+            "transcript": transcript, "gate_rejects": rejects, "format_errors": fmt_err, "normalizations": getattr(env, "notes", []), **g}
 
 
 class Replay:
@@ -527,7 +622,7 @@ def cmd_check(a):
     for t in tasks:
         w = worlds.get(t["world"]) or worlds.setdefault(t["world"], World(t["world"]))
         turns, _ = teacher_turns(t, w)
-        r = run_episode(Replay([x[0] for x in turns]), w, t)
+        r = run_episode(Replay([x[0] for x in turns]), w, t, harness=a.harness)
         ok += r["pass"]
         if not r["pass"]:
             print("FAIL", t["task_id"], {k: v for k, v in r["criteria"].items() if v is False}, r["gate_rejects"])
@@ -550,7 +645,7 @@ def cmd_eval(a):
                 continue
             w = worlds.get(t["world"]) or worlds.setdefault(t["world"], World(t["world"]))
             t0 = time.time()
-            r = run_episode(policy, w, t)
+            r = run_episode(policy, w, t, harness=a.harness)
             r["latency_s"], r["gen_tokens"] = round(time.time() - t0, 1), policy.gen_tokens
             f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n"); f.flush()
             print(f"[p2s-{a.name}] {i + 1}/{len(tasks)} {t['task_id']} {t['kind']:<8} pass={r['pass']} score={r['score']:.2f} "
@@ -565,6 +660,7 @@ def main():
     ap.add_argument("--split", default="test")
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--harness", default="v1", choices=["v1", "v2"])
     a = ap.parse_args()
     {"gen": cmd_gen, "check": cmd_check, "eval": cmd_eval}[a.cmd](a)
 
