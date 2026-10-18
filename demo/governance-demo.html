@@ -1,0 +1,593 @@
+<title>治理归因助手演示</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a guided briefing — narrow reading column for the story, a wide two-pane console for the live replay. */
+:root {
+  --bg: #f3f4f1; --surface: #ffffff; --sunk: #e9ebe6; --ink: #1c2420; --muted: #5d6a64; --line: #d6dbd5;
+  --accent: #2b4fb5; --accent-soft: #e3e9fb; --warn: #9a5b00; --warn-soft: #fbefd9; --bad: #a8321f; --bad-soft: #f8e1dc;
+  --good: #2c6e47; --good-soft: #dcefe2; --info: #4f5d73; --info-soft: #e5e9f0;
+  --film-mat: #e6e4da; --film-bg: #f6f7f4; --film-panel: #fbfbf9; --film-head: #ecebe4; --film-stroke: #6f6c66; --film-ink: #2a2926; --film-ink-2: #5e5b55;
+  --film-accent: #c9603f; --film-hl: #f4e2da; --film-amber: #f6e3bf; --film-amber-ink: #8a5a00; --film-green: #dcecc9; --film-green-ink: #3d6b1f; --film-bot: #f1dcb0; --film-bub-u: #e8e4f4;
+  --f-display: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --f-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111513; --surface: #191e1b; --sunk: #222823; --ink: #e5e9e6; --muted: #9aa69f; --line: #2f3631;
+  --accent: #91a9ff; --accent-soft: #1f2a4a; --warn: #f0b85c; --warn-soft: #3a2d14; --bad: #f08a74; --bad-soft: #3e1f19;
+  --good: #7fcf9c; --good-soft: #17301f; --info: #aeb9cc; --info-soft: #232a36; --film-mat: #1d201e; --film-bg: #242826; --film-panel: #2b302d; --film-head: #343a36; --film-stroke: #a7aaa3; --film-ink: #ecebe6; --film-ink-2: #c3c2bb; --film-accent: #ec8a66; --film-hl: #4a3229; --film-amber: #5a4520; --film-amber-ink: #f3c46d; --film-green: #33492a; --film-green-ink: #a9d98a; --film-bot: #6a5733; --film-bub-u: #3a3650; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111513; --surface: #191e1b; --sunk: #222823; --ink: #e5e9e6; --muted: #9aa69f; --line: #2f3631;
+  --accent: #91a9ff; --accent-soft: #1f2a4a; --warn: #f0b85c; --warn-soft: #3a2d14; --bad: #f08a74; --bad-soft: #3e1f19;
+  --good: #7fcf9c; --good-soft: #17301f; --info: #aeb9cc; --info-soft: #232a36; --film-mat: #1d201e; --film-bg: #242826; --film-panel: #2b302d; --film-head: #343a36; --film-stroke: #a7aaa3; --film-ink: #ecebe6; --film-ink-2: #c3c2bb; --film-accent: #ec8a66; --film-hl: #4a3229; --film-amber: #5a4520; --film-amber-ink: #f3c46d; --film-green: #33492a; --film-green-ink: #a9d98a; --film-bot: #6a5733; --film-bub-u: #3a3650; color-scheme: dark }
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 64px }
+.wrap { max-width: 1120px; margin: 0 auto }
+.read { max-width: 720px }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.3; margin: 0 }
+h1 { font-size: clamp(28px, 4.4vw, 40px) }
+h2 { font-size: clamp(22px, 3vw, 28px) }
+h3 { font-size: 17px }
+p { margin: 0 }
+.mono { font-family: var(--f-mono); font-size: .9em }
+.label { font-size: 12px; letter-spacing: .08em; color: var(--muted); font-weight: 500 }
+section { padding-block: 48px 8px; display: grid; gap: 20px }
+section + section { border-top: 1px solid var(--line); margin-top: 40px }
+.lede { color: var(--muted); font-size: 16px }
+button { font: inherit; color: inherit; cursor: pointer }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+
+/* hero */
+header.hero { padding-block: 56px 8px; display: grid; gap: 18px }
+.tagline { font-size: 18px; max-width: 640px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chip { border: 1px solid var(--line); background: var(--surface); padding: 4px 12px; border-radius: 999px; font-size: 13px }
+.synthetic { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; color: var(--warn); background: var(--warn-soft); padding: 6px 12px; border-radius: 6px; width: fit-content }
+
+/* compare */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+.lane { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 12px; min-width: 0 }
+.lane ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px }
+.lane.after { border-color: var(--accent) }
+/* film: animated "with the assistant" loop, drawn as an SVG and driven by one render(t) */
+.compare { grid-template-columns: 1fr }
+.film-wrap { background: var(--film-mat); border-radius: 12px; padding: 14px; display: grid; gap: 10px; min-width: 0 }
+.film-scroll { overflow-x: auto; border-radius: 8px }
+.film { display: block; width: 100%; min-width: 720px; height: auto; background: var(--film-bg); border-radius: 8px }
+.film text { font-family: var(--f-body); fill: var(--film-ink) }
+.film .mono { font-family: var(--f-mono) }
+.film .box { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 2 }
+.film .hd { fill: var(--film-head); stroke: var(--film-stroke); stroke-width: 2 }
+.film .hd.amber { fill: var(--film-amber) } .film .hd.green { fill: var(--film-green) }
+.film .ttl { font-size: 17px; font-weight: 700; text-anchor: middle; fill: var(--film-ink-2) }
+.film .lbl { font-size: 16px; fill: var(--film-ink-2); text-anchor: middle }
+.film .arrow { fill: none; stroke: var(--film-stroke); stroke-width: 2 }
+.film .field { fill: var(--film-head); stroke: var(--film-stroke); stroke-width: 1.5 }
+.film .k { font-size: 14.5px; fill: var(--film-ink-2) }
+.film .v { font-size: 14px; font-weight: 700; text-anchor: middle }
+.film .line { font-size: 15px }
+.film .res { font-size: 14.5px; font-weight: 700; fill: var(--film-accent) }
+.film .hl { fill: var(--film-hl) }
+.film .dot { fill: var(--film-accent) }
+.film .caret { fill: var(--film-accent) }
+.film .btn { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 1.5 }
+.film .btn.mod { fill: var(--film-amber); stroke: var(--film-amber-ink) }
+.film .hd.mod { fill: var(--film-amber) }
+.film .status.mod { fill: var(--film-amber-ink); font-weight: 700 }
+.film .btn.on { fill: var(--film-green); stroke: var(--film-green-ink) }
+.film .btxt { font-size: 14px; text-anchor: middle }
+.film .status { font-size: 13.5px; text-anchor: middle; fill: var(--film-ink-2) }
+.film .status.warn { fill: var(--film-amber-ink); font-weight: 700 } .film .status.ok { fill: var(--film-green-ink); font-weight: 700 }
+.film .bub-u { fill: var(--film-bub-u); stroke: var(--film-stroke); stroke-width: 1.2 }
+.film .bub-a { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 1.2 }
+.film .bubt { font-size: 14.5px }
+.film .bot { fill: var(--film-bot); stroke: var(--film-stroke); stroke-width: 2 }
+.film-stage { position: relative }
+.poster { position: absolute; inset: 0; display: grid; place-items: center; align-content: center; gap: 14px; background: var(--film-bg); border-radius: 8px; cursor: pointer; border: 0; padding: 0; width: 100%; color: var(--ink); font: inherit; text-align: left }
+.poster-card { background: var(--surface); border: 1.5px solid var(--accent); border-radius: 14px; padding: clamp(14px, 2.6vw, 30px) clamp(16px, 3.2vw, 38px); display: grid; gap: clamp(6px, 1vw, 12px); width: min(78%, 620px) }
+.poster-card h3 { font-size: clamp(16px, 2vw, 22px) }
+.poster-card .who { color: var(--muted); font-size: clamp(12px, 1.3vw, 15px) }
+.poster-card ol { margin: 0; padding-left: 1.4em; display: grid; gap: clamp(2px, .6vw, 8px); font-size: clamp(13px, 1.5vw, 17px) }
+.poster-play { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: var(--surface); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 500 }
+.poster-play::before { content: ""; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor }
+.film-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; font-size: 13px; color: var(--muted) }
+.film-bar button { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 12px; font-size: 13px }
+.lane.today { gap: 8px }
+.lane.today ol { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px }
+.lane .who { font-size: 13px; color: var(--muted) }
+
+/* world */
+.markets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px }
+.mk { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 6px; min-width: 0 }
+.mk .n { font-family: var(--f-mono); font-size: 18px; font-variant-numeric: tabular-nums }
+.bar { height: 6px; background: var(--sunk); border-radius: 3px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--accent) }
+.mk.small .bar i { background: var(--warn) }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted) }
+.legend span { display: inline-flex; align-items: center; gap: 6px }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1px solid var(--line) }
+.grid29 { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px }
+.tile { text-align: left; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 6px; padding: 8px 10px; display: grid; gap: 2px; min-width: 0 }
+.tile .id { font-family: var(--f-mono); font-size: 13px; font-weight: 500 }
+.tile .nm { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.tile[data-role="problem"] { border-left-color: var(--bad) }
+.tile[data-role="expected"] { border-left-color: var(--accent) }
+.tile[data-role="paused"] { border-left-color: var(--muted); opacity: .75 }
+.tile.on { outline: 2px solid var(--accent) }
+.fin { font-size: 11px; color: var(--warn) }
+.detail { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px }
+.kv { display: grid; grid-template-columns: 88px 1fr; gap: 4px 12px; font-size: 14px }
+.kv dt { color: var(--muted) } .kv dd { margin: 0; min-width: 0 }
+
+/* console */
+.console { display: grid; grid-template-columns: 300px 1fr; gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; min-height: 640px }
+.rail { border-right: 1px solid var(--line); background: var(--sunk); padding: 14px; display: grid; align-content: start; gap: 14px; min-width: 0 }
+.rail .grp { display: grid; gap: 6px }
+.qbtn { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 13.5px; line-height: 1.5; display: grid; gap: 2px }
+.qbtn small { color: var(--muted); font-size: 12px }
+.qbtn[aria-current="true"] { border-color: var(--accent); background: var(--accent-soft) }
+.qbtn .done { color: var(--good); font-size: 12px }
+.chat { padding: 20px clamp(14px, 3vw, 28px); display: grid; align-content: start; gap: 16px; min-width: 0 }
+.msg-user { justify-self: end; max-width: 80%; background: var(--accent); color: var(--surface); padding: 10px 14px; border-radius: 14px 14px 4px 14px }
+:root[data-theme="dark"] .msg-user { color: #0e1320 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .msg-user { color: #0e1320 } }
+.steps { display: grid; gap: 2px; border-left: 2px solid var(--line); padding-left: 14px; margin-left: 6px }
+.step { display: grid; gap: 0; padding-block: 4px; position: relative }
+.step::before { content: ""; position: absolute; left: -21px; top: 12px; width: 10px; height: 10px; border-radius: 50%; background: var(--good); border: 2px solid var(--surface) }
+.step.run::before { background: var(--warn) }
+.step b { font-weight: 500; font-size: 14px }
+.step span { font-size: 13px; color: var(--muted); font-family: var(--f-mono); word-break: break-word }
+.steps-head { font-size: 13px; color: var(--muted) }
+.card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: grid }
+.card-top { padding: 16px 18px; display: grid; gap: 12px }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.pill { font-size: 12.5px; padding: 2px 10px; border-radius: 999px; font-weight: 500 }
+.p-cause { background: var(--accent-soft); color: var(--accent) }
+.p-conf { background: var(--info-soft); color: var(--info) }
+.p-esc { background: var(--warn-soft); color: var(--warn) }
+.p-ok { background: var(--good-soft); color: var(--good) }
+.plain { font-size: 16.5px; line-height: 1.75 }
+.raw { font-size: 13px; color: var(--muted); background: var(--sunk); padding: 10px 12px; border-radius: 6px; font-family: var(--f-mono); word-break: break-word }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; width: fit-content }
+.sub { display: grid; gap: 6px }
+.sub ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; font-size: 14px }
+.esc { background: var(--warn-soft); color: var(--warn); padding: 8px 12px; border-radius: 6px; font-size: 14px }
+.findings { display: grid; gap: 8px }
+.f { display: grid; grid-template-columns: 52px 1fr; gap: 10px; font-size: 14px; padding: 8px 0; border-top: 1px dashed var(--line) }
+.sev { font-size: 12px; text-align: center; border-radius: 4px; padding: 2px 0; height: fit-content; font-weight: 500 }
+.sev-high { background: var(--bad-soft); color: var(--bad) } .sev-medium { background: var(--warn-soft); color: var(--warn) }
+.sev-low { background: var(--info-soft); color: var(--info) } .sev-info { background: var(--good-soft); color: var(--good) }
+.f .act { color: var(--muted); font-size: 13px }
+.explain { background: var(--sunk); padding: 14px 18px; display: grid; gap: 8px; font-size: 14px }
+.explain dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 6px 12px }
+.explain dt { color: var(--muted) } .explain dd { margin: 0 }
+.fb { border-top: 1px solid var(--line); padding: 14px 18px; display: grid; gap: 10px; background: var(--surface) }
+.fb .ask { font-weight: 500 }
+.verdicts { display: flex; flex-wrap: wrap; gap: 8px }
+.verdicts button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 14px; font-size: 13.5px }
+.verdicts button[aria-pressed="true"] { background: var(--accent); color: var(--surface); border-color: var(--accent) }
+textarea, input[type=text] { font: inherit; font-size: 14px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100% }
+textarea { min-height: 64px; resize: vertical }
+.row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center }
+.row input[type=text] { flex: 1 1 180px; width: auto }
+.primary { background: var(--accent); color: var(--surface); border: 0; border-radius: 6px; padding: 7px 16px; font-weight: 500 }
+.ghost { background: none; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; font-size: 13px }
+.status { font-size: 13px; color: var(--muted) }
+.empty { color: var(--muted); font-size: 14px; display: grid; gap: 10px; align-content: center; justify-items: start; padding: 24px 0 }
+
+/* limits + ideas */
+.limits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px }
+.limit { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; min-width: 0 }
+.limit p { color: var(--muted); font-size: 14px }
+.ideas { display: grid; gap: 14px }
+.idea { display: grid; gap: 6px }
+.idea label { font-weight: 500 }
+.collected { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px }
+.collected table { width: 100%; border-collapse: collapse; font-size: 13.5px }
+.collected th, .collected td { text-align: left; padding: 6px 8px; border-top: 1px solid var(--line); vertical-align: top }
+.tablebox { overflow-x: auto }
+footer { margin-top: 48px; color: var(--muted); font-size: 13px }
+
+@media (max-width: 860px) {
+  .console { grid-template-columns: 1fr; min-height: 0 }
+  .rail { border-right: 0; border-bottom: 1px solid var(--line) }
+  .markets { grid-template-columns: repeat(3, 1fr) }
+}
+@media (max-width: 560px) {
+  .compare, .limits { grid-template-columns: 1fr }
+  .markets { grid-template-columns: repeat(2, 1fr) }
+  .msg-user { max-width: 92% }
+  .explain dl, .kv { grid-template-columns: 1fr }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important } }
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <span class="label">演示 · 给策略、运营与合作方</span>
+  <h1>治理策略巡检与异常归因助手</h1>
+  <p class="tagline">策略和运营团队用一句话提问，助手自己去查数、下钻、对照变更，给出带证据的结论；拿不准、涉及头部主播或资金时，交给人来定。</p>
+  <div class="chips"><span class="chip">只读，不改任何策略</span><span class="chip">每个结论都附证据</span><span class="chip">该升级时主动升级</span></div>
+  <p class="synthetic">页面里的市场、策略、数字全部是合成的，不对应任何真实平台。</p>
+</header>
+
+<section class="read" id="why">
+  <span class="label">一 · 它解决什么问题</span>
+  <h2>一次“误杀申诉涨了”的排查</h2>
+  <p class="lede">同一个问题，今天怎么查，用助手怎么查。</p>
+</section>
+<div class="compare">
+  <div class="lane today">
+    <h3>今天</h3>
+    <p class="who">运营同学在几个后台之间来回切</p>
+    <ol>
+      <li>打开看板，确认是哪个市场、哪类风险在涨</li>
+      <li>导出数据，排除流量变化</li>
+      <li>逐条策略对比命中和申诉</li>
+      <li>翻变更记录、问算法同学最近有没有升级</li>
+      <li>拉 case 一条条看</li>
+      <li>写结论、拉群对数</li>
+    </ol>
+  </div>
+  <figure class="film-wrap" aria-label="用助手的流程动画">
+    <div class="film-scroll"><div class="film-stage"><button class="poster" id="poster" type="button" aria-label="播放用助手的流程动画">
+      <div class="poster-card"><h3>用助手</h3><p class="who">一句话提问，看结论和证据，决定下一步</p>
+        <ol><li>“美国昨天误杀申诉涨了，帮我看看”</li><li>助手按固定流程查数、下钻、查变更、抽 case</li><li>给出结论卡片：原因、证据、置信度、建议</li><li>需要人判断的地方明确标出来</li><li>人确认、修改或推翻结论</li></ol></div>
+      <span class="poster-play">播放动画</span></button><svg class="film" id="film" viewBox="0 0 1280 720" role="img" aria-label="三轮对话：策略 owner 问误杀为什么上涨、分数线该调多少、资金侧受影响多少；每轮助手调用治理平台查数，生成结论卡片回复，最后人确认并反馈给助手"></svg></div></div>
+    <div class="film-bar"><span>用助手：三轮对话，人可以确认、修改或推翻；被修改的结论会记成偏好样本</span><span><button id="filmPlay" type="button">暂停</button> <button id="filmReplay" type="button">重播</button></span></div>
+  </figure>
+</div>
+
+<section id="world">
+  <span class="label">二 · 演示用的模拟世界</span>
+  <h2>6 个市场、8 类风险、29 条策略</h2>
+  <p class="lede read">我们造了一个 28 天的直播平台，约 10 万场直播、51 家公会，并事先埋好了 11 个问题。因为知道标准答案，才能检验助手找得对不对、会不会误报。</p>
+  <div class="markets" id="markets"></div>
+  <p class="status">每天的平均直播场次。越南、肯尼亚是故意设置的小市场，用来检验助手在样本少时会不会保守。</p>
+  <div class="legend">
+    <span><i class="sw" style="border-left:4px solid var(--bad)"></i>埋了问题，助手应该发现</span>
+    <span><i class="sw" style="border-left:4px solid var(--accent)"></i>有变化但属预期，不应误报</span>
+    <span><i class="sw" style="border-left:4px solid var(--muted)"></i>已暂停</span>
+    <span><i class="sw"></i>正常</span>
+    <span class="fin">¥ 资金侧处置</span>
+  </div>
+  <div class="grid29" id="grid29" role="list"></div>
+  <div class="detail" id="sdetail" aria-live="polite"></div>
+</section>
+
+<section id="demo">
+  <span class="label">三 · 对话演示</span>
+  <h2>选一个问题，看助手怎么查</h2>
+  <p class="lede read">每个回答都是原型在模拟数据上真实运行的结果，没有手写；下面的“白话结论”是我们为讲解改写的，系统原文可以展开看。看完请告诉我们：这和你们实际的做法一样吗？</p>
+</section>
+<div class="console">
+  <nav class="rail" id="rail" aria-label="示例问题"></nav>
+  <div class="chat" id="chat" aria-live="polite"></div>
+</div>
+
+<section id="limits">
+  <span class="label">四 · 助手的边界</span>
+  <h2>它在什么时候停下来，交给人</h2>
+</section>
+<div class="limits">
+  <div class="limit"><h3>涉及头部主播</h3><p>结论只作参考，必须由策略 owner 确认。</p></div>
+  <div class="limit"><h3>涉及资金</h3><p>冻结收益、延迟结算类的结论要报出金额，提示误杀复核后解冻，变更需结算和财务知会。</p></div>
+  <div class="limit"><h3>样本不足或口径冲突</h3><p>小市场、数据缺失、“误杀率”这类有多种算法的指标，降低置信度或先问清楚。</p></div>
+  <div class="limit"><h3>不做的事</h3><p>不改策略、不上线变更、不替团队做决定；变更只出草稿，走现有审批流。</p></div>
+</div>
+
+<section id="ideas" class="read">
+  <span class="label">五 · 我们想听你的意见</span>
+  <h2>四个问题</h2>
+  <p class="lede">不需要完整，想到什么写什么。最有价值的是“真实情况不是这样”的地方，每一条都可以变成新的测试题。</p>
+  <div class="ideas" id="ideaForm">
+    <div class="idea"><label for="i1">你们日常排查异常，最耗时的是哪一步？</label><textarea id="i1"></textarea></div>
+    <div class="idea"><label for="i2">哪些结论你愿意直接采纳，哪些一定要人看？</label><textarea id="i2"></textarea></div>
+    <div class="idea"><label for="i3">刚才的演示里，哪里和你们的实际情况不一样？</label><textarea id="i3"></textarea></div>
+    <div class="idea"><label for="i4">如果只能先上线一个场景，你选哪个？为什么？</label><textarea id="i4"></textarea></div>
+    <div class="row"><input type="text" id="whoIdeas" placeholder="你的名字或团队（选填）"><button class="primary" id="saveIdeas">保存想法</button></div>
+    <p class="status" id="ideasStatus"></p>
+  </div>
+  <div class="collected" id="collected" hidden>
+    <h3>已收集的想法</h3>
+    <p class="status">只有页面所有者和编辑者能看到这一栏。</p>
+    <div class="tablebox"><table><thead><tr><th>场景</th><th>判断</th><th>内容</th><th>提出者</th></tr></thead><tbody id="collectedBody"></tbody></table></div>
+  </div>
+</section>
+
+<footer class="read">原型代码、模拟策略库和数据说明见项目仓库 live-governance-agent。页面数据由原型规则引擎在合成数据上运行生成。</footer>
+</div>
+
+<script>
+const SCENES = [{"id": "drift", "group": "异常归因", "title": "误杀申诉上涨", "plain": "美国整体波动正常，但诈骗这一类的申诉推翻从每天约 2 次涨到 14 次，几乎都来自策略 S-102。原因是 10/13 诈骗模型升级后打分整体偏高，而 S-102 的分数线没跟着调，于是误杀变多。同一个模型还驱动两条冻结收益的策略，涉及资金，需要一起复核。", "why": "先看整个市场，再拆到风险类型、再拆到策略；找到 S-102 后查同期变更，发现模型升级，再验证分数确实整体上移、抽检精确率确实下降。", "trap": "只看到“诈骗处罚变多”，就以为是诈骗变多了。", "ask": "你们遇到模型升级时，阈值是谁来调？多久能调好？", "q": "美国昨天误杀申诉涨了，帮我看看", "steps": [{"label": "查美国的直播场次", "detail": "2026-10-15 直播场次=1197，前 7 天中位数 1131", "ref": "Q-0001"}, {"label": "查美国的申诉推翻数", "detail": "2026-10-15 申诉推翻数=50，前 7 天中位数 42", "ref": "Q-0002"}, {"label": "查美国的申诉推翻数，按风险类型拆开", "detail": "市场整体平稳，但按风险类型下钻 诈骗引流 申诉推翻数 2→14（增量份额 34%）；可疑类型 ['诈骗引流']", "ref": "Q-0004"}, {"label": "查美国诈骗引流的申诉推翻数", "detail": "2026-10-15 申诉推翻数=14，前 7 天中位数 2", "ref": "Q-0006"}, {"label": "查美国诈骗引流的申诉推翻数，按策略拆开", "detail": "按策略拆开：S-102 2→14（+12，占变化 100%）", "ref": "Q-0007"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "C-006 2026-10-13 模型升级 诈骗引流模型", "ref": "Q-0008"}, {"label": "检查诈骗引流模型分有没有整体漂移", "detail": "诈骗引流模型 v3→v4，分数中位数 0.1096→0.2575；超过 S-102 阈值 0.85 的比例 0.0133→0.0434（×3.26）", "ref": "Q-0009"}, {"label": "抽 15 个典型 case 看一看", "detail": "抽样 15 个 case，分数均值 0.921，其中有头部主播", "ref": "Q-0010"}, {"label": "查 S-102的抽检精确率", "detail": "S-102 抽检精确率 0.77→0.504", "ref": "Q-0011"}, {"label": "查美国诈骗引流的冻结金额，按策略拆开", "detail": "同一模型的资金侧策略同期冻结/延迟结算金额: S-114=2250, S-129=2120", "ref": "Q-0013"}], "tool_calls": 13, "raw": "US 整体 申诉推翻数 50 vs 基线 42 在正常范围，但 诈骗引流 风险类型异常：US 申诉推翻数上升（2→14）主要来自 S-102；2026-10-13 诈骗引流模型 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校", "confidence": "中", "escalate": true, "reasons": ["涉及头部主播，需策略 owner 人工确认"], "next": ["请 策略-交易安全组 评估 S-102 阈值重校（先用历史数据回放新阈值）", "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校", "资金侧：同一模型的 S-114、S-129 受同样漂移影响，误杀场次的冻结收益需复核后解冻（走结算复核）"], "clar": [], "findings": [], "ok": true}, {"id": "traffic", "group": "陷阱题", "title": "命中暴涨是流量", "plain": "印尼 10/3 的直播量从约 970 场涨到约 1,730 场，命中数跟着涨，但命中率基本没变。这是流量变化，不是策略或模型出了问题。", "why": "第一步就把变化拆成“流量变了多少”和“比例变了多少”，比例没变就停在这里，不往下乱找原因。", "trap": "看到命中数暴涨，就去查策略。", "ask": "大促、节日、热点事件时，你们怎么提前标注流量变化？", "q": "印尼 2026-10-03 命中数涨了很多，策略是不是出问题了", "steps": [{"label": "查印尼的直播场次", "detail": "2026-10-03 直播场次=1728，前 7 天中位数 974", "ref": "Q-0014"}, {"label": "查印尼的策略命中数", "detail": "2026-10-03 策略命中数=482，前 7 天中位数 254", "ref": "Q-0015"}], "tool_calls": 2, "raw": "ID 策略命中数 上涨主要由流量变化驱动（974→1728 直播场次），策略命中数率基本不变，不是策略或模型问题", "confidence": "高", "escalate": false, "reasons": [], "next": ["看板增加按 直播场次 归一化的率指标，避免再次误判", "确认流量变化来源（活动/假期），无需策略动作"], "clar": [], "findings": [], "ok": true}, {"id": "recall", "group": "陷阱题", "title": "处罚变少≠违规变少", "plain": "巴西赌博的处罚变少了，但用户举报没有减少，被举报内容的模型分反而变低。更可能是违规者找到了绕过模型的办法，漏抓变多，主要影响 S-115。", "why": "处罚减少时，用一个和策略无关的信号（用户举报）做对照；举报没降，说明违规没少。", "trap": "以为治理效果变好了。", "ask": "你们发现“绕过”通常靠什么信号？举报、巡查还是人审？", "q": "巴西赌博处罚最近少了，是不是违规变少了", "steps": [{"label": "查巴西的直播场次", "detail": "截至 2026-10-15 近 7 天合计 直播场次=6343，前 14 天日均×7 6328", "ref": "Q-0016"}, {"label": "查巴西赌博的处罚场次", "detail": "截至 2026-10-15 近 7 天合计 处罚场次=65，前 14 天日均×7 108", "ref": "Q-0017"}, {"label": "查巴西赌博的处罚场次，按策略拆开", "detail": "按策略拆开：S-115 94.5→57（-37.5，占变化 87%）；S-128 13.5→8（-5.5，占变化 13%）", "ref": "Q-0018"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "", "ref": "Q-0019"}, {"label": "查巴西赌博的举报数", "detail": "举报 2026-10-15=293，基线 276，未同步下降", "ref": "Q-0020"}, {"label": "检查赌博模型分有没有整体漂移", "detail": "被举报人群 赌博模型 分数中位数 0.4567→0.2755", "ref": "Q-0021"}, {"label": "查巴西赌博的召回估计", "detail": "召回估计 近 7 天 0.328，此前 0.751", "ref": "Q-0022"}], "tool_calls": 8, "raw": "BR 赌博 处罚 session 数下降不是违规变少：举报持平、被举报内容的模型分下移，召回估计 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）", "confidence": "中", "escalate": false, "reasons": [], "next": ["把近 7 天被举报但未命中的 case 送模型团队做 bad case 分析", "评估 S-115 临时补充特征条件或下调阈值（先回测）"], "clar": [], "findings": [], "ok": true}, {"id": "policy", "group": "预期内变化", "title": "policy 更新后的人审上涨", "plain": "英国 10/10 更新了骚扰的定义，S-112 的分数线在 10/11 跟着从 0.80 降到 0.50，所以人审量上升，这是预期内的结果，不是异常。", "why": "查同期变更时，发现 policy 更新和策略调整前后衔接，变化方向也一致。", "trap": "把预期内的变化当作异常报警。", "ask": "policy 更新后，你们怎么确认线上策略已经对齐？", "q": "英国骚扰 10-13 人审量涨了", "steps": [{"label": "查英国的直播场次", "detail": "2026-10-13 直播场次=619，前 7 天中位数 515", "ref": "Q-0024"}, {"label": "查英国仇恨骚扰的转人审数", "detail": "2026-10-13 转人审数=26，前 7 天中位数 8", "ref": "Q-0025"}, {"label": "查英国仇恨骚扰的转人审数，按策略拆开", "detail": "按策略拆开：S-112 8→26（+18，占变化 100%）", "ref": "Q-0026"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "C-003 2026-10-10 policy 更新 P-7; C-004 2026-10-11 策略调整 S-112", "ref": "Q-0027"}, {"label": "读取策略配置 S-112", "detail": "S-112 版本历史: v1@2026-05-10 阈值 0.85 人审; v2@2026-08-01 阈值 0.8 人审; v3@2026-10-11 阈值 0.5 人审", "ref": "Q-0028"}, {"label": "查 S-112的抽检精确率", "detail": "S-112 变更后抽检精确率 0.6（n=30）", "ref": "Q-0029"}], "tool_calls": 6, "raw": "GB 转人审数上升是 policy P-7 更新后 S-112 阈值调整的预期结果（C-003 → C-004），不是异常", "confidence": "高", "escalate": false, "reasons": [], "next": ["确认 S-112 变更后的精确率是否达到上线门槛", "若属预期变化，在看板标注变更日期避免重复归因"], "clar": [], "findings": [], "ok": true}, {"id": "launch", "group": "预期内变化", "title": "新策略上线带来的增量", "plain": "印尼未成年处罚上升，主要来自 10/12 新上线的专项策略 S-126，是预期内的新增量。不过它上线后的抽检精确率只有 0.3（20 条样本），也就是抽查的处罚里约七成不违规，值得策略 owner 尽快复核。", "why": "按策略拆开后，增量几乎都来自一条刚上线的策略。", "trap": "把新策略带来的增量当作风险上升。", "ask": "新策略上线后，你们一般观察多久、看哪些指标？", "q": "印尼未成年 10-13 处罚上升", "steps": [{"label": "查印尼的直播场次", "detail": "2026-10-13 直播场次=891，前 7 天中位数 940", "ref": "Q-0030"}, {"label": "查印尼未成年人安全的处罚场次", "detail": "2026-10-13 处罚场次=52，前 7 天中位数 31", "ref": "Q-0031"}, {"label": "查印尼未成年人安全的处罚场次，按策略拆开", "detail": "按策略拆开：S-126 0→19（+19，占变化 90%）；S-105 31→33（+2，占变化 10%）", "ref": "Q-0032"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "C-005 2026-10-12 策略上线 S-126", "ref": "Q-0033"}, {"label": "读取策略配置 S-126", "detail": "S-126 版本历史: v1@2026-10-12 阈值 0.6 断播", "ref": "Q-0034"}, {"label": "查 S-126的抽检精确率", "detail": "S-126 变更后抽检精确率 0.3（n=20）", "ref": "Q-0035"}], "tool_calls": 6, "raw": "ID 处罚 session 数上升主要来自新上线策略 S-126（2026-10-12，C-005），属预期内新增量；建议按上线计划观察精确率", "confidence": "高", "escalate": false, "reasons": [], "next": ["确认 S-126 变更后的精确率是否达到上线门槛", "若属预期变化，在看板标注变更日期避免重复归因"], "clar": [], "findings": [], "ok": true}, {"id": "guild", "group": "公会与 case", "title": "增量集中在一家公会", "plain": "巴西刷量处罚从 34 涨到 59，其中 64% 来自同一家公会 G-BR-002。命中的策略分数和特征都正常，不像误杀，更像这家公会旗下的批量刷量。建议转给公会治理跟进。", "why": "按策略拆完找不到问题后，再按公会拆，发现集中在一家。", "trap": "当成整个市场的问题去调策略。", "ask": "公会侧的异常，你们现在是怎么发现的？", "q": "巴西刷量昨天处罚涨了", "steps": [{"label": "查巴西的直播场次", "detail": "2026-10-15 直播场次=885，前 7 天中位数 861", "ref": "Q-0036"}, {"label": "查巴西垃圾刷量的处罚场次", "detail": "2026-10-15 处罚场次=59，前 7 天中位数 34", "ref": "Q-0037"}, {"label": "查巴西垃圾刷量的处罚场次，按策略拆开", "detail": "按策略拆开：S-117 13→27（+14，占变化 48%）；S-104 17→30（+13，占变化 45%）；S-121 3→2（-1，占变化 3%）", "ref": "Q-0038"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "", "ref": "Q-0039"}, {"label": "查巴西垃圾刷量的处罚场次，按公会拆开", "detail": "按公会拆开：G-BR-002 15.5→35（增量份额 64%）；其余公会基本持平", "ref": "Q-0040"}, {"label": "查公会 G-BR-002 的基本信息", "detail": "G-BR-002 巴西公会-002，中型公会，近 28 天 2093 场，头部主播 67 个", "ref": "Q-0041"}, {"label": "抽 15 个典型 case 看一看", "detail": "抽样 15 个 case（新设备占比高、账号年龄小），其中有头部主播", "ref": "Q-0042"}], "tool_calls": 7, "raw": "BR 垃圾刷量 处罚 session 数上升（34→59）集中在公会 G-BR-002（巴西公会-002，贡献 64%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会", "confidence": "中", "escalate": true, "reasons": ["涉及公会级处置，超出只读结论范围，需公会治理确认", "涉及头部主播，需策略 owner 人工确认"], "next": ["公会治理：核查 G-BR-002 近 3 天新增主播和设备，必要时按公会维度处置", "策略侧无需改动；如果是新型批量行为，把 case 送策略团队评估是否需要公会级特征"], "clar": [], "findings": [], "ok": true}, {"id": "guildhealth", "group": "公会与 case", "title": "公会健康分为什么掉了", "plain": "G-BR-002 的健康分三天从约 98 掉到 75，进入“警告约谈”档。扣分 66% 来自刷量策略 S-117，同期没有模型或策略变更，是旗下主播的真实违规，不是策略误扣。再往下掉到 70 会触发暂停结算。", "why": "先看扣分来自哪条策略，再检查这条策略是否正受模型漂移影响；如果是，就是误扣分，应该先暂缓处置。", "trap": "不分来源，直接按档位处罚公会。", "ask": "公会对扣分有异议时，你们怎么核实？", "q": "G-BR-002 健康分为什么掉了", "steps": [{"label": "查公会 G-BR-002 的逐日健康分和扣分来源", "detail": "扣分来源：S-117 18.1, S-102 4.35, S-101 1.4, S-118 0.99", "ref": "Q-0043"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "", "ref": "Q-0044"}, {"label": "检查垃圾刷量模型分有没有整体漂移", "detail": "", "ref": "Q-0045"}, {"label": "抽 10 个典型 case 看一看", "detail": "G-BR-002 被 S-117 命中的 case 抽样 10 个，没有头部主播", "ref": "Q-0046"}, {"label": "查公会 G-BR-002 的基本信息", "detail": "巴西公会-002，中型公会，头部主播 67 个", "ref": "Q-0047"}], "tool_calls": 5, "raw": "G-BR-002 健康分下降（98.51→75.05，警告约谈）来自旗下主播的真实违规：S-117 严重处置 46 次，占扣分 66%；下一档 暂停结算（70 分）", "confidence": "中", "escalate": true, "reasons": ["涉及公会级处置（约谈/暂停结算），需公会治理确认"], "next": ["公会治理：约谈 G-BR-002，要求整改并核查近 3 天新增主播", "若连续扣分，将在下一档触发暂停结算；提前告知公会"], "clar": [], "findings": [], "ok": true}, {"id": "case", "group": "公会与 case", "title": "还原一个头部主播 case", "plain": "这位头部主播 10/15 被 S-102 断播，诈骗分 0.852，只比分数线 0.85 高一点，而且正处在模型升级后的漂移期，申诉已被推翻。很可能是误杀。因为涉及头部主播，必须由人确认。", "why": "还原命中了哪条策略、当时的分数和分数线、模型版本、处罚和申诉结果，再关联同期变更。", "trap": "只给结论，不提示需要人工确认。", "ask": "头部主播被处罚时，你们的复核流程是怎样的？", "q": "帮我还原 case LS-0101617", "steps": [{"label": "还原 case LS-0101617 的完整链路", "detail": "命中 S-102（v3，分数 0.852，分数线 0.85）→ 断播 → 申诉已推翻；主播为头部主播，账号 531 天，0 举报；同期 C-006 诈骗模型 v3→v4 升级、分数未重新校准", "ref": "Q-0048"}], "tool_calls": 1, "raw": "LS-0101617（US，头部主播）2026-10-15 命中 S-102(v4 分 0.852 ≥ 0.85)，最终 断播，申诉已推翻", "confidence": "中", "escalate": true, "reasons": ["头部主播，需人工确认"], "next": ["如申诉已推翻且有同期变更，纳入该策略的误杀复盘样本"], "clar": [], "findings": [], "ok": true}, {"id": "small", "group": "边界", "title": "小市场样本不足", "plain": "肯尼亚每天只有约 20 场直播，样本太少，不能下归因结论。建议看 7 天的滚动趋势，并和大市场同类风险对照。", "why": "先检查样本量，低于门槛就主动降级，而不是硬给一个原因。", "trap": "在几条数据上编出一个原因。", "ask": "小市场的问题，你们现在怎么判断？", "q": "肯尼亚昨天误杀申诉涨了", "steps": [{"label": "查肯尼亚的直播场次", "detail": "2026-10-15 直播场次=14，前 7 天中位数 15", "ref": "Q-0049"}, {"label": "查肯尼亚的申诉推翻数", "detail": "2026-10-15 申诉推翻数=1，前 7 天中位数 0", "ref": "Q-0050"}, {"label": "查同期有没有变更（策略、模型、policy）", "detail": "同期变更记录", "ref": "Q-0051"}], "tool_calls": 3, "raw": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同风险类型趋势对照", "confidence": "低", "escalate": true, "reasons": ["样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"], "next": ["用 7 天滚动窗口重新看 申诉推翻数", "对照大市场同风险类型是否有同样变化（例如同期模型升级）"], "clar": [], "findings": [], "ok": true}, {"id": "clarify", "group": "边界", "title": "问题不清楚时先问", "plain": "问题里没有说是哪个市场。助手先问清楚，不去猜。", "why": "市场、时间、指标缺一个，就先澄清。", "trap": "猜一个市场直接回答。", "ask": "你们日常提问时，最常省略的是什么信息？", "q": "昨天误杀申诉涨了", "steps": [], "tool_calls": 0, "raw": "请补充：市场", "confidence": "—", "escalate": false, "reasons": [], "next": [], "clar": ["哪个市场？（US/BR/ID/GB/VN/KE）"], "findings": [], "ok": true}, {"id": "paused", "group": "策略巡检", "title": "暂停的策略不是僵尸", "plain": "S-127 的状态是“已暂停”，所以 28 天没有命中，这是预期的，不需要处理。如果要恢复，先回放历史数据，再按变更流程上线。", "why": "区分“暂停导致不命中”和“策略失效导致不命中”。", "trap": "把暂停的策略当成僵尸策略报警。", "ask": "你们会定期清理长期不用的策略吗？", "q": "S-127 为什么一直没有命中", "steps": [{"label": "查指标 × 6", "detail": ""}, {"label": "读取策略配置 × 2", "detail": ""}, {"label": "查变更记录 × 2", "detail": ""}, {"label": "检查模型分漂移 × 2", "detail": ""}], "tool_calls": 12, "raw": "S-127 已暂停，不命中属预期", "confidence": "高", "escalate": false, "reasons": [], "next": [], "clar": [], "findings": [{"sev": "提示", "sevk": "info", "type": "已暂停", "ids": ["S-127"], "text": "S-127（色情-举报限流（已暂停））状态为 paused，近 28 天命中 0 次；不命中是暂停的预期结果，不是僵尸策略", "act": "无需处理；如要恢复，先用 历史回放再按变更流程上线，长期不用可归档"}], "ok": true}, {"id": "health", "group": "策略巡检", "title": "全量策略健康巡检", "plain": "扫描了 28 条线上策略，列出 7 条待处理：两条策略几乎重复（S-104、S-121），模型升级影响了 S-102 和 S-122，巴西赌博召回下降（S-115、S-128），两条“僵尸策略”（S-108、S-119），以及一家公会健康分越档。另外 2 条是预期内的变化，只做标注。", "why": "对每条策略检查：重叠、长期不命中、模型分漂移、召回变化、公会越档、同期变更。", "trap": "把预期内的变更也报成问题，告警太多没人看。", "ask": "你们希望巡检多久跑一次、推给谁？", "q": "对所有线上策略做一次健康巡检", "steps": [{"label": "查指标 × 35", "detail": ""}, {"label": "拉命中记录 × 25", "detail": ""}, {"label": "查变更记录 × 2", "detail": ""}, {"label": "检查模型分漂移 × 2", "detail": ""}, {"label": "查公会健康分 × 2", "detail": ""}, {"label": "读取策略配置 × 1", "detail": ""}], "tool_calls": 67, "raw": "巡检 28 条线上策略，7 条待处理，2 条预期内变更", "confidence": "高", "escalate": false, "reasons": [], "next": ["两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线", "策略 owner 评估阈值重校（历史回放）", "bad case 送模型团队；评估临时补充条件"], "clar": [], "findings": [{"sev": "高", "sevk": "high", "type": "策略重叠", "ids": ["S-104", "S-121"], "text": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置", "act": "两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线"}, {"sev": "高", "sevk": "high", "type": "模型漂移影响阈值", "ids": ["S-102"], "text": "C-006 后 诈骗引流模型 超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.814→0.504", "act": "策略 owner 评估阈值重校（历史回放）"}, {"sev": "高", "sevk": "high", "type": "召回下降", "ids": ["S-115", "S-128"], "text": "BR 赌博 召回估计 0.718→0.328，命中日均 26→14，举报日均 39→42 未降，疑似绕过", "act": "bad case 送模型团队；评估临时补充条件"}, {"sev": "中", "sevk": "medium", "type": "僵尸策略", "ids": ["S-108"], "text": "S-108 近 28 天 0 命中；依赖已下线特征 legacy_brand_list_match（C-007）", "act": "迁移特征或下线策略"}, {"sev": "中", "sevk": "medium", "type": "僵尸策略", "ids": ["S-119"], "text": "S-119 近 28 天 0 命中；条件过窄", "act": "评估是否下线或放宽条件"}, {"sev": "中", "sevk": "medium", "type": "模型漂移影响阈值", "ids": ["S-122"], "text": "C-006 后 诈骗引流模型 超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.589→0.4", "act": "策略 owner 评估阈值重校（历史回放）"}, {"sev": "中", "sevk": "medium", "type": "公会健康分越档", "ids": ["S-117"], "text": "G-BR-002 健康分 75.05 进入「警告约谈」档，扣分主要来自 S-117（18.4 分）", "act": "公会治理按档位处置前，先确认扣分来源策略是否受漂移影响（问：该公会健康分为什么掉了）"}, {"sev": "低", "sevk": "low", "type": "模型漂移影响阈值", "ids": ["S-110"], "text": "C-006 后 诈骗引流模型 超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.986→0.944", "act": "分布漂移但精确率未恶化，观察 7 天"}, {"sev": "低", "sevk": "low", "type": "模型漂移影响阈值", "ids": ["S-114"], "text": "C-006 后 诈骗引流模型 超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.963→1", "act": "分布漂移但精确率未恶化，观察 7 天"}, {"sev": "低", "sevk": "low", "type": "模型漂移影响阈值", "ids": ["S-129"], "text": "C-006 后 诈骗引流模型 超过 S-129 阈值 0.75 的比例 ×2.2，抽检精确率 0.894→0.824", "act": "分布漂移但精确率未恶化，观察 7 天"}, {"sev": "提示", "sevk": "info", "type": "预期内变化", "ids": ["S-112"], "text": "C-004 2026-10-11 S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升（预期内，看板应标注）", "act": "观察变更后精确率"}, {"sev": "提示", "sevk": "info", "type": "预期内变化", "ids": ["S-126"], "text": "C-005 2026-10-12 S-126 上线：ID 未成年人中分直接下播（专项）（预期内，看板应标注）", "act": "观察变更后精确率"}], "ok": true}];
+const WORLD = {"strategies": [{"id": "S-101", "name": "高分直接下播", "scn": "色情", "rule": "色情分 ≥ 0.8", "act": "断播", "fin": false, "mk": "全部市场", "hits": 2558, "owner": "内容组", "role": "normal", "note": "", "ver": 2}, {"id": "S-102", "name": "高分下播", "scn": "诈骗", "rule": "诈骗分 ≥ 0.85", "act": "断播", "fin": false, "mk": "全部市场", "hits": 1688, "owner": "交易安全组", "role": "problem", "note": "模型升级后分数线没重校，误杀上升", "ver": 3}, {"id": "S-103", "name": "中分+举报转人审", "scn": "色情", "rule": "色情分 ≥ 0.6 且 举报 ≥ 3", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 1228, "owner": "内容组", "role": "normal", "note": "", "ver": 1}, {"id": "S-104", "name": "新设备限流", "scn": "刷量", "rule": "刷量分 ≥ 0.75 且 新设备", "act": "限流", "fin": false, "mk": "全部市场", "hits": 2240, "owner": "生态组", "role": "problem", "note": "和 S-121 命中完全重合，重复维护", "ver": 4}, {"id": "S-105", "name": "高分下播", "scn": "未成年", "rule": "未成年分 ≥ 0.7", "act": "断播", "fin": false, "mk": "全部市场", "hits": 3649, "owner": "未成年组", "role": "normal", "note": "", "ver": 1}, {"id": "S-106", "name": "中分+举报人审", "scn": "未成年", "rule": "未成年分 ≥ 0.5 且 举报 ≥ 2", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 1589, "owner": "未成年组", "role": "normal", "note": "", "ver": 1}, {"id": "S-107", "name": "高分下播", "scn": "暴力", "rule": "暴力分 ≥ 0.8", "act": "断播", "fin": false, "mk": "全部市场", "hits": 1304, "owner": "内容组", "role": "normal", "note": "", "ver": 1}, {"id": "S-108", "name": "品牌词表命中警告", "scn": "假冒", "rule": "假冒分 ≥ 0.7 且 关键词命中 ≥ 1 且 旧品牌词表命中", "act": "警告", "fin": false, "mk": "全部市场", "hits": 0, "owner": "电商治理组", "role": "problem", "note": "依赖的品牌词表数据 8/1 已下线，不可能再命中", "ver": 1}, {"id": "S-109", "name": "高分警告", "scn": "假冒", "rule": "假冒分 ≥ 0.85", "act": "警告", "fin": false, "mk": "全部市场", "hits": 631, "owner": "电商治理组", "role": "normal", "note": "", "ver": 1}, {"id": "S-110", "name": "外链+新号人审", "scn": "诈骗", "rule": "诈骗分 ≥ 0.7 且 带外链 且 账号 < 30 天", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 1016, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}, {"id": "S-111", "name": "高分警告", "scn": "仇恨", "rule": "仇恨分 ≥ 0.8", "act": "警告", "fin": false, "mk": "全部市场", "hits": 1616, "owner": "社区组", "role": "normal", "note": "", "ver": 1}, {"id": "S-112", "name": "GB 举报人审", "scn": "仇恨", "rule": "仇恨分 ≥ 0.5 且 举报 ≥ 1", "act": "转人审", "fin": false, "mk": "英国", "hits": 273, "owner": "社区组", "role": "expected", "note": "英国 policy 更新后分数线下调，人审上升属预期", "ver": 3}, {"id": "S-113", "name": "中分+举报人审", "scn": "暴力", "rule": "暴力分 ≥ 0.6 且 举报 ≥ 3", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 549, "owner": "内容组", "role": "normal", "note": "", "ver": 1}, {"id": "S-114", "name": "高打赏新号冻结收益", "scn": "诈骗", "rule": "诈骗分 ≥ 0.6 且 打赏 ≥ 500 且 账号 < 14 天", "act": "冻结收益", "fin": true, "mk": "全部市场", "hits": 130, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}, {"id": "S-115", "name": "高分下播", "scn": "赌博", "rule": "赌博分 ≥ 0.8", "act": "断播", "fin": false, "mk": "全部市场", "hits": 1559, "owner": "交易安全组", "role": "problem", "note": "巴西违规者绕过模型，漏抓变多", "ver": 1}, {"id": "S-116", "name": "关键词人审", "scn": "赌博", "rule": "赌博分 ≥ 0.55 且 关键词命中 ≥ 2", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 711, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}, {"id": "S-117", "name": "极高分下播", "scn": "刷量", "rule": "刷量分 ≥ 0.9", "act": "断播", "fin": false, "mk": "全部市场", "hits": 1109, "owner": "生态组", "role": "expected", "note": "9/20 正常调参；也是 G-BR-002 扣分的主要来源", "ver": 2}, {"id": "S-118", "name": "极高分封禁", "scn": "色情", "rule": "色情分 ≥ 0.95", "act": "封禁 7 天", "fin": false, "mk": "全部市场", "hits": 257, "owner": "内容组", "role": "normal", "note": "", "ver": 1}, {"id": "S-119", "name": "超大场高分下播", "scn": "暴力", "rule": "暴力分 ≥ 0.95 且 观看峰值 ≥ 50,000", "act": "断播", "fin": false, "mk": "全部市场", "hits": 0, "owner": "内容组", "role": "problem", "note": "条件太窄，28 天 0 命中", "ver": 1}, {"id": "S-120", "name": "小市场新号观察", "scn": "未成年", "rule": "未成年分 ≥ 0.4 且 账号 < 3 天", "act": "观察", "fin": false, "mk": "越南、肯尼亚", "hits": 1, "owner": "未成年组", "role": "normal", "note": "", "ver": 1}, {"id": "S-121", "name": "新设备限流(v2 重写)", "scn": "刷量", "rule": "刷量分 ≥ 0.72 且 新设备", "act": "限流", "fin": false, "mk": "全部市场", "hits": 2473, "owner": "平台生态组", "role": "problem", "note": "和 S-104 命中完全重合，重复维护", "ver": 1}, {"id": "S-122", "name": "ID 中分人审", "scn": "诈骗", "rule": "诈骗分 ≥ 0.75", "act": "转人审", "fin": false, "mk": "印尼", "hits": 1035, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}, {"id": "S-123", "name": "极高分下播", "scn": "仇恨", "rule": "仇恨分 ≥ 0.9", "act": "断播", "fin": false, "mk": "全部市场", "hits": 445, "owner": "社区组", "role": "normal", "note": "", "ver": 1}, {"id": "S-124", "name": "关键词人审", "scn": "假冒", "rule": "假冒分 ≥ 0.6 且 关键词命中 ≥ 2", "act": "转人审", "fin": false, "mk": "全部市场", "hits": 445, "owner": "电商治理组", "role": "normal", "note": "", "ver": 1}, {"id": "S-125", "name": "小场高打赏延迟结算", "scn": "刷量", "rule": "刷量分 ≥ 0.6 且 观看峰值 < 20 且 打赏 ≥ 200", "act": "延迟结算", "fin": true, "mk": "全部市场", "hits": 91, "owner": "生态组", "role": "normal", "note": "", "ver": 1}, {"id": "S-126", "name": "ID 中分下播", "scn": "未成年", "rule": "未成年分 ≥ 0.6", "act": "断播", "fin": false, "mk": "印尼", "hits": 221, "owner": "未成年组", "role": "expected", "note": "10/12 新上线，带来预期内的处罚增量", "ver": 1}, {"id": "S-127", "name": "举报限流", "scn": "色情", "rule": "色情分 ≥ 0.7 且 举报 ≥ 1", "act": "限流", "fin": false, "mk": "全部市场", "hits": 0, "owner": "内容组", "role": "paused", "note": "已暂停，不命中属预期", "ver": 1}, {"id": "S-128", "name": "外链下播", "scn": "赌博", "rule": "赌博分 ≥ 0.7 且 带外链", "act": "断播", "fin": false, "mk": "全部市场", "hits": 617, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}, {"id": "S-129", "name": "高打赏场次冻结收益", "scn": "诈骗", "rule": "诈骗分 ≥ 0.75 且 打赏 ≥ 300", "act": "冻结收益", "fin": true, "mk": "全部市场", "hits": 267, "owner": "交易安全组", "role": "normal", "note": "", "ver": 1}], "markets": [{"code": "US", "name": "美国", "per_day": 1166}, {"code": "ID", "name": "印尼", "per_day": 1034}, {"code": "BR", "name": "巴西", "per_day": 904}, {"code": "GB", "name": "英国", "per_day": 549}, {"code": "VN", "name": "越南", "per_day": 59}, {"code": "KE", "name": "肯尼亚", "per_day": 20}]};
+const CAUSE = {drift:"模型升级后分数线失效", traffic:"流量变化", recall:"对抗绕过，召回下降", policy:"policy 更新（预期内）", launch:"新策略上线（预期内）",
+  guild:"集中在单一公会", guildhealth:"公会真实违规", case:"case 还原", small:"样本不足", clarify:"需要澄清", paused:"已暂停（预期内）", health:"健康巡检"};
+const $ = (s, el = document) => el.querySelector(s);
+const h = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) { if (v == null) continue; if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); }
+  for (const k of kids.flat()) if (k != null) e.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return e; };
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d } catch { return d } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} } };
+
+/* ---------- world ---------- */
+const maxDay = Math.max(...WORLD.markets.map(m => m.per_day));
+$("#markets").append(...WORLD.markets.map(m => h("div", {class: "mk" + (m.per_day < 150 ? " small" : "")},
+  h("span", {class: "label"}, m.name + " " + m.code), h("span", {class: "n"}, m.per_day.toLocaleString()),
+  h("div", {class: "bar"}, h("i", {style: `width:${Math.max(2, m.per_day / maxDay * 100)}%`})))));
+function showStrategy(s, btn) {
+  document.querySelectorAll(".tile.on").forEach(t => t.classList.remove("on")); btn && btn.classList.add("on");
+  const roleTxt = {problem: "埋了问题", expected: "预期内变化", paused: "已暂停", normal: "正常"}[s.role];
+  $("#sdetail").replaceChildren(h("h3", {}, `${s.id} · ${s.scn}-${s.name}`),
+    h("dl", {class: "kv"}, h("dt", {}, "规则"), h("dd", {}, `如果 ${s.rule}，就${s.act}`), h("dt", {}, "生效市场"), h("dd", {}, s.mk),
+      h("dt", {}, "28 天命中"), h("dd", {class: "mono"}, s.hits.toLocaleString() + " 次"), h("dt", {}, "负责团队"), h("dd", {}, s.owner),
+      h("dt", {}, "在演示里"), h("dd", {}, roleTxt + (s.note ? "：" + s.note : "")), ...(s.fin ? [h("dt", {}, "资金侧"), h("dd", {}, "是，误杀需解冻")] : [])));
+}
+$("#grid29").append(...WORLD.strategies.map(s => { const b = h("button", {class: "tile", "data-role": s.role, role: "listitem", "aria-label": `${s.id} ${s.name}`},
+  h("span", {class: "id"}, s.id, s.fin ? h("span", {class: "fin"}, " ¥") : null), h("span", {class: "nm"}, `${s.scn} · ${s.name}`));
+  b.addEventListener("click", () => showStrategy(s, b)); return b; }));
+showStrategy(WORLD.strategies.find(s => s.id === "S-102"), $("#grid29").children[1]);
+
+/* ---------- feedback store ---------- */
+const fb = { db: null, uid: null, canWrite: null, entries: store.get("fb-entries", []), ideas: store.get("fb-ideas", {}) };
+async function initRuntime() {
+  if (!window.claude?.use) return;
+  try {
+    const [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+    if (user) { fb.uid = await user.id(); fb.canWrite = await user.can("data.write"); fb.canEdit = await user.canEdit(); }
+    if (db && fb.uid) {
+      fb.db = db;
+      const snap = await db.doc("feedback/" + fb.uid).get();
+      if (snap.exists) { const d = snap.data(); fb.entries = d.entries || []; fb.ideas = d.ideas || {}; restoreIdeas(); }
+      if (fb.canEdit) loadCollected();
+    }
+    fb.comments = await claude.use("comments");
+    if (fb.comments) document.querySelectorAll("[data-cm]").forEach(b => b.hidden = false);
+  } catch (e) { /* page works without the runtime */ }
+}
+async function persist() {
+  store.set("fb-entries", fb.entries); store.set("fb-ideas", fb.ideas);
+  if (!fb.db || !fb.uid) return "local";
+  try { await fb.db.doc("feedback/" + fb.uid).set({entries: fb.entries, ideas: fb.ideas, updatedAt: new Date().toISOString()}); if (fb.canEdit) loadCollected(); return "saved"; }
+  catch (e) { fb.db = null; return "local"; }
+}
+const savedMsg = r => r === "saved" ? "已保存，讲解人会看到。" : "已记在这台设备上。你当前没有记录权限，请把想法直接告诉讲解人，或点“复制”发给我们。";
+async function loadCollected() {
+  try {
+    const qs = await fb.db.collection("feedback").get(); const rows = [];
+    qs.docs.forEach(d => { const v = d.data() || {}; (v.entries || []).forEach(e => rows.push(e));
+      Object.entries(v.ideas || {}).forEach(([k, t]) => { if (k !== "who" && t) rows.push({scene: "意见：" + ($("label[for=" + k + "]")?.textContent || k), verdict: "", text: t, who: v.ideas.who || ""}); }); });
+    $("#collected").hidden = false;
+    $("#collectedBody").replaceChildren(...(rows.length ? rows.map(r => h("tr", {}, h("td", {}, r.scene), h("td", {}, r.verdict || "—"), h("td", {}, r.text || "—"), h("td", {}, r.who || "—")))
+      : [h("tr", {}, h("td", {colspan: "4"}, "还没有收到想法。演示时可以替大家记录在每个回答下面。"))]));
+  } catch (e) {}
+}
+function copyText(text, statusEl) {
+  const done = () => statusEl.textContent = "已复制。";
+  try { navigator.clipboard.writeText(text).then(done, () => statusEl.textContent = text); } catch { statusEl.textContent = text; }
+}
+
+/* ---------- chat ---------- */
+const groups = [...new Set(SCENES.map(s => s.group))];
+const seen = new Set(store.get("fb-seen", []));
+function renderRail(active) {
+  $("#rail").replaceChildren(...groups.map(g => h("div", {class: "grp"}, h("span", {class: "label"}, g),
+    ...SCENES.filter(s => s.group === g).map(s => h("button", {class: "qbtn", "aria-current": String(s.id === active), onclick: () => play(s.id)},
+      h("span", {}, s.q), h("small", {}, s.title, seen.has(s.id) ? h("span", {class: "done"}, " · 已看") : null))))));
+}
+let playToken = 0;
+const wait = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+async function play(id) {
+  const s = SCENES.find(x => x.id === id); const token = ++playToken;
+  seen.add(id); store.set("fb-seen", [...seen]); renderRail(id);
+  const chat = $("#chat"); chat.replaceChildren(h("div", {class: "msg-user"}, s.q));
+  if (innerWidth < 860) chat.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"});
+  if (s.steps.length) {
+    const list = h("div", {class: "steps"});
+    chat.append(h("p", {class: "steps-head"}, `助手查了 ${s.tool_calls} 次数据：`), list);
+    for (const st of s.steps) {
+      const row = h("div", {class: "step run"}, h("b", {}, st.label), st.detail ? h("span", {}, st.detail) : null);
+      list.append(row); await wait(380); if (token !== playToken) return; row.classList.remove("run");
+    }
+  }
+  await wait(250); if (token !== playToken) return;
+  chat.append(renderCard(s));
+}
+function renderCard(s) {
+  const raw = h("p", {class: "raw", hidden: ""}, s.raw);
+  const top = h("div", {class: "card-top"},
+    h("div", {class: "pills"}, h("span", {class: "pill p-cause"}, CAUSE[s.id] || s.title), h("span", {class: "pill p-conf"}, "置信度 " + s.confidence),
+      s.escalate ? h("span", {class: "pill p-esc"}, "需要人确认") : h("span", {class: "pill p-ok"}, "可直接参考")),
+    h("p", {class: "plain"}, s.plain),
+    s.clar.length ? h("div", {class: "esc"}, "助手反问：" + s.clar.join(" ")) : null,
+    s.reasons.length ? h("div", {class: "esc"}, "为什么要人确认：" + s.reasons.join("；")) : null,
+    s.findings.length ? h("div", {class: "findings"}, ...s.findings.map(f => h("div", {class: "f"}, h("span", {class: "sev sev-" + f.sevk}, f.sev),
+      h("div", {}, h("b", {}, `${f.type} · ${f.ids.join("、")}`), h("p", {}, f.text), h("p", {class: "act"}, "建议：" + f.act))))) : null,
+    s.next.length ? h("div", {class: "sub"}, h("span", {class: "label"}, "建议下一步"), h("ul", {}, ...s.next.map(n => h("li", {}, n)))) : null,
+    s.raw ? h("button", {class: "linkbtn", onclick: e => { raw.hidden = !raw.hidden; e.target.textContent = raw.hidden ? "看系统原文" : "收起系统原文"; }}, "看系统原文") : null, raw);
+  const explain = h("div", {class: "explain"}, h("span", {class: "label"}, "讲解"),
+    h("dl", {}, h("dt", {}, "为什么这么查"), h("dd", {}, s.why), h("dt", {}, "容易掉的坑"), h("dd", {}, s.trap)));
+  const card = h("article", {class: "card"}, top, explain, renderFeedback(s));
+  return card;
+}
+function renderFeedback(s) {
+  const prev = fb.entries.filter(e => e.scene === s.title).slice(-1)[0] || {};
+  let verdict = prev.verdict || "";
+  const btns = ["符合实际", "部分符合", "不符合", "说不准"].map(v => h("button", {"aria-pressed": String(v === verdict), onclick: e => {
+    verdict = v; btns.forEach(b => b.setAttribute("aria-pressed", String(b === e.currentTarget))); }}, v));
+  const ta = h("textarea", {id: "fb-" + s.id, placeholder: "你们实际会怎么查？还会看什么？"}); ta.value = prev.text || "";
+  const who = h("input", {type: "text", id: "who-" + s.id, placeholder: "提出者（选填）"}); who.value = prev.who || store.get("fb-who", "");
+  const status = h("p", {class: "status"});
+  const box = h("div", {class: "fb"}, h("p", {class: "ask"}, "这个结论在你们那里成立吗？"), h("div", {class: "verdicts"}, ...btns),
+    h("label", {for: "fb-" + s.id}, s.ask), ta,
+    h("div", {class: "row"}, who, h("button", {class: "primary", onclick: async () => {
+      if (!verdict && !ta.value.trim()) { status.textContent = "先选一个判断，或写几句想法。"; return; }
+      store.set("fb-who", who.value.trim());
+      fb.entries.push({scene: s.title, verdict, text: ta.value.trim(), who: who.value.trim(), at: new Date().toISOString()});
+      status.textContent = savedMsg(await persist()); }}, "记录"),
+      h("button", {class: "ghost", onclick: () => copyText(`【${s.title}】${verdict} ${ta.value.trim()}`, status)}, "复制"),
+      h("button", {class: "ghost", "data-cm": "", hidden: fb.comments ? null : "", onclick: e => fb.comments?.openComposer({element: e.currentTarget.closest(".card")}).catch(() => {})}, "在这里留言")),
+    status);
+  if (fb.comments) box.querySelector("[data-cm]").hidden = false;
+  return box;
+}
+
+/* ---------- ideas ---------- */
+function restoreIdeas() { ["i1", "i2", "i3", "i4"].forEach(k => { if (fb.ideas[k] && !$("#" + k).value) $("#" + k).value = fb.ideas[k]; });
+  if (fb.ideas.who && !$("#whoIdeas").value) $("#whoIdeas").value = fb.ideas.who; }
+restoreIdeas();
+$("#saveIdeas").addEventListener("click", async () => {
+  ["i1", "i2", "i3", "i4"].forEach(k => fb.ideas[k] = $("#" + k).value.trim()); fb.ideas.who = $("#whoIdeas").value.trim();
+  if (!["i1", "i2", "i3", "i4"].some(k => fb.ideas[k])) { $("#ideasStatus").textContent = "至少写一条再保存。"; return; }
+  $("#ideasStatus").textContent = savedMsg(await persist());
+});
+
+/* ---------- film ---------- */
+const Film = (() => {
+  const svg = document.getElementById("film"); if (!svg) return null;
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs = {}, parent = svg, text) => { const e = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (text != null) e.textContent = text; parent.append(e); return e; };
+  const ROUND = 13, STARTS = [0, 13, 30], DUR = 48, SPEED = 1.7;   // story time runs 1.7x wall time
+  const MOD = {btn: 11.6, press: 12.6, type0: 12.8, type1: 14.0, send: 14.1, fb: 14.7, q: "0.92 召回掉太多，改成 0.90",
+    card: ["分数线 0.85 → 0.90", "召回 0.77 → 0.67", "高：只出建议"], status: "人已修改为 0.90 · 记入偏好样本"};
+  const ROUNDS = [
+    {q: "美国昨天误杀申诉涨了，帮我看看", qb: ["美国昨天误杀申诉涨了，帮我看看"],
+     lines: [["查美国申诉推翻数", "50（基线 42）"], ["按风险类型拆开", "诈骗 2 → 14"], ["按策略拆开", "S-102 占 100%"], ["查同期变更", "C-006 诈骗模型升级"], ["抽 15 个 case", "精确率 0.77 → 0.50"]],
+     card: [["主因", "模型升级，分数线未重校"], ["策略", "S-102"], ["置信度", "中"]], status: "需要人确认：涉及头部主播",
+     reply: ["诈骗模型 10/13 升级后分数整体偏高，", "S-102 分数线没跟着调，误杀上升。", "涉及头部主播，需要你确认。"]},
+    {q: "S-102 分数线调到多少合适？回放一下", qb: ["S-102 分数线调到多少合适？", "回放一下"],
+     lines: [["回放 0.85（现在）", "155/天 · 精确率 0.59"], ["回放 0.90", "116/天 · 0.66"], ["回放 0.92", "99/天 · 0.70"], ["对照升级前一周", "精确率 0.81"], ["生成变更草稿", "CHG-0001"]],
+     card: [["建议", "分数线 0.85 → 0.92"], ["代价", "召回 0.77 → 0.62"], ["风险", "高：只出建议"]], status: "变更草稿需评审会审批",
+     reply: ["回放到 0.92：精确率 0.59 → 0.70，", "3 天少推翻约 79 次；代价是召回", "0.77 → 0.62。已生成变更草稿", "CHG-0001，需评审会审批。"]},
+    {q: "冻结收益的两条策略受影响多少？", qb: ["冻结收益的两条策略受影响多少？"],
+     lines: [["S-114 冻结金额（3 天）", "12,617"], ["S-129 冻结金额（3 天）", "12,028"], ["日均处置场次", "9.6 → 11.3"], ["日均冻结金额", "8,498 → 8,215"], ["其中已被推翻", "2 场 · 1,531"]],
+     card: [["涉及金额", "24,645（3 天）"], ["变化", "日均金额基本持平"], ["待复核", "2 场已推翻 · 1,531"]], status: "已推翻场次需结算复核解冻",
+     reply: ["影响有限：两条策略 3 天处置 34 场，", "冻结 24,645，日均金额基本持平。", "其中 2 场已推翻（1,531），", "建议复核解冻并通知结算。"]}];
+  const defs = el("defs");
+  const mk = el("marker", {id: "ah", viewBox: "0 0 10 10", refX: "8", refY: "5", markerWidth: "9", markerHeight: "9", orient: "auto-start-reverse"}, defs);
+  el("path", {d: "M1,1 L8,5 L1,9", fill: "none", stroke: "var(--film-stroke)", "stroke-width": "1.6", "stroke-linecap": "round", "stroke-linejoin": "round"}, mk);
+  const clip = el("clipPath", {id: "chatclip"}, defs); el("rect", {x: 38, y: 82, width: 396, height: 524}, clip);
+  const panel = (x, y, w, h, title, mono) => { const g = el("g");
+    el("rect", {x, y, width: w, height: h, rx: 12, class: "box"}, g);
+    const hd = el("path", {d: `M${x + 12},${y} H${x + w - 12} Q${x + w},${y} ${x + w},${y + 12} V${y + 40} H${x} V${y + 12} Q${x},${y} ${x + 12},${y} Z`, class: "hd"}, g);
+    const t = el("text", {x: x + w / 2, y: y + 26, class: "ttl" + (mono ? " mono" : "")}, g, title); return {g, hd, t}; };
+  const P = [["M440,128 Q560,92 642,112", "提问 · 反馈", 548, 80], ["M860,112 Q1050,112 1070,214", "调用工具", 1118, 148],
+             ["M1072,496 Q1068,590 892,586", "证据", 1030, 620], ["M512,606 L446,606", "回复", 480, 640]];
+  const paths = P.map(([d, lab, lx, ly]) => { const p = el("path", {d, class: "arrow", "marker-end": "url(#ah)"}); el("text", {x: lx, y: ly, class: "lbl"}, svg, lab); return p; });
+  // chat panel
+  const H = panel(36, 40, 400, 640, "策略 owner · 对话");
+  const chat = el("g", {"clip-path": "url(#chatclip)"}, H.g);
+  const bubbles = [];
+  ROUNDS.forEach((r, i) => { [["user", r.qb, null], ["bot", r.reply, null]].concat(i === 1 ? [["user", [MOD.q], MOD.send]] : []).forEach(([who, lines, at]) => {
+    const g = el("g", {}, chat); const rect = el("rect", {rx: 10, class: who === "user" ? "bub-u" : "bub-a"}, g);
+    const ts = lines.map(s => el("text", {class: "bubt"}, g, s)); bubbles.push({g, rect, ts, who, round: i, n: lines.length, at}); }); });
+  const input = el("rect", {x: 56, y: 616, width: 360, height: 46, rx: 8, class: "field"}, H.g);
+  const inText = el("text", {x: 70, y: 645, class: "line"}, H.g);
+  const inCaret = el("rect", {width: 2, height: 18, class: "caret"}, H.g);
+  const btns = ["确认", "修改", "推翻"].map((b, i) => { const g = el("g", {}, H.g);
+    const r = el("rect", {x: 56 + i * 124, y: 616, width: 112, height: 46, rx: 8, class: "btn"}, g); el("text", {x: 112 + i * 124, y: 645, class: "btxt"}, g, b); return {g, r}; });
+  const hStatus = el("text", {x: 236, y: 600, class: "status ok"}, H.g);
+  // assistant
+  const A = panel(650, 36, 200, 168, "助手");
+  el("line", {x1: 750, y1: 76, x2: 750, y2: 92, stroke: "var(--film-stroke)", "stroke-width": 2}, A.g);
+  el("rect", {x: 718, y: 92, width: 64, height: 56, rx: 10, class: "bot"}, A.g);
+  const eyes = [737, 763].map(cx => el("circle", {cx, cy: 110, r: 4, fill: "none", stroke: "var(--film-stroke)", "stroke-width": 2}, A.g));
+  el("rect", {x: 730, y: 124, width: 40, height: 13, rx: 4, fill: "none", stroke: "var(--film-stroke)", "stroke-width": 2}, A.g);
+  [743, 757].forEach(x => el("line", {x1: x, y1: 124, x2: x, y2: 137, stroke: "var(--film-stroke)", "stroke-width": 2}, A.g));
+  const aStatus = el("text", {x: 750, y: 188, class: "status"}, A.g);
+  // platform
+  const T = panel(900, 224, 344, 264, "治理平台", true);
+  const hl = el("rect", {x: 904, y: 0, width: 336, height: 38, class: "hl"}, T.g);
+  const rows = [0, 1, 2, 3, 4].map(i => ({a: el("text", {x: 918, y: 292 + i * 40, class: "line"}, T.g), b: el("text", {x: 1226, y: 292 + i * 40, class: "res", "text-anchor": "end"}, T.g)}));
+  const tCaret = el("rect", {width: 2, height: 18, class: "caret"}, T.g);
+  // card
+  const C = panel(520, 478, 360, 206, "结论卡片");
+  const fk = [0, 1, 2].map(i => el("text", {x: 538, y: 546 + i * 42, class: "k"}, C.g));
+  [0, 1, 2].forEach(i => el("rect", {x: 618, y: 526 + i * 42, width: 244, height: 30, rx: 6, class: "field"}, C.g));
+  const fv = [0, 1, 2].map(i => el("text", {x: 740, y: 546 + i * 42, class: "v"}, C.g));
+  const cStatus = el("text", {x: 700, y: 668, class: "status warn"}, C.g);
+  const dot = el("circle", {r: 7, class: "dot"});
+  const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), prog = (t, a, b) => clamp((t - a) / (b - a));
+  const ease = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+  const type = (s, p) => s.slice(0, Math.round(s.length * p));
+  const tw = e => { try { return e.getComputedTextLength() } catch (x) { return 0 } };
+  const caretAt = (c, textEl, x0, y, on) => { c.style.display = on ? "" : "none"; if (on) { c.setAttribute("x", x0 + tw(textEl) + 2); c.setAttribute("y", y - 14); } };
+  // per-round schedule (offsets from round start)
+  const S = {type0: .3, type1: 1.9, send: 2.0, think: 2.6, call: 3.3, lines: 3.9, step: .9, ev: 8.5, card: 9.1, reply0: 10.7, reply: 11.1};
+  const END = STARTS[2] + 11.6, PRESS = END + 1.4, FB0 = PRESS + 0.4, FB1 = FB0 + 0.7;
+  function render(t) {
+    const r = t >= STARTS[2] ? 2 : t >= STARTS[1] ? 1 : 0, b = STARTS[r], lt = t - b, R = ROUNDS[r];
+    const modOn = r === 1 && lt >= MOD.btn, modded = r === 1 && lt >= MOD.fb;
+    // chat bubbles: stack from bottom, newest last
+    const shown = bubbles.filter(m => m.round < r || (m.round === r && (m.at != null ? lt >= m.at : m.who === "user" ? lt >= S.send : lt >= S.reply)));
+    let y = 600;
+    for (let i = shown.length - 1; i >= 0; i--) { const m = shown[i], h = m.n * 22 + 16; y -= h;
+      let w = 0; m.ts.forEach((tx, k) => { tx.setAttribute("y", y + 26 + k * 22); w = Math.max(w, tw(tx)); });
+      const bw = Math.min(352, w + 26), x = m.who === "user" ? 420 - bw : 52;
+      m.rect.setAttribute("x", x); m.rect.setAttribute("y", y + 4); m.rect.setAttribute("width", bw); m.rect.setAttribute("height", h - 4);
+      m.ts.forEach(tx => tx.setAttribute("x", x + 13)); m.g.style.display = ""; y -= 10; }
+    bubbles.filter(m => !shown.includes(m)).forEach(m => m.g.style.display = "none");
+    // input / buttons
+    const finale = t >= END, modBtns = modOn && lt < MOD.type0, modTyping = r === 1 && lt >= MOD.type0 && lt < MOD.send;
+    const qp = prog(lt, S.type0, S.type1), typing = lt < S.send;
+    const showBtns = finale || modBtns;
+    inText.textContent = showBtns ? "" : modTyping ? type(MOD.q, prog(lt, MOD.type0, MOD.type1)) : typing ? type(R.q, qp) : "";
+    input.style.display = inText.style.display = showBtns ? "none" : "";
+    caretAt(inCaret, inText, 70, 645, !showBtns && ((typing && lt >= S.type0) || modTyping));
+    btns.forEach((x, i) => { x.g.style.display = showBtns ? "" : "none";
+      x.r.setAttribute("class", "btn" + (i === 0 && t >= PRESS ? " on" : i === 1 && modBtns && lt >= MOD.press ? " mod" : "")); });
+    H.hd.setAttribute("class", "hd" + (t >= PRESS ? " green" : (finale || (modOn && lt < MOD.send)) ? " amber" : ""));
+    hStatus.textContent = t >= PRESS ? "已确认 · 草稿提交审批 · 记入决策样本" : "";
+    if (t >= PRESS) bubbles.forEach(m => { const ry = +m.rect.getAttribute("y"); m.g.setAttribute("transform", "translate(0,-26)"); });
+    else bubbles.forEach(m => m.g.removeAttribute("transform"));
+    // assistant
+    aStatus.textContent = t >= FB1 ? "收到反馈" : modded ? "收到修改" : lt >= S.ev ? "整理结论" : lt >= S.call ? "调用工具…" : lt >= S.think ? "思考中" + ".".repeat(1 + Math.floor((t * 3) % 3)) : r > 0 || lt >= S.send ? "等待追问" : "";
+    const blink = lt > S.think && lt < S.call && (t * 2) % 2 < .15; eyes.forEach(e => e.setAttribute("r", blink ? 1.5 : 4));
+    A.hd.setAttribute("class", "hd" + (lt >= S.think && lt < S.ev ? " amber" : ""));
+    // platform
+    let cur = -1;
+    R.lines.forEach(([a, bb], i) => { const s = S.lines + i * S.step, pa = prog(lt, s, s + .45);
+      rows[i].a.textContent = lt >= s ? type(a, pa) : ""; rows[i].b.textContent = lt >= s + .6 ? bb : ""; if (lt >= s && lt < s + S.step) cur = i; });
+    hl.style.opacity = cur >= 0 ? 1 : 0; if (cur >= 0) hl.setAttribute("y", 292 + cur * 40 - 25);
+    caretAt(tCaret, rows[Math.max(cur, 0)].a, 918, 292 + Math.max(cur, 0) * 40, cur >= 0 && lt < S.lines + cur * S.step + .6);
+    // card
+    R.card.forEach(([k, v], i) => { fk[i].textContent = k; fv[i].textContent = modded ? MOD.card[i] : lt >= S.card + i * .45 ? v : "–"; });
+    const cardDone = lt >= S.card + 1.4; C.hd.setAttribute("class", "hd" + (modded ? " mod" : cardDone ? " amber" : ""));
+    cStatus.textContent = modded ? MOD.status : cardDone ? R.status : ""; cStatus.setAttribute("class", "status " + (modded ? "mod" : "warn"));
+    // travelling dot
+    const fl = [[0, S.send, S.think], [1, S.call, S.lines], [2, S.ev, S.card], [3, S.reply0, S.reply]].map(([p, a, z]) => [p, b + a, b + z]).concat([[0, FB0, FB1, true], [0, STARTS[1] + MOD.send, STARTS[1] + MOD.fb, false]]);
+    const f = fl.find(([, a, z]) => t >= a && t <= z);
+    if (f) { const p = paths[f[0]], L = p.getTotalLength(), pr = ease(prog(t, f[1], f[2])), pt = p.getPointAtLength(L * pr);
+      dot.style.display = ""; dot.setAttribute("cx", pt.x); dot.setAttribute("cy", pt.y); } else dot.style.display = "none";
+    svg.style.opacity = t > DUR - .6 ? clamp((DUR - t) / .6) : t < .25 ? clamp(t / .25 + .2) : 1;
+  }
+  let t0 = null, playing = true, tNow = 0, raf = 0;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const loop = ts => { if (t0 == null) t0 = ts - tNow / SPEED * 1000; tNow = ((ts - t0) / 1000 * SPEED) % DUR; render(tNow); raf = requestAnimationFrame(loop); };
+  const play = () => { playing = true; t0 = null; raf = requestAnimationFrame(loop); $("#filmPlay").textContent = "暂停"; };
+  const pause = () => { playing = false; cancelAnimationFrame(raf); $("#filmPlay").textContent = "播放"; };
+  $("#filmPlay").addEventListener("click", () => playing ? pause() : play());
+  $("#filmReplay").addEventListener("click", () => { tNow = 0; cancelAnimationFrame(raf); play(); });
+  render(45);   // resting frame behind the poster: the finished conversation
+  playing = false; $("#filmPlay").textContent = "播放";
+  const poster = $("#poster"), start = () => { poster.hidden = true; tNow = 0; if (still) render(45); else play(); };
+  poster.addEventListener("click", start);
+  $("#filmPlay").addEventListener("click", () => { poster.hidden = true; }, true);
+  $("#filmReplay").addEventListener("click", () => { poster.hidden = true; }, true);
+  return {render, stop: () => { cancelAnimationFrame(raf); playing = false; }, DUR, SPEED};
+})();
+
+renderRail(null);
+$("#chat").append(h("div", {class: "empty"}, h("p", {}, "左边是 12 个示例问题，按类型分组。建议从“误杀申诉上涨”开始，再看两道陷阱题。"),
+  h("button", {class: "primary", onclick: () => play("drift")}, "从第一个问题开始")));
+initRuntime();
+</script>
