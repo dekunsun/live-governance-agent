@@ -120,3 +120,45 @@ for i, r in enumerate(runs):
 json.dump(scenes, open("scenes.json", "w"), ensure_ascii=False)
 for s in scenes:
     print(s["id"], len(s["steps"]), s["confidence"], s["escalate"], s["clar"][:1]); [print("   -", x["label"], "|", x["detail"][:90]) for x in s["steps"][:14]]
+
+
+# ----------------------------------------------------------------------------- world.json: strategy grid + markets
+def build_world():
+    import pandas as pd
+    O = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data/out/")
+    st = json.load(open(O + "strategies.json")); mt = json.load(open(O + "meta.json"))
+    hits = pd.read_csv(O + "hit_logs.csv", usecols=["strategy_id"]).strategy_id.value_counts().to_dict()
+    ACT = {"observe": "观察", "manual_review": "转人审", "limit_traffic": "限流", "warn": "警告", "delay_settlement": "延迟结算",
+           "freeze_earnings": "冻结收益", "suspend_live": "断播", "disable_gifts": "关闭礼物", "ban_7d": "封禁 7 天"}
+    F = {"report_count": "举报", "new_device_flag": "新设备", "keyword_hits": "关键词命中", "legacy_brand_list_match": "旧品牌词表命中",
+         "external_link_flag": "带外链", "account_age_days": "账号天数", "gift_amount": "打赏", "viewers_peak": "观看峰值"}
+    SCN = {"adult_content": "色情", "minor_safety": "未成年", "scam_fraud": "诈骗", "violence": "暴力", "spam_bot": "刷量", "gambling": "赌博",
+           "hate_harassment": "仇恨", "counterfeit": "假冒"}
+    ROLE = {"S-102": ("problem", "模型升级后分数线没重校，误杀上升"), "S-115": ("problem", "巴西违规者绕过模型，漏抓变多"),
+            "S-104": ("problem", "和 S-121 命中完全重合，重复维护"), "S-121": ("problem", "和 S-104 命中完全重合，重复维护"),
+            "S-108": ("problem", "依赖的品牌词表数据 8/1 已下线，不可能再命中"), "S-119": ("problem", "条件太窄，28 天 0 命中"),
+            "S-112": ("expected", "英国 policy 更新后分数线下调，人审上升属预期"), "S-126": ("expected", "10/12 新上线，带来预期内的处罚增量"),
+            "S-117": ("expected", "9/20 正常调参；也是 G-BR-002 扣分的主要来源"), "S-127": ("paused", "已暂停，不命中属预期")}
+    out = []
+    for s in st:
+        cond = [f"{SCN[s['scenario']]}分 ≥ {s['threshold']:g}"]
+        for c in s["extra_conditions"]:
+            f, v = F[c["field"]], c["value"]
+            if c["op"] == "==" and v == 1:
+                cond.append(f)
+            elif c["field"] == "account_age_days":
+                cond.append(f"账号 < {v} 天")
+            else:
+                cond.append(f"{f} {c['op'].replace('>=', '≥')} {v:,}")
+        role = ROLE.get(s["strategy_id"], ("normal", ""))
+        out.append({"id": s["strategy_id"], "name": s["name"].split("-", 1)[1].replace("（已暂停）", ""), "scn": SCN[s["scenario"]],
+                    "rule": " 且 ".join(cond), "act": ACT[s["action"]], "fin": s["action"] in mt["financial_actions"],
+                    "mk": "全部市场" if s["markets"] == ["ALL"] else "、".join(mt["market_names"][m] for m in s["markets"]),
+                    "hits": int(hits.get(s["strategy_id"], 0)), "owner": s["owner"].replace("策略-", ""), "role": role[0], "note": role[1],
+                    "ver": len(s["versions"])})
+    ses = pd.read_csv(O + "sessions.csv", usecols=["market"]).market.value_counts()
+    mk = [{"code": k, "name": mt["market_names"][k], "per_day": round(ses[k] / 28)} for k in ["US", "ID", "BR", "GB", "VN", "KE"]]
+    json.dump({"strategies": out, "markets": mk}, open("world.json", "w"), ensure_ascii=False)
+
+
+build_world()
