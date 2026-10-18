@@ -19,7 +19,9 @@ live-governance-agent/
   reports/eval_report.md    评估结果表 + 失败分析
   reports/posttrain_report.md  后训练原型报告：基线、Harness v1/v2、Policy-to-Strategy、SFT 结果、可信度
   demo/                     合作方演示页与流程动画的源码（见 demo/README.md）
-  docs/PRD.md               产品需求文档（假设版）
+  docs/PRD.md               产品需求文档（长版，假设版）
+  docs/prd-governance-agent.md  产品视角 PRD v1.0（评审/上线格式：摘要、用例、需求细节、埋点、分阶段上线）
+  docs/technical-one-pager.md   研发视角技术一页纸（方案、指标、系统概览、选型、挑战、路线图）
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
