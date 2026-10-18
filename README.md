@@ -17,6 +17,8 @@ live-governance-agent/
   eval/golden_set.json      37 个标准答案场景 + 巡检期望发现
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
+  reports/posttrain_report.md  后训练原型报告：基线、Harness v1/v2、Policy-to-Strategy、SFT 结果、可信度
+  demo/                     合作方演示页与流程动画的源码（见 demo/README.md）
   docs/PRD.md               产品需求文档（假设版）
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
