@@ -23,8 +23,11 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import sys  # noqa: E402
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
 RUNS = os.path.join(ROOT, "posttrain", "runs")
-WORLDS = os.path.join(RUNS, "worlds")
+from posttrain.evaluate import WORLDS  # noqa: E402  (same world directory as the evaluator)
 
 
 def post(base, path, body):
