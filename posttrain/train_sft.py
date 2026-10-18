@@ -17,11 +17,15 @@ import torch.nn.functional as F
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 from posttrain.harness import obs_segment, prefix_text  # noqa: E402
+from posttrain.harness_v2 import prefix_text as prefix_text_v2  # noqa: E402
+from posttrain.p2s import prefix_text_v2 as prefix_text_p2s  # noqa: E402
 
 
 def build_sample(tok, s):
     ids, lab = [], []
-    p = tok(prefix_text(tok, s["query"])).input_ids
+    kind = s.get("prefix", "v1")   # which harness rendered this sample: v1 | v2 (attribution, with scope hint) | p2s
+    pre = prefix_text_v2(tok, s["query"], s["scope"]) if kind == "v2" else prefix_text_p2s(tok, s["query"]) if kind == "p2s" else prefix_text(tok, s["query"])
+    p = tok(pre).input_ids
     ids += p; lab += [-100] * len(p)
     for a, o in s["turns"]:
         t = tok(a + "<|im_end|>").input_ids
@@ -44,10 +48,12 @@ def main():
     ap.add_argument("--max_steps", type=int, default=0, help="optimizer steps cap (timing runs)")
     ap.add_argument("--grad_ckpt", type=int, default=1)
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--limit", type=int, default=0, help="use only the first N samples (smoke tests)")
     ap.add_argument("--ckpt_every", type=int, default=1, help="save a resumable checkpoint every N optimizer steps")
     a = ap.parse_args()
     torch.set_num_threads(a.threads)
-    torch.manual_seed(0); random.seed(0)
+    torch.manual_seed(a.seed); random.seed(a.seed)
     from transformers import AutoTokenizer, AutoModelForCausalLM
     from peft import LoraConfig, get_peft_model
     tok = AutoTokenizer.from_pretrained(a.base)
@@ -61,6 +67,8 @@ def main():
                                              task_type="CAUSAL_LM"))
     inner, head = model.base_model.model.model, model.base_model.model.lm_head
     data = [build_sample(tok, json.loads(l)) for l in open(a.data)]
+    if a.limit:
+        data = data[:a.limit]
     total_micro = int(len(data) * a.epochs)
     total_steps = math.ceil(total_micro / a.accum)
     if a.max_steps:

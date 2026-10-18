@@ -199,7 +199,8 @@ class EnvV2(Env):
             sc = self.scope
             eg = {"metric": "sessions", "start_date": _shift(sc["date"], -7) if sc.get("date") else DATA_START,
                   "end_date": sc.get("date") or DATA_END, **({"market": sc["market"]} if sc.get("market") else {})}
-            checks.append(("traffic", "提交前先查流量: " + json.dumps({"name": "query_metrics", "arguments": eg}, ensure_ascii=False)))
+            checks.append(("traffic", "提交前先查流量，用来排除流量因素：把流量的变化比例和该指标的变化比例对比，比例接近才是 traffic_driven，否则继续下钻找原因。先调用: "
+                              + json.dumps({"name": "query_metrics", "arguments": eg}, ensure_ascii=False)))
         bad = {k: [v for v in (sub.get(k) or []) if str(v) not in self.seen[k]] for k in ID_RE}
         bad = {k: v for k, v in bad.items() if v}
         if bad:
