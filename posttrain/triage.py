@@ -21,6 +21,7 @@ LABELS = {
     "H-args": ("harness", "工具参数不合法（指标名、时间窗、场景名等）"),
     "H-enum": ("harness", "提交的主因不在可选列表里"),
     "H-premature": ("harness", "没查流量或只查一次就提交结论"),
+    "H-budget": ("harness", "回合用完（14 次调用）仍未提交，一直在查"),
     "H-ids": ("harness", "提交了编造的策略/变更/公会编号"),
     "T-cause": ("training", "格式和步骤都没问题，但在证据面前选错主因"),
     "T-escalation": ("training", "主因对了，但该不该升级判断错"),
@@ -32,6 +33,7 @@ FIX = {
     "H-args": "参数改成枚举并在报错里列出合法值；时间窗自动裁剪到数据范围并说明",
     "H-enum": "submit_card 的 cause_type 强制枚举，不合法时拒收并列出可选值",
     "H-premature": "提交前检查必做步骤（先查流量 sessions）；没做就拒收并提示下一步",
+    "H-budget": "剩余 2 次调用时在观察里提醒提交（v2.1 已加）；SFT 示范里学会何时停",
     "H-ids": "提交时校验编号必须出现在本轮观察里，否则拒收并列出已见过的编号",
     "T-cause": "SFT 示范轨迹 + RL（按主因是否正确给奖励）",
     "T-escalation": "SFT 示范 + RL 奖励里加升级判断",
@@ -44,6 +46,8 @@ def residual_error(r, task):
     s, crit = r.get("submit"), r["criteria"]
     n_asst = sum(1 for m in r["transcript"] if m["role"] == "assistant")
     if s is None:
+        if not r.get("format_errors") and not r.get("gate_rejects"):
+            return "H-budget", n_asst, f"{len(r.get('calls', []))} 次调用后回合结束，始终没有提交"
         return "H-format", n_asst, f"没有提交（门控退回 {r.get('gate_rejects')}，格式错误 {r.get('format_errors')}）"
     if s.get("cause_type") not in CAUSES:
         return "H-enum", n_asst, f"cause_type={s.get('cause_type')!r}（门控退回两次后仍不合法）"

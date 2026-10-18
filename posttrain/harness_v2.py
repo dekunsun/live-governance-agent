@@ -256,6 +256,9 @@ def run_episode(policy, platform, task, max_turns=14):
             obs = env.step(*call)
             if note:
                 obs = f"（{note}）" + obs
+        left = max_turns - 1 - turn
+        if 0 < left <= 2 and submit is None:
+            obs += f"（提醒：还剩 {left} 次调用，之后本轮结束；请尽快用 submit_card 提交结论，没把握就选 insufficient_data 或 needs_clarification）"
         transcript.append({"role": "tool", "text": obs})
         if turn == max_turns - 1:
             break

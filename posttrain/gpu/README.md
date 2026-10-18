@@ -13,6 +13,8 @@
 
 不要把 key 贴到聊天里。
 
+4.（可选，强烈建议）让 Pod 跑完后自己删除自己，防止没人收尾时一直计费：在 Runpod 控制台 Settings → Secrets 新建一个 secret（例如名字 `lga_key`，值就是 API key），然后创建 Pod 时加 `--self-key-secret lga_key`（或在云环境里设环境变量 `RUNPOD_SELF_KEY_SECRET=lga_key`）。Runpod 会在 Pod 内部把它解析成 `RUNPOD_SELF_KEY`，key 不经过这边的会话；Pod 在 DONE 之后等 `--grace-min`（默认 45 分钟）再删除自己。
+
 ## 跑法（Claude 做）
 
 ```bash
@@ -25,7 +27,8 @@ python posttrain/gpu/runpod_ctl.py create --stage B1 --models Qwen/Qwen3-4B --se
 - `create --dry-run` 只打印请求体。
 - `wait` 结束时打印本次等待的大致费用；`--keep` 保留 Pod 不终止（调试用）。
 - 任何时候手动收尾：`python posttrain/gpu/runpod_ctl.py terminate <POD_ID>`；或 Runpod 控制台里删除。
-- Pod 里的看门狗：超过 `--max-hours`（默认 4 小时）就停止任务并标记 TIMEOUT，但 **Pod 本身不会自己终止**（它没有 key）。所以 `wait` 必须跑到结束，或者人去控制台确认 Pod 已删除。
+- Pod 里的看门狗：超过 `--max-hours`（默认 4 小时）就停止任务并标记 TIMEOUT。没有 `--self-key-secret` 时 **Pod 不会自己终止**，所以 `wait` 必须跑到结束，或者人去控制台确认 Pod 已删除。
+- 下载结果用 `results <POD_ID>`；它只在核对过 Pod 列出的全部文件都拿到后才算 complete，`wait` 也只在 complete 后才终止 Pod。如果 Pod 的结果端口对 Python 返回 403（代理拦截），用 `curl -o bundle.tgz https://<POD_ID>-8000.proxy.runpod.net/bundle.tgz` 手动拿。
 
 ## 费用止损
 

@@ -65,7 +65,9 @@ def cmd_list(a):
 
 
 def cmd_create(a):
-    env = {"STAGE": a.stage, "MODELS": a.models, "SEEDS": a.seeds, "REPO_URL": a.repo, "REPO_REF": a.ref, "MAX_SECONDS": str(int(a.max_hours * 3600))}
+    env = {"STAGE": a.stage, "MODELS": a.models, "SEEDS": a.seeds, "REPO_URL": a.repo, "REPO_REF": a.ref, "MAX_SECONDS": str(int(a.max_hours * 3600)), "GRACE_SECONDS": str(int(a.grace_min * 60))}
+    if a.self_key_secret:
+        env["RUNPOD_SELF_KEY"] = "{{ RUNPOD_SECRET_%s }}" % a.self_key_secret   # resolved by Runpod inside the Pod; never passes through here
     # The vllm image's ENTRYPOINT is the API server, so we override the entrypoint with a shell. The result port is
     # served from the very first second (STATUS=BOOT) so a Pod that never reaches the job can be told apart from
     # one that is still installing.
@@ -96,7 +98,8 @@ def pod_status_url(pid, port=8000):
 
 def fetch(url, timeout=30, binary=False, quiet=True):
     try:
-        with urllib.request.urlopen(url, timeout=timeout) as r:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; live-governance-agent/1.0)"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:
             d = r.read()
             return d if binary else d.decode(errors="replace")
     except Exception as e:
@@ -163,7 +166,7 @@ def cmd_wait(a):
     t0 = time.time()
     while True:
         pod, st = cmd_status(a)
-        if st in ("DONE", "TIMEOUT") or st.startswith("FAILED"):
+        if st in ("DONE", "EXITED", "TIMEOUT") or st.startswith("FAILED"):
             ok = cmd_results(a)
             log = fetch(pod_status_url(a.pod) + "/LOG")
             if log:
@@ -196,6 +199,8 @@ def main():
     c.add_argument("--spot", action="store_true"); c.add_argument("--max-hours", type=float, default=4.0)
     c.add_argument("--repo", default="https://github.com/dekunsun/live-governance-agent"); c.add_argument("--ref", default="main")
     c.add_argument("--name", default=None); c.add_argument("--dry-run", action="store_true")
+    c.add_argument("--grace-min", type=float, default=45.0, help="minutes the Pod keeps serving results after DONE before self-terminating (needs --self-key-secret)")
+    c.add_argument("--self-key-secret", default=os.environ.get("RUNPOD_SELF_KEY_SECRET"), help="name of a Runpod account secret holding an API key; lets the Pod delete itself after the grace period")
     for n in ("status", "results", "terminate", "wait"):
         s = sub.add_parser(n); s.add_argument("pod")
         if n == "wait":

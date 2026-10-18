@@ -9,6 +9,7 @@
 #   REPO_URL / REPO_REF                                                       default public repo / main
 #   RESULT_PORT  http.server port for results                                 default 8000
 #   MAX_SECONDS  hard stop: kill the stage and mark TIMEOUT                   default 14400
+#   GRACE_SECONDS seconds to keep serving results after DONE before exiting  default 2700
 set -uo pipefail
 STAGE=${STAGE:-B0}; MODELS=${MODELS:-"Qwen/Qwen3-4B Qwen/Qwen3-8B"}; SEEDS=${SEEDS:-"1 2 3"}
 REPO_URL=${REPO_URL:-https://github.com/dekunsun/live-governance-agent}; REPO_REF=${REPO_REF:-main}
@@ -18,8 +19,9 @@ R=/workspace/results; mkdir -p $R /workspace/hf; cd /workspace
 log() { echo "$(date -u +%FT%TZ) $*" | tee -a $R/LOG; }
 status() { echo "$1" > $R/STATUS; log "STATUS $1"; }
 pgrep -f "http.server $RESULT_PORT" >/dev/null || ( python3 -m http.server $RESULT_PORT --directory $R >/dev/null 2>&1 & )
+if [ "$(cat $R/STATUS 2>/dev/null)" = DONE ]; then log "already DONE; serving results only"; sleep infinity; fi
 status SETUP
-( sleep $MAX_SECONDS; status TIMEOUT; pkill -f "vllm serve"; pkill -f posttrain/ ) &
+( sleep $MAX_SECONDS; status TIMEOUT; pkill -f "vllm serve"; pkill -f "posttrain/(evaluate|p2s|train_sft|triage)" ) &
 
 apt-get update -qq >/dev/null 2>&1; apt-get install -y -qq git curl >/dev/null 2>&1
 pip install -q pandas peft >/dev/null 2>&1
@@ -75,4 +77,11 @@ esac
 cp $R/LOG $R/LOG.txt; ls -1 $R > $R/MANIFEST.txt
 tar czf /workspace/bundle.tgz -C /workspace results && mv /workspace/bundle.tgz $R/bundle.tgz; ls -la $R/bundle.tgz >> $R/LOG
 status DONE
+# Self-termination (optional): if the Pod was given a Runpod API key through a Runpod account secret
+# (env RUNPOD_SELF_KEY = {{ RUNPOD_SECRET_<name> }}), delete itself after the grace period so an unattended Pod
+# stops billing. Without a key it just idles; the controller / cost guard must terminate it.
+sleep ${GRACE_SECONDS:-2700}
+if [ -n "${RUNPOD_SELF_KEY:-}" ] && [ -n "${RUNPOD_POD_ID:-}" ]; then
+  status SELF_TERMINATE; curl -s -X DELETE -H "Authorization: Bearer $RUNPOD_SELF_KEY" "https://rest.runpod.io/v1/pods/$RUNPOD_POD_ID" >/dev/null
+fi
 sleep infinity
