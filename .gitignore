@@ -6,3 +6,5 @@ drafts/*.json
 .streamlit/
 data/worlds/
 posttrain/runs/
+# run traces are written on every query; a few examples are committed, new ones stay local
+traces/*.json
