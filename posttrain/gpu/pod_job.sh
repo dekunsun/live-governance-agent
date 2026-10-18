@@ -17,7 +17,7 @@ export HF_HOME=/workspace/hf HF_HUB_DISABLE_PROGRESS_BARS=1 PYTHONWARNINGS=ignor
 R=/workspace/results; mkdir -p $R /workspace/hf; cd /workspace
 log() { echo "$(date -u +%FT%TZ) $*" | tee -a $R/LOG; }
 status() { echo "$1" > $R/STATUS; log "STATUS $1"; }
-( python3 -m http.server $RESULT_PORT --directory $R >/dev/null 2>&1 & )
+pgrep -f "http.server $RESULT_PORT" >/dev/null || ( python3 -m http.server $RESULT_PORT --directory $R >/dev/null 2>&1 & )
 status SETUP
 ( sleep $MAX_SECONDS; status TIMEOUT; pkill -f "vllm serve"; pkill -f posttrain/ ) &
 

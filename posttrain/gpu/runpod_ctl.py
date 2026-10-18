@@ -65,13 +65,18 @@ def cmd_list(a):
 
 def cmd_create(a):
     env = {"STAGE": a.stage, "MODELS": a.models, "SEEDS": a.seeds, "REPO_URL": a.repo, "REPO_REF": a.ref, "MAX_SECONDS": str(int(a.max_hours * 3600))}
-    start = ("apt-get update -qq >/dev/null 2>&1; apt-get install -y -qq git curl >/dev/null 2>&1; "
-             f"git clone -q --depth 1 -b {a.ref} {a.repo} /workspace/repo; bash /workspace/repo/posttrain/gpu/pod_job.sh")
+    # The vllm image's ENTRYPOINT is the API server, so we override the entrypoint with a shell. The result port is
+    # served from the very first second (STATUS=BOOT) so a Pod that never reaches the job can be told apart from
+    # one that is still installing.
+    start = ("mkdir -p /workspace/results && (python3 -m http.server 8000 --directory /workspace/results >/dev/null 2>&1 &) "
+             "&& echo BOOT > /workspace/results/STATUS && exec > >(tee -a /workspace/results/boot.log) 2>&1; "
+             "apt-get update -qq; apt-get install -y -qq git curl; "
+             f"git clone -q --depth 1 -b {a.ref} {a.repo} /workspace/repo; bash /workspace/repo/posttrain/gpu/pod_job.sh; sleep infinity")
     body = {"name": a.name or f"lga-{a.stage.lower()}-{int(time.time()) % 100000}", "imageName": a.image, "cloudType": a.cloud,
             "gpuTypeIds": a.gpus.split(",") if a.gpus else GPU_DEFAULT, "gpuTypePriority": "custom", "gpuCount": 1,
             "containerDiskInGb": 80, "volumeInGb": 60, "volumeMountPath": "/workspace",
             "ports": ["8000/http", "8001/http"], "env": env, "interruptible": a.spot,
-            "dockerEntrypoint": [], "dockerStartCmd": ["bash", "-lc", start]}
+            "dockerEntrypoint": ["bash", "-lc"], "dockerStartCmd": [start]}
     est = max(PRICE_GUESS.get(g, 1.0) for g in body["gpuTypeIds"]) * a.max_hours
     print(f"creating {body['name']} stage={a.stage} models={a.models!r} gpus={body['gpuTypeIds']} cap={a.max_hours}h (worst-case ≈ ${est:.0f})")
     if a.dry_run:
