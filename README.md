@@ -1,4 +1,4 @@
-# governance-copilot — 治理策略巡检与异常归因助手（可演示原型）
+# live-governance-agent — 治理策略巡检与异常归因助手（可演示原型）
 
 对应 PRD《治理策略巡检与异常归因助手（假设版）》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
 **异常归因**、**策略健康巡检**、**Case 证据包**，带评估报告。全部数据合成，不含任何真实内部信息。
@@ -6,7 +6,7 @@
 给非技术读者：模拟的策略库和数据各有一份白话说明，见 [docs/simulated-strategy-library.md](docs/simulated-strategy-library.md) 和 [docs/simulated-data.md](docs/simulated-data.md)。
 
 ```
-governance-copilot/
+live-governance-agent/
   data/generate.py          合成数据 + 埋入的 11 个问题（见文件头注释）
   data/out/                 生成结果（sessions / hit_logs / appeals / qa_samples / metrics / strategies / change_log）
   gov_platform/tools.py     模拟平台工具（10 个读工具 + 1 个只出草稿的写工具），JSON schema，返回带 ref_id
