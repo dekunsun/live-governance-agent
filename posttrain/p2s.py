@@ -482,6 +482,14 @@ class EnvV2(Env):
                 notes.append(f"strategy_id={sid} 是动作名，已改为 action 过滤")
             else:
                 notes.append(f"strategy_id={sid} 不是策略编号，已忽略")
+        mk = args.get("market")
+        if isinstance(mk, list):          # markets=[...] passed where the tool takes a single market
+            mk = mk[0] if len(mk) == 1 else "ALL"
+        if isinstance(mk, str) and mk.strip().upper() in ("ALL", "全部", "所有", "全市场", "*"):
+            args.pop("market", None)
+            notes.append("market=ALL 表示不限市场，已去掉该过滤")
+        elif mk != args.get("market"):
+            args["market"] = mk
         if name == "backtest_rule" and "thresholds" in args:
             nums, n2 = _num_list(args["thresholds"])
             if nums != args["thresholds"]:

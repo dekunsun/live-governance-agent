@@ -19,6 +19,7 @@ from posttrain.harness import (CAUSES, SYSTEM, TOOL_NAMES, TOOLS, Env, compact, 
 
 HARNESS_VERSION = "v2"
 DATA_START, DATA_END = "2026-09-18", "2026-10-15"
+DIMS = ("strategy_id", "guild_id", "market", "scenario")
 EXEMPT_TRAFFIC = {"needs_clarification", "guild_health_real_violations", "guild_health_unfair_deduction"}
 ID_RE = {"strategy_ids": r"S-\d{3}", "change_ids": r"C-\d{3}", "guild_ids": r"G-[A-Z]{2}-\d{3}"}
 MAX_GATE_REJECTS = 2
@@ -118,6 +119,11 @@ class Normalizer:
                     a[k] = new
         if isinstance(a.get("group_by"), str):
             a["group_by"] = [a["group_by"]]
+        if tool == "query_metrics" and a.get("metric") in DIMS:      # metric="strategy_id" means "break down by strategy"
+            dim = a.pop("metric")
+            a["group_by"] = sorted(set(a.get("group_by") or []) | {dim})
+            a["metric"] = "enforcements"
+            notes.append(f"metric={dim} 是维度不是指标，已改为 metric=enforcements, group_by={a['group_by']}")
         for s, e in (("start_date", "end_date"), ("baseline_start", "baseline_end"), ("current_start", "current_end")):
             for k in (s, e):
                 if isinstance(a.get(k), str) and len(a[k]) == 10 and _clip(a[k]) != a[k]:
@@ -184,7 +190,7 @@ class EnvV2(Env):
         if err in ("unknown_strategy", "unknown_guild"):
             k = "strategy_ids" if err == "unknown_strategy" else "guild_ids"
             seen = sorted(self.seen[k])
-            return ("已出现过的编号: " + ", ".join(seen)) if seen else "先用 query_metrics 按 strategy_id/guild_id 下钻拿到编号"
+            return ("已出现过的编号: " + ", ".join(seen)) if seen else '先下钻拿到编号，例如 query_metrics(metric="enforcements", group_by=["strategy_id"], ...)' 
         if err == "bad_window":
             return f"日期格式 YYYY-MM-DD，范围 {DATA_START}~{DATA_END}，开始不晚于结束"
         return "检查参数后换一种调用"
