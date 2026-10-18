@@ -629,7 +629,49 @@ def cmd_check(a):
     print(f"reference replay {ok}/{len(tasks)}")
 
 
+def cmd_eval_vllm(a):
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    from posttrain.policy_vllm import VLLMPolicy, shared_tokenizer, wait_ready
+    base = a.base_url or os.environ.get("VLLM_BASE_URL", "http://127.0.0.1:8001")
+    assert wait_ready(base), f"vLLM not reachable at {base}"
+    tok = shared_tokenizer(os.environ.get("TOKENIZER_MODEL", a.model))
+    tasks = [json.loads(l) for l in open(os.path.join(RUNS, f"p2s_tasks_{a.split}.jsonl"))]
+    if a.limit:
+        tasks = tasks[:a.limit]
+    out_path = os.path.join(RUNS, f"p2s_eval_{a.name}_{a.split}.jsonl")
+    done = {json.loads(l)["task_id"] for l in open(out_path)} if os.path.exists(out_path) else set()
+    by_world, lock, n = {}, threading.Lock(), [len(done)]
+    for t in tasks:
+        if t["task_id"] not in done:
+            by_world.setdefault(t["world"], []).append(t)
+    f = open(out_path, "a")
+
+    def run_world(wid):
+        w = World(wid)
+        policy = VLLMPolicy(base, a.model, tok=tok)
+        for t in by_world[wid]:
+            t0 = time.time()
+            try:
+                r = run_episode(policy, w, t, harness=a.harness)
+            except Exception as e:
+                r = {"task_id": t["task_id"], "error": str(e)[:300], "submit": None, "calls": [], "transcript": [], "criteria": {},
+                     "pass": False, "score": 0.0, "gate_rejects": {}, "format_errors": 0}
+            r["latency_s"], r["gen_tokens"] = round(time.time() - t0, 1), policy.gen_tokens
+            with lock:
+                n[0] += 1
+                f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n"); f.flush()
+                print(f"[p2s-{a.name}] {n[0]}/{len(tasks)} {t['task_id']} {t['kind']:<8} pass={r['pass']} score={r['score']:.2f} "
+                      f"got={(r['submit'] or {}).get('decision')} calls={len(r['calls'])} {r['latency_s']}s", flush=True)
+
+    with ThreadPoolExecutor(max_workers=a.concurrency) as ex:
+        list(ex.map(run_world, sorted(by_world)))
+    f.close()
+
+
 def cmd_eval(a):
+    if a.engine == "vllm":
+        return cmd_eval_vllm(a)
     from posttrain.policy import QwenPolicy, load
     tasks = [json.loads(l) for l in open(os.path.join(RUNS, f"p2s_tasks_{a.split}.jsonl"))]
     if a.limit:
@@ -661,6 +703,10 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--harness", default="v1", choices=["v1", "v2"])
+    ap.add_argument("--engine", default="hf", choices=["hf", "vllm"])
+    ap.add_argument("--model", default=None)
+    ap.add_argument("--base-url", default=None)
+    ap.add_argument("--concurrency", type=int, default=16)
     a = ap.parse_args()
     {"gen": cmd_gen, "check": cmd_check, "eval": cmd_eval}[a.cmd](a)
 

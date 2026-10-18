@@ -57,7 +57,8 @@ def main():
     from transformers import AutoTokenizer, AutoModelForCausalLM
     from peft import LoraConfig, get_peft_model
     tok = AutoTokenizer.from_pretrained(a.base)
-    model = AutoModelForCausalLM.from_pretrained(a.base, torch_dtype=torch.float32)
+    dev = "cuda" if torch.cuda.is_available() else "cpu"
+    model = AutoModelForCausalLM.from_pretrained(a.base, dtype=torch.bfloat16 if dev == "cuda" else torch.float32).to(dev)
     if a.grad_ckpt:
         model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
         model.enable_input_require_grads()
@@ -98,12 +99,14 @@ def main():
         t0, loss_sum, ntok = time.time(), 0.0, 0
         for k in range(a.accum):
             ids, lab = data[order[step * a.accum + k]]
-            x = torch.tensor([ids])
+            x = torch.tensor([ids], device=dev)
             hidden = inner(input_ids=x).last_hidden_state[0]
-            lab_t = torch.tensor(lab)
+            lab_t = torch.tensor(lab, device=dev)
             sel = (lab_t[1:] != -100).nonzero(as_tuple=True)[0]
             logits = head(hidden[sel])
             loss = F.cross_entropy(logits.float(), lab_t[1:][sel])
+            if dev == "cuda" and a.accum > 1:
+                pass
             (loss / a.accum).backward()
             loss_sum += float(loss); ntok += len(sel)
         torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad], 1.0)

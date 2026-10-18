@@ -63,6 +63,54 @@ def summarize(rows, tasks):
     return out
 
 
+def main_vllm(a, episode):
+    """Worlds run in parallel threads; inside a world, tasks run sequentially (one Platform + one policy per world)."""
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+    from posttrain.policy_vllm import VLLMPolicy, shared_tokenizer, wait_ready
+    base = a.base_url or os.environ.get("VLLM_BASE_URL", "http://127.0.0.1:8001")
+    assert wait_ready(base), f"vLLM not reachable at {base}"
+    tok = shared_tokenizer(os.environ.get("TOKENIZER_MODEL", a.model))
+    tasks = [json.loads(l) for l in open(os.path.join(RUNS, f"tasks_{a.split}.jsonl"))]
+    if a.limit:
+        tasks = tasks[:a.limit]
+    out_path = os.path.join(RUNS, f"eval_{a.name}_{a.split}.jsonl")
+    done = {}
+    if os.path.exists(out_path):
+        for l in open(out_path):
+            r = json.loads(l); done[r["task_id"]] = r
+    rows, lock, counter = list(done.values()), threading.Lock(), [len(done)]
+    by_world = {}
+    for t in tasks:
+        if t["task_id"] not in done:
+            by_world.setdefault(t["world"], []).append(t)
+    f = open(out_path, "a")
+
+    def run_world(wid):
+        p = Platform(data_dir=os.path.join(WORLDS, wid))
+        policy = VLLMPolicy(base, a.model, tok=tok)
+        for t in by_world[wid]:
+            t0 = time.time()
+            try:
+                r = episode(policy, p, t)
+            except Exception as e:   # one bad episode must not kill the run
+                r = {"task_id": t["task_id"], "error": str(e)[:300], "submit": None, "calls": [], "transcript": [],
+                     "criteria": {}, "pass": False, "score": 0.0, "unknown_refs": [], "format_errors": 0}
+            r["latency_s"], r["gen_tokens"] = round(time.time() - t0, 1), policy.gen_tokens
+            with lock:
+                rows.append(r); counter[0] += 1
+                f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n"); f.flush()
+                print(f"[{a.name}] {counter[0]}/{len(tasks)} {t['task_id']} {t['expected']['accepted_cause_types'][0]:<28} pass={r['pass']} "
+                      f"score={r['score']:.2f} got={(r['submit'] or {}).get('cause_type')} calls={len(r['calls'])} {r['latency_s']}s", flush=True)
+
+    with ThreadPoolExecutor(max_workers=a.concurrency) as ex:
+        list(ex.map(run_world, sorted(by_world)))
+    f.close()
+    summ = summarize([r for r in rows if r.get("criteria")], tasks)
+    json.dump(summ, open(os.path.join(RUNS, f"summary_{a.name}_{a.split}.json"), "w"), ensure_ascii=False, indent=1)
+    print(json.dumps(summ["overall"], ensure_ascii=False))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--name", required=True)
@@ -72,10 +120,16 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--harness", default="v1", choices=["v1", "v2"])
     ap.add_argument("--threads", type=int, default=4)
+    ap.add_argument("--engine", default="hf", choices=["hf", "vllm"], help="hf: in-process transformers (CPU/GPU); vllm: OpenAI-compatible server")
+    ap.add_argument("--model", default=None, help="vllm: served model (or LoRA adapter) name")
+    ap.add_argument("--base-url", default=None, help="vllm: server url, default $VLLM_BASE_URL or http://127.0.0.1:8001")
+    ap.add_argument("--concurrency", type=int, default=16, help="vllm: worlds evaluated in parallel")
     a = ap.parse_args()
     episode = run_episode
     if a.harness == "v2":
         from posttrain.harness_v2 import run_episode as episode
+    if a.engine == "vllm" and not a.rules:
+        return main_vllm(a, episode)
     tasks = [json.loads(l) for l in open(os.path.join(RUNS, f"tasks_{a.split}.jsonl"))]
     if a.limit:
         tasks = tasks[:a.limit]
