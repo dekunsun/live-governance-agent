@@ -29,10 +29,13 @@ def score_case(case, card):
     pc = card.get("primary_cause") or {}
     ptype = pc.get("type")
     if case.get("card_type") == "health_check":
-        found = [f for f in card.get("findings", []) if f["finding_type"] == "strategy_overlap"]
+        want = case.get("required_finding_type", "strategy_overlap")
+        found = [f for f in card.get("findings", []) if f["finding_type"] == want]
         ok_type = bool(found)
         ok_s = any(set(case["required_strategy_ids"]) <= set(f["strategy_ids"]) for f in found)
-        ok_c = True
+        forbidden = set(case.get("forbidden_finding_types", []))
+        ok_c = not any(f["finding_type"] in forbidden and set(f["strategy_ids"]) & set(case["required_strategy_ids"])
+                       for f in card.get("findings", []))
     else:
         ok_type = ptype in case["accepted_cause_types"]
         ok_s = set(case["required_strategy_ids"]) <= set(pc.get("strategy_ids") or [])

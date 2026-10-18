@@ -523,6 +523,25 @@
    "required_change_ids": [],
    "required_guild_ids": [],
    "needs_escalation": null
+  },
+  {
+   "id": "G37",
+   "category": "paused_strategy",
+   "market": null,
+   "query": "S-127 为什么一直没有命中",
+   "accepted_cause_types": [],
+   "required_strategy_ids": [
+    "S-127"
+   ],
+   "required_change_ids": [],
+   "needs_escalation": false,
+   "card_type": "health_check",
+   "required_finding_type": "paused_strategy",
+   "forbidden_finding_types": [
+    "zombie_strategy",
+    "effect_decline"
+   ],
+   "_note": "暂停策略 0 命中是预期，正确答案是“已暂停”，不能报成僵尸策略或效果下降"
   }
  ],
  "health_truth": {

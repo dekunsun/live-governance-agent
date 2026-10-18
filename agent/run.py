@@ -254,7 +254,7 @@ class RulesEngine:
             return self.case(query, s["session_id"])
         if s.get("guild_health") and s.get("guild_id"):
             return self.guild_health(query, s["guild_id"], s.get("date") or self.meta["end"])
-        if s["strategy_id"] and not s["metric"] and not s["metric_candidates"]:
+        if s["strategy_id"] and (not s["market"] or (not s["metric"] and not s["metric_candidates"])):
             return self.health_check(query, strategy_ids=[s["strategy_id"]])
         missing = [k for k in ("market", "date") if not s.get(k)]
         if missing or (not s["metric"] and not s["metric_candidates"]):
@@ -762,6 +762,13 @@ class RulesEngine:
         w7_prev_end = (d - timedelta(days=7)).isoformat()
         cfg = self.call(trace, "get_strategy_config", status="active")
         strategies = [s for s in cfg["strategies"] if not strategy_ids or s["strategy_id"] in strategy_ids]
+        inactive = []
+        if strategy_ids:
+            for sid in strategy_ids:
+                if sid not in {s["strategy_id"] for s in strategies}:
+                    one = self.call(trace, "get_strategy_config", strategy_id=sid)
+                    if "error" not in one:
+                        inactive += [x for x in one["strategies"] if x["status"] != "active"]
         cur = self.call(trace, "query_metrics", metric="hits", start_date=w7, end_date=D, group_by=["strategy_id"], granularity="total")
         prev = self.call(trace, "query_metrics", metric="hits", start_date=w21, end_date=w7_prev_end, group_by=["strategy_id"], granularity="total")
         full = self.call(trace, "query_metrics", metric="hits", start_date=self.meta["start"], end_date=D, group_by=["strategy_id"], granularity="total")
@@ -863,13 +870,21 @@ class RulesEngine:
             findings.append({"finding_type": "expected_change", "strategy_ids": [c["strategy_id"]], "severity": "info", "market": ",".join(c["markets"]),
                              "evidence": [c["change_id"]], "explanation": f"{c['change_id']} {c['date']} {c['summary']}（预期内，看板应标注）",
                              "suggested_action": "观察变更后精确率", "needs_human": False})
+        for x in inactive:
+            hits28 = self.call(trace, "query_metrics", metric="hits", start_date=self.meta["start"], end_date=D,
+                               strategy_id=x["strategy_id"], granularity="total")
+            n = hits28["rows"][0]["value"] if "error" not in hits28 and hits28["rows"] else 0
+            findings.append({"finding_type": "paused_strategy", "strategy_ids": [x["strategy_id"]], "severity": "info", "market": ",".join(x["markets"]),
+                             "evidence": [one_ref for one_ref in [hits28.get("ref_id")] if one_ref],
+                             "explanation": f"{x['strategy_id']}（{x['name']}）状态为 {x['status']}，近 28 天命中 {n} 次；不命中是暂停的预期结果，不是僵尸策略",
+                             "suggested_action": "无需处理；如要恢复，先用 run_backtest 回放再按变更流程上线，长期不用可归档", "needs_human": False})
         order = {"high": 0, "medium": 1, "low": 2, "info": 3}
         for f in findings:
             f["evidence"] = [e for e in f["evidence"] if e]
         findings.sort(key=lambda f: order[f["severity"]])
         card = {"card_type": "health_check", "query": query, "as_of": D, "scope": {"strategies_checked": len(strategies)},
-                "findings": findings, "conclusion": f"巡检 {len(strategies)} 条线上策略，{sum(f['severity'] in ('high', 'medium') for f in findings)} 条待处理，"
-                                                   f"{sum(f['severity'] == 'info' for f in findings)} 条预期内变更",
+                "findings": findings, "conclusion": (f"{'、'.join(x['strategy_id'] for x in inactive)} 已暂停，不命中属预期；" if inactive else "") + f"巡检 {len(strategies)} 条线上策略，{sum(f['severity'] in ('high', 'medium') for f in findings)} 条待处理，"
+                                                   f"{sum(f['finding_type'] == 'expected_change' for f in findings)} 条预期内变更",
                 "confidence": "high", "evidence": [{"ref_id": f["evidence"][0], "type": f["finding_type"], "what": f["explanation"]} for f in findings if f["evidence"]],
                 "next_steps": [f["suggested_action"] for f in findings if f["severity"] == "high"], "needs_escalation": False,
                 "escalation_reasons": [], "platform_links": [f"platform://strategy/{s}" for f in findings for s in f["strategy_ids"]][:10]}
@@ -904,7 +919,7 @@ CARD_SCHEMA = {
             "metric": {"type": ["string", "null"]}, "what": {"type": "string"}}, "required": ["ref_id", "type", "metric", "what"]}},
         "findings": {"type": "array", "items": {"type": "object", "additionalProperties": False, "properties": {
             "finding_type": {"type": "string", "enum": ["effect_decline", "zombie_strategy", "strategy_overlap", "drift_threshold",
-                                                        "precision_decline", "recall_decline", "guild_health_breach", "expected_change"]},
+                                                        "precision_decline", "recall_decline", "guild_health_breach", "paused_strategy", "expected_change"]},
             "strategy_ids": {"type": "array", "items": {"type": "string"}}, "severity": {"type": "string", "enum": ["high", "medium", "low", "info"]},
             "market": {"type": "string"}, "evidence": {"type": "array", "items": {"type": "string"}}, "explanation": {"type": "string"},
             "suggested_action": {"type": "string"}, "needs_human": {"type": "boolean"}},

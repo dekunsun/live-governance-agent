@@ -1,7 +1,7 @@
 {
  "summary": {
   "engine": "rules",
-  "n_cases": 36,
+  "n_cases": 37,
   "accuracy": 1.0,
   "hallucination_rate": 0.0,
   "trap_pass_rate": 1.0,
@@ -22,7 +22,8 @@
    "case": 1.0,
    "overlap": 1.0,
    "guild": 1.0,
-   "guild_health": 1.0
+   "guild_health": 1.0,
+   "paused_strategy": 1.0
   },
   "by_market": {
    "US": 1.0,
@@ -33,14 +34,14 @@
    "VN": 1.0
   },
   "latency_s": {
-   "mean": 0.078,
-   "max": 0.395
+   "mean": 0.076,
+   "max": 0.35
   },
   "cost_usd": {
    "mean": 0.0,
    "total": 0.0
   },
-  "tool_calls_mean": 5.4,
+  "tool_calls_mean": 5.5,
   "health": {
    "expected": 6,
    "found": 6,
@@ -49,7 +50,7 @@
    "recall": 1.0,
    "precision": 1.0,
    "n_alerts": 7,
-   "latency_s": 3.118,
+   "latency_s": 2.838,
    "cost_usd": 0.0,
    "tool_calls": 67
   },
@@ -159,7 +160,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.353,
+   "latency_s": 0.35,
    "tool_calls": 13,
    "cost_usd": 0.0,
    "usage": {
@@ -194,7 +195,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.246,
+   "latency_s": 0.211,
    "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
@@ -227,7 +228,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.143,
+   "latency_s": 0.12,
    "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
@@ -260,7 +261,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.186,
+   "latency_s": 0.157,
    "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
@@ -293,7 +294,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.13,
+   "latency_s": 0.129,
    "tool_calls": 9,
    "cost_usd": 0.0,
    "usage": {
@@ -324,7 +325,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.009,
+   "latency_s": 0.008,
    "tool_calls": 2,
    "cost_usd": 0.0,
    "usage": {
@@ -353,7 +354,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.009,
+   "latency_s": 0.008,
    "tool_calls": 2,
    "cost_usd": 0.0,
    "usage": {
@@ -382,7 +383,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.014,
+   "latency_s": 0.012,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -413,7 +414,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.11,
+   "latency_s": 0.088,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -444,7 +445,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.136,
+   "latency_s": 0.126,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -475,7 +476,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "medium",
-   "latency_s": 0.094,
+   "latency_s": 0.09,
    "tool_calls": 8,
    "cost_usd": 0.0,
    "usage": {
@@ -509,7 +510,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.022,
+   "latency_s": 0.021,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -543,7 +544,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.026,
+   "latency_s": 0.02,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -576,7 +577,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.022,
+   "latency_s": 0.02,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -609,7 +610,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.021,
+   "latency_s": 0.02,
    "tool_calls": 6,
    "cost_usd": 0.0,
    "usage": {
@@ -696,7 +697,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.013,
+   "latency_s": 0.012,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -754,7 +755,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "n/a",
-   "latency_s": 0.001,
+   "latency_s": 0.0,
    "tool_calls": 0,
    "cost_usd": 0.0,
    "usage": {
@@ -845,7 +846,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.189,
+   "latency_s": 0.173,
    "tool_calls": 15,
    "cost_usd": 0.0,
    "usage": {
@@ -880,7 +881,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.155,
+   "latency_s": 0.151,
    "tool_calls": 10,
    "cost_usd": 0.0,
    "usage": {
@@ -971,7 +972,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "low",
-   "latency_s": 0.011,
+   "latency_s": 0.009,
    "tool_calls": 3,
    "cost_usd": 0.0,
    "usage": {
@@ -1006,7 +1007,7 @@
    "got_guild_ids": null,
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.011,
+   "latency_s": 0.01,
    "tool_calls": 1,
    "cost_usd": 0.0,
    "usage": {
@@ -1068,7 +1069,7 @@
    "got_guild_ids": null,
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.395,
+   "latency_s": 0.349,
    "tool_calls": 11,
    "cost_usd": 0.0,
    "usage": {
@@ -1101,7 +1102,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.096,
+   "latency_s": 0.086,
    "tool_calls": 7,
    "cost_usd": 0.0,
    "usage": {
@@ -1137,7 +1138,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.091,
+   "latency_s": 0.089,
    "tool_calls": 7,
    "cost_usd": 0.0,
    "usage": {
@@ -1201,7 +1202,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.132,
+   "latency_s": 0.13,
    "tool_calls": 5,
    "cost_usd": 0.0,
    "usage": {
@@ -1238,7 +1239,7 @@
    ],
    "got_escalation": true,
    "confidence": "medium",
-   "latency_s": 0.109,
+   "latency_s": 0.103,
    "tool_calls": 4,
    "cost_usd": 0.0,
    "usage": {
@@ -1271,7 +1272,7 @@
    ],
    "got_escalation": false,
    "confidence": "high",
-   "latency_s": 0.015,
+   "latency_s": 0.014,
    "tool_calls": 1,
    "cost_usd": 0.0,
    "usage": {
@@ -1280,6 +1281,35 @@
     "cache_read_input_tokens": 0
    },
    "conclusion": "G-GB-001 近 14 天健康分 96.54→96.24（正常），扣分 4.95、恢复 4.0，属正常波动",
+   "escalation_reasons": []
+  },
+  {
+   "id": "G37",
+   "category": "paused_strategy",
+   "market": null,
+   "query": "S-127 为什么一直没有命中",
+   "correct": true,
+   "type_ok": true,
+   "strategy_ok": true,
+   "change_ok": true,
+   "escalation_ok": true,
+   "metric_ok": true,
+   "hallucination": false,
+   "got_type": null,
+   "got_strategy_ids": null,
+   "got_change_ids": null,
+   "got_guild_ids": null,
+   "got_escalation": false,
+   "confidence": "high",
+   "latency_s": 0.234,
+   "tool_calls": 12,
+   "cost_usd": 0.0,
+   "usage": {
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cache_read_input_tokens": 0
+   },
+   "conclusion": "S-127 已暂停，不命中属预期；巡检 0 条线上策略，0 条待处理，0 条预期内变更",
    "escalation_reasons": []
   }
  ]

@@ -12,7 +12,7 @@ governance-copilot/
   agent/playbooks/          异常归因、健康巡检两份 playbook（既是文档，也是 LLM 的 system prompt）
   agent/run.py              两个引擎（rules / llm）+ 护栏（升级规则写死）+ 完整 trace
   app/app.py                Streamlit 对话界面：卡片、证据、「在平台打开」、可展开 trace
-  eval/golden_set.json      30 个标准答案场景 + 巡检期望发现
+  eval/golden_set.json      37 个标准答案场景 + 巡检期望发现
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
   docs/PRD.md               产品需求文档（假设版）
