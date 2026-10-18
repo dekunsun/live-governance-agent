@@ -4,3 +4,5 @@ __pycache__/
 data/out/*.csv
 drafts/*.json
 .streamlit/
+data/worlds/
+posttrain/runs/

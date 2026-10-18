@@ -213,6 +213,70 @@ POLICIES = [
 ]
 
 
+
+HIGH_SCORE_STRATEGY = {"adult_content": "S-101", "scam_fraud": "S-102", "minor_safety": "S-105", "violence": "S-107",
+                       "gambling": "S-115", "spam_bot": "S-117", "hate_harassment": "S-123", "counterfeit": "S-109"}
+
+
+def _bump(version):
+    major = int(version.lstrip("v").split(".")[0])
+    return f"v{major + 1}"
+
+
+def configure(spec):
+    """Relocate the planted problems for an alternative 'world'. Without a spec the default world is unchanged.
+
+    spec keys (all optional except out): seed, out, drift={scenario, from}, recall={market, scenario, from},
+    traffic={market, dates}, policy={market}, launch={market, scenario, date}, guild={market, guild_id, scenario},
+    head_case={market}.
+    """
+    global SEED, OUT, SCENARIO_MARKET_MULT
+    SEED = int(spec.get("seed", SEED))
+    OUT = spec.get("out", OUT)
+    by_id = {st["strategy_id"]: i for i, st in enumerate(STRATEGIES)}
+    chg = {c["change_id"]: c for c in CHANGE_LOG}
+    if "drift" in spec:
+        s1, d1 = spec["drift"]["scenario"], spec["drift"]["from"]
+        old = [v for v in MODEL_VERSIONS if v["scenario"] == "scam_fraud"]
+        MODEL_VERSIONS[:] = [v for v in MODEL_VERSIONS if not (v["scenario"] == "scam_fraud" and v["version"] == "v4")]
+        prev = sorted([v for v in MODEL_VERSIONS if v["scenario"] == s1], key=lambda v: v["effective_from"])[-1]["version"]
+        new = _bump(prev)
+        MODEL_VERSIONS.append({"model": f"model_{s1}", "scenario": s1, "version": new, "effective_from": d1})
+        PROBLEMS["P1_model_drift"].update(scenario=s1, model=f"model_{s1}", **{"from": d1},
+                                          victim_strategy=HIGH_SCORE_STRATEGY[s1])
+        chg["C-006"].update(date=d1, target=f"model_{s1}", scenario=s1, model=f"model_{s1}",
+                            summary=f"model_{s1} {prev} -> {new}：召回提升；分数未重新校准，整体分布上移")
+        PROBLEMS["P8_head_host_case"]["strategy"] = HIGH_SCORE_STRATEGY[s1]
+    if "head_case" in spec:
+        PROBLEMS["P8_head_host_case"]["market"] = spec["head_case"]["market"]
+    if "recall" in spec:
+        r = spec["recall"]
+        PROBLEMS["P2_recall_drop"].update(market=r["market"], scenario=r["scenario"], **{"from": r["from"]},
+                                          strategy=HIGH_SCORE_STRATEGY[r["scenario"]])
+    if "traffic" in spec:
+        PROBLEMS["P5_traffic_trap"].update(market=spec["traffic"]["market"], dates=spec["traffic"]["dates"])
+    if "policy" in spec:
+        m6 = spec["policy"]["market"]
+        st = STRATEGIES[by_id["S-112"]]
+        st.update(markets=[m6], name=f"仇恨-{m6} 举报人审")
+        chg["C-003"].update(markets=[m6], summary=f"Policy P-7：{m6} 市场骚扰定义扩大（纳入针对性嘲讽），要求策略同步放宽阈值")
+        chg["C-004"].update(markets=[m6])
+        PROBLEMS["P6_policy_strategy_change"]["market"] = m6
+        SCENARIO_MARKET_MULT = {(m6, "hate_harassment"): 2.4}
+    if "launch" in spec:
+        L = spec["launch"]
+        STRATEGIES[by_id["S-126"]] = S("S-126", f"{SCENARIO_NAMES[L['scenario']]}-{L['market']} 中分下播", L["scenario"],
+                                       [L["market"]], 0.60, "suspend_live", "策略-专项组", L["date"],
+                                       notes=f"{L['market']} 市场专项，{L['date']} 上线")
+        chg["C-005"].update(date=L["date"], scenario=L["scenario"], markets=[L["market"]],
+                            summary=f"S-126 上线：{L['market']} {SCENARIO_NAMES[L['scenario']]}中分直接下播（专项）")
+        PROBLEMS["P7_new_strategy"].update(market=L["market"], scenario=L["scenario"])
+    if "guild" in spec:
+        g = spec["guild"]
+        PROBLEMS["P9_guild_spike"].update(market=g["market"], guild_id=g["guild_id"], scenario=g["scenario"])
+    PROBLEMS["world_spec"] = {k: v for k, v in spec.items() if k != "out"}
+
+
 def dstr(d):
     return d.isoformat()
 
@@ -306,21 +370,22 @@ def gen_sessions(rng):
         df[f"score_{s}"] = sc
     # P2: BR gambling evasion from 2026-10-08 — violators score lower
     p2 = PROBLEMS["P2_recall_drop"]
-    ev = (labels == "gambling") & (df.market.values == p2["market"]) & (df.date.values >= p2["from"]) \
+    ev = (labels == p2["scenario"]) & (df.market.values == p2["market"]) & (df.date.values >= p2["from"]) \
         & (rng.random(N) < p2["evasion_share"])
-    df.loc[ev, "score_gambling"] = rng.beta(3, 5, ev.sum())
+    df.loc[ev, f"score_{p2['scenario']}"] = rng.beta(3, 5, ev.sum())
     # P1: scam model v4 from 2026-10-13 — distribution shifts up, uncalibrated
     p1 = PROBLEMS["P1_model_drift"]
     drift = df.date.values >= p1["from"]
-    df.loc[drift, "score_scam_fraud"] = np.clip(df.loc[drift, "score_scam_fraud"] + p1["shift"], 0, 0.995)
+    col1 = f"score_{p1['scenario']}"
+    df.loc[drift, col1] = np.clip(df.loc[drift, col1] + p1["shift"], 0, 0.995)
     # P9: coordinated spam from one guild (post-hoc override so other rows are untouched)
     p9 = PROBLEMS["P9_guild_spike"]
     rng9 = np.random.default_rng(SEED + 9)
     cand = (df.market.values == p9["market"]) & (df.guild_id.values == p9["guild_id"]) & df.date.isin(p9["dates"]).values \
         & (df.true_label.values == "none") & (rng9.random(N) < p9["extra_violation_prob"])
     n9 = int(cand.sum())
-    df.loc[cand, "true_label"] = "spam_bot"
-    df.loc[cand, "score_spam_bot"] = rng9.beta(10, 1.5, n9)
+    df.loc[cand, "true_label"] = p9["scenario"]
+    df.loc[cand, f"score_{p9['scenario']}"] = rng9.beta(10, 1.5, n9)
     df.loc[cand, "new_device_flag"] = (rng9.random(n9) < 0.9).astype(int)
     df.loc[cand, "account_age_days"] = rng9.integers(0, 14, n9)
     df.loc[cand, "report_count"] = rng9.poisson(2.0, n9)
@@ -610,4 +675,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 2 and sys.argv[1] == "--spec":
+        configure(json.load(open(sys.argv[2])))
     main()
