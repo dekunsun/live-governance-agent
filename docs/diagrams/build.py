@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draws the two technical diagrams as SVG (docs/images/arch-layers.svg, docs/images/response-flow.svg).
+"""Draws the diagrams as SVG (docs/images/arch-layers.svg, response-flow.svg, assistant-flow.svg).
 Pure Python, no dependencies; PNGs are rendered from the SVGs by docs/diagrams/render.js (Playwright)."""
 import os
 H = os.path.dirname(os.path.abspath(__file__)); OUT = os.path.join(os.path.dirname(H), "images")
@@ -195,5 +195,49 @@ def flow():
     s.save("response-flow.svg")
 
 
+def product_flow():
+    """Product-level flow for the PRD summary: ask -> read-only tools -> evidence card -> human decision -> samples; guardrails lane."""
+    s = SVG(1560, 700)
+    s.text(780, 34, "治理策略助手 · 产品流程", 22, bold=True)
+    s.text(780, 60, "助手只读；人做决定；每一次确认都变成训练样本。所有编号、数字均为合成。", 13, color="#374151")
+    # training loop (drawn first so boxes sit on top)
+    s.arrow([(1245, 125), (1245, 92), (495, 92), (495, 120)], dashed=True)
+    s.text(870, 80, "下一版模型：只用经人确认的样本做 SFT / RL", 12, color="#374151")
+    # main spine
+    s.person(70, 130, "策略 owner")
+    s.box(130, 135, 200, 70, "一句话提问\n「美国昨天误杀申诉涨了？」", size=13)
+    s.arrow([(330, 170), (370, 170)])
+    s.box(370, 120, 250, 100, "会话式助手（只读）\n按 playbook 查证据\n最多 14 次工具调用", size=13, bold=False)
+    s.arrow([(620, 170), (660, 170)])
+    s.box(660, 120, 230, 100, "结论卡片\n主因 · 证据编号\n是否升级 · 建议动作", size=13)
+    s.text(775, 240, "校验层：引用的编号必须真实存在", 12, color="#374151")
+    s.arrow([(890, 170), (930, 170)])
+    s.box(930, 120, 190, 100, "人工决策\n确认 / 修改后确认\n推翻（写原因）", size=13)
+    s.text(1025, 240, "升级规则写死：小市场 · 头部主播 · 资金侧", 12, color="#374151")
+    s.arrow([(1120, 170), (1160, 170)])
+    s.cylinder(1160, 125, 170, 90, "训练样本池\n只收经人确认的")
+    s.text(1245, 240, "决策记录可追溯", 12, color="#374151")
+    # tools group
+    s.group(370, 300, 520, 120, "平台只读工具（每个结果都带证据编号）", fill="#f8fafc")
+    for i, t in enumerate(["查数\n指标 · 环比", "下钻\n策略 · 公会 · 市场", "查变更\n模型 · 策略 · policy", "看漂移\n分数分布 · 抽检"]):
+        s.box(385 + i * 125, 340, 115, 60, t, size=12)
+    s.arrow([(450, 220), (450, 300)]); s.text(425, 262, "调用", 12, color="#374151")
+    s.arrow([(540, 300), (540, 220)]); s.text(590, 262, "证据 + 编号", 12, color="#374151")
+    # guardrail lane
+    s.group(40, 450, 1480, 220, "助手不直接改任何策略", fill="#fff7ed")
+    s.box(70, 490, 190, 60, "策略修改请求\n（policy 更新 / 收紧分数线）", size=12)
+    s.arrow([(260, 520), (300, 520)])
+    s.box(300, 490, 230, 60, "变更草稿\n回放结果 + 建议分数线", size=12)
+    s.arrow([(530, 520), (570, 520)])
+    s.box(570, 490, 200, 60, "审批流（人）\n通过后才生效", size=12)
+    s.box(70, 580, 190, 60, "资金类动作\n冻结收益 · 延迟结算", size=12)
+    s.arrow([(260, 610), (300, 610)])
+    s.box(300, 580, 230, 60, "只标注「需要财务审批」\n不生成执行指令", size=12)
+    s.arrow([(530, 610), (570, 610)])
+    s.box(570, 580, 200, 60, "财务审批（人）", size=12)
+    s.box(840, 490, 650, 150, "三条硬规则\n1. 助手没有写工具：策略、处罚、资金一律不碰\n2. 草稿不等于生效：必须经审批流，审批人看到完整证据链\n3. 卡片里的每个编号都经过校验，编不出来的编号直接拒收", size=13, dashed=True)
+    s.save("assistant-flow.svg")
+
+
 if __name__ == "__main__":
-    arch(); flow()
+    arch(); flow(); product_flow()

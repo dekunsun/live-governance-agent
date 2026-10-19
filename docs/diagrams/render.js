@@ -4,7 +4,7 @@ const path = require('path'); const fs = require('fs');
 (async () => {
   const dir = path.join(__dirname, '..', 'images');
   const browser = await chromium.launch();
-  for (const name of ['arch-layers', 'response-flow']) {
+  for (const name of ['arch-layers', 'response-flow', 'assistant-flow']) {
     const svg = fs.readFileSync(path.join(dir, name + '.svg'), 'utf8');
     const m = svg.match(/width="(\d+)" height="(\d+)"/); const w = +m[1], h = +m[2];
     const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
