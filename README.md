@@ -38,7 +38,7 @@ live-governance-agent/
 
 策略 owner 一句话提问，助手调用治理平台查数、下钻、查变更，给出结论卡片；人可以确认、修改或推翻，修改和确认都会记成训练样本。[动画版（28 秒）](docs/media/assistant-flow.mp4)
 
-![助手流程：三轮对话后人确认](docs/images/flow-3-confirm.png)
+![助手产品流程示例：一次完整对话](docs/images/assistant-flow-example.png)
 
 更多分步截图见 [PRD 的交互设计一节](docs/PRD.md#交互设计)。
 
