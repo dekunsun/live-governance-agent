@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>assistant-flow-example</title>
+<style>
+:root { --film-bg: #f6f7f4; --film-panel: #fbfbf9; --film-head: #ecebe4; --film-stroke: #6f6c66; --film-ink: #2a2926; --film-ink-2: #5e5b55;
+  --film-accent: #c9603f; --film-hl: #f4e2da; --film-amber: #f6e3bf; --film-amber-ink: #8a5a00; --film-green: #dcecc9; --film-green-ink: #3d6b1f; --film-bot: #f1dcb0; --film-bub-u: #e8e4f4;
+  --f-body: "Noto Sans SC", "Noto Sans CJK SC", "WenQuanYi Zen Hei", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif; --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace; }
+body { margin: 0; background: var(--film-bg) }
+.film { display: block; width: 1280px; height: 860px; background: var(--film-bg) }
+.film text { font-family: var(--f-body); fill: var(--film-ink) }
+.film .mono { font-family: var(--f-mono) }
+.film .box { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 2 }
+.film .hd { fill: var(--film-head); stroke: var(--film-stroke); stroke-width: 2 }
+.film .hd.amber { fill: var(--film-amber) } .film .hd.green { fill: var(--film-green) }
+.film .ttl { font-size: 17px; font-weight: 700; text-anchor: middle; fill: var(--film-ink-2) }
+.film .lbl { font-size: 15px; fill: var(--film-ink-2); text-anchor: middle }
+.film .arrow { fill: none; stroke: var(--film-stroke); stroke-width: 2 }
+.film .arrow.dash { stroke-dasharray: 7 5 }
+.film .field { fill: var(--film-head); stroke: var(--film-stroke); stroke-width: 1.5 }
+.film .k { font-size: 14.5px; fill: var(--film-ink-2) }
+.film .v { font-size: 14px; font-weight: 700; text-anchor: middle }
+.film .line { font-size: 15px }
+.film .res { font-size: 14.5px; font-weight: 700; fill: var(--film-accent) }
+.film .btn { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 1.5 }
+.film .btn.on { fill: var(--film-green); stroke: var(--film-green-ink) }
+.film .btxt { font-size: 14px; text-anchor: middle }
+.film .status { font-size: 13.5px; text-anchor: middle; fill: var(--film-ink-2) }
+.film .status.warn { fill: var(--film-amber-ink); font-weight: 700 } .film .status.ok { fill: var(--film-green-ink); font-weight: 700 }
+.film .bub-u { fill: var(--film-bub-u); stroke: var(--film-stroke); stroke-width: 1.2 }
+.film .bub-a { fill: var(--film-panel); stroke: var(--film-stroke); stroke-width: 1.2 }
+.film .bubt { font-size: 14.5px }
+.film .bot { fill: var(--film-bot); stroke: var(--film-stroke); stroke-width: 2 }
+.film .step { font-size: 13px; font-weight: 700; fill: #fff; text-anchor: middle }
+.film .stepc { fill: var(--film-accent) }
+.film .note { font-size: 13px; fill: var(--film-ink-2) }
+.film .tag { fill: var(--film-amber); stroke: var(--film-amber-ink); stroke-width: 1.2 }
+.film .tagt { font-size: 12.5px; font-weight: 700; fill: var(--film-amber-ink); text-anchor: middle }
+</style></head>
+<body><svg class="film" id="film" viewBox="0 0 1280 860" role="img"></svg>
+<script>
+const svg = document.getElementById("film"), NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent = svg, text) => { const e = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (text != null) e.textContent = text; parent.append(e); return e; };
+const defs = el("defs");
+const mk = el("marker", {id: "ah", viewBox: "0 0 10 10", refX: "8", refY: "5", markerWidth: "9", markerHeight: "9", orient: "auto-start-reverse"}, defs);
+el("path", {d: "M1,1 L8,5 L1,9", fill: "none", stroke: "#6f6c66", "stroke-width": "1.6", "stroke-linecap": "round", "stroke-linejoin": "round"}, mk);
+const panel = (x, y, w, h, title, cls = "") => { const g = el("g");
+  el("rect", {x, y, width: w, height: h, rx: 12, class: "box"}, g);
+  el("path", {d: `M${x + 12},${y} H${x + w - 12} Q${x + w},${y} ${x + w},${y + 12} V${y + 40} H${x} V${y + 12} Q${x},${y} ${x + 12},${y} Z`, class: "hd " + cls}, g);
+  el("text", {x: x + w / 2, y: y + 26, class: "ttl"}, g, title); return g; };
+const step = (x, y, n) => { el("circle", {cx: x, cy: y, r: 12, class: "stepc"}); el("text", {x, y: y + 4.5, class: "step"}, svg, String(n)); };
+const tw = e => e.getComputedTextLength();
+
+// ---- arrows + labels (drawn first so panels sit on top)
+const arrows = [
+  ["M440,118 Q560,82 642,102", "① 提问", 548, 72, false],
+  ["M860,102 Q1050,102 1070,204", "② 调用只读工具", 1130, 140, false],
+  ["M1072,486 Q1068,560 892,556", "证据 + 编号", 1030, 590, false],
+  ["M512,586 L446,586", "③ 回复", 480, 620, false],
+  ["M236,684 L236,758", "⑤ 只收经人确认的", 330, 728, true],
+  ["M700,692 L700,758", "⑥ 草稿走审批", 780, 728, true],
+];
+arrows.forEach(([d, lab, lx, ly, dash]) => { el("path", {d, class: "arrow" + (dash ? " dash" : ""), "marker-end": "url(#ah)"}); el("text", {x: lx, y: ly, class: "lbl"}, svg, lab); });
+// ---- chat panel
+const H = panel(36, 40, 400, 640, "策略 owner · 对话", "green");
+const msgs = [
+  ["user", ["美国昨天误杀申诉涨了，帮我看看"]],
+  ["bot", ["诈骗模型 10/13 升级后分数整体偏高，", "S-102 分数线没跟着调，误杀上升。", "证据：C-006 · 抽检 QA-0917。", "涉及头部主播，需要你确认。"]],
+  ["user", ["分数线调到 0.90，出个草稿"]],
+  ["bot", ["回放 0.90：精确率 0.59 → 0.66，", "召回 0.77 → 0.67。已生成变更草稿", "CHG-0001，需评审会审批后才生效。", "S-114 / S-129 是冻结收益策略，", "已标注「需要财务审批」。"]],
+];
+let y = 92;
+msgs.forEach(([who, lines]) => { const g = el("g", {}, H.g || H);
+  const ts = lines.map((s, k) => el("text", {class: "bubt", y: y + 26 + k * 22}, g, s));
+  let w = 0; ts.forEach(t => w = Math.max(w, tw(t)));
+  const bw = Math.min(352, w + 26), h = lines.length * 22 + 16, x = who === "user" ? 420 - bw : 52;
+  const rect = el("rect", {x, y: y + 4, width: bw, height: h - 4, rx: 10, class: who === "user" ? "bub-u" : "bub-a"}, g); g.prepend(rect);
+  ts.forEach(t => t.setAttribute("x", x + 13)); y += h + 10; });
+el("text", {x: 236, y: 586, class: "status ok"}, H, "④ 已确认 · 草稿提交审批 · 记入训练样本");
+["确认", "修改", "推翻"].forEach((b, i) => { el("rect", {x: 56 + i * 124, y: 606, width: 112, height: 46, rx: 8, class: "btn" + (i === 0 ? " on" : "")}, H); el("text", {x: 112 + i * 124, y: 635, class: "btxt"}, H, b); });
+// ---- assistant
+const A = panel(650, 26, 200, 168, "助手");
+el("line", {x1: 750, y1: 66, x2: 750, y2: 82, stroke: "#6f6c66", "stroke-width": 2}, A);
+el("rect", {x: 718, y: 82, width: 64, height: 56, rx: 10, class: "bot"}, A);
+[737, 763].forEach(cx => el("circle", {cx, cy: 100, r: 4, fill: "none", stroke: "#6f6c66", "stroke-width": 2}, A));
+el("rect", {x: 730, y: 114, width: 40, height: 13, rx: 4, fill: "none", stroke: "#6f6c66", "stroke-width": 2}, A);
+[743, 757].forEach(x => el("line", {x1: x, y1: 114, x2: x, y2: 127, stroke: "#6f6c66", "stroke-width": 2}, A));
+el("text", {x: 750, y: 178, class: "status"}, A, "只读 · 按 playbook 查证据");
+// ---- platform
+const T = panel(900, 214, 344, 264, "治理平台（只读工具）");
+const rows = [["查美国申诉推翻数", "50（基线 42）"], ["按策略下钻", "S-102 占 100%"], ["查同期变更", "C-006 模型升级"], ["看分数漂移", "均值 +0.15"], ["抽检 15 个 case", "精确率 0.77 → 0.50"]];
+rows.forEach(([a, b], i) => { el("text", {x: 918, y: 282 + i * 40, class: "line"}, T, a); el("text", {x: 1226, y: 282 + i * 40, class: "res", "text-anchor": "end"}, T, b); });
+el("text", {x: 1072, y: 466, class: "note", "text-anchor": "middle"}, T, "每个结果带证据编号；引用的编号必须真实存在");
+// ---- card
+const C = panel(520, 458, 360, 232, "结论卡片", "amber");
+[["主因", "模型升级，分数线未重校"], ["证据", "C-006 · QA-0917 · S-102"], ["升级", "是：涉及头部主播"], ["建议", "分数线 0.85 → 0.90（草稿）"]].forEach(([k, v], i) => {
+  el("text", {x: 538, y: 526 + i * 38, class: "k"}, C, k); el("rect", {x: 598, y: 506 + i * 38, width: 264, height: 30, rx: 6, class: "field"}, C);
+  el("text", {x: 730, y: 526 + i * 38, class: "v"}, C, v); });
+el("text", {x: 700, y: 676, class: "status warn"}, C, "资金类动作只标注「需要财务审批」");
+// ---- bottom lane: sample pool + approval
+const S = panel(36, 760, 400, 80, "训练样本池", "green");
+el("text", {x: 236, y: 816, class: "line", "text-anchor": "middle"}, S, "确认 / 修改后确认 / 推翻（写原因） → 下一版模型");
+const D = panel(520, 760, 360, 80, "审批流（人）");
+el("text", {x: 700, y: 816, class: "line", "text-anchor": "middle"}, D, "CHG-0001 通过后才生效；冻结收益走财务审批");
+const R = panel(900, 720, 344, 120, "助手不直接改任何策略");
+["没有写工具：策略、处罚、资金一律不碰", "草稿不等于生效：必须经审批流", "编不出来的编号直接拒收"].forEach((s, i) => el("text", {x: 918, y: 782 + i * 24, class: "line"}, R, "· " + s));
+// step markers
+step(46, 50, 1); step(660, 36, 2); step(910, 224, 2); step(530, 468, 3); step(46, 770, 5); step(530, 770, 6); step(910, 730, 6);
+</script></body></html>
