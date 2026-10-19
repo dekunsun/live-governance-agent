@@ -126,6 +126,41 @@ def build_batch(tok, text, spans, max_len):
     return ids, mask
 
 
+def _unwrap(model):
+    """(transformer body, lm_head) of a (Peft-wrapped) causal LM."""
+    m = model
+    while hasattr(m, "base_model") and not hasattr(m, "lm_head"):
+        m = m.base_model
+    if hasattr(m, "model") and hasattr(m.model, "lm_head"):
+        m = m.model
+    body = getattr(m, "model", None) or getattr(m, "transformer")
+    return body, m.lm_head
+
+
+def masked_mean_logprob(model, x, m, chunk=1024):
+    """Mean log-prob of the masked target tokens without materialising the full [T, vocab] float logits:
+    the transformer body runs once; lm_head + log_softmax are evaluated chunk by chunk under activation
+    checkpointing, so peak memory is one chunk of logits instead of the whole sequence."""
+    import torch
+    from torch.utils.checkpoint import checkpoint
+    body, head = _unwrap(model)
+    hidden = body(input_ids=x).last_hidden_state[:, :-1, :]
+    targets = x[:, 1:]
+    total = torch.zeros((), device=x.device, dtype=torch.float32)
+
+    def chunk_sum(h, t, mm):
+        lp = torch.log_softmax(head(h).float(), dim=-1).gather(-1, t[..., None]).squeeze(-1)
+        return (lp * mm).sum()
+
+    T = hidden.shape[1]
+    for a in range(0, T, chunk):
+        b = min(T, a + chunk)
+        if float(m[:, a:b].sum()) == 0:
+            continue
+        total = total + checkpoint(chunk_sum, hidden[:, a:b], targets[:, a:b], m[:, a:b], use_reentrant=False)
+    return total / m.sum()
+
+
 def train_step(model, tok, opt, samples, device, max_len, accum_tokens_cap=None):
     """One optimizer step over all samples (micro-batch = 1 sequence). Returns stats."""
     import torch
@@ -143,13 +178,11 @@ def train_step(model, tok, opt, samples, device, max_len, accum_tokens_cap=None)
     for ids, mask, adv in valid:
         x = torch.tensor([ids], device=device)
         m = torch.tensor([mask[1:]], device=device, dtype=torch.float32)   # predict token i+1 from position i
-        logits = model(input_ids=x).logits[:, :-1, :].float()
-        logp = torch.log_softmax(logits, dim=-1).gather(-1, x[:, 1:, None]).squeeze(-1)
-        mean_logp = (logp * m).sum() / m.sum()
+        mean_logp = masked_mean_logprob(model, x, m, chunk=1024)
         loss = -(adv * mean_logp) / len(valid)
         loss.backward()
         tot_loss += float(loss.item()); n_seq += 1; n_tok += int(m.sum().item())
-        del logits, logp
+        del mean_logp, loss
     torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad], 1.0)
     opt.step(); opt.zero_grad(set_to_none=True)
     return {"seqs": n_seq, "tokens": n_tok, "loss": round(tot_loss, 4)}
