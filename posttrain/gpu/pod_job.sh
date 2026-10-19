@@ -5,6 +5,7 @@
 # Env (set by posttrain/gpu/runpod_ctl.py create):
 #   STAGE        B0 (untrained baselines) | B1 (LoRA SFT x seeds + eval) | B2 (SFT seed 1 + GRPO + eval)   default B0
 #   GRPO_ITERS / GRPO_SECONDS / GRPO_TASKS / GRPO_GROUP   B2 knobs          default 12 / 7200 / 48 / 8
+#   GRPO_V=2     use posttrain/grpo2.py (curriculum, PPO-clip + KL, probe early stop); GRPO_TEMP/LR/EPOCHS/KL/PROBE
 #   MODELS       space-separated HF ids                                       default "Qwen/Qwen3-4B Qwen/Qwen3-8B"
 #   SEEDS        B1 seeds                                                     default "1 2 3"
 #   REPO_URL / REPO_REF                                                       default public repo / main
@@ -101,9 +102,17 @@ case "$STAGE" in
     serve "$m" --enable-lora --max-lora-rank 16 --max-loras 4 --lora-modules "sft_s1=/workspace/lora/${t}_s1" || { status FAILED_VLLM; sleep infinity; }
     log "B2 eval sft_s1 (max_new_tokens 384)"; evaluate "sft_v2_${t}_s1" sft_s1
     log "B2 grpo iters=$GRPO_ITERS budget=${GRPO_SECONDS}s tasks=$GRPO_TASKS group=$GRPO_GROUP"
-    python3 posttrain/grpo.py --base $m --init /workspace/lora/${t}_s1 --init-name sft_s1 --out /workspace/grpo \
-      --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP > $R/log_grpo_${t}.txt 2>&1
-    cp /workspace/grpo/grpo_log.jsonl $R/grpo_log_${t}.jsonl 2>/dev/null; tail -3 $R/log_grpo_${t}.txt >> $R/LOG
+    if [ "${GRPO_V:-1}" = 2 ]; then
+      python3 posttrain/grpo2.py --base $m --init /workspace/lora/${t}_s1 --init-name sft_s1 --out /workspace/grpo \
+        --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP \
+        --temperature ${GRPO_TEMP:-0.8} --lr ${GRPO_LR:-2e-5} --epochs ${GRPO_EPOCHS:-2} --kl ${GRPO_KL:-0.02} --probe ${GRPO_PROBE:-48} > $R/log_grpo_${t}.txt 2>&1
+      cp /workspace/grpo/grpo2_log.jsonl $R/grpo2_log_${t}.jsonl 2>/dev/null
+    else
+      python3 posttrain/grpo.py --base $m --init /workspace/lora/${t}_s1 --init-name sft_s1 --out /workspace/grpo \
+        --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP > $R/log_grpo_${t}.txt 2>&1
+      cp /workspace/grpo/grpo_log.jsonl $R/grpo_log_${t}.jsonl 2>/dev/null
+    fi
+    tail -3 $R/log_grpo_${t}.txt >> $R/LOG
     if curl -sf http://127.0.0.1:8001/v1/models | grep -q grpo_final; then
       log "B2 eval grpo_final"; evaluate "grpo_v2_${t}" grpo_final
     else
