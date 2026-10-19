@@ -89,7 +89,7 @@ el("text", {x: 750, y: 178, class: "status"}, A, "只读 · 按 playbook 查证�
 const T = panel(900, 214, 344, 264, "治理平台（只读工具）");
 const rows = [["查美国申诉推翻数", "50（基线 42）"], ["按策略下钻", "S-102 占 100%"], ["查同期变更", "C-006 模型升级"], ["看分数漂移", "均值 +0.15"], ["抽检 15 个 case", "精确率 0.77 → 0.50"]];
 rows.forEach(([a, b], i) => { el("text", {x: 918, y: 282 + i * 40, class: "line"}, T, a); el("text", {x: 1226, y: 282 + i * 40, class: "res", "text-anchor": "end"}, T, b); });
-el("text", {x: 1072, y: 466, class: "note", "text-anchor": "middle"}, T, "每个结果带证据编号；引用的编号必须真实存在");
+el("text", {x: 1072, y: 466, class: "note", "text-anchor": "middle"}, T, "每个结果带证据编号；卡片只能引用这里查到过的编号");
 // ---- card
 const C = panel(520, 458, 360, 232, "结论卡片", "amber");
 [["主因", "模型升级，分数线未重校"], ["证据", "C-006 · QA-0917 · S-102"], ["升级", "是：涉及头部主播"], ["建议", "分数线 0.85 → 0.90（草稿）"]].forEach(([k, v], i) => {
@@ -102,7 +102,7 @@ el("text", {x: 236, y: 816, class: "line", "text-anchor": "middle"}, S, "确认 
 const D = panel(520, 760, 360, 80, "审批流（人）");
 el("text", {x: 700, y: 816, class: "line", "text-anchor": "middle"}, D, "CHG-0001 通过后才生效；冻结收益走财务审批");
 const R = panel(900, 720, 344, 120, "助手不直接改任何策略");
-["没有写工具：策略、处罚、资金一律不碰", "草稿不等于生效：必须经审批流", "编不出来的编号直接拒收"].forEach((s, i) => el("text", {x: 918, y: 782 + i * 24, class: "line"}, R, "· " + s));
+["没有写工具：策略、处罚、资金一律不碰", "草稿不等于生效：必须经审批流", "凭空写出的编号会被校验层拦下"].forEach((s, i) => el("text", {x: 918, y: 782 + i * 24, class: "line"}, R, "· " + s));
 // step markers
 step(46, 50, 1); step(660, 36, 2); step(910, 224, 2); step(530, 468, 3); step(46, 770, 5); step(530, 770, 6); step(910, 730, 6);
 </script></body></html>
