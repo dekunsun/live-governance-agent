@@ -297,15 +297,20 @@ def _meets(world, scenario, thr, markets, extra, e):
 # ----------------------------------------------------------------------------- task generation + reference solver
 TEXT = {
     "A": ["Policy 更新（{pid}，2026-10-02 起生效）：{xz} 的认定范围扩大。要求对应的转人审策略覆盖率不低于 {R:.0%}，精确率不低于 {P:.0%}，且人审量不超过每天 {cap} 场（人审团队容量）。请给出策略调整方案。",
-          "{xz} 的 policy 改了（{pid}），口径放宽，人审那条策略得多抓一些：覆盖率要到 {R:.0%} 以上，精确率别低于 {P:.0%}，但人审一天最多只能看 {cap} 场。帮我出个改法。"],
+          "{xz} 的 policy 改了（{pid}），口径放宽，人审那条策略得多抓一些：覆盖率要到 {R:.0%} 以上，精确率别低于 {P:.0%}，但人审一天最多只能看 {cap} 场。帮我出个改法。",
+          "按 {pid} 的新口径，{xz} 要放宽一点：人审那条策略覆盖率拉到 {R:.0%} 以上、精确率不低于 {P:.0%}，人审每天最多 {cap} 场。给个调整建议。"],
     "T": ["Policy 更新（{pid}，2026-10-02 起生效）：{xz} 人审资源调整，对应的转人审策略人审量不超过每天 {cap} 场，同时覆盖率不低于 {R:.0%}，精确率不低于 {P:.0%}。请给出策略调整方案。",
-          "{xz} 的人审排不过来了（{pid}）：人审那条策略一天最多送 {cap} 场，覆盖率还得保持在 {R:.0%} 以上，精确率不低于 {P:.0%}。怎么调？"],
+          "{xz} 的人审排不过来了（{pid}）：人审那条策略一天最多送 {cap} 场，覆盖率还得保持在 {R:.0%} 以上，精确率不低于 {P:.0%}。怎么调？",
+          "{pid}：{xz} 人审名额砍到每天 {cap} 场以内，覆盖率不能低于 {R:.0%}，精确率不低于 {P:.0%}。人审那条策略的分数线怎么改？"],
     "B": ["Policy 更新（{pid}，2026-10-02 起生效）：{xz} 条款措辞澄清并补充示例，执行标准不变。请评估是否需要调整策略。",
-          "{xz} 的 policy 文案改了一下（{pid}），说只是把例子写清楚，标准没变。策略要动吗？"],
+          "{xz} 的 policy 文案改了一下（{pid}），说只是把例子写清楚，标准没变。策略要动吗？",
+          "{pid} 只是把 {xz} 的条款说明和例子改了，执行标准没变。看看策略需不需要调。"],
     "C": ["Policy 更新（{pid}，2026-10-02 起生效）：{mz} 市场新增 {xz} 专项要求，该市场 {xz} 中高分直播一律转人审，覆盖率不低于 {R:.0%}，精确率不低于 {P:.0%}，不得影响其他市场。请给出策略方案。",
-          "{mz} 那边要单独加强 {xz}（{pid}）：只在 {mz}，中高分的都转人审，覆盖率至少 {R:.0%}，精确率至少 {P:.0%}，别动其他市场。怎么配？"],
+          "{mz} 那边要单独加强 {xz}（{pid}）：只在 {mz}，中高分的都转人审，覆盖率至少 {R:.0%}，精确率至少 {P:.0%}，别动其他市场。怎么配？",
+          "{pid}：{mz} 市场要对 {xz} 单独加一条规则——该市场里中高分的直播都转人审，覆盖率不低于 {R:.0%}，精确率不低于 {P:.0%}，其他市场不受影响。方案怎么出？"],
     "D": ["Policy 更新（{pid}，2026-10-02 起生效）：{xz} 高分违规的处置由警告升级为{az}，分数线不变。请给出策略调整方案。",
-          "{xz} 高分的那条警告策略，按新 policy（{pid}）要改成{az}，线不用动。帮我出变更。"],
+          "{xz} 高分的那条警告策略，按新 policy（{pid}）要改成{az}，线不用动。帮我出变更。",
+          "{pid} 规定 {xz} 高分违规从警告改成{az}，分数线保持不变。帮我把那条警告策略改一下。"],
 }
 GRID = [round(0.35 + 0.05 * i, 2) for i in range(12)]   # 0.35 .. 0.90 (the tool's 12-threshold cap)
 
@@ -377,10 +382,10 @@ def make_tasks(world, split, rng):
                     "expected": {"type": "D", "decision": "change", "strategy_id": sid, "scenario": x, "action": act}})
     tasks = []
     for k, t in enumerate(out):
-        phr = ["A"] if split == "train" else ["A", "B"]
+        phr = ["A", "C"] if split == "train" else ["A", "B"]   # B is held out for test; C is a training-only paraphrase
         p = pid()
         for ph in phr:
-            q = TEXT[t.get("text", t["type"])][0 if ph == "A" else 1].format(pid=p, **t["fmt"])
+            q = TEXT[t.get("text", t["type"])]["ABC".index(ph)].format(pid=p, **t["fmt"])
             tasks.append({"task_id": f"{world.wid}-p{k:02d}{ph.lower()}", "world": world.wid, "split": split, "kind": t["kind"],
                           "phrasing": ph, "query": q, "expected": t["expected"]})
     return tasks
