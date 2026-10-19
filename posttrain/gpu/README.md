@@ -51,6 +51,14 @@ python posttrain/gpu/runpod_ctl.py create --stage B2 --models Qwen/Qwen3-4B --ma
 
 Pod 里的顺序：训练 SFT 种子 1（17 分钟）→ 起 vLLM（显存 45%，允许运行时换 LoRA）→ 在 384 token 上限下重测 sft_s1 → `posttrain/grpo.py`（每轮 48 题 × 8 次采样，温度 1，奖励 = 评分 + 通过加 1，组内归一化优势，只对有分歧的组做一步策略梯度，然后把新 LoRA 热换进 vLLM）→ 评测 `grpo_final`。结果里多出 `grpo_log_*.jsonl`（每轮通过率、奖励、有信号的组数、loss）和 `grpo_final_*.tgz`（最终 LoRA）。
 
+## 数据与采样开关（`create --env "..."`）
+
+- `EXTRA_TRAIN=16`：追加 16 个训练世界（w32–w47），测试世界不变（脚本会校验测试题的 md5）。
+- `AUGMENT_RARE=1`：对召回下降类和误判率上升类做过采样（多日期、多措辞），示范从 374 条变为 831 条。
+- `PASSK=4 PASSK_TEMP=0.7`：对第一个 SFT 种子额外做温度采样评测，报告 pass@1 / pass@4 / 一致性。
+- `SEEDS_qwen3_8b=1`：按模型覆盖种子列表。
+- `GRPO_V=2` + `GRPO_TEMP/LR/EPOCHS/KL/PROBE`：用 `posttrain/grpo2.py`（按通过率挑题、稀有类过采样、PPO 裁剪 + KL、探针早停）。GRPO v1（`grpo.py`）在 2 个 GPU 小时内没有可测量提升（报告第 11 节），v2 是针对其诊断的改版。
+
 ## 已知未做
 
 - `pod_job.sh` 第一次在真实 Pod 上跑时大概率要调一两处（镜像里缺的包、vLLM 参数名随版本变化）。先用 `--max-hours 1` 跑 B0 的 4B 单模型探路：`create --stage B0 --models Qwen/Qwen3-4B --max-hours 1`。
