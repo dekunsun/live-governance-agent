@@ -5,7 +5,7 @@
 # Env (set by posttrain/gpu/runpod_ctl.py create):
 #   STAGE        B0 (untrained baselines) | B1 (LoRA SFT x seeds + eval) | B2 (SFT seed 1 + GRPO + eval)   default B0
 #   GRPO_ITERS / GRPO_SECONDS / GRPO_TASKS / GRPO_GROUP   B2 knobs          default 12 / 7200 / 48 / 8
-#   GRPO_V=2     use posttrain/grpo2.py (curriculum, PPO-clip + KL, probe early stop); GRPO_TEMP/LR/EPOCHS/KL/PROBE
+#   GRPO_V=2     use posttrain/grpo2.py (curriculum, PPO-clip + KL, probe early stop); GRPO_TEMP/LR/EPOCHS/KL/PROBE/SEED
 #   MODELS       space-separated HF ids                                       default "Qwen/Qwen3-4B Qwen/Qwen3-8B"
 #   SEEDS        B1 seeds                                                     default "1 2 3"
 #   REPO_URL / REPO_REF                                                       default public repo / main
@@ -109,7 +109,7 @@ case "$STAGE" in
     if [ "${GRPO_V:-1}" = 2 ]; then
       python3 posttrain/grpo2.py --base $m --init $W/lora/${t}_s1 --init-name sft_s1 --out $W/grpo \
         --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP \
-        --temperature ${GRPO_TEMP:-0.8} --lr ${GRPO_LR:-2e-5} --epochs ${GRPO_EPOCHS:-2} --kl ${GRPO_KL:-0.02} --probe ${GRPO_PROBE:-48} > $R/log_grpo_${t}.txt 2>&1
+        --temperature ${GRPO_TEMP:-0.8} --lr ${GRPO_LR:-5e-6} --epochs ${GRPO_EPOCHS:-1} --kl ${GRPO_KL:-0.02} --probe ${GRPO_PROBE:-48} --seed ${GRPO_SEED:-1} > $R/log_grpo_${t}.txt 2>&1
       cp $W/grpo/grpo2_log.jsonl $R/grpo2_log_${t}.jsonl 2>/dev/null
     else
       python3 posttrain/grpo.py --base $m --init $W/lora/${t}_s1 --init-name sft_s1 --out $W/grpo \
