@@ -8,7 +8,8 @@ group-normalised advantages, LoRA hot-swap) with the four changes the first run 
   2. several optimisation steps per batch: PPO-style clipped ratio against the behaviour policy's per-token log-probs,
      plus a KL penalty against the frozen SFT adapter ("sft_ref"; the trained one is "rl"), minibatches, several epochs.
   3. a fixed probe set is evaluated greedily after every iteration; the adapter with the best probe pass rate is kept
-     as the final one (early stopping), so a noisy sampled reward never decides the result.
+     as the final one (early stopping), so a noisy sampled reward never decides the result. The SFT starting point is
+     a candidate too: if no iteration beats it, the final adapter is the SFT one.
   4. sampling temperature is a knob (default 0.8) and rollout / probe use the same vLLM server.
 """
 import argparse
@@ -152,7 +153,7 @@ def main():
     ap.add_argument("--tasks-per-iter", type=int, default=32); ap.add_argument("--group", type=int, default=8)
     ap.add_argument("--warmup-tasks", type=int, default=96, help="iteration 0 rolls out this many tasks with group 4 to seed estimates")
     ap.add_argument("--temperature", type=float, default=0.8)
-    ap.add_argument("--lr", type=float, default=2e-5); ap.add_argument("--epochs", type=int, default=2); ap.add_argument("--minibatch", type=int, default=8)
+    ap.add_argument("--lr", type=float, default=5e-6); ap.add_argument("--epochs", type=int, default=2); ap.add_argument("--minibatch", type=int, default=8)
     ap.add_argument("--clip", type=float, default=0.2); ap.add_argument("--kl", type=float, default=0.02)
     ap.add_argument("--probe", type=int, default=48, help="fixed greedy probe tasks per iteration (early stopping)")
     ap.add_argument("--max-len", type=int, default=7000); ap.add_argument("--seed", type=int, default=1); ap.add_argument("--limit", type=int, default=0)
@@ -182,6 +183,8 @@ def main():
     cur_name = done[-1]["adapter"] if done else a.init_name
     cur_dir = os.path.join(a.out, f"iter_{start_iter - 1}") if done else a.init
     best = max(((d.get("probe_pass", -1), d["adapter"], d["iter"]) for d in done), default=(-1, a.init_name, -1))
+    if done and done[0].get("probe_pass_init") is not None and done[0]["probe_pass_init"] >= best[0]:
+        best = (done[0]["probe_pass_init"], a.init_name, -1)   # the SFT starting point is a candidate too
     if done:
         for d in done:   # rebuild the curriculum estimates from saved rollouts
             fp = os.path.join(a.out, f"rollouts_{d['iter']}.json")
@@ -233,9 +236,11 @@ def main():
             new_dir = sub
         post(a.base_url, "/v1/load_lora_adapter", {"lora_name": new_name, "lora_path": new_dir})
         t2 = time.time()
-        if probe_base is None:   # probe the starting adapter once, for reference
+        if probe_base is None:   # probe the starting adapter once; it competes for "best" like every iteration
             pb = greedy.run([(t, 0) for t in probe], a.init_name)
             probe_base = round(sum(r["pass"] for r in pb) / len(pb), 3)
+            if probe_base > best[0]:
+                best = (probe_base, a.init_name, -1)
         pr = greedy.run([(t, 0) for t in probe], new_name)
         stats["probe_pass"] = round(sum(r["pass"] for r in pr) / len(pr), 3)
         stats["probe_pass_init"] = probe_base
