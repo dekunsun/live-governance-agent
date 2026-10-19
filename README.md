@@ -3,6 +3,8 @@
 对应 PRD《治理策略巡检与异常归因助手（假设版）》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
 **异常归因**、**策略健康巡检**、**Case 证据包**，带评估报告。全部数据合成，不含任何真实内部信息。
 
+**状态**：原型、评估、后训练实验全部完成（2026-10-19）。所有数字来自合成世界；外部验证集的标注和真实基线的采集是上线前由采用方完成的门槛，仓库里只放模板和口径。
+
 给非技术读者：模拟的策略库和数据各有一份白话说明，见 [docs/simulated-strategy-library.md](docs/simulated-strategy-library.md) 和 [docs/simulated-data.md](docs/simulated-data.md)。
 
 ```
@@ -17,7 +19,7 @@ live-governance-agent/
   eval/golden_set.json      37 个标准答案场景 + 巡检期望发现
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
-  reports/posttrain_report.md  后训练原型报告：基线、Harness v1/v2、Policy-to-Strategy、SFT 结果、可信度
+  reports/posttrain_report.md  后训练原型报告（第 0 节总览）：基线、Harness v1/v2、SFT、补数据、8B、GRPO 三种子、P2S 示范修复、对照
   demo/                     合作方演示页与流程动画的源码（见 demo/README.md）；feedback_to_tasks.py 把合作方反馈转成待标注的新题
   docs/PRD.md               产品需求文档（长版，假设版）
   docs/prd-governance-agent.md  产品视角 PRD v1.0（评审/上线格式：摘要、用例、需求细节、埋点、分阶段上线）
