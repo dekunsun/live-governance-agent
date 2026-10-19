@@ -18,13 +18,16 @@ live-governance-agent/
   eval/run_eval.py          评估：准确率、幻觉、陷阱、口径、一致性、小市场升级、巡检误报/漏报、成本延迟、全量扫描误报率
   reports/eval_report.md    评估结果表 + 失败分析
   reports/posttrain_report.md  后训练原型报告：基线、Harness v1/v2、Policy-to-Strategy、SFT 结果、可信度
-  demo/                     合作方演示页与流程动画的源码（见 demo/README.md）
+  demo/                     合作方演示页与流程动画的源码（见 demo/README.md）；feedback_to_tasks.py 把合作方反馈转成待标注的新题
   docs/PRD.md               产品需求文档（长版，假设版）
   docs/prd-governance-agent.md  产品视角 PRD v1.0（评审/上线格式：摘要、用例、需求细节、埋点、分阶段上线）
   docs/technical-one-pager.md   研发视角技术一页纸（方案、指标、系统概览、选型、挑战、路线图）
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
+  tests/test_grader.py      锁住评分器已有规则的单元测试（规则只能追加，不能改）
+  Makefile                  make check：评分器测试、参考解法回放、测试集校验和、演示页可重建性
+  eval/external/            外部验证集目录（标注模板见 docs/external-validation-template.md；真实标注不入库）
 ```
 
 > 目录用 `gov_platform/` 而不是 PRD 里写的 `platform/`，因为 `platform` 是 Python 标准库模块名，会被遮蔽。
