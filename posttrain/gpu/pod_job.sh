@@ -18,8 +18,12 @@ GRPO_ITERS=${GRPO_ITERS:-12}; GRPO_SECONDS=${GRPO_SECONDS:-7200}; GRPO_TASKS=${G
 EXTRA_TRAIN=${EXTRA_TRAIN:-0}; AUGMENT_RARE=${AUGMENT_RARE:-0}; PASSK=${PASSK:-0}; PASSK_TEMP=${PASSK_TEMP:-0.7}
 REPO_URL=${REPO_URL:-https://github.com/dekunsun/live-governance-agent}; REPO_REF=${REPO_REF:-main}
 RESULT_PORT=${RESULT_PORT:-8000}; MAX_SECONDS=${MAX_SECONDS:-14400}
-export HF_HOME=/workspace/hf HF_HUB_DISABLE_PROGRESS_BARS=1 PYTHONWARNINGS=ignore TOKENIZERS_PARALLELISM=false
-R=/workspace/results; mkdir -p $R /workspace/hf; cd /workspace
+# Heavy I/O (model cache, LoRA checkpoints, RL rollouts) goes to the container disk: two Pods hit
+# "OSError: [Errno 5] Input/output error" writing to the /workspace network volume mid-training. The volume only
+# holds the served results directory (small writes) and the repo.
+W=${WORK_DIR:-/root/work}
+export HF_HOME=$W/hf HF_HUB_DISABLE_PROGRESS_BARS=1 PYTHONWARNINGS=ignore TOKENIZERS_PARALLELISM=false
+R=/workspace/results; mkdir -p $R $W/hf $W/lora; cd /workspace
 log() { echo "$(date -u +%FT%TZ) $*" | tee -a $R/LOG; }
 status() { echo "$1" > $R/STATUS; log "STATUS $1"; }
 pgrep -f "http.server $RESULT_PORT" >/dev/null || ( python3 -m http.server $RESULT_PORT --directory $R >/dev/null 2>&1 & )
@@ -76,9 +80,9 @@ case "$STAGE" in
       seeds_var="SEEDS_${t}"; seeds="${!seeds_var:-$SEEDS}"
       for s in $seeds; do
         log "B1 train $m seed $s"
-        python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out /workspace/lora/${t}_s$s --epochs 1 --seed $s --grad_ckpt 1 > $R/log_train_${t}_s$s.txt 2>&1
-        cp /workspace/lora/${t}_s$s/train_log.jsonl $R/train_log_${t}_s$s.jsonl 2>/dev/null
-        lora_args+=("sft_s$s=/workspace/lora/${t}_s$s")
+        python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s$s --epochs 1 --seed $s --grad_ckpt 1 > $R/log_train_${t}_s$s.txt 2>&1
+        cp $W/lora/${t}_s$s/train_log.jsonl $R/train_log_${t}_s$s.jsonl 2>/dev/null
+        lora_args+=("sft_s$s=$W/lora/${t}_s$s")
       done
       serve "$m" --enable-lora --max-lora-rank 16 --lora-modules "${lora_args[@]}" || continue
       evaluate "base_v2_$t" "$m"
@@ -93,24 +97,24 @@ case "$STAGE" in
   B2)
     m=${MODELS%% *}; t=$(tag $m); export TOKENIZER_MODEL=$m BASE_MODEL=$m
     cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl > posttrain/runs/sft_train_v2_mix.jsonl
-    if [ ! -f /workspace/lora/${t}_s1/adapter_config.json ]; then
+    if [ ! -f $W/lora/${t}_s1/adapter_config.json ]; then
       log "B2 train $m seed 1"
-      python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out /workspace/lora/${t}_s1 --epochs 1 --seed 1 --grad_ckpt 1 > $R/log_train_${t}_s1.txt 2>&1
-      cp /workspace/lora/${t}_s1/train_log.jsonl $R/train_log_${t}_s1.jsonl 2>/dev/null
+      python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s1 --epochs 1 --seed 1 --grad_ckpt 1 > $R/log_train_${t}_s1.txt 2>&1
+      cp $W/lora/${t}_s1/train_log.jsonl $R/train_log_${t}_s1.jsonl 2>/dev/null
     fi
     export VLLM_ALLOW_RUNTIME_LORA_UPDATING=True GPU_UTIL=0.45
-    serve "$m" --enable-lora --max-lora-rank 16 --max-loras 4 --lora-modules "sft_s1=/workspace/lora/${t}_s1" || { status FAILED_VLLM; sleep infinity; }
+    serve "$m" --enable-lora --max-lora-rank 16 --max-loras 4 --lora-modules "sft_s1=$W/lora/${t}_s1" || { status FAILED_VLLM; sleep infinity; }
     log "B2 eval sft_s1 (max_new_tokens 384)"; evaluate "sft_v2_${t}_s1" sft_s1
     log "B2 grpo iters=$GRPO_ITERS budget=${GRPO_SECONDS}s tasks=$GRPO_TASKS group=$GRPO_GROUP"
     if [ "${GRPO_V:-1}" = 2 ]; then
-      python3 posttrain/grpo2.py --base $m --init /workspace/lora/${t}_s1 --init-name sft_s1 --out /workspace/grpo \
+      python3 posttrain/grpo2.py --base $m --init $W/lora/${t}_s1 --init-name sft_s1 --out $W/grpo \
         --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP \
         --temperature ${GRPO_TEMP:-0.8} --lr ${GRPO_LR:-2e-5} --epochs ${GRPO_EPOCHS:-2} --kl ${GRPO_KL:-0.02} --probe ${GRPO_PROBE:-48} > $R/log_grpo_${t}.txt 2>&1
-      cp /workspace/grpo/grpo2_log.jsonl $R/grpo2_log_${t}.jsonl 2>/dev/null
+      cp $W/grpo/grpo2_log.jsonl $R/grpo2_log_${t}.jsonl 2>/dev/null
     else
-      python3 posttrain/grpo.py --base $m --init /workspace/lora/${t}_s1 --init-name sft_s1 --out /workspace/grpo \
+      python3 posttrain/grpo.py --base $m --init $W/lora/${t}_s1 --init-name sft_s1 --out $W/grpo \
         --iters $GRPO_ITERS --max-seconds $GRPO_SECONDS --tasks-per-iter $GRPO_TASKS --group $GRPO_GROUP > $R/log_grpo_${t}.txt 2>&1
-      cp /workspace/grpo/grpo_log.jsonl $R/grpo_log_${t}.jsonl 2>/dev/null
+      cp $W/grpo/grpo_log.jsonl $R/grpo_log_${t}.jsonl 2>/dev/null
     fi
     tail -3 $R/log_grpo_${t}.txt >> $R/LOG
     if curl -sf http://127.0.0.1:8001/v1/models | grep -q grpo_final; then
@@ -118,7 +122,7 @@ case "$STAGE" in
     else
       log "grpo_final not served; skipping eval"
     fi
-    tar czf $R/grpo_final_${t}.tgz -C /workspace/grpo final 2>/dev/null
+    tar czf $R/grpo_final_${t}.tgz -C $W/grpo final 2>/dev/null
     stop_serve ;;
   *) log "unknown STAGE $STAGE" ;;
 esac
