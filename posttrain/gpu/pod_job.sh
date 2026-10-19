@@ -44,7 +44,12 @@ if [ "$EXTRA_TRAIN" != 0 ] || [ "$AUGMENT_RARE" != 0 ]; then   # more / oversamp
   md5sum posttrain/runs/tasks_test.jsonl | cut -c1-32 > /tmp/test_md5
   python3 posttrain/tasks.py >/dev/null && AUGMENT_RARE=$AUGMENT_RARE python3 posttrain/tasks_v2.py >/dev/null || { status FAILED_DATA; sleep infinity; }
   [ "$(md5sum posttrain/runs/tasks_test.jsonl | cut -c1-32)" = "$(cat /tmp/test_md5)" ] || { log "TEST SET CHANGED"; status FAILED_DATA; sleep infinity; }
-  wc -l posttrain/runs/tasks_train.jsonl posttrain/runs/sft_train_v2.jsonl | tee -a $R/LOG
+  if [ "$EXTRA_TRAIN" != 0 ] && [ "${P2S_EXTRA:-1}" != 0 ]; then   # P2S demos from the extra train worlds too (P2S_EXTRA=0 keeps 16 worlds)
+    md5sum posttrain/runs/p2s_tasks_test.jsonl | cut -c1-32 > /tmp/p2s_md5
+    python3 posttrain/p2s.py gen >/dev/null || { status FAILED_DATA; sleep infinity; }
+    [ "$(md5sum posttrain/runs/p2s_tasks_test.jsonl | cut -c1-32)" = "$(cat /tmp/p2s_md5)" ] || { log "P2S TEST SET CHANGED"; status FAILED_DATA; sleep infinity; }
+  fi
+  wc -l posttrain/runs/tasks_train.jsonl posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl | tee -a $R/LOG
 fi
 cp posttrain/runs/task_stats.json posttrain/runs/sft_v2_stats.json posttrain/runs/p2s_task_stats.json $R/ 2>/dev/null
 wc -l posttrain/runs/tasks_test.jsonl posttrain/runs/p2s_tasks_test.jsonl | tee -a $R/LOG

@@ -12,6 +12,7 @@ test-grader:
 check-testsets:   # the published numbers are only comparable while these files are byte-identical
 	@test -f posttrain/runs/tasks_test.jsonl || { echo "run: make worlds"; exit 1; }
 	md5sum -c eval/checksums.txt
+	$(PY) eval/fingerprint.py --check   # task_id + query + expected only; survives teacher rewording
 
 check-p2s:        # the Policy-to-Strategy reference solver must still solve every task it generated
 	$(PY) posttrain/p2s.py check | tail -1

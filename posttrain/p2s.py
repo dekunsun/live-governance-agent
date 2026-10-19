@@ -411,27 +411,37 @@ def reference(task, world):
         args = {"scenario": x, "market": e["market"]}
         cur = None
     coarse = world.stats("replay", x, GRID, markets, extra)
-    steps.append(("backtest_rule", {**args, "thresholds": GRID}, "回放一组候选分数线。"))
     cap = e.get("max_hits_per_day", float("inf"))
+    req = f"覆盖率≥{e['min_coverage']:.2f}、精确率≥{e['min_precision']:.2f}" + (f"、日均人审≤{cap:g}" if cap != float("inf") else "")
+    # Thoughts are conditioned on the evidence (the backtest rows), not templates: the model has to learn the selection
+    # rule "among thresholds that meet every requirement with a 2% margin, take the one with the highest coverage".
+    steps.append(("backtest_rule", {**args, "thresholds": GRID}, f"policy 要求 {req}。先回放一组候选分数线，看哪些满足。"))
     def fits(r, m):
         return r["precision"] is not None and r["precision"] >= e["min_precision"] + m and r["coverage"] >= e["min_coverage"] + m and r["hits_per_day"] <= cap * (1 - m)
+    def row_zh(r):
+        return f"{r['threshold']}（覆盖 {r['coverage']:.2f} 精确 {r['precision']:.2f} 日均 {r['hits_per_day']:g}）"
     ok = [r for r in coarse if fits(r, 0.02)] or [r for r in coarse if fits(r, 0.0)]
     if ok:
         best = max(ok, key=lambda r: (r["coverage"], -r["threshold"]))
+        margin_note = "各留 2% 余量" if any(fits(r, 0.02) for r in coarse) else "没有留足余量的，只能取刚好满足的"
         fine = [round(best["threshold"] + d, 2) for d in (-0.04, -0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03, 0.04)]
-        steps.append(("backtest_rule", {**args, "thresholds": fine}, "在最好的分数线附近细化。"))
+        feas = "、".join(row_zh(r) for r in sorted(ok, key=lambda r: r["threshold"])[:4])
+        steps.append(("backtest_rule", {**args, "thresholds": fine},
+                      f"满足要求的分数线（{margin_note}）：{feas}；覆盖率最高的是 {best['threshold']}，在它附近细化。"))
         fr = world.stats("replay", x, fine, markets, extra)
         ok2 = [r for r in fr if fits(r, 0.02)] or [r for r in fr if fits(r, 0.0)]
         best = max(ok2, key=lambda r: (r["coverage"], -r["threshold"])) if ok2 else best
         thr = best["threshold"]
+        submit_thought = f"细化后取 {row_zh(best)}：{req} 都满足且有余量。提交。"
     else:
-        thr = None
+        thr, submit_thought = None, "没有分数线能同时满足要求。"
     if e["type"] == "A":
         sub = {"decision": "change", "strategy_id": sid, "scenario": x, "markets": markets, "threshold": thr, "action": "manual_review",
-               "needs_financial_approval": False, "rationale": f"{sid} 分数线 {cur} → {thr}，回放满足覆盖率和精确率要求。"}
+               "needs_financial_approval": False, "rationale": f"{sid} 分数线 {cur} → {thr}，回放满足{req}并留有余量。"}
     else:
         sub = {"decision": "new", "strategy_id": "NEW", "scenario": x, "markets": markets, "threshold": thr, "action": "manual_review",
-               "needs_financial_approval": False, "rationale": f"新增 {e['market']} 专项转人审规则，分数线 {thr}，只在该市场生效。"}
+               "needs_financial_approval": False, "rationale": f"新增 {e['market']} 专项转人审规则，分数线 {thr}，回放满足{req}，只在该市场生效。"}
+    sub["_thought"] = submit_thought
     return steps, sub
 
 
@@ -588,11 +598,13 @@ class Replay:
 
 def teacher_turns(task, world):
     steps, sub = reference(task, world)
+    sub = dict(sub)
+    thought = sub.pop("_thought", "方案确定，提交。")
     env = Env(world)
     turns = []
-    for tool, args, thought in steps:
-        turns.append((assistant_text(tool, args, thought), env.step(tool, args)))
-    turns.append((assistant_text("submit_change", sub, "方案确定，提交。"), None))
+    for tool, args, th in steps:
+        turns.append((assistant_text(tool, args, th), env.step(tool, args)))
+    turns.append((assistant_text("submit_change", sub, thought), None))
     return turns, sub
 
 
