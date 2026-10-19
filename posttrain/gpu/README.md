@@ -56,6 +56,7 @@ Pod 里的顺序：训练 SFT 种子 1（17 分钟）→ 起 vLLM（显存 45%�
 - `EXTRA_TRAIN=16`：追加 16 个训练世界（w32–w47），测试世界不变（脚本会校验测试题的 md5）。
 - `P2S_EXTRA=1`（默认）：有 `EXTRA_TRAIN` 时，P2S 示范也从追加的训练世界生成（77 → 153 条）；`P2S_EXTRA=0` 保持 16 个世界。P2S 测试集同样校验 md5。
 - `AUGMENT_RARE=1`：对召回下降类和误判率上升类做过采样（多日期、多措辞），示范从 374 条变为 831 条。
+- `SFT_EPOCHS=1`：SFT 的 epoch 数。`MIX_P2S=1`：SFT 混合数据里是否带 P2S 示范（0 = 只用归因示范，用来看 P2S 示范对归因的干扰）。
 - `PASSK=4 PASSK_TEMP=0.7`：对第一个 SFT 种子额外做温度采样评测，报告 pass@1 / pass@4 / 一致性。
 - `SEEDS_qwen3_8b=1`：按模型覆盖种子列表。
 - `GRPO_V=2` + `GRPO_TEMP/LR/EPOCHS/KL/PROBE`：用 `posttrain/grpo2.py`（按通过率挑题、稀有类过采样、PPO 裁剪 + KL、探针早停）。GRPO v1（`grpo.py`）在 2 个 GPU 小时内没有可测量提升（报告第 11 节），v2 是针对其诊断的改版。

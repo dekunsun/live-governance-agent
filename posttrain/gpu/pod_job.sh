@@ -16,6 +16,7 @@ set -uo pipefail
 STAGE=${STAGE:-B0}; MODELS=${MODELS:-"Qwen/Qwen3-4B Qwen/Qwen3-8B"}; SEEDS=${SEEDS:-"1 2 3"}
 GRPO_ITERS=${GRPO_ITERS:-12}; GRPO_SECONDS=${GRPO_SECONDS:-7200}; GRPO_TASKS=${GRPO_TASKS:-48}; GRPO_GROUP=${GRPO_GROUP:-8}
 EXTRA_TRAIN=${EXTRA_TRAIN:-0}; AUGMENT_RARE=${AUGMENT_RARE:-0}; PASSK=${PASSK:-0}; PASSK_TEMP=${PASSK_TEMP:-0.7}
+SFT_EPOCHS=${SFT_EPOCHS:-1}; MIX_P2S=${MIX_P2S:-1}   # MIX_P2S=0: train the SFT adapter on attribution demos only
 REPO_URL=${REPO_URL:-https://github.com/dekunsun/live-governance-agent}; REPO_REF=${REPO_REF:-main}
 RESULT_PORT=${RESULT_PORT:-8000}; MAX_SECONDS=${MAX_SECONDS:-14400}
 # Heavy I/O (model cache, LoRA checkpoints, RL rollouts) goes to the container disk: two Pods hit
@@ -80,12 +81,12 @@ case "$STAGE" in
   B1)
     for m in $MODELS; do
       t=$(tag $m); export TOKENIZER_MODEL=$m BASE_MODEL=$m
-      cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl > posttrain/runs/sft_train_v2_mix.jsonl
+      if [ "$MIX_P2S" != 0 ]; then cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl; else cat posttrain/runs/sft_train_v2.jsonl; fi > posttrain/runs/sft_train_v2_mix.jsonl
       lora_args=()
       seeds_var="SEEDS_${t}"; seeds="${!seeds_var:-$SEEDS}"
       for s in $seeds; do
         log "B1 train $m seed $s"
-        python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s$s --epochs 1 --seed $s --grad_ckpt 1 > $R/log_train_${t}_s$s.txt 2>&1
+        python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s$s --epochs $SFT_EPOCHS --seed $s --grad_ckpt 1 > $R/log_train_${t}_s$s.txt 2>&1
         cp $W/lora/${t}_s$s/train_log.jsonl $R/train_log_${t}_s$s.jsonl 2>/dev/null
         lora_args+=("sft_s$s=$W/lora/${t}_s$s")
       done
@@ -101,10 +102,10 @@ case "$STAGE" in
     done ;;
   B2)
     m=${MODELS%% *}; t=$(tag $m); export TOKENIZER_MODEL=$m BASE_MODEL=$m
-    cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl > posttrain/runs/sft_train_v2_mix.jsonl
+    if [ "$MIX_P2S" != 0 ]; then cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl; else cat posttrain/runs/sft_train_v2.jsonl; fi > posttrain/runs/sft_train_v2_mix.jsonl
     if [ ! -f $W/lora/${t}_s1/adapter_config.json ]; then
       log "B2 train $m seed 1"
-      python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s1 --epochs 1 --seed 1 --grad_ckpt 1 > $R/log_train_${t}_s1.txt 2>&1
+      python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out $W/lora/${t}_s1 --epochs $SFT_EPOCHS --seed 1 --grad_ckpt 1 > $R/log_train_${t}_s1.txt 2>&1
       cp $W/lora/${t}_s1/train_log.jsonl $R/train_log_${t}_s1.jsonl 2>/dev/null
     fi
     export VLLM_ALLOW_RUNTIME_LORA_UPDATING=True GPU_UTIL=0.45
