@@ -23,7 +23,7 @@ live-governance-agent/
   demo/                     合作方演示页与流程动画的源码（见 demo/README.md）；feedback_to_tasks.py 把合作方反馈转成待标注的新题
   docs/PRD.md               产品需求文档（长版，假设版）
   docs/prd-governance-agent.md  产品视角 PRD v1.2（摘要 → 背景与问题 → 目标与指标 → 用户与场景 → 范围 → 用户旅程与交互流程 → 功能需求 → AI 行为与护栏 → 依赖与上线 → 风险与开放问题）
-  docs/technical-one-pager.md   研发视角技术一页纸（方案、指标、系统概览、选型、挑战、路线图）
+  docs/technical-one-pager.md   研发视角技术一页纸（术语 → 系统概览 → 响应生成 → 意图路由 → 证据检索 → 知识库 → 专门能力 → 选型 → 评测结果 → 风险 → 路线图）
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
