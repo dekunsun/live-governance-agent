@@ -3,6 +3,7 @@
 发布版（claude.ai artifact）由这里的文件生成。页面里所有回答都是原型在合成数据上真实运行的结果。
 
 ```bash
+bash demo/regen.sh                      # 一键重建：dump → build → 嵌入模板（下面三步的合集）
 python demo/dump.py demo/runs.json      # 用规则引擎跑 12 个示例问题，导出 trace（需先 python data/generate.py）
 python demo/build.py                    # runs.json -> scenes.json（白话化的步骤与结论）；同时生成 world.json（策略格子、市场）
 python - <<'EOF2'                       # 把数据嵌进模板

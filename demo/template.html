@@ -206,6 +206,11 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px }
   .explain dl, .kv { grid-template-columns: 1fr }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important } }
+.tiers-title{margin:28px 0 10px;font-size:1.05rem}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tier{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card)}
+.tier h4{margin:0 0 8px;font-size:1rem}.tier ul{margin:0;padding-left:18px;font-size:.92rem;line-height:1.5}
+@media (max-width:720px){.tiers{grid-template-columns:1fr}}
 </style>
 
 <div class="wrap">
@@ -280,6 +285,12 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px }
   <div class="limit"><h3>涉及资金</h3><p>冻结收益、延迟结算类的结论要报出金额，提示误杀复核后解冻，变更需结算和财务知会。</p></div>
   <div class="limit"><h3>样本不足或口径冲突</h3><p>小市场、数据缺失、“误杀率”这类有多种算法的指标，降低置信度或先问清楚。</p></div>
   <div class="limit"><h3>不做的事</h3><p>不改策略、不上线变更、不替团队做决定；变更只出草稿，走现有审批流。</p></div>
+  </div>
+  <h3 class="tiers-title">三档能力边界</h3>
+  <div class="tiers">
+    <div class="tier"><h4>直接做</h4><ul><li>查指标、下钻、查变更、看漂移、抽样</li><li>给出带证据编号的结论卡片</li><li>巡检发现推送给策略 owner</li></ul></div>
+    <div class="tier"><h4>经你确认才做</h4><ul><li>生成策略修改草稿并提交审批</li><li>把结论写入决策记录</li><li>涉及头部主播或资金侧的结论标"需复核"后交给人</li></ul></div>
+    <div class="tier"><h4>不做</h4><ul><li>不直接改策略、分数线、动作</li><li>不执行或起草冻结、扣款、解冻</li><li>不对单个主播或公会给处置建议</li><li>证据不足时不下结论，答"数据不足"或"需要澄清"</li></ul></div>
 </div>
 
 <section id="ideas" class="read">

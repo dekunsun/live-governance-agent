@@ -178,7 +178,10 @@ def main():
     existing = {json.loads(l)["task_id"]: json.loads(l) for l in open(os.path.join(RUNS, "tasks_train.jsonl"))}
     rng = random.Random(11)   # same stream as tasks.py so task ids and A-phrasings line up
     rng_c = random.Random(1102)
-    stats = {"a": 0, "c_kept": 0, "c_dropped": 0, "mismatch_with_v1": 0}
+    augment = os.environ.get("AUGMENT_RARE", "0") == "1"
+    rng_x = random.Random(1103)   # augmentation only; never touches the main stream
+    RARE = {"recall": 6, "overturn_up": 2}   # kind -> max extra demonstrations per task (keeps the mix from tipping over)
+    stats = {"a": 0, "c_kept": 0, "c_dropped": 0, "mismatch_with_v1": 0, "x_kept": 0, "x_dropped": 0, "augment": augment}
     out = []
     for spec in idx:
         p = Platform(data_dir=os.path.join(WORLDS, spec["world_id"]))
@@ -214,6 +217,30 @@ def main():
                 stats["c_kept"] += 1
             else:
                 stats["c_dropped"] += 1
+            if augment and kind in RARE:
+                # Extra demonstrations for the two classes the SFT models keep failing: every other matching date,
+                # and every A/C template wording (B stays held out for test). Ids: <tid>x<n>.
+                seen = {q, qc}
+                n = 0
+                for dd in dates:
+                    if n >= RARE[kind]:
+                        break
+                    for which in ("A", "A", "C", "C"):
+                        qx = T1.render(kind, which, rng_x, d=dd, **kw) if which == "A" else render_c(kind, rng_x, d=dd, **kw)
+                        if qx in seen:
+                            continue
+                        seen.add(qx)
+                        p.refs.clear(); p._ref_n = 0
+                        trx = eng.attribution(qx)
+                        turns_x, sub_x = teacher_turns(trx)
+                        if n >= RARE[kind]:
+                            break
+                        if T1.matches(exp, sub_x):
+                            n += 1
+                            out.append({"task_id": f"{tid}x{n}", "phrasing": which, "query": qx, "scope": parse_scope(qx, p.meta), "turns": turns_x, "prefix": "v2"})
+                            stats["x_kept"] += 1
+                        else:
+                            stats["x_dropped"] += 1
         print(spec["world_id"], spec["split"], len(out), flush=True)
     with open(os.path.join(RUNS, "sft_train_v2.jsonl"), "w") as f:
         for s in out:

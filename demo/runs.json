@@ -1,0 +1,3812 @@
+[
+ {
+  "run_id": "20261019-032828-bc5685",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "美国昨天误杀申诉涨了，帮我看看",
+  "latency_s": 0.168,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 13,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "US",
+     "scenario": null,
+     "metric": "overturns",
+     "metric_candidates": [
+      "overturns"
+     ],
+     "date": "2026-10-15",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "美国昨天误杀申诉涨了，帮我看看",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.006,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US"
+    },
+    "result_summary": {
+     "ref_id": "Q-0001"
+    }
+   },
+   {
+    "t": 0.01,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": null
+    },
+    "result_summary": {
+     "ref_id": "Q-0002"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": null
+    },
+    "result_summary": {
+     "ref_id": "Q-0003"
+    }
+   },
+   {
+    "t": 0.022,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "group_by": [
+      "scenario"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0004"
+    }
+   },
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "US",
+     "scenario": "scam_fraud",
+     "metric": "overturns",
+     "metric_candidates": [
+      "overturns"
+     ],
+     "date": "2026-10-15",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "美国昨天误杀申诉涨了，帮我看看",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.004,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US"
+    },
+    "result_summary": {
+     "ref_id": "Q-0005"
+    }
+   },
+   {
+    "t": 0.007,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": "scam_fraud"
+    },
+    "result_summary": {
+     "ref_id": "Q-0006"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": "scam_fraud",
+     "group_by": [
+      "strategy_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0007"
+    }
+   },
+   {
+    "t": 0.014,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "scenario": "scam_fraud",
+     "market": "US"
+    },
+    "result_summary": {
+     "ref_id": "Q-0008"
+    }
+   },
+   {
+    "t": 0.074,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "scam_fraud",
+     "market": null,
+     "baseline_start": "2026-10-06",
+     "baseline_end": "2026-10-12",
+     "current_start": "2026-10-13",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0009"
+    }
+   },
+   {
+    "t": 0.148,
+    "kind": "tool_call",
+    "tool": "sample_cases",
+    "args": {
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-102",
+     "market": "US",
+     "n": 15,
+     "overturned": true
+    },
+    "result_summary": {
+     "ref_id": "Q-0010"
+    }
+   },
+   {
+    "t": 0.155,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-102",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0011"
+    }
+   },
+   {
+    "t": 0.161,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-102",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0012"
+    }
+   },
+   {
+    "t": 0.166,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "frozen_amount",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": "scam_fraud",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0013"
+    }
+   },
+   {
+    "t": 0.168,
+    "kind": "guardrails",
+    "needs_escalation": true,
+    "reasons": [
+     "涉及头部主播，需策略 owner 人工确认"
+    ],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "美国昨天误杀申诉涨了，帮我看看",
+   "scope": {
+    "market": "US",
+    "scenario": "scam_fraud",
+    "metric": "overturns",
+    "date": "2026-10-15",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-10-08",
+     "2026-10-14"
+    ],
+    "direction": "up",
+    "note": "市场整体在正常波动内；异常集中在单一场景",
+    "low_sample": false,
+    "observed": {
+     "current": 14,
+     "baseline_median": 2.0,
+     "sessions_current": 1197,
+     "sessions_baseline_median": 1131.0
+    },
+    "decomposition": {
+     "count_ratio": 7.0,
+     "traffic_ratio": 1.06,
+     "rate_ratio": 6.61,
+     "traffic_share_of_change": 0.03
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0002",
+     "type": "metric",
+     "metric": "overturns",
+     "what": "2026-10-15 overturns=50，前 7 天中位数 42.0"
+    },
+    {
+     "ref_id": "Q-0001",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-15 sessions=1197，前 7 天中位数 1131"
+    },
+    {
+     "ref_id": "Q-0004",
+     "type": "drilldown",
+     "metric": "overturns",
+     "what": "市场整体平稳，但按场景下钻 scam_fraud overturns 2.0→14（增量份额 34%）；候选场景 ['scam_fraud']"
+    },
+    {
+     "ref_id": "Q-0006",
+     "type": "metric",
+     "metric": "overturns",
+     "what": "2026-10-15 overturns=14，前 7 天中位数 2.0"
+    },
+    {
+     "ref_id": "Q-0005",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-15 sessions=1197，前 7 天中位数 1131"
+    },
+    {
+     "ref_id": "Q-0007",
+     "type": "drilldown",
+     "metric": "overturns",
+     "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-102', 12.0, 1.0, 14, 2.0), ('S-110', 0.0, 0.0, 0, 0.0), ('S-114', 0.0, 0.0, 0, 0.0)]"
+    },
+    {
+     "ref_id": "Q-0008",
+     "type": "change_log",
+     "what": "C-006 2026-10-13 model_update model_scam_fraud"
+    },
+    {
+     "ref_id": "Q-0009",
+     "type": "score_drift",
+     "what": "model_scam_fraud ['v3']→['v4']，PSI=7.6485，p50 0.1096→0.2575；超过 S-102 阈值 0.85 的比例 0.0133→0.0434（×3.26）"
+    },
+    {
+     "ref_id": "Q-0011",
+     "type": "metric",
+     "metric": "precision_est",
+     "what": "S-102 抽检精确率 0.77→0.504"
+    },
+    {
+     "ref_id": "Q-0010",
+     "type": "cases",
+     "what": "抽样 15 个 case，分数均值 0.921，含头部主播=True"
+    },
+    {
+     "ref_id": "Q-0013",
+     "type": "metric",
+     "metric": "frozen_amount",
+     "what": "同一模型的资金侧策略同期冻结/延迟结算金额: S-114=2250, S-129=2120"
+    }
+   ],
+   "next_steps": [
+    "请 策略-交易安全组 评估 S-102 阈值重校（可用 run_backtest 回放新阈值）",
+    "与算法确认 v4 是否提供校准后分数；长期应让阈值随版本自动重校",
+    "资金侧：同一模型的 S-114、S-129 受同样漂移影响，误杀场次的冻结收益需复核后解冻（走结算复核）"
+   ],
+   "contributing_causes": [
+    {
+     "type": "financial_exposure",
+     "strategy_ids": [
+      "S-114",
+      "S-129"
+     ],
+     "change_ids": [],
+     "explanation": "资金侧动作误杀的代价不可逆性更高，需同步处理"
+    }
+   ],
+   "needs_escalation": true,
+   "escalation_reasons": [
+    "涉及头部主播，需策略 owner 人工确认"
+   ],
+   "platform_links": [
+    "platform://metrics?metric=overturns&market=US&scenario=scam_fraud&date=2026-10-15",
+    "platform://strategy/S-102"
+   ],
+   "metric": {
+    "key": "overturns",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "version": "v1",
+    "note": null
+   },
+   "sample_case_ids": [
+    "LS-0094684",
+    "LS-0094782",
+    "LS-0097537",
+    "LS-0101100",
+    "LS-0101340",
+    "LS-0097767",
+    "LS-0093842",
+    "LS-0097400",
+    "LS-0094320",
+    "LS-0100891",
+    "LS-0098033",
+    "LS-0101661",
+    "LS-0098293",
+    "LS-0097332",
+    "LS-0094813"
+   ],
+   "primary_cause": {
+    "type": "model_drift_threshold",
+    "strategy_ids": [
+     "S-102"
+    ],
+    "change_ids": [
+     "C-006"
+    ],
+    "explanation": "C-006（model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移）后分数分布上移，S-102 固定阈值 0.85 命中增加，误杀上升"
+   },
+   "conclusion": "US 整体 申诉推翻数 50 vs 基线 42 在正常范围，但 诈骗引流 场景异常：US 申诉推翻数上升（2→14）主要来自 S-102；2026-10-13 model_scam_fraud 升级后分数中位数上移，固定阈值导致命中 ×3.26，抽检精确率 0.77→0.504。建议策略 owner 评估阈值重校",
+   "confidence": "medium",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-f2791d",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "印尼 2026-10-03 命中数涨了很多，策略是不是出问题了",
+  "latency_s": 0.007,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 2,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "ID",
+     "scenario": null,
+     "metric": "hits",
+     "metric_candidates": [
+      "hits"
+     ],
+     "date": "2026-10-03",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "印尼 2026-10-03 命中数涨了很多，策略是不是出问题了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.003,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-09-26",
+     "end_date": "2026-10-03",
+     "market": "ID"
+    },
+    "result_summary": {
+     "ref_id": "Q-0014"
+    }
+   },
+   {
+    "t": 0.007,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-26",
+     "end_date": "2026-10-03",
+     "market": "ID",
+     "scenario": null
+    },
+    "result_summary": {
+     "ref_id": "Q-0015"
+    }
+   },
+   {
+    "t": 0.007,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "印尼 2026-10-03 命中数涨了很多，策略是不是出问题了",
+   "scope": {
+    "market": "ID",
+    "scenario": null,
+    "metric": "hits",
+    "date": "2026-10-03",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-09-26",
+     "2026-10-02"
+    ],
+    "direction": "up",
+    "note": "单日 vs 前 7 天中位数",
+    "low_sample": false,
+    "observed": {
+     "current": 482,
+     "baseline_median": 254.0,
+     "sessions_current": 1728,
+     "sessions_baseline_median": 974.0
+    },
+    "decomposition": {
+     "count_ratio": 1.9,
+     "traffic_ratio": 1.77,
+     "rate_ratio": 1.07,
+     "traffic_share_of_change": 0.89
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0015",
+     "type": "metric",
+     "metric": "hits",
+     "what": "2026-10-03 hits=482，前 7 天中位数 254.0"
+    },
+    {
+     "ref_id": "Q-0014",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-03 sessions=1728，前 7 天中位数 974"
+    }
+   ],
+   "next_steps": [
+    "看板增加按 sessions 归一化的率指标，避免再次误判",
+    "确认流量变化来源（活动/假期），无需策略动作"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://metrics?metric=hits&market=ID&scenario=&date=2026-10-03"
+   ],
+   "metric": {
+    "key": "hits",
+    "definition": "策略命中次数。一个 session 可被多条策略命中，按命中次数计。",
+    "version": "v1",
+    "note": null
+   },
+   "primary_cause": {
+    "type": "traffic_driven",
+    "strategy_ids": [],
+    "change_ids": [],
+    "explanation": "sessions 974→1728（×1.77），hits/sessions 比率 ×1.07 基本不变；流量解释了约 89% 的变化"
+   },
+   "conclusion": "ID 策略命中数 上涨主要由流量变化驱动（974→1728 sessions），策略命中数率基本不变，不是策略或模型问题",
+   "confidence": "high",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-9eb670",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "巴西赌博处罚最近少了，是不是违规变少了",
+  "latency_s": 0.096,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 8,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "BR",
+     "scenario": "gambling",
+     "metric": "enforcements",
+     "metric_candidates": [
+      "enforcements"
+     ],
+     "date": "2026-10-15",
+     "direction": "down",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 7,
+     "raw": "巴西赌博处罚最近少了，是不是违规变少了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.004,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "market": "BR"
+    },
+    "result_summary": {
+     "ref_id": "Q-0016"
+    }
+   },
+   {
+    "t": 0.007,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling"
+    },
+    "result_summary": {
+     "ref_id": "Q-0017"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling",
+     "group_by": [
+      "strategy_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0018"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "scenario": "gambling",
+     "market": "BR"
+    },
+    "result_summary": {
+     "ref_id": "Q-0019"
+    }
+   },
+   {
+    "t": 0.017,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "reports",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling"
+    },
+    "result_summary": {
+     "ref_id": "Q-0020"
+    }
+   },
+   {
+    "t": 0.073,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "gambling",
+     "market": "BR",
+     "baseline_start": "2026-09-25",
+     "baseline_end": "2026-09-25",
+     "current_start": "2026-10-09",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0021"
+    }
+   },
+   {
+    "t": 0.086,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0022"
+    }
+   },
+   {
+    "t": 0.095,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-09-25",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0023"
+    }
+   },
+   {
+    "t": 0.096,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "巴西赌博处罚最近少了，是不是违规变少了",
+   "scope": {
+    "market": "BR",
+    "scenario": "gambling",
+    "metric": "enforcements",
+    "date": "2026-10-15",
+    "window_days": 7,
+    "baseline_window": [
+     "2026-09-25",
+     "2026-10-08"
+    ],
+    "direction": "down",
+    "note": "近 7 天合计 vs 前 14 天日均×7",
+    "low_sample": false,
+    "observed": {
+     "current": 65,
+     "baseline_median": 108.0,
+     "sessions_current": 6343,
+     "sessions_baseline_median": 6327.5
+    },
+    "decomposition": {
+     "count_ratio": 0.6,
+     "traffic_ratio": 1.0,
+     "rate_ratio": 0.6,
+     "traffic_share_of_change": 0.0
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0017",
+     "type": "metric",
+     "metric": "enforcements",
+     "what": "截至 2026-10-15 近 7 天合计 enforcements=65，前 14 天日均×7 108.0"
+    },
+    {
+     "ref_id": "Q-0016",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "截至 2026-10-15 近 7 天合计 sessions=6343，前 14 天日均×7 6328"
+    },
+    {
+     "ref_id": "Q-0018",
+     "type": "drilldown",
+     "metric": "enforcements",
+     "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-115', -37.5, 0.87, 57, 94.5), ('S-128', -5.5, 0.13, 8, 13.5), ('S-116', 0.0, 0.0, 0, 0.0)]"
+    },
+    {
+     "ref_id": "Q-0020",
+     "type": "metric",
+     "metric": "reports",
+     "what": "举报 2026-10-15=293，基线 276，未同步下降"
+    },
+    {
+     "ref_id": "Q-0021",
+     "type": "score_drift",
+     "what": "被举报人群 model_gambling 分数中位数 0.4567→0.2755"
+    },
+    {
+     "ref_id": "Q-0022",
+     "type": "metric",
+     "metric": "recall_est",
+     "what": "recall_est 近 7 天 0.328，此前 0.751"
+    }
+   ],
+   "next_steps": [
+    "把近 7 天被举报但未命中的 case 送模型团队做 bad case 分析",
+    "评估 S-115 临时补充特征条件或下调阈值（先回测）"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://metrics?metric=enforcements&market=BR&scenario=gambling&date=2026-10-15",
+    "platform://strategy/S-115"
+   ],
+   "metric": {
+    "key": "enforcements",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "version": "v2",
+    "note": null
+   },
+   "primary_cause": {
+    "type": "recall_drop_evasion",
+    "strategy_ids": [
+     "S-115"
+    ],
+    "change_ids": [],
+    "explanation": "命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.4567→0.2755），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减少"
+   },
+   "conclusion": "BR 赌博 处罚 session 数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.751→0.328，判断为绕过导致召回下降（主要影响 S-115）",
+   "confidence": "medium",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-b6845f",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "英国骚扰 10-13 人审量涨了",
+  "latency_s": 0.022,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 6,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "GB",
+     "scenario": "hate_harassment",
+     "metric": "manual_reviews",
+     "metric_candidates": [
+      "manual_reviews"
+     ],
+     "date": "2026-10-13",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "英国骚扰 10-13 人审量涨了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.005,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "GB"
+    },
+    "result_summary": {
+     "ref_id": "Q-0024"
+    }
+   },
+   {
+    "t": 0.009,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "manual_reviews",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "GB",
+     "scenario": "hate_harassment"
+    },
+    "result_summary": {
+     "ref_id": "Q-0025"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "manual_reviews",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "GB",
+     "scenario": "hate_harassment",
+     "group_by": [
+      "strategy_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0026"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "scenario": "hate_harassment",
+     "market": "GB"
+    },
+    "result_summary": {
+     "ref_id": "Q-0027"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "get_strategy_config",
+    "args": {
+     "strategy_id": "S-112"
+    },
+    "result_summary": {
+     "ref_id": "Q-0028"
+    }
+   },
+   {
+    "t": 0.021,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-11",
+     "end_date": "2026-10-13",
+     "strategy_id": "S-112",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0029"
+    }
+   },
+   {
+    "t": 0.022,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "英国骚扰 10-13 人审量涨了",
+   "scope": {
+    "market": "GB",
+    "scenario": "hate_harassment",
+    "metric": "manual_reviews",
+    "date": "2026-10-13",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-10-06",
+     "2026-10-12"
+    ],
+    "direction": "up",
+    "note": "单日 vs 前 7 天中位数",
+    "low_sample": false,
+    "observed": {
+     "current": 26,
+     "baseline_median": 8.0,
+     "sessions_current": 619,
+     "sessions_baseline_median": 515.0
+    },
+    "decomposition": {
+     "count_ratio": 3.25,
+     "traffic_ratio": 1.2,
+     "rate_ratio": 2.7,
+     "traffic_share_of_change": 0.16
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0025",
+     "type": "metric",
+     "metric": "manual_reviews",
+     "what": "2026-10-13 manual_reviews=26，前 7 天中位数 8.0"
+    },
+    {
+     "ref_id": "Q-0024",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-13 sessions=619，前 7 天中位数 515"
+    },
+    {
+     "ref_id": "Q-0026",
+     "type": "drilldown",
+     "metric": "manual_reviews",
+     "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-112', 18.0, 1.0, 26, 8.0), ('S-111', 0.0, 0.0, 0, 0.0), ('S-123', 0.0, 0.0, 0, 0.0)]"
+    },
+    {
+     "ref_id": "Q-0027",
+     "type": "change_log",
+     "what": "C-003 2026-10-10 policy_update P-7; C-004 2026-10-11 strategy_update S-112"
+    },
+    {
+     "ref_id": "Q-0028",
+     "type": "strategy_config",
+     "what": "S-112 版本历史: v1@2026-05-10 thr=0.85 manual_review; v2@2026-08-01 thr=0.8 manual_review; v3@2026-10-11 thr=0.5 manual_review"
+    },
+    {
+     "ref_id": "Q-0029",
+     "type": "metric",
+     "metric": "precision_est",
+     "what": "S-112 变更后抽检精确率 0.6（n=30）"
+    }
+   ],
+   "next_steps": [
+    "确认 S-112 变更后的精确率是否达到上线门槛",
+    "若属预期变化，在看板标注变更日期避免重复归因"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://metrics?metric=manual_reviews&market=GB&scenario=hate_harassment&date=2026-10-13",
+    "platform://strategy/S-112"
+   ],
+   "metric": {
+    "key": "manual_reviews",
+    "definition": "动作为 manual_review 的命中次数。",
+    "version": "v1",
+    "note": null
+   },
+   "primary_cause": {
+    "type": "policy_update",
+    "strategy_ids": [
+     "S-112"
+    ],
+    "change_ids": [
+     "C-003",
+     "C-004"
+    ],
+    "explanation": "policy P-7 更新（C-003）后 S-112 同步调整版本（C-004），增量约 100%"
+   },
+   "conclusion": "GB 转人审数上升是 policy P-7 更新后 S-112 阈值调整的预期结果（C-003 → C-004），不是异常",
+   "confidence": "high",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-0e3717",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "印尼未成年 10-13 处罚上升",
+  "latency_s": 0.019,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 6,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "ID",
+     "scenario": "minor_safety",
+     "metric": "enforcements",
+     "metric_candidates": [
+      "enforcements"
+     ],
+     "date": "2026-10-13",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "印尼未成年 10-13 处罚上升",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.003,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "ID"
+    },
+    "result_summary": {
+     "ref_id": "Q-0030"
+    }
+   },
+   {
+    "t": 0.007,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "ID",
+     "scenario": "minor_safety"
+    },
+    "result_summary": {
+     "ref_id": "Q-0031"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "market": "ID",
+     "scenario": "minor_safety",
+     "group_by": [
+      "strategy_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0032"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-06",
+     "end_date": "2026-10-13",
+     "scenario": "minor_safety",
+     "market": "ID"
+    },
+    "result_summary": {
+     "ref_id": "Q-0033"
+    }
+   },
+   {
+    "t": 0.013,
+    "kind": "tool_call",
+    "tool": "get_strategy_config",
+    "args": {
+     "strategy_id": "S-126"
+    },
+    "result_summary": {
+     "ref_id": "Q-0034"
+    }
+   },
+   {
+    "t": 0.018,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-12",
+     "end_date": "2026-10-13",
+     "strategy_id": "S-126",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0035"
+    }
+   },
+   {
+    "t": 0.019,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "印尼未成年 10-13 处罚上升",
+   "scope": {
+    "market": "ID",
+    "scenario": "minor_safety",
+    "metric": "enforcements",
+    "date": "2026-10-13",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-10-06",
+     "2026-10-12"
+    ],
+    "direction": "up",
+    "note": "单日 vs 前 7 天中位数",
+    "low_sample": false,
+    "observed": {
+     "current": 52,
+     "baseline_median": 31.0,
+     "sessions_current": 891,
+     "sessions_baseline_median": 940.0
+    },
+    "decomposition": {
+     "count_ratio": 1.68,
+     "traffic_ratio": 0.95,
+     "rate_ratio": 1.77,
+     "traffic_share_of_change": 0.0
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0031",
+     "type": "metric",
+     "metric": "enforcements",
+     "what": "2026-10-13 enforcements=52，前 7 天中位数 31.0"
+    },
+    {
+     "ref_id": "Q-0030",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-13 sessions=891，前 7 天中位数 940"
+    },
+    {
+     "ref_id": "Q-0032",
+     "type": "drilldown",
+     "metric": "enforcements",
+     "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-126', 19.0, 0.9, 19, 0.0), ('S-105', 2.0, 0.1, 33, 31.0), ('S-106', 0.0, 0.0, 0, 0.0)]"
+    },
+    {
+     "ref_id": "Q-0033",
+     "type": "change_log",
+     "what": "C-005 2026-10-12 strategy_launch S-126"
+    },
+    {
+     "ref_id": "Q-0034",
+     "type": "strategy_config",
+     "what": "S-126 版本历史: v1@2026-10-12 thr=0.6 suspend_live"
+    },
+    {
+     "ref_id": "Q-0035",
+     "type": "metric",
+     "metric": "precision_est",
+     "what": "S-126 变更后抽检精确率 0.3（n=20）"
+    }
+   ],
+   "next_steps": [
+    "确认 S-126 变更后的精确率是否达到上线门槛",
+    "若属预期变化，在看板标注变更日期避免重复归因"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://metrics?metric=enforcements&market=ID&scenario=minor_safety&date=2026-10-13",
+    "platform://strategy/S-126"
+   ],
+   "metric": {
+    "key": "enforcements",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "version": "v2",
+    "note": null
+   },
+   "primary_cause": {
+    "type": "new_strategy_launch",
+    "strategy_ids": [
+     "S-126"
+    ],
+    "change_ids": [
+     "C-005"
+    ],
+    "explanation": "S-126 于 2026-10-12 上线（C-005），贡献了约 90% 的增量"
+   },
+   "conclusion": "ID 处罚 session 数上升主要来自新上线策略 S-126（2026-10-12，C-005），属预期内新增量；建议按上线计划观察精确率",
+   "confidence": "high",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-ee5ef1",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "巴西刷量昨天处罚涨了",
+  "latency_s": 0.098,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 7,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "BR",
+     "scenario": "spam_bot",
+     "metric": "enforcements",
+     "metric_candidates": [
+      "enforcements"
+     ],
+     "date": "2026-10-15",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "巴西刷量昨天处罚涨了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.004,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "BR"
+    },
+    "result_summary": {
+     "ref_id": "Q-0036"
+    }
+   },
+   {
+    "t": 0.008,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "spam_bot"
+    },
+    "result_summary": {
+     "ref_id": "Q-0037"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "spam_bot",
+     "group_by": [
+      "strategy_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0038"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "scenario": "spam_bot",
+     "market": "BR"
+    },
+    "result_summary": {
+     "ref_id": "Q-0039"
+    }
+   },
+   {
+    "t": 0.07,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "enforcements",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "spam_bot",
+     "group_by": [
+      "guild_id"
+     ]
+    },
+    "result_summary": {
+     "ref_id": "Q-0040"
+    }
+   },
+   {
+    "t": 0.071,
+    "kind": "tool_call",
+    "tool": "get_guild_info",
+    "args": {
+     "guild_id": "G-BR-002"
+    },
+    "result_summary": {
+     "ref_id": "Q-0041"
+    }
+   },
+   {
+    "t": 0.098,
+    "kind": "tool_call",
+    "tool": "sample_cases",
+    "args": {
+     "start_date": "2026-10-15",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "spam_bot",
+     "guild_id": "G-BR-002",
+     "n": 15
+    },
+    "result_summary": {
+     "ref_id": "Q-0042"
+    }
+   },
+   {
+    "t": 0.098,
+    "kind": "guardrails",
+    "needs_escalation": true,
+    "reasons": [
+     "涉及公会级处置，超出只读结论范围，需公会治理确认",
+     "涉及头部主播，需策略 owner 人工确认"
+    ],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "巴西刷量昨天处罚涨了",
+   "scope": {
+    "market": "BR",
+    "scenario": "spam_bot",
+    "metric": "enforcements",
+    "date": "2026-10-15",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-10-08",
+     "2026-10-14"
+    ],
+    "direction": "up",
+    "note": "单日 vs 前 7 天中位数",
+    "low_sample": false,
+    "observed": {
+     "current": 59,
+     "baseline_median": 34.0,
+     "sessions_current": 885,
+     "sessions_baseline_median": 861.0
+    },
+    "decomposition": {
+     "count_ratio": 1.74,
+     "traffic_ratio": 1.03,
+     "rate_ratio": 1.69,
+     "traffic_share_of_change": 0.05
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0037",
+     "type": "metric",
+     "metric": "enforcements",
+     "what": "2026-10-15 enforcements=59，前 7 天中位数 34.0"
+    },
+    {
+     "ref_id": "Q-0036",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-15 sessions=885，前 7 天中位数 861"
+    },
+    {
+     "ref_id": "Q-0038",
+     "type": "drilldown",
+     "metric": "enforcements",
+     "what": "按策略增量贡献（strategy_id, 增量, 份额）: [('S-117', 14.0, 0.48, 27, 13.0), ('S-104', 13.0, 0.45, 30, 17.0), ('S-121', -1.0, 0.03, 2, 3.0)]"
+    },
+    {
+     "ref_id": "Q-0040",
+     "type": "drilldown",
+     "metric": "enforcements",
+     "what": "按公会增量贡献: G-BR-002 15.5→35（增量份额 64%）；其余公会基本持平"
+    },
+    {
+     "ref_id": "Q-0041",
+     "type": "guild",
+     "what": "G-BR-002 巴西公会-002，mid 公会，近 28 天 2093 场，头部主播 67 个"
+    },
+    {
+     "ref_id": "Q-0042",
+     "type": "cases",
+     "what": "抽样 15 个 case（新设备占比高、账号年龄小），含头部主播=True"
+    }
+   ],
+   "next_steps": [
+    "公会治理：核查 G-BR-002 近 3 天新增主播和设备，必要时按公会维度处置",
+    "策略侧无需改动；如果是新型批量行为，把 case 送策略团队评估是否需要公会级特征"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": true,
+   "escalation_reasons": [
+    "涉及公会级处置，超出只读结论范围，需公会治理确认",
+    "涉及头部主播，需策略 owner 人工确认"
+   ],
+   "platform_links": [
+    "platform://metrics?metric=enforcements&market=BR&scenario=spam_bot&date=2026-10-15",
+    "platform://guild/G-BR-002"
+   ],
+   "metric": {
+    "key": "enforcements",
+    "definition": "被处罚的 session 数（limit_traffic/warn/suspend_live/ban_7d）。每 session 计一次，归属到严重度最高的策略（primary_strategy）。manual_review 和 observe 不算处罚。",
+    "version": "v2",
+    "note": null
+   },
+   "sample_case_ids": [
+    "LS-0102379",
+    "LS-0102578",
+    "LS-0102704",
+    "LS-0102924",
+    "LS-0102479",
+    "LS-0102662",
+    "LS-0102592",
+    "LS-0102123",
+    "LS-0102789",
+    "LS-0102133",
+    "LS-0102909",
+    "LS-0102598",
+    "LS-0102865",
+    "LS-0102639",
+    "LS-0102531"
+   ],
+   "primary_cause": {
+    "type": "guild_concentration",
+    "strategy_ids": [
+     "S-117"
+    ],
+    "change_ids": [],
+    "guild_ids": [
+     "G-BR-002"
+    ],
+    "explanation": "同期无策略/模型/policy 变更；增量 64% 集中在公会 G-BR-002，其他公会平稳，更像该公会主播的集中违规而不是策略问题"
+   },
+   "conclusion": "BR 垃圾刷量 处罚 session 数上升（34→59）集中在公会 G-BR-002（巴西公会-002，贡献 64%），命中策略 S-117 的分数和特征正常，不是误杀；建议公会治理跟进该公会",
+   "confidence": "medium",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-1d97b7",
+  "engine": "rules",
+  "playbook": "guild_health",
+  "query": "G-BR-002 健康分为什么掉了",
+  "latency_s": 0.128,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 5,
+  "events": [
+   {
+    "t": 0.018,
+    "kind": "tool_call",
+    "tool": "get_guild_health",
+    "args": {
+     "start_date": "2026-10-02",
+     "end_date": "2026-10-15",
+     "guild_id": "G-BR-002"
+    },
+    "result_summary": {
+     "ref_id": "Q-0043"
+    }
+   },
+   {
+    "t": 0.018,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-02",
+     "end_date": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0044"
+    }
+   },
+   {
+    "t": 0.104,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "spam_bot",
+     "baseline_start": "2026-09-28",
+     "baseline_end": "2026-10-04",
+     "current_start": "2026-10-05",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0045"
+    }
+   },
+   {
+    "t": 0.127,
+    "kind": "tool_call",
+    "tool": "sample_cases",
+    "args": {
+     "start_date": "2026-10-02",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-117",
+     "guild_id": "G-BR-002",
+     "n": 10
+    },
+    "result_summary": {
+     "ref_id": "Q-0046"
+    }
+   },
+   {
+    "t": 0.127,
+    "kind": "tool_call",
+    "tool": "get_guild_info",
+    "args": {
+     "guild_id": "G-BR-002"
+    },
+    "result_summary": {
+     "ref_id": "Q-0047"
+    }
+   },
+   {
+    "t": 0.128,
+    "kind": "guardrails",
+    "needs_escalation": true,
+    "reasons": [
+     "涉及公会级处置（约谈/暂停结算），需公会治理确认"
+    ],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "G-BR-002 健康分为什么掉了",
+   "scope": {
+    "guild_id": "G-BR-002",
+    "date": "2026-10-15",
+    "window": [
+     "2026-10-02",
+     "2026-10-15"
+    ],
+    "low_sample": false
+   },
+   "metric": {
+    "key": "guild_health_score",
+    "definition": "起始 100 分；当日严重处置数超过市场基准率×1.2 的部分每条扣 0.5 分（日上限 10 分），无超额则 +0.5 分；基准率取窗口前 14 天各市场水平",
+    "version": "v1",
+    "note": "机构健康分（合成规则）"
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0043",
+     "type": "guild_health",
+     "what": "G-BR-002 健康分 98.51→75.05（警告约谈），窗口扣分 27.46，最大扣分日 2026-10-14"
+    },
+    {
+     "ref_id": "Q-0043",
+     "type": "drilldown",
+     "what": "扣分来源（策略, 分值）: S-117 18.1, S-102 4.35, S-101 1.4, S-118 0.99"
+    },
+    {
+     "ref_id": "Q-0046",
+     "type": "cases",
+     "what": "G-BR-002 被 S-117 命中的 case 抽样 10 个，含头部主播=False"
+    },
+    {
+     "ref_id": "Q-0047",
+     "type": "guild",
+     "what": "巴西公会-002，mid 公会，头部主播 67 个"
+    }
+   ],
+   "next_steps": [
+    "公会治理：约谈 G-BR-002，要求整改并核查近 3 天新增主播",
+    "若连续扣分，将在下一档触发暂停结算；提前告知公会"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": true,
+   "escalation_reasons": [
+    "涉及公会级处置（约谈/暂停结算），需公会治理确认"
+   ],
+   "platform_links": [
+    "platform://guild/G-BR-002/health"
+   ],
+   "sample_case_ids": [
+    "LS-0098586",
+    "LS-0056700",
+    "LS-0099236",
+    "LS-0102605",
+    "LS-0095420",
+    "LS-0102509",
+    "LS-0102532",
+    "LS-0095347",
+    "LS-0098943",
+    "LS-0102905"
+   ],
+   "primary_cause": {
+    "type": "guild_health_real_violations",
+    "strategy_ids": [
+     "S-117"
+    ],
+    "change_ids": [],
+    "guild_ids": [
+     "G-BR-002"
+    ],
+    "explanation": "扣分 66% 来自 S-117（垃圾刷量），同期无模型/策略变更，严重处置 46 次集中出现，是旗下主播的真实违规"
+   },
+   "conclusion": "G-BR-002 健康分下降（98.51→75.05，警告约谈）来自旗下主播的真实违规：S-117 严重处置 46 次，占扣分 66%；下一档 暂停结算（70 分）",
+   "confidence": "medium",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-b356da",
+  "engine": "rules",
+  "playbook": "case",
+  "query": "帮我还原 case LS-0101617",
+  "latency_s": 0.015,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 1,
+  "events": [
+   {
+    "t": 0.014,
+    "kind": "tool_call",
+    "tool": "reconstruct_case",
+    "args": {
+     "session_id": "LS-0101617"
+    },
+    "result_summary": {
+     "ref_id": "Q-0048"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "guardrails",
+    "needs_escalation": true,
+    "reasons": [
+     "head_host: 头部主播，需人工确认"
+    ],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "case",
+   "query": "帮我还原 case LS-0101617",
+   "scope": {
+    "session_id": "LS-0101617"
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0048",
+     "type": "case",
+     "what": "命中 ['S-102']；处罚 suspend_live；申诉 overturned"
+    },
+    {
+     "ref_id": "Q-0048",
+     "type": "change_log",
+     "what": "C-006 2026-10-13 model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移"
+    }
+   ],
+   "next_steps": [
+    "如申诉已推翻且有同期变更，纳入该策略的误杀复盘样本"
+   ],
+   "contributing_causes": [],
+   "needs_escalation": true,
+   "escalation_reasons": [
+    "head_host: 头部主播，需人工确认"
+   ],
+   "platform_links": [
+    "platform://case/LS-0101617"
+   ],
+   "case": {
+    "ref_id": "Q-0048",
+    "session_id": "LS-0101617",
+    "session": {
+     "date": "2026-10-15",
+     "market": "US",
+     "host_id": "H153823",
+     "host_tier": "head",
+     "guild_id": "G-US-010",
+     "guild": {
+      "guild_id": "G-US-010",
+      "market": "US",
+      "name": "美国公会-010",
+      "sessions_28d": 763,
+      "head_hosts": 35,
+      "tier": "small",
+      "manager": "公会运营-US"
+     },
+     "duration_min": 120,
+     "features": {
+      "account_age_days": 531,
+      "viewers_peak": 4947,
+      "gift_amount": 0,
+      "report_count": 0,
+      "external_link_flag": 0,
+      "new_device_flag": 0,
+      "keyword_hits": 0,
+      "legacy_brand_list_match": 0
+     }
+    },
+    "scores": {
+     "adult_content": {
+      "score": 0.2565,
+      "model": "model_adult_content",
+      "model_version": "v5"
+     },
+     "minor_safety": {
+      "score": 0.0367,
+      "model": "model_minor_safety",
+      "model_version": "v3"
+     },
+     "scam_fraud": {
+      "score": 0.8524,
+      "model": "model_scam_fraud",
+      "model_version": "v4"
+     },
+     "violence": {
+      "score": 0.2213,
+      "model": "model_violence",
+      "model_version": "v2"
+     },
+     "spam_bot": {
+      "score": 0.5288,
+      "model": "model_spam_bot",
+      "model_version": "v2.1"
+     },
+     "gambling": {
+      "score": 0.0743,
+      "model": "model_gambling",
+      "model_version": "v3"
+     },
+     "hate_harassment": {
+      "score": 0.106,
+      "model": "model_hate_harassment",
+      "model_version": "v4"
+     },
+     "counterfeit": {
+      "score": 0.0346,
+      "model": "model_counterfeit",
+      "model_version": "v2"
+     }
+    },
+    "chain": [
+     {
+      "step": "strategy_hit",
+      "strategy_id": "S-102",
+      "strategy_version": "v3",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "score": 0.8524,
+      "threshold": 0.85,
+      "action": "suspend_live",
+      "model_version": "v4",
+      "hit_id": "HT-0026605"
+     },
+     {
+      "step": "enforcement",
+      "market": "US",
+      "date": "2026-10-15",
+      "primary_strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "final_action": "suspend_live",
+      "triggered_by": "S-102",
+      "enforcement_id": "EN-0015125",
+      "financial_action": false,
+      "financial_strategy_id": NaN,
+      "frozen_amount": 0.0
+     },
+     {
+      "step": "appeal",
+      "appeal_id": "AP-005468",
+      "enforcement_id": "EN-0015125",
+      "strategy_id": "S-102",
+      "scenario": "scam_fraud",
+      "market": "US",
+      "date": "2026-10-15",
+      "decision_date": "2026-10-15",
+      "result": "overturned",
+      "reason": "误判：直播内容不构成违规"
+     }
+    ],
+    "related_changes": [
+     {
+      "change_id": "C-006",
+      "date": "2026-10-13",
+      "type": "model_update",
+      "target": "model_scam_fraud",
+      "scenario": "scam_fraud",
+      "markets": [
+       "ALL"
+      ],
+      "strategy_id": null,
+      "model": "model_scam_fraud",
+      "summary": "model_scam_fraud v3 -> v4：召回提升；分数未重新校准，整体分布上移",
+      "owner": "算法-交易安全"
+     }
+    ],
+    "qa_label": "none",
+    "escalation_flags": [
+     "head_host: 头部主播，需人工确认",
+     "appeal_overturned: 申诉已推翻，疑似误杀",
+     "S-102 分数 0.852 仅略高于阈值 0.85（边界 case）"
+    ],
+    "platform_link": "platform://case/LS-0101617"
+   },
+   "conclusion": "LS-0101617（US，head 主播）2026-10-15 命中 S-102(v4 分 0.852 ≥ 0.85)，最终 suspend_live，申诉overturned",
+   "primary_cause": {
+    "type": "case_reconstruction",
+    "strategy_ids": [
+     "S-102"
+    ],
+    "change_ids": [
+     "C-006"
+    ],
+    "explanation": "head_host: 头部主播，需人工确认; appeal_overturned: 申诉已推翻，疑似误杀; S-102 分数 0.852 仅略高于阈值 0.85（边界 case）"
+   },
+   "confidence": "medium",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-f68866",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "肯尼亚昨天误杀申诉涨了",
+  "latency_s": 0.012,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 3,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": "KE",
+     "scenario": null,
+     "metric": "overturns",
+     "metric_candidates": [
+      "overturns"
+     ],
+     "date": "2026-10-15",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "肯尼亚昨天误杀申诉涨了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.005,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "sessions",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "KE"
+    },
+    "result_summary": {
+     "ref_id": "Q-0049"
+    }
+   },
+   {
+    "t": 0.011,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "overturns",
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "market": "KE",
+     "scenario": null
+    },
+    "result_summary": {
+     "ref_id": "Q-0050"
+    }
+   },
+   {
+    "t": 0.011,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-10-08",
+     "end_date": "2026-10-15",
+     "scenario": null
+    },
+    "result_summary": {
+     "ref_id": "Q-0051"
+    }
+   },
+   {
+    "t": 0.012,
+    "kind": "guardrails",
+    "needs_escalation": true,
+    "reasons": [
+     "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+    ],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "肯尼亚昨天误杀申诉涨了",
+   "scope": {
+    "market": "KE",
+    "scenario": null,
+    "metric": "overturns",
+    "date": "2026-10-15",
+    "window_days": 1,
+    "baseline_window": [
+     "2026-10-08",
+     "2026-10-14"
+    ],
+    "direction": "up",
+    "note": "单日 vs 前 7 天中位数",
+    "low_sample": true,
+    "observed": {
+     "current": 1,
+     "baseline_median": 0.0,
+     "sessions_current": 14,
+     "sessions_baseline_median": 15.0
+    }
+   },
+   "evidence": [
+    {
+     "ref_id": "Q-0050",
+     "type": "metric",
+     "metric": "overturns",
+     "what": "2026-10-15 overturns=1，前 7 天中位数 0.0"
+    },
+    {
+     "ref_id": "Q-0049",
+     "type": "metric",
+     "metric": "sessions",
+     "what": "2026-10-15 sessions=14，前 7 天中位数 15"
+    },
+    {
+     "ref_id": "Q-0051",
+     "type": "change_log",
+     "what": "同期变更记录"
+    }
+   ],
+   "next_steps": [
+    "用 7 天滚动窗口重新看 overturns",
+    "对照大市场同场景是否有同样变化（例如同期模型升级）"
+   ],
+   "contributing_causes": [
+    {
+     "type": "possible_global_change",
+     "change_ids": [
+      "C-003",
+      "C-004",
+      "C-005",
+      "C-006"
+     ],
+     "explanation": "同期存在全局变更，可能相关但本市场样本不足以证实"
+    }
+   ],
+   "needs_escalation": true,
+   "escalation_reasons": [
+    "样本不足（小市场或计数过低），按规则升级给策略 owner 人工判断"
+   ],
+   "platform_links": [
+    "platform://metrics?metric=overturns&market=KE&scenario=&date=2026-10-15"
+   ],
+   "metric": {
+    "key": "overturns",
+    "definition": "申诉裁决为推翻（误判）的数量，按裁决日期归属。",
+    "version": "v1",
+    "note": null
+   },
+   "primary_cause": {
+    "type": "insufficient_data",
+    "strategy_ids": [],
+    "change_ids": [],
+    "explanation": "KE 日均 sessions≈15，overturns 当日 1、基线中位数 0.0，计数太小，单日波动没有统计意义"
+   },
+   "conclusion": "KE 样本不足，不能下归因结论；建议看 7 天滚动窗口，并与大市场同场景趋势对照",
+   "confidence": "low",
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-8e2113",
+  "engine": "rules",
+  "playbook": "attribution",
+  "query": "昨天误杀申诉涨了",
+  "latency_s": 0.0,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 0,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "parse",
+    "scope": {
+     "market": null,
+     "scenario": null,
+     "metric": "overturns",
+     "metric_candidates": [
+      "overturns"
+     ],
+     "date": "2026-10-15",
+     "direction": "up",
+     "session_id": null,
+     "strategy_id": null,
+     "guild_id": null,
+     "window_days": 1,
+     "raw": "昨天误杀申诉涨了",
+     "guild_health": false
+    }
+   },
+   {
+    "t": 0.0,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "attribution",
+   "query": "昨天误杀申诉涨了",
+   "scope": {},
+   "evidence": [],
+   "next_steps": [],
+   "contributing_causes": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [],
+   "primary_cause": {
+    "type": "needs_clarification",
+    "strategy_ids": [],
+    "change_ids": [],
+    "explanation": "缺少必要输入，不猜测"
+   },
+   "conclusion": "请补充：市场",
+   "confidence": "n/a",
+   "clarification_questions": [
+    "哪个市场？（US/BR/ID/GB/VN/KE）"
+   ],
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-2978a2",
+  "engine": "rules",
+  "playbook": "health_check",
+  "query": "S-127 为什么一直没有命中",
+  "latency_s": 0.29,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 12,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "tool_call",
+    "tool": "get_strategy_config",
+    "args": {
+     "status": "active"
+    },
+    "result_summary": {
+     "ref_id": "Q-0052"
+    }
+   },
+   {
+    "t": 0.0,
+    "kind": "tool_call",
+    "tool": "get_strategy_config",
+    "args": {
+     "strategy_id": "S-127"
+    },
+    "result_summary": {
+     "ref_id": "Q-0053"
+    }
+   },
+   {
+    "t": 0.005,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0054"
+    }
+   },
+   {
+    "t": 0.01,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0055"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-18",
+     "end_date": "2026-10-15",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0056"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0057"
+    }
+   },
+   {
+    "t": 0.015,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-01-01",
+     "end_date": "2026-10-15",
+     "change_type": "feature_pipeline"
+    },
+    "result_summary": {
+     "ref_id": "Q-0058"
+    }
+   },
+   {
+    "t": 0.145,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "spam_bot",
+     "baseline_start": "2026-09-28",
+     "baseline_end": "2026-10-04",
+     "current_start": "2026-10-05",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0059"
+    }
+   },
+   {
+    "t": 0.219,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "scam_fraud",
+     "baseline_start": "2026-10-06",
+     "baseline_end": "2026-10-12",
+     "current_start": "2026-10-13",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0060"
+    }
+   },
+   {
+    "t": 0.249,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "adult_content",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0061"
+    }
+   },
+   {
+    "t": 0.285,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "adult_content",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0062"
+    }
+   },
+   {
+    "t": 0.29,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-18",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-127",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0063"
+    }
+   },
+   {
+    "t": 0.29,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "health_check",
+   "query": "S-127 为什么一直没有命中",
+   "as_of": "2026-10-15",
+   "scope": {
+    "strategies_checked": 0
+   },
+   "findings": [
+    {
+     "finding_type": "paused_strategy",
+     "strategy_ids": [
+      "S-127"
+     ],
+     "severity": "info",
+     "market": "ALL",
+     "evidence": [
+      "Q-0063"
+     ],
+     "explanation": "S-127（色情-举报限流（已暂停））状态为 paused，近 28 天命中 0 次；不命中是暂停的预期结果，不是僵尸策略",
+     "suggested_action": "无需处理；如要恢复，先用 run_backtest 回放再按变更流程上线，长期不用可归档",
+     "needs_human": false
+    }
+   ],
+   "conclusion": "S-127 已暂停，不命中属预期；巡检 0 条线上策略，0 条待处理，0 条预期内变更",
+   "confidence": "high",
+   "evidence": [
+    {
+     "ref_id": "Q-0063",
+     "type": "paused_strategy",
+     "what": "S-127（色情-举报限流（已暂停））状态为 paused，近 28 天命中 0 次；不命中是暂停的预期结果，不是僵尸策略"
+    }
+   ],
+   "next_steps": [],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://strategy/S-127"
+   ],
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ },
+ {
+  "run_id": "20261019-032829-7ccb78",
+  "engine": "rules",
+  "playbook": "health_check",
+  "query": "对所有线上策略做一次健康巡检",
+  "latency_s": 2.773,
+  "model_calls": 0,
+  "usage": {
+   "input_tokens": 0,
+   "output_tokens": 0,
+   "cache_read_input_tokens": 0
+  },
+  "cost_usd": 0.0,
+  "tool_calls": 67,
+  "events": [
+   {
+    "t": 0.0,
+    "kind": "tool_call",
+    "tool": "get_strategy_config",
+    "args": {
+     "status": "active"
+    },
+    "result_summary": {
+     "ref_id": "Q-0064"
+    }
+   },
+   {
+    "t": 0.003,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0065"
+    }
+   },
+   {
+    "t": 0.006,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0066"
+    }
+   },
+   {
+    "t": 0.01,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-18",
+     "end_date": "2026-10-15",
+     "group_by": [
+      "strategy_id"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0067"
+    }
+   },
+   {
+    "t": 0.01,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0068"
+    }
+   },
+   {
+    "t": 0.01,
+    "kind": "tool_call",
+    "tool": "get_change_log",
+    "args": {
+     "start_date": "2026-01-01",
+     "end_date": "2026-10-15",
+     "change_type": "feature_pipeline"
+    },
+    "result_summary": {
+     "ref_id": "Q-0069"
+    }
+   },
+   {
+    "t": 0.088,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-101",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0070"
+    }
+   },
+   {
+    "t": 0.162,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-102",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0071"
+    }
+   },
+   {
+    "t": 0.254,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-103",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0072"
+    }
+   },
+   {
+    "t": 0.34,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-104",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0073"
+    }
+   },
+   {
+    "t": 0.431,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-105",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0074"
+    }
+   },
+   {
+    "t": 0.525,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-106",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0075"
+    }
+   },
+   {
+    "t": 0.604,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-107",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0076"
+    }
+   },
+   {
+    "t": 0.679,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-109",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0077"
+    }
+   },
+   {
+    "t": 0.744,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-110",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0078"
+    }
+   },
+   {
+    "t": 0.827,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-111",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0079"
+    }
+   },
+   {
+    "t": 0.893,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-112",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0080"
+    }
+   },
+   {
+    "t": 0.982,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-113",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0081"
+    }
+   },
+   {
+    "t": 1.04,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-114",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0082"
+    }
+   },
+   {
+    "t": 1.125,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-115",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0083"
+    }
+   },
+   {
+    "t": 1.224,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-116",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0084"
+    }
+   },
+   {
+    "t": 1.316,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-117",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0085"
+    }
+   },
+   {
+    "t": 1.389,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-118",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0086"
+    }
+   },
+   {
+    "t": 1.5,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-121",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0087"
+    }
+   },
+   {
+    "t": 1.57,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-122",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0088"
+    }
+   },
+   {
+    "t": 1.636,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-123",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0089"
+    }
+   },
+   {
+    "t": 1.725,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-124",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0090"
+    }
+   },
+   {
+    "t": 1.764,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-125",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0091"
+    }
+   },
+   {
+    "t": 1.833,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-126",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0092"
+    }
+   },
+   {
+    "t": 1.902,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-128",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0093"
+    }
+   },
+   {
+    "t": 1.959,
+    "kind": "tool_call",
+    "tool": "get_hit_logs",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-129",
+     "overlap_analysis": true,
+     "limit": 1
+    },
+    "result_summary": {
+     "ref_id": "Q-0094"
+    }
+   },
+   {
+    "t": 2.052,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "spam_bot",
+     "baseline_start": "2026-09-28",
+     "baseline_end": "2026-10-04",
+     "current_start": "2026-10-05",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0095"
+    }
+   },
+   {
+    "t": 2.11,
+    "kind": "tool_call",
+    "tool": "score_drift",
+    "args": {
+     "scenario": "scam_fraud",
+     "baseline_start": "2026-10-06",
+     "baseline_end": "2026-10-12",
+     "current_start": "2026-10-13",
+     "current_end": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0096"
+    }
+   },
+   {
+    "t": 2.118,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-102",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0097"
+    }
+   },
+   {
+    "t": 2.127,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-102",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0098"
+    }
+   },
+   {
+    "t": 2.133,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-110",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0099"
+    }
+   },
+   {
+    "t": 2.141,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-110",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0100"
+    }
+   },
+   {
+    "t": 2.147,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-114",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0101"
+    }
+   },
+   {
+    "t": 2.155,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-114",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0102"
+    }
+   },
+   {
+    "t": 2.161,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-122",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0103"
+    }
+   },
+   {
+    "t": 2.17,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-122",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0104"
+    }
+   },
+   {
+    "t": 2.175,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-10-13",
+     "end_date": "2026-10-15",
+     "strategy_id": "S-129",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0105"
+    }
+   },
+   {
+    "t": 2.185,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "precision_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-12",
+     "strategy_id": "S-129",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0106"
+    }
+   },
+   {
+    "t": 2.218,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "adult_content",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0107"
+    }
+   },
+   {
+    "t": 2.252,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "adult_content",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0108"
+    }
+   },
+   {
+    "t": 2.281,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "minor_safety",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0109"
+    }
+   },
+   {
+    "t": 2.314,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "minor_safety",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0110"
+    }
+   },
+   {
+    "t": 2.342,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "scam_fraud",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0111"
+    }
+   },
+   {
+    "t": 2.374,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "scam_fraud",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0112"
+    }
+   },
+   {
+    "t": 2.402,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "violence",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0113"
+    }
+   },
+   {
+    "t": 2.432,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "violence",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0114"
+    }
+   },
+   {
+    "t": 2.438,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "market": "US",
+     "scenario": "violence",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0115"
+    }
+   },
+   {
+    "t": 2.443,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "market": "US",
+     "scenario": "violence",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0116"
+    }
+   },
+   {
+    "t": 2.481,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "spam_bot",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0117"
+    }
+   },
+   {
+    "t": 2.52,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "spam_bot",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0118"
+    }
+   },
+   {
+    "t": 2.558,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "gambling",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0119"
+    }
+   },
+   {
+    "t": 2.587,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "gambling",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0120"
+    }
+   },
+   {
+    "t": 2.593,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0121"
+    }
+   },
+   {
+    "t": 2.597,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "hits",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0122"
+    }
+   },
+   {
+    "t": 2.602,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "reports",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0123"
+    }
+   },
+   {
+    "t": 2.607,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "reports",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "market": "BR",
+     "scenario": "gambling",
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0124"
+    }
+   },
+   {
+    "t": 2.639,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "hate_harassment",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0125"
+    }
+   },
+   {
+    "t": 2.674,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "hate_harassment",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0126"
+    }
+   },
+   {
+    "t": 2.702,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15",
+     "scenario": "counterfeit",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0127"
+    }
+   },
+   {
+    "t": 2.733,
+    "kind": "tool_call",
+    "tool": "query_metrics",
+    "args": {
+     "metric": "recall_est",
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-08",
+     "scenario": "counterfeit",
+     "group_by": [
+      "market"
+     ],
+     "granularity": "total"
+    },
+    "result_summary": {
+     "ref_id": "Q-0128"
+    }
+   },
+   {
+    "t": 2.754,
+    "kind": "tool_call",
+    "tool": "get_guild_health",
+    "args": {
+     "start_date": "2026-10-09",
+     "end_date": "2026-10-15"
+    },
+    "result_summary": {
+     "ref_id": "Q-0129"
+    }
+   },
+   {
+    "t": 2.771,
+    "kind": "tool_call",
+    "tool": "get_guild_health",
+    "args": {
+     "start_date": "2026-09-25",
+     "end_date": "2026-10-15",
+     "guild_id": "G-BR-002"
+    },
+    "result_summary": {
+     "ref_id": "Q-0130"
+    }
+   },
+   {
+    "t": 2.773,
+    "kind": "guardrails",
+    "needs_escalation": false,
+    "reasons": [],
+    "unknown_references": []
+   }
+  ],
+  "card": {
+   "card_type": "health_check",
+   "query": "策略健康巡检",
+   "as_of": "2026-10-15",
+   "scope": {
+    "strategies_checked": 28
+   },
+   "findings": [
+    {
+     "finding_type": "strategy_overlap",
+     "strategy_ids": [
+      "S-104",
+      "S-121"
+     ],
+     "severity": "high",
+     "market": "ALL",
+     "evidence": [
+      "Q-0073"
+     ],
+     "explanation": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置",
+     "suggested_action": "两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线",
+     "needs_human": true
+    },
+    {
+     "finding_type": "drift_threshold",
+     "strategy_ids": [
+      "S-102"
+     ],
+     "severity": "high",
+     "market": "ALL",
+     "evidence": [
+      "Q-0096",
+      "C-006",
+      "Q-0097"
+     ],
+     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.814→0.504",
+     "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
+     "needs_human": true
+    },
+    {
+     "finding_type": "recall_decline",
+     "strategy_ids": [
+      "S-115",
+      "S-128"
+     ],
+     "severity": "high",
+     "market": "BR",
+     "evidence": [
+      "Q-0119",
+      "Q-0120",
+      "Q-0121",
+      "Q-0123"
+     ],
+     "explanation": "BR gambling recall_est 0.718→0.328，命中日均 26→14，举报日均 39→42 未降，疑似绕过",
+     "suggested_action": "bad case 送模型团队；评估临时补充条件",
+     "needs_human": true
+    },
+    {
+     "finding_type": "zombie_strategy",
+     "strategy_ids": [
+      "S-108"
+     ],
+     "severity": "medium",
+     "market": "ALL",
+     "evidence": [
+      "Q-0067",
+      "C-007"
+     ],
+     "explanation": "S-108 近 28 天 0 命中；依赖已下线特征 legacy_brand_list_match（C-007）",
+     "suggested_action": "迁移特征或下线策略",
+     "needs_human": true
+    },
+    {
+     "finding_type": "zombie_strategy",
+     "strategy_ids": [
+      "S-119"
+     ],
+     "severity": "medium",
+     "market": "ALL",
+     "evidence": [
+      "Q-0067"
+     ],
+     "explanation": "S-119 近 28 天 0 命中；条件过窄",
+     "suggested_action": "评估是否下线或放宽条件",
+     "needs_human": true
+    },
+    {
+     "finding_type": "drift_threshold",
+     "strategy_ids": [
+      "S-122"
+     ],
+     "severity": "medium",
+     "market": "ALL",
+     "evidence": [
+      "Q-0096",
+      "C-006",
+      "Q-0103"
+     ],
+     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.589→0.4",
+     "suggested_action": "策略 owner 评估阈值重校（run_backtest 回放）",
+     "needs_human": true
+    },
+    {
+     "finding_type": "guild_health_breach",
+     "strategy_ids": [
+      "S-117"
+     ],
+     "severity": "medium",
+     "market": "BR",
+     "evidence": [
+      "Q-0129",
+      "Q-0130"
+     ],
+     "explanation": "G-BR-002 健康分 75.05 进入「警告约谈」档，扣分主要来自 S-117（18.4 分）",
+     "suggested_action": "公会治理按档位处置前，先确认扣分来源策略是否受漂移影响（问：该公会健康分为什么掉了）",
+     "needs_human": true
+    },
+    {
+     "finding_type": "drift_threshold",
+     "strategy_ids": [
+      "S-110"
+     ],
+     "severity": "low",
+     "market": "ALL",
+     "evidence": [
+      "Q-0096",
+      "C-006",
+      "Q-0099"
+     ],
+     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.986→0.944",
+     "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+     "needs_human": false
+    },
+    {
+     "finding_type": "drift_threshold",
+     "strategy_ids": [
+      "S-114"
+     ],
+     "severity": "low",
+     "market": "ALL",
+     "evidence": [
+      "Q-0096",
+      "C-006",
+      "Q-0101"
+     ],
+     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.963→1.0",
+     "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+     "needs_human": false
+    },
+    {
+     "finding_type": "drift_threshold",
+     "strategy_ids": [
+      "S-129"
+     ],
+     "severity": "low",
+     "market": "ALL",
+     "evidence": [
+      "Q-0096",
+      "C-006",
+      "Q-0105"
+     ],
+     "explanation": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-129 阈值 0.75 的比例 ×2.2，抽检精确率 0.894→0.824",
+     "suggested_action": "分布漂移但精确率未恶化，观察 7 天",
+     "needs_human": false
+    },
+    {
+     "finding_type": "expected_change",
+     "strategy_ids": [
+      "S-112"
+     ],
+     "severity": "info",
+     "market": "GB",
+     "evidence": [
+      "C-004"
+     ],
+     "explanation": "C-004 2026-10-11 S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升（预期内，看板应标注）",
+     "suggested_action": "观察变更后精确率",
+     "needs_human": false
+    },
+    {
+     "finding_type": "expected_change",
+     "strategy_ids": [
+      "S-126"
+     ],
+     "severity": "info",
+     "market": "ID",
+     "evidence": [
+      "C-005"
+     ],
+     "explanation": "C-005 2026-10-12 S-126 上线：ID 未成年人中分直接下播（专项）（预期内，看板应标注）",
+     "suggested_action": "观察变更后精确率",
+     "needs_human": false
+    }
+   ],
+   "conclusion": "巡检 28 条线上策略，7 条待处理，2 条预期内变更",
+   "confidence": "high",
+   "evidence": [
+    {
+     "ref_id": "Q-0073",
+     "type": "strategy_overlap",
+     "what": "S-104 与 S-121 命中重叠 100%/90%，动作相同（limit_traffic），同一 session 被重复处置"
+    },
+    {
+     "ref_id": "Q-0096",
+     "type": "drift_threshold",
+     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-102 阈值 0.85 的比例 ×3.26，抽检精确率 0.814→0.504"
+    },
+    {
+     "ref_id": "Q-0119",
+     "type": "recall_decline",
+     "what": "BR gambling recall_est 0.718→0.328，命中日均 26→14，举报日均 39→42 未降，疑似绕过"
+    },
+    {
+     "ref_id": "Q-0067",
+     "type": "zombie_strategy",
+     "what": "S-108 近 28 天 0 命中；依赖已下线特征 legacy_brand_list_match（C-007）"
+    },
+    {
+     "ref_id": "Q-0067",
+     "type": "zombie_strategy",
+     "what": "S-119 近 28 天 0 命中；条件过窄"
+    },
+    {
+     "ref_id": "Q-0096",
+     "type": "drift_threshold",
+     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-122 阈值 0.75 的比例 ×2.2，抽检精确率 0.589→0.4"
+    },
+    {
+     "ref_id": "Q-0129",
+     "type": "guild_health_breach",
+     "what": "G-BR-002 健康分 75.05 进入「警告约谈」档，扣分主要来自 S-117（18.4 分）"
+    },
+    {
+     "ref_id": "Q-0096",
+     "type": "drift_threshold",
+     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-110 阈值 0.7 的比例 ×1.88，抽检精确率 0.986→0.944"
+    },
+    {
+     "ref_id": "Q-0096",
+     "type": "drift_threshold",
+     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-114 阈值 0.6 的比例 ×1.57，抽检精确率 0.963→1.0"
+    },
+    {
+     "ref_id": "Q-0096",
+     "type": "drift_threshold",
+     "what": "C-006 后 model_scam_fraud PSI=7.6485，超过 S-129 阈值 0.75 的比例 ×2.2，抽检精确率 0.894→0.824"
+    },
+    {
+     "ref_id": "C-004",
+     "type": "expected_change",
+     "what": "C-004 2026-10-11 S-112 v3：阈值 0.80 -> 0.50（对齐 P-7），预期人审量上升（预期内，看板应标注）"
+    },
+    {
+     "ref_id": "C-005",
+     "type": "expected_change",
+     "what": "C-005 2026-10-12 S-126 上线：ID 未成年人中分直接下播（专项）（预期内，看板应标注）"
+    }
+   ],
+   "next_steps": [
+    "两位 owner（策略-平台生态组、策略-生态组）确认保留哪一条，另一条下线",
+    "策略 owner 评估阈值重校（run_backtest 回放）",
+    "bad case 送模型团队；评估临时补充条件"
+   ],
+   "needs_escalation": false,
+   "escalation_reasons": [],
+   "platform_links": [
+    "platform://strategy/S-104",
+    "platform://strategy/S-121",
+    "platform://strategy/S-102",
+    "platform://strategy/S-115",
+    "platform://strategy/S-128",
+    "platform://strategy/S-108",
+    "platform://strategy/S-119",
+    "platform://strategy/S-122",
+    "platform://strategy/S-117",
+    "platform://strategy/S-110"
+   ],
+   "validation": {
+    "unknown_references": [],
+    "passed": true
+   }
+  }
+ }
+]

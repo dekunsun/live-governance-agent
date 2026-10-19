@@ -76,21 +76,28 @@ def main():
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--extra-test", type=int, default=0,
                     help="append N more TEST worlds after the existing ones (same rng stream, existing worlds untouched)")
+    ap.add_argument("--extra-train", type=int, default=0,
+                    help="append N more TRAIN worlds after the existing ones (same rng stream; test worlds untouched)")
     a = ap.parse_args()
     rng = random.Random(7)
     specs = [make_spec(i, "train", rng) for i in range(a.train)] + \
             [make_spec(a.train + j, "test", rng) for j in range(a.test)]
-    if a.extra_test:
+    extra = a.extra_test or a.extra_train
+    if extra:
         idx_path = os.path.join(WORLD_DIR, "index.json")
         existing = json.load(open(idx_path))
-        assert [s["world_id"] for s in existing] == [s["world_id"] for s in specs], "index.json does not match the base spec stream"
-        n0 = len(specs)
-        specs = [make_spec(n0 + j, "test", rng) for j in range(a.extra_test)]
-        print(f"appending {len(specs)} test worlds: {specs[0]['world_id']}..{specs[-1]['world_id']}", flush=True)
+        base_ids = [s["world_id"] for s in specs]
+        assert [s["world_id"] for s in existing[:len(specs)]] == base_ids, "index.json does not match the base spec stream"
+        for s in existing[len(specs):]:   # replay earlier appends so the rng stream continues where it left off
+            make_spec(int(s["world_id"][1:]), s["split"], rng)
+        n0 = len(existing)
+        split = "test" if a.extra_test else "train"
+        specs = [make_spec(n0 + j, split, rng) for j in range(extra)]
+        print(f"appending {len(specs)} {split} worlds: {specs[0]['world_id']}..{specs[-1]['world_id']}", flush=True)
     with ThreadPoolExecutor(a.jobs) as ex:
         for wid, line in ex.map(build, specs):
             print(wid, line, flush=True)
-    index = (json.load(open(os.path.join(WORLD_DIR, "index.json"))) if a.extra_test else []) + [{k: v for k, v in s.items()} for s in specs]
+    index = (json.load(open(os.path.join(WORLD_DIR, "index.json"))) if extra else []) + [{k: v for k, v in s.items()} for s in specs]
     with open(os.path.join(WORLD_DIR, "index.json"), "w") as f:
         json.dump(index, f, ensure_ascii=False, indent=1)
 

@@ -66,7 +66,7 @@ def cmd_list(a):
 
 def cmd_create(a):
     env = {"STAGE": a.stage, "MODELS": a.models, "SEEDS": a.seeds, "REPO_URL": a.repo, "REPO_REF": a.ref, "MAX_SECONDS": str(int(a.max_hours * 3600)), "GRACE_SECONDS": str(int(a.grace_min * 60))}
-    for kv in a.grpo.split():
+    for kv in (a.grpo + " " + a.env).split():
         k, v = kv.split("=", 1); env[k] = v
     if a.self_key_secret:
         env["RUNPOD_SELF_KEY"] = "{{ RUNPOD_SECRET_%s }}" % a.self_key_secret   # resolved by Runpod inside the Pod; never passes through here
@@ -196,7 +196,8 @@ def main():
     sub.add_parser("check"); sub.add_parser("list")
     c = sub.add_parser("create")
     c.add_argument("--stage", default="B0", choices=["B0", "B1", "B2"])
-    c.add_argument("--grpo", default="", help='B2 knobs, e.g. "GRPO_ITERS=12 GRPO_SECONDS=7200 GRPO_TASKS=48 GRPO_GROUP=8"'); c.add_argument("--models", default="Qwen/Qwen3-4B Qwen/Qwen3-8B")
+    c.add_argument("--grpo", default="", help='B2 knobs, e.g. "GRPO_ITERS=12 GRPO_SECONDS=7200 GRPO_TASKS=48 GRPO_GROUP=8"')
+    c.add_argument("--env", default="", help='extra Pod env, e.g. "EXTRA_TRAIN=16 AUGMENT_RARE=1 PASSK=4 SEEDS_qwen3_8b=1"'); c.add_argument("--models", default="Qwen/Qwen3-4B Qwen/Qwen3-8B")
     c.add_argument("--seeds", default="1 2 3"); c.add_argument("--gpus", default=None, help="comma-separated gpuTypeIds in priority order")
     c.add_argument("--image", default=IMAGE); c.add_argument("--cloud", default="SECURE", choices=["SECURE", "COMMUNITY"])
     c.add_argument("--spot", action="store_true"); c.add_argument("--max-hours", type=float, default=4.0)

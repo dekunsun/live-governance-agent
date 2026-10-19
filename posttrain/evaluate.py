@@ -75,38 +75,51 @@ def main_vllm(a, episode):
     if a.limit:
         tasks = tasks[:a.limit]
     out_path = os.path.join(RUNS, f"eval_{a.name}_{a.split}.jsonl")
+    K = max(1, a.samples)
     done = {}
     if os.path.exists(out_path):
         for l in open(out_path):
-            r = json.loads(l); done[r["task_id"]] = r
+            r = json.loads(l); done[(r["task_id"], r.get("sample", 0))] = r
     rows, lock, counter = list(done.values()), threading.Lock(), [len(done)]
-    by_world = {}
+    by_world, total = {}, 0
     for t in tasks:
-        if t["task_id"] not in done:
-            by_world.setdefault(t["world"], []).append(t)
+        for k in range(K):
+            total += 1
+            if (t["task_id"], k) not in done:
+                by_world.setdefault(t["world"], []).append((t, k))
     f = open(out_path, "a")
 
     def run_world(wid):
         p = Platform(data_dir=os.path.join(WORLDS, wid))
-        policy = VLLMPolicy(base, a.model, tok=tok)
-        for t in by_world[wid]:
+        policy = VLLMPolicy(base, a.model, tok=tok, temperature=a.temperature if K > 1 else 0.0)
+        for t, k in by_world[wid]:
             t0 = time.time()
             try:
                 r = episode(policy, p, t)
             except Exception as e:   # one bad episode must not kill the run
                 r = {"task_id": t["task_id"], "error": str(e)[:300], "submit": None, "calls": [], "transcript": [],
                      "criteria": {}, "pass": False, "score": 0.0, "unknown_refs": [], "format_errors": 0}
-            r["latency_s"], r["gen_tokens"] = round(time.time() - t0, 1), policy.gen_tokens
+            r["sample"], r["latency_s"], r["gen_tokens"] = k, round(time.time() - t0, 1), policy.gen_tokens
             with lock:
                 rows.append(r); counter[0] += 1
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + "\n"); f.flush()
-                print(f"[{a.name}] {counter[0]}/{len(tasks)} {t['task_id']} {t['expected']['accepted_cause_types'][0]:<28} pass={r['pass']} "
+                print(f"[{a.name}] {counter[0]}/{total} {t['task_id']}#{k} {t['expected']['accepted_cause_types'][0]:<28} pass={r['pass']} "
                       f"score={r['score']:.2f} got={(r['submit'] or {}).get('cause_type')} calls={len(r['calls'])} {r['latency_s']}s", flush=True)
 
     with ThreadPoolExecutor(max_workers=a.concurrency) as ex:
         list(ex.map(run_world, sorted(by_world)))
     f.close()
-    summ = summarize([r for r in rows if r.get("criteria")], tasks)
+    good = [r for r in rows if r.get("criteria")]
+    summ = summarize(good, tasks)
+    if K > 1:   # pass@1 = mean over samples (already what summarize computes over all rows); pass@k = any sample passed
+        per = {}
+        for r in good:
+            per.setdefault(r["task_id"], []).append(bool(r["pass"]))
+        summ["sampling"] = {"k": K, "temperature": a.temperature, "pass_at_1": round(sum(sum(v) / len(v) for v in per.values()) / len(per), 3),
+                            f"pass_at_{K}": round(sum(any(v) for v in per.values()) / len(per), 3),
+                            "all_k_pass": round(sum(all(v) for v in per.values()) / len(per), 3),
+                            "consistency": round(sum(1 for v in per.values() if len(set(v)) == 1) / len(per), 3)}
+        print(json.dumps(summ["sampling"], ensure_ascii=False))
     json.dump(summ, open(os.path.join(RUNS, f"summary_{a.name}_{a.split}.json"), "w"), ensure_ascii=False, indent=1)
     print(json.dumps(summ["overall"], ensure_ascii=False))
 
@@ -124,6 +137,8 @@ def main():
     ap.add_argument("--model", default=None, help="vllm: served model (or LoRA adapter) name")
     ap.add_argument("--base-url", default=None, help="vllm: server url, default $VLLM_BASE_URL or http://127.0.0.1:8001")
     ap.add_argument("--concurrency", type=int, default=16, help="vllm: worlds evaluated in parallel")
+    ap.add_argument("--samples", type=int, default=1, help="vllm: samples per task (pass@k); >1 switches to temperature sampling")
+    ap.add_argument("--temperature", type=float, default=0.7, help="vllm: sampling temperature when --samples > 1")
     a = ap.parse_args()
     episode = run_episode
     if a.harness == "v2":

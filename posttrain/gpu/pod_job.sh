@@ -14,6 +14,7 @@
 set -uo pipefail
 STAGE=${STAGE:-B0}; MODELS=${MODELS:-"Qwen/Qwen3-4B Qwen/Qwen3-8B"}; SEEDS=${SEEDS:-"1 2 3"}
 GRPO_ITERS=${GRPO_ITERS:-12}; GRPO_SECONDS=${GRPO_SECONDS:-7200}; GRPO_TASKS=${GRPO_TASKS:-48}; GRPO_GROUP=${GRPO_GROUP:-8}
+EXTRA_TRAIN=${EXTRA_TRAIN:-0}; AUGMENT_RARE=${AUGMENT_RARE:-0}; PASSK=${PASSK:-0}; PASSK_TEMP=${PASSK_TEMP:-0.7}
 REPO_URL=${REPO_URL:-https://github.com/dekunsun/live-governance-agent}; REPO_REF=${REPO_REF:-main}
 RESULT_PORT=${RESULT_PORT:-8000}; MAX_SECONDS=${MAX_SECONDS:-14400}
 export HF_HOME=/workspace/hf HF_HUB_DISABLE_PROGRESS_BARS=1 PYTHONWARNINGS=ignore TOKENIZERS_PARALLELISM=false
@@ -32,6 +33,14 @@ cd repo && git rev-parse HEAD > $R/commit.txt
 log "building worlds"
 python3 data/generate.py >/dev/null && python3 posttrain/worlds.py --train 16 --test 6 --jobs 8 >/dev/null && python3 posttrain/worlds.py --extra-test 10 --jobs 8 >/dev/null \
   && python3 posttrain/tasks.py >/dev/null && python3 posttrain/tasks_v2.py >/dev/null && python3 posttrain/p2s.py gen >/dev/null || { status FAILED_DATA; sleep infinity; }
+if [ "$EXTRA_TRAIN" != 0 ] || [ "$AUGMENT_RARE" != 0 ]; then   # more / oversampled TRAIN data; test sets and P2S data stay as above
+  log "extra train worlds=$EXTRA_TRAIN augment_rare=$AUGMENT_RARE"
+  [ "$EXTRA_TRAIN" != 0 ] && python3 posttrain/worlds.py --extra-train $EXTRA_TRAIN --jobs 8 >/dev/null
+  md5sum posttrain/runs/tasks_test.jsonl | cut -c1-32 > /tmp/test_md5
+  python3 posttrain/tasks.py >/dev/null && AUGMENT_RARE=$AUGMENT_RARE python3 posttrain/tasks_v2.py >/dev/null || { status FAILED_DATA; sleep infinity; }
+  [ "$(md5sum posttrain/runs/tasks_test.jsonl | cut -c1-32)" = "$(cat /tmp/test_md5)" ] || { log "TEST SET CHANGED"; status FAILED_DATA; sleep infinity; }
+  wc -l posttrain/runs/tasks_train.jsonl posttrain/runs/sft_train_v2.jsonl | tee -a $R/LOG
+fi
 cp posttrain/runs/task_stats.json posttrain/runs/sft_v2_stats.json posttrain/runs/p2s_task_stats.json $R/ 2>/dev/null
 wc -l posttrain/runs/tasks_test.jsonl posttrain/runs/p2s_tasks_test.jsonl | tee -a $R/LOG
 
@@ -63,7 +72,8 @@ case "$STAGE" in
       t=$(tag $m); export TOKENIZER_MODEL=$m BASE_MODEL=$m
       cat posttrain/runs/sft_train_v2.jsonl posttrain/runs/p2s_sft_train.jsonl > posttrain/runs/sft_train_v2_mix.jsonl
       lora_args=()
-      for s in $SEEDS; do
+      seeds_var="SEEDS_${t}"; seeds="${!seeds_var:-$SEEDS}"
+      for s in $seeds; do
         log "B1 train $m seed $s"
         python3 posttrain/train_sft.py --data posttrain/runs/sft_train_v2_mix.jsonl --out /workspace/lora/${t}_s$s --epochs 1 --seed $s --grad_ckpt 1 > $R/log_train_${t}_s$s.txt 2>&1
         cp /workspace/lora/${t}_s$s/train_log.jsonl $R/train_log_${t}_s$s.jsonl 2>/dev/null
@@ -71,7 +81,12 @@ case "$STAGE" in
       done
       serve "$m" --enable-lora --max-lora-rank 16 --lora-modules "${lora_args[@]}" || continue
       evaluate "base_v2_$t" "$m"
-      for s in $SEEDS; do evaluate "sft_v2_${t}_s$s" "sft_s$s"; done
+      for s in $seeds; do evaluate "sft_v2_${t}_s$s" "sft_s$s"; done
+      if [ "$PASSK" != 0 ]; then
+        s1=${seeds%% *}; log "pass@$PASSK T=$PASSK_TEMP for sft_s$s1"
+        python3 posttrain/evaluate.py --name "sft_v2_${t}_s${s1}_k$PASSK" --harness v2 --engine vllm --model "sft_s$s1" --concurrency 32 --samples $PASSK --temperature $PASSK_TEMP > $R/log_eval_sft_v2_${t}_s${s1}_k$PASSK.txt 2>&1
+        cp posttrain/runs/summary_sft_v2_${t}_s${s1}_k${PASSK}_test.json posttrain/runs/eval_sft_v2_${t}_s${s1}_k${PASSK}_test.jsonl $R/ 2>/dev/null
+      fi
       stop_serve
     done ;;
   B2)
