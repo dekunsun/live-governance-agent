@@ -1,6 +1,6 @@
 # live-governance-agent — 治理策略巡检与异常归因助手（可演示原型）
 
-对应 PRD《治理策略巡检与异常归因助手（假设版）》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
+对应 PRD《治理策略巡检与异常归因助手》（见 [docs/PRD.md](docs/PRD.md)）。模拟一个成熟的直播治理平台，在上面搭一个只读的对话式 agent：
 **异常归因**、**策略健康巡检**、**Case 证据包**，带评估报告。全部数据合成，不含任何真实内部信息。
 
 **状态**：原型、评估、后训练实验全部完成（2026-10-19）。所有数字来自合成世界；外部验证集的标注和真实基线的采集是上线前由使用方完成的门槛，仓库里只放模板和口径。
@@ -17,7 +17,7 @@
 
 **还没解决的**：分数只衡量"与规则引擎一致"，外部验证和真实基线由使用方在上线前完成；"误判率上升"类的归因波动大；问法泛化。
 
-**请决定的事**：最简 / 推荐 / 最完整三个方案选一个，以及谁来做试点运营团队。对照表在 [产品 PRD 第 0 节](docs/prd-governance-agent.md)；方案细节在 [长版 PRD](docs/PRD.md)；技术实现在 [技术一页纸](docs/technical-one-pager.md)。
+**请决定的事**：最简 / 推荐 / 最完整三个方案选一个，以及谁来做试点运营团队。对照表在 [PRD 第 0 节](docs/PRD.md)；技术实现在附件 [技术一页纸](docs/technical-one-pager.md)。
 
 **数字的约定**（三份文档一致）：xxx / xx 是使用方要填的真实值；带"原型"的数字来自合成世界；市场、场景、编号都是示例。
 
@@ -37,9 +37,8 @@ live-governance-agent/
   reports/eval_report.md    评估结果表 + 失败分析
   reports/posttrain_report.md  后训练原型报告（第 0 节总览）：基线、Harness v1/v2、SFT、补数据、8B、GRPO 三种子、P2S 示范修复、对照
   demo/                     合作方演示页与流程动画的源码（见 demo/README.md）；feedback_to_tasks.py 把合作方反馈转成待标注的新题
-  docs/PRD.md               产品需求文档（长版，假设版）
-  docs/prd-governance-agent.md  产品 PRD v2.1（按论证顺序：决定 → 问题 → 为什么现在 → 方案 → 边界 → 度量 → 上线 → 飞轮 → 风险；业务侧数字用 xxx 占位）
-  docs/technical-one-pager.md   研发视角技术一页纸（术语 → 系统概览 → 响应生成 → 意图路由 → 证据检索 → 知识库 → 专门能力 → 选型 → 评测结果 → 风险 → 路线图）
+  docs/PRD.md               产品需求文档 v3.0（摘要与三个方案 → 问题 → 为什么现在 → 方案 → 边界 → 度量 → 上线 → 数据飞轮 → 原型验证 → 风险；附录：交互流程、功能需求）
+  docs/technical-one-pager.md   PRD 附件：原型技术说明，给研发（术语 → 系统概览 → 响应生成 → 意图路由 → 证据检索 → 知识库 → 专门能力 → 选型 → 评测结果 → 风险 → 路线图）
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
   tests/test_llm_mock.py    用假 client 测 Claude tool-use 回路（校验层拦截幻觉 id 后要求重提）
@@ -56,7 +55,7 @@ live-governance-agent/
 
 ![助手产品流程示例：一次完整对话](docs/images/assistant-flow-example.png)
 
-更多分步截图见 [PRD 的交互设计一节](docs/PRD.md#交互设计)。
+更多分步截图见 [PRD 附录 A](docs/PRD.md)。
 
 ## 运行
 

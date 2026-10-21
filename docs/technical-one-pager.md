@@ -1,4 +1,4 @@
-# 治理策略助手 技术一页纸（研发视角，v1.4）
+# 治理策略助手 原型技术说明（PRD 附件，给研发，v1.4）
 
 Oct 20, 2026 · Dekun Sun · 全部基于本仓库的可运行原型与合成数据；不含任何真实平台的内部实现。
 
@@ -33,7 +33,7 @@ Oct 20, 2026 · Dekun Sun · 全部基于本仓库的可运行原型与合成数
 | 11. Risks & Open Questions | 可信度边界、幻觉、权限、样本偏差 | 还有什么没解决 |
 | 12. Roadmap | 功能、基础设施、生态 | 如何逐步落地 |
 
-产品需求见 [prd-governance-agent.md](prd-governance-agent.md)。
+产品需求见 [PRD.md](PRD.md)。
 
 ## 1. 简介与问题
 
@@ -249,7 +249,7 @@ Oct 20, 2026 · Dekun Sun · 全部基于本仓库的可运行原型与合成数
 
 ## 参考
 
-- 产品需求：[prd-governance-agent.md](prd-governance-agent.md)、长版 [PRD.md](PRD.md)
+- 产品需求：[PRD.md](PRD.md)
 - 评估报告：[../reports/eval_report.md](../reports/eval_report.md)；后训练报告：[../reports/posttrain_report.md](../reports/posttrain_report.md)
 - GPU 运行手册：[../posttrain/gpu/README.md](../posttrain/gpu/README.md)
 - 模拟策略库 / 模拟数据：[simulated-strategy-library.md](simulated-strategy-library.md)、[simulated-data.md](simulated-data.md)
