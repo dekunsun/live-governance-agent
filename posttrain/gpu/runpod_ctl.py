@@ -203,7 +203,7 @@ def main():
     c.add_argument("--spot", action="store_true"); c.add_argument("--max-hours", type=float, default=4.0)
     c.add_argument("--repo", default="https://github.com/dekunsun/live-governance-agent"); c.add_argument("--ref", default="main")
     c.add_argument("--name", default=None); c.add_argument("--dry-run", action="store_true")
-    c.add_argument("--grace-min", type=float, default=45.0, help="minutes the Pod keeps serving results after DONE before self-terminating (needs --self-key-secret)")
+    c.add_argument("--grace-min", type=float, default=120.0, help="minutes the Pod keeps serving results after DONE before self-terminating (needs --self-key-secret)")
     c.add_argument("--self-key-secret", default=os.environ.get("RUNPOD_SELF_KEY_SECRET"), help="name of a Runpod account secret holding an API key; lets the Pod delete itself after the grace period")
     for n in ("status", "results", "terminate", "wait"):
         s = sub.add_parser(n); s.add_argument("pod")

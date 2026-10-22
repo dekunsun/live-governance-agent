@@ -13,7 +13,7 @@
 
 不要把 key 贴到聊天里。
 
-4.（可选，强烈建议）让 Pod 跑完后自己删除自己，防止没人收尾时一直计费：在 Runpod 控制台 Settings → Secrets 新建一个 secret（例如名字 `lga_key`，值就是 API key），然后创建 Pod 时加 `--self-key-secret lga_key`（或在云环境里设环境变量 `RUNPOD_SELF_KEY_SECRET=lga_key`）。Runpod 会在 Pod 内部把它解析成 `RUNPOD_SELF_KEY`，key 不经过这边的会话；Pod 在 DONE 之后等 `--grace-min`（默认 45 分钟）再删除自己。
+4.（可选，强烈建议）让 Pod 跑完后自己删除自己，防止没人收尾时一直计费：在 Runpod 控制台 Settings → Secrets 新建一个 secret（例如名字 `lga_key`，值就是 API key），然后创建 Pod 时加 `--self-key-secret lga_key`（或在云环境里设环境变量 `RUNPOD_SELF_KEY_SECRET=lga_key`）。Runpod 会在 Pod 内部把它解析成 `RUNPOD_SELF_KEY`，key 不经过这边的会话；Pod 在 DONE 之后等 `--grace-min`（默认 120 分钟）再删除自己。结果必须在这个窗口内用 `wait` 或 `results` 拉下来，否则随 Pod 一起消失；等待进程所在的会话被暂停时也会一起停，所以长任务要同时设一个定时提醒。
 
 ## 跑法（Claude 做）
 
