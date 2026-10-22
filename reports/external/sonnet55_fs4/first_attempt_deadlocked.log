@@ -1,0 +1,6 @@
+2026-10-22T00:05:01Z run sonnet55_fs4: provider=anthropic model=claude-sonnet-5-5 fewshot=4 effort=None batch=True tasks=194 done=10 todo=184 prior_estimate≈$6.44 ($0.035/task) budget=$12.0
+2026-10-22T00:05:01Z fewshot demos from training set: ['w03-00', 'w05-08', 'w05-03', 'w05-02'] (9696 chars)
+2026-10-22T00:05:13Z [batch] round 1: 184 requests submitted as msgbatch_01Sk8T28wkE36WSJTkP47c6u
+2026-10-22T00:11:17Z [batch] round 1: ended in 365s, 184 ok / 0 errored
+2026-10-22T00:11:18Z pilot 10 tasks: spent $0.500, $0.0250/task, projected total $4.85; pass 4/10, hallucination 0, format_errors 0, avg calls 0.0, usage {"input_tokens": 40, "output_tokens": 4047, "cache_read_input_tokens": 84330, "cache_creation_input_tokens": 1077, "requests": 10}
+2026-10-22T00:11:20Z [batch] round 2: 157 requests submitted as msgbatch_01At1NS1FXE5novqvyFvXZcW

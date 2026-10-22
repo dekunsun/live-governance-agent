@@ -1,0 +1,40 @@
+2026-10-22T00:02:52Z run sonnet55_fs4: provider=anthropic model=claude-sonnet-5-5 fewshot=4 effort=None batch=False tasks=10 done=0 todo=10 prior_estimate≈$0.70 ($0.07/task) budget=$12.0
+2026-10-22T00:02:52Z fewshot demos from training set: ['w03-00', 'w05-08', 'w05-03', 'w05-02'] (9696 chars)
+2026-10-22T00:03:17Z done sonnet55_fs4: 10 graded, errors=0, pass=0.8, cost=$0.469, usage={"input_tokens": 256, "output_tokens": 12177, "cache_read_input_tokens": 505011, "cache_creation_input_tokens": 98462, "requests": 65}
+2026-10-22T00:05:01Z run sonnet55_fs4: provider=anthropic model=claude-sonnet-5-5 fewshot=4 effort=None batch=True tasks=194 done=10 todo=184 prior_estimate≈$6.44 ($0.035/task) budget=$12.0
+2026-10-22T00:05:01Z fewshot demos from training set: ['w03-00', 'w05-08', 'w05-03', 'w05-02'] (9696 chars)
+2026-10-22T00:05:13Z [batch] round 1: 184 requests submitted as msgbatch_01Sk8T28wkE36WSJTkP47c6u
+2026-10-22T00:11:17Z [batch] round 1: ended in 365s, 184 ok / 0 errored
+2026-10-22T00:37:36Z run sonnet55_fs4: provider=anthropic model=claude-sonnet-5-5 fewshot=4 effort=None batch=True tasks=194 done=20 todo=174 prior_estimate≈$6.09 ($0.035/task) budget=$12.0
+2026-10-22T00:37:36Z fewshot demos from training set: ['w03-00', 'w05-08', 'w05-03', 'w05-02'] (9696 chars)
+2026-10-22T00:37:48Z [batch] round 1: 174 requests submitted as msgbatch_015o1bNZ6AkKEvcsijRtrKuZ
+2026-10-22T00:44:12Z [batch] round 1: ended in 385s, 174 ok / 0 errored
+2026-10-22T00:44:13Z pilot 10 tasks: spent $0.526, $0.0175/task, projected total $3.40; pass 8/10, hallucination 0, format_errors 0, avg calls 0.0, usage {"input_tokens": 40, "output_tokens": 3509, "cache_read_input_tokens": 85440, "cache_creation_input_tokens": 0, "requests": 10}
+2026-10-22T00:44:15Z [batch] round 2: 158 requests submitted as msgbatch_017XFnu7KaTanq1b1ktcVswD
+2026-10-22T00:50:58Z [batch] round 2: ended in 404s, 158 ok / 0 errored
+2026-10-22T00:51:00Z [batch] round 3: 158 requests submitted as msgbatch_01L7P1U1wxqaa1L336waMn8V
+2026-10-22T00:57:45Z [batch] round 3: ended in 405s, 158 ok / 0 errored
+2026-10-22T00:57:45Z progress 25/174: spent $0.603
+2026-10-22T00:57:49Z [batch] round 4: 131 requests submitted as msgbatch_01DnhKpdrQ1SS1ATv8JjjvMQ
+2026-10-22T01:04:33Z [batch] round 4: ended in 405s, 131 ok / 0 errored
+2026-10-22T01:04:33Z progress 50/174: spent $0.786
+2026-10-22T01:04:34Z progress 75/174: spent $1.007
+2026-10-22T01:04:34Z [batch] round 5: 89 requests submitted as msgbatch_011Vg22BFjgfz6ZSm2LsXgQ3
+2026-10-22T01:10:19Z [batch] round 5: ended in 345s, 89 ok / 0 errored
+2026-10-22T01:10:26Z [batch] round 6: 83 requests submitted as msgbatch_01MpowMWBnoUowbhBVBjXQyY
+2026-10-22T01:16:30Z [batch] round 6: ended in 364s, 83 ok / 0 errored
+2026-10-22T01:16:36Z [batch] round 7: 82 requests submitted as msgbatch_01J5hC5HH1Fu55goY3zrghwm
+2026-10-22T01:21:59Z [batch] round 7: ended in 324s, 82 ok / 0 errored
+2026-10-22T01:22:00Z progress 100/174: spent $1.329
+2026-10-22T01:22:03Z [batch] round 8: 61 requests submitted as msgbatch_01DWb2JiqYDyqnTS346SyV98
+2026-10-22T01:28:48Z [batch] round 8: ended in 405s, 61 ok / 0 errored
+2026-10-22T01:28:48Z progress 125/174: spent $1.763
+2026-10-22T01:28:49Z [batch] round 9: 35 requests submitted as msgbatch_01HMmTdn9t3zhStKLrpCoPGp
+2026-10-22T01:35:14Z [batch] round 9: ended in 385s, 35 ok / 0 errored
+2026-10-22T01:35:14Z progress 150/174: spent $2.239
+2026-10-22T01:35:14Z [batch] round 10: 13 requests submitted as msgbatch_014nVusWT94hFg13sCW7mq2s
+2026-10-22T01:40:58Z [batch] round 10: ended in 344s, 13 ok / 0 errored
+2026-10-22T01:40:58Z [batch] round 11: 2 requests submitted as msgbatch_019M9d8y6Eyq1bLSuFLqn99r
+2026-10-22T04:23:51Z run sonnet55_fs4: provider=anthropic model=claude-sonnet-5-5 fewshot=4 effort=None batch=False tasks=194 done=192 todo=2 prior_estimate≈$0.14 ($0.07/task) budget=$12.0
+2026-10-22T04:23:51Z fewshot demos from training set: ['w03-00', 'w05-08', 'w05-03', 'w05-02'] (9696 chars)
+2026-10-22T04:24:18Z done sonnet55_fs4: 194 graded, errors=0, pass=0.814, cost=$2.816, usage={"input_tokens": 4116, "output_tokens": 217718, "cache_read_input_tokens": 9511811, "cache_creation_input_tokens": 284036, "requests": 1058}

@@ -1,0 +1,395 @@
+{
+ "overall": {
+  "n": 194,
+  "pass_rate": 0.794,
+  "mean_score": 0.944,
+  "criteria": {
+   "submitted": 1.0,
+   "cause_correct": 0.892,
+   "strategy_ids": 0.974,
+   "change_ids": 0.974,
+   "guild_ids": 0.933,
+   "escalation": 0.792,
+   "no_hallucination": 1.0,
+   "checked_traffic_first": 1.0
+  },
+  "hallucination_rate": 0.0,
+  "format_error_episodes": 0.021,
+  "avg_tool_calls": 4.18
+ },
+ "by_phrasing": {
+  "A": {
+   "n": 94,
+   "pass_rate": 0.819,
+   "mean_score": 0.955,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.915,
+    "strategy_ids": 0.979,
+    "change_ids": 0.979,
+    "guild_ids": 0.947,
+    "escalation": 0.824,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.021,
+   "avg_tool_calls": 3.85
+  },
+  "B": {
+   "n": 100,
+   "pass_rate": 0.77,
+   "mean_score": 0.934,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.87,
+    "strategy_ids": 0.97,
+    "change_ids": 0.97,
+    "guild_ids": 0.92,
+    "escalation": 0.763,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.02,
+   "avg_tool_calls": 4.48
+  }
+ },
+ "by_kind": {
+  "clar": {
+   "n": 16,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "no_hallucination": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 0.0
+  },
+  "enf_up": {
+   "n": 94,
+   "pass_rate": 0.84,
+   "mean_score": 0.977,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.979,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.84,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.021,
+   "avg_tool_calls": 4.59
+  },
+  "guild_health": {
+   "n": 16,
+   "pass_rate": 0.188,
+   "mean_score": 0.652,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.188,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 0.188,
+    "escalation": 0.188,
+    "no_hallucination": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 0.88
+  },
+  "overturn_up": {
+   "n": 16,
+   "pass_rate": 0.438,
+   "mean_score": 0.836,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.688,
+    "strategy_ids": 0.688,
+    "change_ids": 0.688,
+    "guild_ids": 1.0,
+    "escalation": 0.625,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 6.5
+  },
+  "policy": {
+   "n": 16,
+   "pass_rate": 0.875,
+   "mean_score": 0.984,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.875,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 6.06
+  },
+  "recall": {
+   "n": 11,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 1.0,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 7.09
+  },
+  "small": {
+   "n": 16,
+   "pass_rate": 0.938,
+   "mean_score": 0.984,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.938,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.938,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.125,
+   "avg_tool_calls": 2.75
+  },
+  "traffic": {
+   "n": 9,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 1.0,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 4.67
+  }
+ },
+ "by_cause": {
+  "guild_concentration": {
+   "n": 14,
+   "pass_rate": 0.571,
+   "mean_score": 0.946,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.571,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 7.14
+  },
+  "guild_health_real_violations": {
+   "n": 16,
+   "pass_rate": 0.188,
+   "mean_score": 0.652,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.188,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 0.188,
+    "escalation": 0.188,
+    "no_hallucination": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 0.88
+  },
+  "insufficient_data": {
+   "n": 16,
+   "pass_rate": 0.938,
+   "mean_score": 0.984,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.938,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.938,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.125,
+   "avg_tool_calls": 2.75
+  },
+  "model_drift_threshold": {
+   "n": 32,
+   "pass_rate": 0.562,
+   "mean_score": 0.898,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.844,
+    "strategy_ids": 0.844,
+    "change_ids": 0.844,
+    "guild_ids": 1.0,
+    "escalation": 0.656,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.031,
+   "avg_tool_calls": 6.31
+  },
+  "needs_clarification": {
+   "n": 16,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "no_hallucination": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 0.0
+  },
+  "new_strategy_launch": {
+   "n": 16,
+   "pass_rate": 0.875,
+   "mean_score": 0.984,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.875,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 6.19
+  },
+  "no_anomaly": {
+   "n": 48,
+   "pass_rate": 0.958,
+   "mean_score": 0.99,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 0.958,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.958,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.021,
+   "avg_tool_calls": 2.79
+  },
+  "policy_update": {
+   "n": 16,
+   "pass_rate": 0.875,
+   "mean_score": 0.984,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 0.875,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 6.06
+  },
+  "recall_drop_evasion": {
+   "n": 11,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 1.0,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 7.09
+  },
+  "traffic_driven": {
+   "n": 9,
+   "pass_rate": 1.0,
+   "mean_score": 1.0,
+   "criteria": {
+    "submitted": 1.0,
+    "cause_correct": 1.0,
+    "strategy_ids": 1.0,
+    "change_ids": 1.0,
+    "guild_ids": 1.0,
+    "escalation": 1.0,
+    "no_hallucination": 1.0,
+    "checked_traffic_first": 1.0
+   },
+   "hallucination_rate": 0.0,
+   "format_error_episodes": 0.0,
+   "avg_tool_calls": 4.67
+  }
+ },
+ "provider": "anthropic",
+ "model": "claude-sonnet-5-5",
+ "fewshot": 0,
+ "effort": null,
+ "batch": false,
+ "cost_usd": 2.545,
+ "usage": {
+  "input_tokens": 2480,
+  "output_tokens": 293714,
+  "cache_read_input_tokens": 3271694,
+  "cache_creation_input_tokens": 286671,
+  "requests": 1008
+ },
+ "errors": 0,
+ "harness": "v2.1"
+}

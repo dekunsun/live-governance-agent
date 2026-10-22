@@ -1,0 +1,36 @@
+2026-10-22T00:00:58Z run sonnet55_zs: provider=anthropic model=claude-sonnet-5-5 fewshot=0 effort=None batch=False tasks=10 done=0 todo=10 prior_estimate≈$0.70 ($0.07/task) budget=$12.0
+2026-10-22T00:01:22Z done sonnet55_zs: 10 graded, errors=0, pass=0.8, cost=$0.313, usage={"input_tokens": 142, "output_tokens": 17367, "cache_read_input_tokens": 170914, "cache_creation_input_tokens": 42078, "requests": 60}
+2026-10-22T00:02:52Z run sonnet55_zs: provider=anthropic model=claude-sonnet-5-5 fewshot=0 effort=None batch=True tasks=194 done=10 todo=184 prior_estimate≈$6.44 ($0.035/task) budget=$12.0
+2026-10-22T00:03:04Z [batch] round 1: 184 requests submitted as msgbatch_017Ls4sDMgGaaPzK6BKudpGU
+2026-10-22T00:09:09Z [batch] round 1: ended in 365s, 184 ok / 0 errored
+2026-10-22T00:37:36Z run sonnet55_zs: provider=anthropic model=claude-sonnet-5-5 fewshot=0 effort=None batch=True tasks=194 done=20 todo=174 prior_estimate≈$6.09 ($0.035/task) budget=$12.0
+2026-10-22T00:37:48Z [batch] round 1: 174 requests submitted as msgbatch_01WAHozgV4SjhWyZde7RDyyG
+2026-10-22T00:44:12Z [batch] round 1: ended in 385s, 174 ok / 0 errored
+2026-10-22T00:44:13Z pilot 10 tasks: spent $0.370, $0.0123/task, projected total $2.39; pass 5/10, hallucination 0, format_errors 0, avg calls 0.0, usage {"input_tokens": 40, "output_tokens": 5132, "cache_read_input_tokens": 26005, "cache_creation_input_tokens": 0, "requests": 10}
+2026-10-22T00:44:14Z [batch] round 2: 155 requests submitted as msgbatch_016wvnRQZ9eDqmEpsLUU4AdY
+2026-10-22T00:50:59Z [batch] round 2: ended in 405s, 155 ok / 0 errored
+2026-10-22T00:51:01Z [batch] round 3: 155 requests submitted as msgbatch_018DPn4bhhMVDXbAknC57KgY
+2026-10-22T00:57:25Z [batch] round 3: ended in 385s, 155 ok / 0 errored
+2026-10-22T00:57:25Z progress 25/174: spent $0.440
+2026-10-22T00:57:26Z progress 50/174: spent $0.616
+2026-10-22T00:57:28Z [batch] round 4: 110 requests submitted as msgbatch_01Y9anxriGUiABRW4zT35WFM
+2026-10-22T01:04:32Z [batch] round 4: ended in 425s, 110 ok / 0 errored
+2026-10-22T01:04:35Z [batch] round 5: 104 requests submitted as msgbatch_01RsVbG14SwiTFnn8GLcBu8D
+2026-10-22T01:10:39Z [batch] round 5: ended in 364s, 104 ok / 0 errored
+2026-10-22T01:10:39Z progress 75/174: spent $0.827
+2026-10-22T01:10:45Z [batch] round 6: 94 requests submitted as msgbatch_018WNkw9XoFNqWsnZ7sFviki
+2026-10-22T01:16:29Z [batch] round 6: ended in 344s, 94 ok / 0 errored
+2026-10-22T01:16:40Z [batch] round 7: 88 requests submitted as msgbatch_01GFyi6SUHXXR6dnbgXEJ14J
+2026-10-22T01:22:03Z [batch] round 7: ended in 324s, 88 ok / 0 errored
+2026-10-22T01:22:03Z progress 100/174: spent $1.186
+2026-10-22T01:22:04Z progress 125/174: spent $1.572
+2026-10-22T01:22:09Z [batch] round 8: 44 requests submitted as msgbatch_01QLCK1HCjVDEuV9LYPCBhak
+2026-10-22T01:28:53Z [batch] round 8: ended in 405s, 44 ok / 0 errored
+2026-10-22T01:28:53Z progress 150/174: spent $2.017
+2026-10-22T01:28:54Z [batch] round 9: 13 requests submitted as msgbatch_01NFt3zavq4uT8ZC9DCjWiPp
+2026-10-22T01:35:18Z [batch] round 9: ended in 384s, 13 ok / 0 errored
+2026-10-22T01:35:19Z [batch] round 10: 5 requests submitted as msgbatch_01FC5gc9tt9chAPuM7HUZuJ4
+2026-10-22T01:41:23Z [batch] round 10: ended in 365s, 5 ok / 0 errored
+2026-10-22T01:41:24Z [batch] round 11: 3 requests submitted as msgbatch_01814Jv4UeJU6EsDfdWKA8PY
+2026-10-22T04:23:51Z run sonnet55_zs: provider=anthropic model=claude-sonnet-5-5 fewshot=0 effort=None batch=False tasks=194 done=191 todo=3 prior_estimate≈$0.21 ($0.07/task) budget=$12.0
+2026-10-22T04:24:17Z done sonnet55_zs: 194 graded, errors=0, pass=0.794, cost=$2.545, usage={"input_tokens": 2480, "output_tokens": 293714, "cache_read_input_tokens": 3271694, "cache_creation_input_tokens": 286671, "requests": 1008}

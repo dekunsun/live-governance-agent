@@ -1,0 +1,83 @@
+下面是 4 个按上述步骤完成的示范（来自训练世界，编号和数字只对那个世界有效，不要照抄）。每个示范是助手与工具的交替：助手每轮先写一句依据，再调用一个工具。
+
+### 示范 1：BR赌博2026-10-13处罚涨了
+助手：先查流量，排除流量因素。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "sessions", "start_date": "2026-10-06", "end_date": "2026-10-13", "market": "BR"}}</tool_call>
+工具：Q-0001 sessions(开播场次) BR 10-06~10-13 日序列 10-06:891 10-07:826 10-08:912 10-09:869 10-10:999 10-11:1090 10-12:818 10-13:775 | 当日=775 前7天中位数=891 ×0.87
+助手：流量 ×0.87，基本持平，查 enforcements 的日序列和基线。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "enforcements", "start_date": "2026-10-06", "end_date": "2026-10-13", "market": "BR", "scenario": "gambling"}}</tool_call>
+工具：Q-0002 enforcements(处罚 session 数) BR gambling 10-06~10-13 日序列 10-06:11 10-07:11 10-08:26 10-09:10 10-10:21 10-11:18 10-12:40 10-13:39 | 当日=39 前7天中位数=18 ×2.17
+助手：enforcements 当日 39 vs 基线 18（×2.17，明显异常），按策略拆开找贡献最大的策略。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "enforcements", "start_date": "2026-10-06", "end_date": "2026-10-13", "market": "BR", "scenario": "gambling", "group_by": ["strategy_id"]}}</tool_call>
+工具：Q-0003 enforcements(处罚 session 数) BR gambling 10-06~10-13 按strategy_id下钻（10-13 vs 前7天中位数）: S-115 39 vs 17 (+22); S-128 0 vs 1 (-1); S-116 0 vs 0 (+0)
+助手：按strategy_id拆开后 S-115 39 vs 17 (+22) 贡献最大，查同期变更。
+<tool_call>{"name": "get_change_log", "arguments": {"start_date": "2026-10-06", "end_date": "2026-10-13", "scenario": "gambling", "market": "BR"}}</tool_call>
+工具：Q-0004 变更 1 条: C-006 10-12 model_update model_gambling（gambling，ALL）
+助手：同期变更 C-006（model_update，10-12），检查模型分分布是否漂移。
+<tool_call>{"name": "score_drift", "arguments": {"scenario": "gambling", "baseline_start": "2026-10-05", "baseline_end": "2026-10-11", "current_start": "2026-10-12", "current_end": "2026-10-13"}}</tool_call>
+工具：Q-0005 model_gambling 版本 v3→v4 PSI=7.6788 p50 0.1081→0.2613；超阈值比例 S-115@0.8 0.016→0.0502(×3.14); S-116@0.55 0.0765→0.1225(×1.6); S-128@0.7 0.036→0.0809(×2.25)；被举报人群 p50 0.6151→0.8103
+助手：分数分布明显上移（PSI=7.6788，中位数 0.1081→0.2613，超阈值比例 ×3.14），抽样 case 作证据。
+<tool_call>{"name": "sample_cases", "arguments": {"start_date": "2026-10-12", "end_date": "2026-10-13", "strategy_id": "S-115", "market": "BR", "n": 15}}</tool_call>
+工具：Q-0006 抽样 15/86 分数均值 0.913 含头部主播=True 公会分布 {'G-BR-002': 0.213, 'G-BR-001': 0.213, 'G-BR-005': 0.106, 'G-BR-008': 0.106, 'G-BR-003': 0.064}
+助手：抽样含头部主播，分数均值 0.913，看精确率变化。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "precision_est", "start_date": "2026-10-12", "end_date": "2026-10-13", "strategy_id": "S-115", "granularity": "total"}}</tool_call>
+工具：Q-0007 precision_est(抽检精确率) 全市场 S-115 10-12~10-13 汇总 value=0.309 n=94 low_sample=False
+助手：精确率=0.309，看精确率变化。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "precision_est", "start_date": "2026-10-06", "end_date": "2026-10-11", "strategy_id": "S-115", "granularity": "total"}}</tool_call>
+工具：Q-0008 precision_est(抽检精确率) 全市场 S-115 10-06~10-11 汇总 value=0.553 n=235 low_sample=False
+助手：精确率=0.553，看同模型资金侧策略的冻结金额。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "frozen_amount", "start_date": "2026-10-12", "end_date": "2026-10-13", "market": "BR", "scenario": "gambling", "group_by": ["strategy_id"], "granularity": "total"}}</tool_call>
+工具：Q-0009 frozen_amount(冻结/延迟结算金额) BR gambling 10-12~10-13 汇总按strategy_id: S-115=0; S-116=0; S-128=0
+助手：按strategy_id拆开看到增量来源。主因 模型升级后分数漂移、固定阈值失效：C-006（model_gambling v3 -> v4：召回提升；分数未重新校准，整体分布上移）后分数分布上移，S-115 固定阈值 0.8 命中增加，误杀；涉及头部主播，需策略 owner 人工确认，需升级。提交。
+<tool_call>{"name": "submit_card", "arguments": {"cause_type": "model_drift_threshold", "strategy_ids": ["S-115"], "change_ids": ["C-006"], "guild_ids": [], "needs_escalation": true, "conclusion": "BR 处罚 session 数上升（18→39）主要来自 S-115；2026-10-12 model_gambling 升级后分数中位数上移，固定阈值导致命中 ×3.14，抽检精确率 0.553→0.309。建议策略 owner 评估阈值重校"}}</tool_call>
+
+### 示范 2：10-15BR的暴力血腥处罚量变多了
+助手：先查流量，排除流量因素。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "sessions", "start_date": "2026-10-08", "end_date": "2026-10-15", "market": "BR"}}</tool_call>
+工具：Q-0001 sessions(开播场次) BR 10-08~10-15 日序列 10-08:791 10-09:838 10-10:952 10-11:966 10-12:958 10-13:890 10-14:881 10-15:836 | 当日=836 前7天中位数=890 ×0.94
+助手：流量 ×0.94，基本持平，查 enforcements 的日序列和基线。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "enforcements", "start_date": "2026-10-08", "end_date": "2026-10-15", "market": "BR", "scenario": "violence"}}</tool_call>
+工具：Q-0002 enforcements(处罚 session 数) BR violence 10-08~10-15 日序列 10-08:10 10-09:10 10-10:6 10-11:8 10-12:11 10-13:9 10-14:8 10-15:10 | 当日=10 前7天中位数=9 ×1.11
+助手：enforcements 当日 10 vs 基线 9（×1.11，在正常波动内），查 enforcements 的日序列和基线。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "enforcements", "start_date": "2026-09-25", "end_date": "2026-10-15", "market": "BR", "scenario": "violence"}}</tool_call>
+工具：Q-0003 enforcements(处罚 session 数) BR violence 09-25~10-15 日序列 10-08:10 10-09:10 10-10:6 10-11:8 10-12:11 10-13:9 10-14:8 10-15:10 | 当日=10 前7天中位数=10.0 ×1.00
+助手：enforcements 当日 10 vs 基线 10.0（×1.00，在正常波动内）。主因 正常波动：当日 10 与基线中位数 9.0 的差在 2 个标准差内。提交。
+<tool_call>{"name": "submit_card", "arguments": {"cause_type": "no_anomaly", "strategy_ids": [], "change_ids": [], "guild_ids": [], "needs_escalation": false, "conclusion": "BR violence 处罚 session 数 2026-10-15=10，前 7 天中位数 9.0，属正常波动，未发现异常"}}</tool_call>
+
+### 示范 3：英国2026-10-04处罚涨了很多，策略是不是出问题了
+助手：先查流量，排除流量因素。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "sessions", "start_date": "2026-09-27", "end_date": "2026-10-04", "market": "GB"}}</tool_call>
+工具：Q-0001 sessions(开播场次) GB 09-27~10-04 日序列 09-27:571 09-28:562 09-29:464 09-30:520 10-01:493 10-02:585 10-03:831 10-04:952 | 当日=952 前7天中位数=562 ×1.69
+助手：流量 ×1.69，变化明显，查 enforcements 的日序列和基线。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "enforcements", "start_date": "2026-09-27", "end_date": "2026-10-04", "market": "GB"}}</tool_call>
+工具：Q-0002 enforcements(处罚 session 数) GB 09-27~10-04 日序列 09-27:77 09-28:71 09-29:67 09-30:53 10-01:66 10-02:71 10-03:105 10-04:134 | 当日=134 前7天中位数=71 ×1.89
+助手：enforcements 当日 134 vs 基线 71（×1.89，明显异常）。主因 流量驱动：sessions 562→952（×1.69），enforcements/sessions 比率 ×1.11 基本不变；流量解释了约 83% 的变化。提交。
+<tool_call>{"name": "submit_card", "arguments": {"cause_type": "traffic_driven", "strategy_ids": [], "change_ids": [], "guild_ids": [], "needs_escalation": false, "conclusion": "GB 处罚 session 数 上涨主要由流量变化驱动（562→952 sessions），处罚 session 数率基本不变，不是策略或模型问题"}}</tool_call>
+
+### 示范 4：巴西赌博命中最近下降了
+助手：先查流量，排除流量因素。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "sessions", "start_date": "2026-09-25", "end_date": "2026-10-15", "market": "BR"}}</tool_call>
+工具：Q-0001 sessions(开播场次) BR 09-25~10-15 日序列 10-08:791 10-09:838 10-10:952 10-11:966 10-12:958 10-13:890 10-14:881 10-15:836 | 当日=836 前7天中位数=881.0 ×0.95
+助手：流量 ×0.95，基本持平，查 hits 的日序列和基线。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "hits", "start_date": "2026-09-25", "end_date": "2026-10-15", "market": "BR", "scenario": "gambling"}}</tool_call>
+工具：Q-0002 hits(策略命中数) BR gambling 09-25~10-15 日序列 10-08:40 10-09:17 10-10:7 10-11:12 10-12:10 10-13:10 10-14:9 10-15:8 | 当日=8 前7天中位数=24.0 ×0.33
+助手：hits 当日 8 vs 基线 24.0（×0.33，明显异常），按策略拆开找贡献最大的策略。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "hits", "start_date": "2026-09-25", "end_date": "2026-10-15", "market": "BR", "scenario": "gambling", "group_by": ["strategy_id"]}}</tool_call>
+工具：Q-0003 hits(策略命中数) BR gambling 09-25~10-15 按strategy_id下钻（10-15 vs 前7天中位数）: S-115 5 vs 13 (-8); S-116 1 vs 6.5 (-5.5); S-128 2 vs 4.5 (-2.5)
+助手：按strategy_id拆开后 S-115 5 vs 13 (-8) 贡献最大，查同期变更。
+<tool_call>{"name": "get_change_log", "arguments": {"start_date": "2026-09-25", "end_date": "2026-10-15", "scenario": "gambling", "market": "BR"}}</tool_call>
+工具：Q-0004 窗口内无变更
+助手：同期无策略或模型变更，看举报是否同步下降。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "reports", "start_date": "2026-09-25", "end_date": "2026-10-15", "market": "BR", "scenario": "gambling"}}</tool_call>
+工具：Q-0005 reports(用户举报数) BR gambling 09-25~10-15 日序列 10-08:37 10-09:47 10-10:52 10-11:50 10-12:64 10-13:43 10-14:42 10-15:35 | 当日=35 前7天中位数=42.5 ×0.82
+助手：举报有变化，检查模型分分布是否漂移。
+<tool_call>{"name": "score_drift", "arguments": {"scenario": "gambling", "market": "BR", "baseline_start": "2026-09-25", "baseline_end": "2026-09-25", "current_start": "2026-10-09", "current_end": "2026-10-15"}}</tool_call>
+工具：Q-0006 model_gambling 版本 v3→v3 PSI=0.0182 p50 0.1063→0.1084；超阈值比例 S-115@0.8 0.0233→0.0071(×0.3); S-116@0.55 0.092→0.0652(×0.71); S-128@0.7 0.0501→0.0236(×0.47)；被举报人群 p50 0.6551→0.2598
+助手：分数分布没有明显漂移（PSI=0.0182，中位数 0.1063→0.1084，超阈值比例 ×0.3），估计召回变化。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "recall_est", "start_date": "2026-10-09", "end_date": "2026-10-15", "market": "BR", "scenario": "gambling", "granularity": "total"}}</tool_call>
+工具：Q-0007 recall_est(召回估计) BR gambling 10-09~10-15 汇总 value=0.221 precision_est=0.452 hit_sessions=63 missed_est=100.6 low_sample=False
+助手：召回估计=0.221，估计召回变化。
+<tool_call>{"name": "query_metrics", "arguments": {"metric": "recall_est", "start_date": "2026-09-25", "end_date": "2026-09-25", "market": "BR", "scenario": "gambling", "granularity": "total"}}</tool_call>
+工具：Q-0008 recall_est(召回估计) BR gambling 09-25~09-25 汇总 value=0.941 precision_est=0.667 hit_sessions=24 missed_est=1.0 low_sample=True
+助手：召回估计=0.941。主因 对抗绕过导致召回下降：命中下降但举报不降；被举报 session 的模型分整体下移（p50 0.6551→0.2598），固定阈值策略 S-115 捕获不到，疑似对抗绕过，不是违规减。提交。
+<tool_call>{"name": "submit_card", "arguments": {"cause_type": "recall_drop_evasion", "strategy_ids": ["S-115"], "change_ids": [], "guild_ids": [], "needs_escalation": false, "conclusion": "BR 赌博 策略命中数下降不是违规变少：举报持平、被举报内容的模型分下移，recall_est 0.941→0.221，判断为绕过导致召回下降（主要影响 S-115）"}}</tool_call>
