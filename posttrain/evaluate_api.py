@@ -84,7 +84,7 @@ def main():
     a = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     log_path = os.path.join(OUT, f"{a.name}.log")
-    lock = threading.Lock()
+    lock = threading.RLock()   # log() runs under this lock (pilot line); a plain Lock would self-deadlock
 
     def log(msg):
         line = f"{time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())} {msg}"
