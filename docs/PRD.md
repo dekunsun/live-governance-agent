@@ -2,7 +2,7 @@
 
 Oct 16, 2026 · Dekun Sun · 最后更新 Oct 21, 2026 · 文中的策略、市场、公会、数字均为合成数据；凡写 xxx / xx 的是上线前按真实基线确定的值，带"原型"字样的数字来自合成世界。
 
-研发实现与评测细节见附件 [technical-one-pager.md](technical-one-pager.md)；后训练过程与全部数字见 [../reports/posttrain_report.md](../reports/posttrain_report.md)。
+本文从产品视角回答四件事：解决谁的什么问题、做到什么算好、方案和边界是什么、原型验证了什么。研发视角的原型实现见附件 [technical-one-pager.md](technical-one-pager.md)（怎么搭、为什么这样选、现在做到了什么）；后训练过程与全部数字见 [../reports/posttrain_report.md](../reports/posttrain_report.md)。
 
 ## 总结
 
