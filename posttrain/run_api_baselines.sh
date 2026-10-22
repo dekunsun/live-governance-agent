@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # External-API baselines on the frozen 194-task attribution set (Harness v2.1, same grader as the GPU runs).
-# Needs ANTHROPIC_API_KEY (groups 1-2) and OPENROUTER_API_KEY (group 3) in the environment. Each group runs a
-# 10-task pilot first (format / hallucination check + measured cost), then the rest; the budget guard stops a run
-# whose projected cost exceeds --budget. Logs with usage: posttrain/runs/api/<name>.log
+# Needs LGA_ANTHROPIC_KEY (groups 1-2; ANTHROPIC_API_KEY as a fallback) and OPENROUTER_API_KEY (group 3) in the
+# environment. Each group runs a 10-task pilot first (format / hallucination check + measured cost), then the rest;
+# the budget guard stops a run whose projected cost exceeds --budget. Logs with usage: posttrain/runs/api/<name>.log
 set -euo pipefail
 cd "$(dirname "$0")/.."
 make check >/dev/null   # test-set fingerprint must be unchanged

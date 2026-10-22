@@ -24,7 +24,9 @@ Providers:
 
 Usage tracking: every policy instance accumulates token usage and an estimated cost in USD (`policy.usage`,
 `policy.cost_usd`) from the price table below (OpenRouter's own per-request cost is used when it reports one).
-Keys come from the environment only (ANTHROPIC_API_KEY / OPENROUTER_API_KEY); they are never logged.
+Keys come from the environment only and are never logged. Anthropic: LGA_ANTHROPIC_KEY first (ANTHROPIC_API_KEY as a
+fallback), with the base URL pinned to https://api.anthropic.com, because the cloud sandbox this runs in sets its own
+ANTHROPIC_BASE_URL / ANTHROPIC_* variables for the platform; OpenRouter: OPENROUTER_API_KEY.
 """
 import copy
 import json
@@ -35,6 +37,16 @@ import time
 import uuid
 
 MARK = "\x00API_POLICY_MESSAGES\x00"
+ANTHROPIC_BASE_URL = "https://api.anthropic.com"
+
+
+def anthropic_client(timeout=300, max_retries=5):
+    """Official SDK client with the key and base URL set explicitly (never from ANTHROPIC_BASE_URL)."""
+    import anthropic
+    key = os.environ.get("LGA_ANTHROPIC_KEY") or os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        raise RuntimeError("set LGA_ANTHROPIC_KEY (or ANTHROPIC_API_KEY)")
+    return anthropic.Anthropic(api_key=key, base_url=ANTHROPIC_BASE_URL, timeout=timeout, max_retries=max_retries)
 
 # USD per 1M tokens. Anthropic: input / output / cache read / cache write (5 min) / cache write (1 h).
 PRICES = {
@@ -87,8 +99,7 @@ class APIPolicy:
 
     def _make_client(self, timeout, max_retries):
         if self.provider == "anthropic":
-            import anthropic
-            return anthropic.Anthropic(timeout=timeout, max_retries=max_retries)
+            return anthropic_client(timeout, max_retries)
         if self.provider == "openrouter":
             from openai import OpenAI
             return OpenAI(base_url="https://openrouter.ai/api/v1", api_key=os.environ["OPENROUTER_API_KEY"],

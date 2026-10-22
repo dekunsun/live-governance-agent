@@ -25,7 +25,7 @@ sys.path.insert(0, ROOT)
 from gov_platform import Platform  # noqa: E402
 from posttrain.evaluate import summarize  # noqa: E402
 from posttrain.harness_v2 import run_episode  # noqa: E402
-from posttrain.policy_api import APIPolicy, BatchBroker, clone_platform  # noqa: E402
+from posttrain.policy_api import APIPolicy, BatchBroker, anthropic_client, clone_platform  # noqa: E402
 
 RUNS = os.path.join(ROOT, "posttrain", "runs")
 OUT = os.path.join(RUNS, "api")
@@ -127,8 +127,7 @@ def main():
     broker = None
     client = None
     if a.provider == "anthropic":
-        import anthropic
-        client = anthropic.Anthropic(timeout=300, max_retries=5)
+        client = anthropic_client(timeout=300, max_retries=5)   # LGA_ANTHROPIC_KEY, base_url pinned
         if a.batch:
             broker = BatchBroker(client, log=log)
     else:
