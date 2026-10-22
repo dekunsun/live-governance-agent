@@ -1,0 +1,16 @@
+2026-10-21T23:45:18Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=10 done=0 todo=10 prior_estimate≈$0.30 ($0.03/task) budget=$8.0
+2026-10-21T23:48:09Z done qwen35_zs: 10 graded, errors=0, pass=0.6, cost=$0.31, usage={"input_tokens": 208245, "output_tokens": 39688, "cache_read_input_tokens": 143616, "cache_creation_input_tokens": 0, "requests": 97}
+2026-10-21T23:48:37Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=194 done=10 todo=184 prior_estimate≈$5.52 ($0.03/task) budget=$10.0
+2026-10-22T00:38:45Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=194 done=20 todo=174 prior_estimate≈$5.22 ($0.03/task) budget=$10.0
+2026-10-22T00:42:29Z pilot 10 tasks: spent $0.830, $0.0277/task, projected total $5.36; pass 5/10, hallucination 0, format_errors 0, avg calls 8.5, usage {"input_tokens": 91812, "output_tokens": 35587, "cache_read_input_tokens": 272384, "cache_creation_input_tokens": 0, "requests": 94}
+2026-10-22T00:45:13Z progress 25/174: spent $1.196
+2026-10-22T00:50:30Z progress 50/174: spent $1.909
+2026-10-22T00:56:00Z progress 75/174: spent $2.545
+2026-10-22T01:00:10Z progress 100/174: spent $3.118
+2026-10-22T01:03:10Z progress 125/174: spent $3.641
+2026-10-22T01:03:17Z progress 150/174: spent $3.643
+2026-10-22T01:05:52Z done qwen35_zs: 143 graded, errors=51, pass=0.608, cost=$3.832, usage={"input_tokens": 1808605, "output_tokens": 524182, "cache_read_input_tokens": 3541088, "cache_creation_input_tokens": 0, "requests": 1421}
+2026-10-22T01:06:57Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=194 done=143 todo=51 prior_estimate≈$1.53 ($0.03/task) budget=$10.0
+2026-10-22T01:09:45Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=194 done=144 todo=50 prior_estimate≈$1.50 ($0.03/task) budget=$10.0
+2026-10-22T04:23:54Z run qwen35_zs: provider=openrouter model=qwen/qwen3.5-397b-a17b fewshot=0 effort=None batch=False tasks=194 done=193 todo=1 prior_estimate≈$0.03 ($0.03/task) budget=$10.0
+2026-10-22T04:25:42Z done qwen35_zs: 194 graded, errors=0, pass=0.613, cost=$5.209, usage={"input_tokens": 2510084, "output_tokens": 725904, "cache_read_input_tokens": 4801456, "cache_creation_input_tokens": 0, "requests": 1942}
