@@ -12,6 +12,17 @@ BG, CARD, LINE, INK, INK2, INK3 = "#111214", "#1a1b1e", "#2b2d31", "#ecebe7", "#
 ORANGE, BLUE, AQUA, GRAY = "#d95926", "#3987e5", "#199e70", "#8a8780"
 TYPE = {"small": (ORANGE, "开源小模型"), "closed": (BLUE, "闭源前沿"), "open": (AQUA, "开源前沿"), "ref": (GRAY, "参考 / 不训练")}
 CHIP = [("#5b4413", "#f6c35c"), ("#5a2c1b", "#f2a27c"), ("#33363b", "#ecebe7")]  # rank 1, 2, 3 (bg, text)
+GREEN = "#3fbf8a"
+
+
+def light_theme():
+    """Switch the module palette to the light theme (README). Type colors are the light steps of the same validated palette."""
+    global BG, CARD, LINE, INK, INK2, INK3, ORANGE, BLUE, AQUA, GRAY, TYPE, CHIP, GREEN
+    BG, CARD, LINE, INK, INK2, INK3 = "#ffffff", "#fafaf8", "#e5e3dd", "#1a1a1a", "#5e5b55", "#8a877f"
+    ORANGE, BLUE, AQUA, GRAY = "#eb6834", "#2a78d6", "#1baf7a", "#9a978f"
+    TYPE = {"small": (ORANGE, "开源小模型"), "closed": (BLUE, "闭源前沿"), "open": (AQUA, "开源前沿"), "ref": (GRAY, "参考 / 不训练")}
+    CHIP = [("#fdefd0", "#8a5a00"), ("#fde3d6", "#a8441c"), ("#ecebe7", "#1a1a1a")]
+    GREEN = "#1f8a5c"
 
 # name, type, training, pass (lo, hi), cause (lo, hi), escalation (lo, hi), avg calls, cost per 194-question run (None = n/a)
 MODELS = [
@@ -50,7 +61,7 @@ def header(s, w, kicker, title, sub):
     s.text(60, 106, sub, 13.5, anchor="start", color=INK2)
 
 
-def board():
+def board(out="results-board.svg"):
     W = 1600
     tiles = [("归因最高", "Qwen3-8B 微调", "96.4%  ·  194 题"), ("性价比最高", "Qwen3-4B 微调", "94–96%  ·  跑一遍约 $0.02"),
              ("前沿模型最佳", "Claude Sonnet 5.5", "81.4%  ·  提示里 4 条示范"), ("幻觉", "全部配置为 0", "编号必须本轮查到过，校验层拦截"),
@@ -109,14 +120,14 @@ def board():
         s.text(150, y + 14, train if t == "ref" else f"{TYPE[t][1]} · {train}", 12, anchor="start", color=INK3)
         chip(720, y, fmt(p), ranks["pass"][i]); chip(880, y, fmt(c), ranks["cause"][i]); chip(1030, y, fmt(e), ranks["esc"][i])
         s.text(1160, y, "0", 14, color=INK); s.text(1270, y, f"{calls}", 14, color=INK)
-        s.text(1420, y, f"≈ ${cost:.2f}" if cost < 0.1 else f"${cost:.2f}", 14, bold=True, color="#3fbf8a" if cost < 0.1 else INK)
+        s.text(1420, y, f"≈ ${cost:.2f}" if cost < 0.1 else f"${cost:.2f}", 14, bold=True, color=GREEN if cost < 0.1 else INK)
     fy = tab_y + rh * (len(MODELS) + 1) + 92
     x = 60
     for t in ("small", "closed", "open", "ref"):
         dot(s, x + 6, fy, TYPE[t][0]); s.text(x + 18, fy, TYPE[t][1], 12.5, anchor="start", color=INK2); x += 150
     s.text(x + 20, fy, "推理费用 / 轮 = 跑一遍 194 题。API 为用量账单估算；自部署按评测时 GPU 占用 × A40 每小时 0.59 美元折算；训练一次性另计（4B 约 0.8 美元）。",
            11.5, anchor="start", color=INK3)
-    s.save("results-board.svg")
+    s.save(out)
 
 
 def pareto():
@@ -260,3 +271,4 @@ def heatmap():
 
 if __name__ == "__main__":
     board(); pareto(); failures(); heatmap()
+    light_theme(); board("results-board-light.svg")
