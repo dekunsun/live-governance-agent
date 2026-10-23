@@ -46,7 +46,7 @@ live-governance-agent/
   reports/eval_report.md    评估结果表 + 失败分析
   reports/posttrain_report.md  后训练原型报告（第 0 节总览）：基线、Harness v1/v2、SFT、补数据、8B、GRPO 三种子、P2S 示范修复、对照、外部 API 模型基线
   demo/                     合作方演示页与流程动画的源码（见 demo/README.md）；feedback_to_tasks.py 把合作方反馈转成待标注的新题
-  docs/PRD.md               PRD 项目总结版 v3.4（总结 → 背景与 use case → 目标与指标 → 方案与 feature list → 边界 → 评估 → 上线 → 数据飞轮 → 原型验证 → 风险；附录：交互流程、功能需求）
+  docs/PRD.md               PRD 项目总结版 v3.5（总结 → 背景与 use case → 目标与指标 → 方案与 feature list → 边界 → 评估 → 上线 → 数据飞轮 → 原型验证 → 风险；附录：交互流程、功能需求）
   docs/technical-one-pager.md   PRD 附件：原型技术说明，研发视角，按三条主线组织：评测（定义什么是好）、Agent 架构（编排、路由、多轮）、模型知识与提示（基准、口径知识库 RAG 设计、提示迭代）；背景、目标、结论以 PRD 为准
   docs/simulated-*.md       模拟策略库、模拟数据的白话说明（给合作方）
   posttrain/                后训练原型：多世界环境、任务、评分器、LoRA SFT 与评估
