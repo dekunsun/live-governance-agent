@@ -52,7 +52,7 @@
 | 外部基线（第 17 节） | Claude Sonnet 5.5（API） | 无 / 提示内 4 条示范 | v2.1 | 194 题 | 154 / 158（79%–81%），主因正确 89%–90% | — | $2.5 / $2.8（API 费） |
 | 参考 | 规则引擎 | — | — | 全部 | 100% | 100% | — |
 
-![归因排行榜](../docs/images/results-leaderboard.png)
+![归因排行榜](../docs/images/results-board.png)
 
 GPU 累计约 $26（含三次白跑和一次提前终止约 $3；GRPO v2 三个种子 $6.5；P2S 示范、问法实验与两组对照约 $4.3）。
 
@@ -502,7 +502,9 @@ v2 只改 harness（解析容错、参数自动修正并给可照抄的提示、
 
 ## 17. 外部模型基线：前沿 API 模型零样本 / 少样本 对 训练后的小模型
 
-![准确率 vs 推理费用](../docs/images/results-cost-vs-accuracy.png)
+![准确率 vs 推理费用](../docs/images/results-pareto.png)
+
+![失分构成](../docs/images/results-failures.png)
 
 ![按问题类别](../docs/images/results-category-heatmap.png)
 

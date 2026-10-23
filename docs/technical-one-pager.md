@@ -203,9 +203,11 @@ Oct 21, 2026 · Dekun Sun · 全部基于本仓库的可运行原型与合成数
 
 **和外部模型对比**（同一 harness、同一评分器；细节见报告第 17 节）：
 
-![归因排行榜](images/results-leaderboard.png)
+![归因排行榜](images/results-board.png)
 
-![准确率 vs 推理费用](images/results-cost-vs-accuracy.png)
+![准确率 vs 推理费用](images/results-pareto.png)
+
+![失分构成](images/results-failures.png)
 
 ![按问题类别](images/results-category-heatmap.png)
 
