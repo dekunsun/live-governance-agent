@@ -88,5 +88,60 @@ def by_class():
     s.save("results-by-class.svg")
 
 
+def ablation():
+    steps = ["示范 374 条（3 种子）", "+ 补稀有类，831 条（2 种子）", "+ 策略调整示范写出比较过程（2 种子）",
+             "+ 训练加一种问法（1 次运行）", "+ 训练 2 轮，当前版本（2 种子）"]
+    ramp = ["#86b6ef", "#5598e7", "#2a78d6", "#1c5cab", "#104281"]  # ordinal blue, validated (light, --ordinal)
+    groups = [  # label, n, 针对它的那一步 (index or None), per-step seed counts
+        ("召回下降（归因）", 11, 1, [[0, 0, 1], [11, 11], [11, 7], [11], [11, 11]]),
+        ("收紧分数线（策略调整）", 54, 2, [[17, 4, 7], [21, 27], [53, 53], [51], [54, 54]]),
+        ("新市场规则，测试专用问法（策略调整）", 16, 3, [[8, 1, 4], [8, 1], [2, 12], [15], [13, 3]]),
+        ("模型漂移（归因）", 32, None, [[18, 12, 15], [21, 21], [29, 16], [18], [22, 24]]),
+        ("没有异常（归因，对照）", 48, None, [[48, 46, 36], [48, 47], [48, 48], [47], [48, 48]]),
+    ]
+    bw, gap, ggap = 30, 2, 64
+    gw = len(steps) * (bw + gap) - gap
+    x0, ytop, ybot = 110, 170, 520
+    W = x0 + len(groups) * gw + (len(groups) - 1) * ggap + 60
+    s = SVG(W, 720)
+    s.text(W / 2, 30, "消融：每一步改动，提升落在它针对的那类题上（Qwen3-4B 微调）", 18, bold=True)
+    s.text(W / 2, 54, "合成数据；柱高是各种子的平均通过率，黑点是单个种子；同一模型、同一 harness、同一评分器、同一测试集", 13, color=INK2)
+    lx = x0
+    for i, lab in enumerate(steps):
+        s.el.append(f'<rect x="{lx}" y="{84 + (i // 3) * 26}" width="14" height="14" rx="3" fill="{ramp[i]}"/>')
+        s.text(lx + 22, 91 + (i // 3) * 26, lab, 13, anchor="start")
+        lx = x0 if i == 2 else lx + 300
+    for t in (0, 25, 50, 75, 100):
+        y = ybot - (ybot - ytop) * t / 100
+        s.el.append(f'<line x1="{x0 - 10}" y1="{y}" x2="{W - 40}" y2="{y}" stroke="{GRID}" stroke-width="1"/>')
+        s.text(x0 - 16, y, f"{t}%", 12, anchor="end", color=INK2)
+    for g, (lab, n, tgt, vals) in enumerate(groups):
+        gx = x0 + g * (gw + ggap)
+        for i, seeds in enumerate(vals):
+            bx = gx + i * (bw + gap)
+            p = sum(seeds) / len(seeds) / n
+            h = max((ybot - ytop) * p, 1)
+            y = ybot - h
+            r = min(4, h)
+            s.el.append(f'<path d="M{bx},{ybot} V{y + r} Q{bx},{y} {bx + r},{y} H{bx + bw - r} Q{bx + bw},{y} {bx + bw},{y + r} V{ybot} Z" fill="{ramp[i]}"/>')
+            for v in sorted(set(seeds)):
+                s.el.append(f'<circle cx="{bx + bw / 2}" cy="{ybot - (ybot - ytop) * v / n}" r="3.5" fill="{INK}" stroke="#fff" stroke-width="1.5"/>')
+            if i == tgt:
+                s.text(bx + bw / 2, y - 16, "针对", 11.5, bold=True, color=INK)
+        s.el.append(f'<line x1="{gx - 6}" y1="{ybot}" x2="{gx + gw + 6}" y2="{ybot}" stroke="{INK2}" stroke-width="1"/>')
+        name, kind = lab.rstrip("）").split("（")
+        s.text(gx + gw / 2, ybot + 22, name, 13.5, bold=True)
+        s.text(gx + gw / 2, ybot + 42, f"{kind} · {n} 题", 12, color=INK2)
+    notes = [
+        "读法：补稀有类示范让召回下降从 0–1 题到全对；策略调整示范写出“先列约束、再比较候选线”，让收紧分数线从 4–27 题到 53–54 题；",
+        "训练加一种问法，让测试专用问法从此前的 1–12 题到 15 题，但训练 2 轮后两个种子又分成 13 和 3 题，这一类还不稳。",
+        "模型漂移类没有哪一步专门针对它，各次运行在 12–29 题之间，是现在最大的短板；没有异常类是对照，各步基本不变（374 条那组有一个种子例外）。",
+        "另一组对照：去掉策略调整示范、只训归因，策略调整总分从 136–147 题掉到 43–52 题（共 150 题），归因不变（177 / 181 题）。",
+    ]
+    for k, t in enumerate(notes):
+        s.text(x0, ybot + 80 + k * 22, t, 12.5, anchor="start", color=INK2)
+    s.save("results-ablation.svg")
+
+
 if __name__ == "__main__":
-    steps(); by_class()
+    steps(); by_class(); ablation()
